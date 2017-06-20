@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AA419953-EDD1-4ECB-8895-A4405F610CD4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Defectoscope</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)../../Units/Defectoscope;$(ProjectDir)../../CommonApp;$(ProjectDir)../../Common;$(ProjectDir)../../Common/DspFilters/include;$(ProjectDir)..\..\Units\Defectoscope\Solid</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)/GenVer.bat</Command>
+      <Message>создание файла "Version.h" с хешем текущего коммита GIT</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\CommonApp\Log\LogBuffer.cpp" />
+    <ClCompile Include="..\..\CommonApp\Log\LogMessages.cpp" />
+    <ClCompile Include="..\..\CommonApp\Log\LogMessageToTopLabel.cpp" />
+    <ClCompile Include="..\..\Common\1730\Device1730.cpp" />
+    <ClCompile Include="..\..\Common\DlgTemplates\DlgItems.cpp" />
+    <ClCompile Include="..\..\Common\DlgTemplates\EditDlg.cpp" />
+    <ClCompile Include="..\..\Common\DlgTemplates\GridWindow.cpp" />
+    <ClCompile Include="..\..\Common\DlgTemplates\ParamDlg.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\ChebyshevFiltre.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\Biquad.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\Cascade.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\ChebyshevII.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\Design.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\Filter.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\Param.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\PoleFilter.cpp" />
+    <ClCompile Include="..\..\Common\DspFilters\source\State.cpp" />
+    <ClCompile Include="..\..\Common\Emulator\Emulator.cpp" />
+    <ClCompile Include="..\..\Common\FFT\FFT.cpp" />
+    <ClCompile Include="..\..\Common\Filtre\MedianFiltre.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\BarSeries.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\Borders.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\Chart.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\ColorLabel.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\EmptyLeftAxes.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\FixedGridSeries.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\Gate.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\GridChart.cpp" />
+    <ClCompile Include="..\..\Common\Graphics\StepSeries.cpp" />
+    <ClCompile Include="..\..\Common\L502\L502.cpp" />
+    <ClCompile Include="..\..\Common\Lan\Include\RshApi.cpp" />
+    <ClCompile Include="..\..\Common\Lan\Include\RshDllClient.cpp" />
+    <ClCompile Include="..\..\Common\Lan\Include\RshError.cpp" />
+    <ClCompile Include="..\..\Common\Lan\Include\RshEventManager.cpp" />
+    <ClCompile Include="..\..\Common\Lan\Include\RshFunctions.cpp" />
+    <ClCompile Include="..\..\Common\Lan\Lan.cpp" />
+    <ClCompile Include="..\..\Common\Lir\Lir.cpp" />
+    <ClCompile Include="..\..\Common\PerformanceCounter\PerformanceCounter.cpp" />
+    <ClCompile Include="..\..\Common\templates\Hash.cpp" />
+    <ClCompile Include="..\..\Common\tools_debug\DebugMess.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\AnimationControl.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\Button.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\DlgFiles.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\DropDownItem.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\EmptyWindow.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\Grid.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\GridItems.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\HookKey.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\InRect.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\ItemIni.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\MenuAPI.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\Pass.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\ProcessRun.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\SelectTypeSizeList.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\ToolBarButton.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\WindowsPosition.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\Zip.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\ZipAll.cpp" />
+    <ClCompile Include="App\App.cpp" />
+    <ClCompile Include="App\AppBase.cpp" />
+    <ClCompile Include="App\ChangeTypeSize.cpp" />
+    <ClCompile Include="App\VersionDiff.cpp" />
+    <ClCompile Include="Compute\AppKeyHandler.cpp" />
+    <ClCompile Include="Compute\Automat.cpp" />
+    <ClCompile Include="Compute\Compute.cpp" />
+    <ClCompile Include="Compute\ComputeSignal.cpp" />
+    <ClCompile Include="Compute\Unit502.cpp" />
+    <ClCompile Include="DataItem\ConstData.cpp" />
+    <ClCompile Include="DataItem\DataItem.cpp" />
+    <ClCompile Include="DataItem\DataViewer.cpp" />
+    <ClCompile Include="DataItem\ThicknessData.cpp" />
+    <ClCompile Include="Defectoscope.cpp" />
+    <ClCompile Include="Dialogs\AboutWindow.cpp" />
+    <ClCompile Include="Dialogs\AcfCutOffBordersDlg.cpp" />
+    <ClCompile Include="Dialogs\AnalogPlateDlg.cpp" />
+    <ClCompile Include="Dialogs\ColorItemsDlg.cpp" />
+    <ClCompile Include="Dialogs\DeadZonesDlg.cpp" />
+    <ClCompile Include="Dialogs\FilterDlg.cpp" />
+    <ClCompile Include="Dialogs\FrameWindowDlg.cpp" />
+    <ClCompile Include="Dialogs\InputOutputDlg.cpp" />
+    <ClCompile Include="Dialogs\LirDlg.cpp" />
+    <ClCompile Include="Dialogs\MedianFiltreDlg.cpp" />
+    <ClCompile Include="Dialogs\PacketDlg.cpp" />
+    <ClCompile Include="Dialogs\PipeThicknessDlg.cpp" />
+    <ClCompile Include="Dialogs\ThresholdDlg.cpp" />
+    <ClCompile Include="Dialogs\ThresholdsDlg.cpp" />
+    <ClCompile Include="Dialogs\TypeSizeDlg.cpp" />
+    <ClCompile Include="IOports\IOportsDlg.cpp" />
+    <ClCompile Include="IOports\IOportsViewer.cpp" />
+    <ClCompile Include="IOports\IOportsWindow.cpp" />
+    <ClCompile Include="MessageText\SelectMessage.cpp" />
+    <ClCompile Include="Solid\AddThresholdsWindow\AddThresholdsWindow.cpp" />
+    <ClCompile Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.cpp" />
+    <ClCompile Include="Solid\AddThresholdsWindow\ThresholdDataTable.cpp" />
+    <ClCompile Include="Solid\AddThresholdsWindow\TreshWindow.cpp" />
+    <ClCompile Include="Solid\ColorPanel\ColorPanel.cpp" />
+    <ClCompile Include="Solid\Common\Viewer.cpp" />
+    <ClCompile Include="Solid\Dates\ChartData.cpp" />
+    <ClCompile Include="Solid\Dates\ComputeSolid.cpp" />
+    <ClCompile Include="Solid\Dates\CounterTubes.cpp" />
+    <ClCompile Include="Solid\Dates\SaveLoadDates.cpp" />
+    <ClCompile Include="Solid\Dates\SolidData.cpp" />
+    <ClCompile Include="Solid\Dates\StoreResultBase.cpp" />
+    <ClCompile Include="Solid\FrameWindow\FrameViewer.cpp" />
+    <ClCompile Include="Solid\FrameWindow\FrameWindow.cpp" />
+    <ClCompile Include="Solid\FrameWindow\FrameWindowToolBar.cpp" />
+    <ClCompile Include="Solid\FrameWindow\ThresholdsViewer.cpp" />
+    <ClCompile Include="Solid\MainWindow\PointsViewer.cpp" />
+    <ClCompile Include="Solid\MainWindow\PointsWindow.cpp" />
+    <ClCompile Include="Solid\MainWindow\SolidSignalViewer.cpp" />
+    <ClCompile Include="Solid\SolidGroupAlgoritm\CommunicationIDItems.cpp" />
+    <ClCompile Include="Solid\SolidGroupAlgoritm\ComputeSolidGroup.cpp" />
+    <ClCompile Include="Solid\SolidGroupAlgoritm\SolidBase.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="StoredData\PacketBase.cpp" />
+    <ClCompile Include="StoredData\StoredBase.cpp" />
+    <ClCompile Include="Windows\Common.cpp" />
+    <ClCompile Include="Windows\CommonViewer.cpp" />
+    <ClCompile Include="Windows\CrossViewer.cpp" />
+    <ClCompile Include="Windows\CrossWindow.cpp" />
+    <ClCompile Include="Windows\LineViewer.cpp" />
+    <ClCompile Include="Windows\LongViewer.cpp" />
+    <ClCompile Include="Windows\LongWindow.cpp" />
+    <ClCompile Include="Windows\MainWindow.cpp" />
+    <ClCompile Include="Windows\MainWindowToolBar.cpp" />
+    <ClCompile Include="Windows\ResultViewer.cpp" />
+    <ClCompile Include="Windows\ScanWindow.cpp" />
+    <ClCompile Include="Windows\SignalViewer.cpp" />
+    <ClCompile Include="Windows\SignalWindow.cpp" />
+    <ClCompile Include="Windows\ThicknessViewer.cpp" />
+    <ClCompile Include="Windows\ThicknessWindow.cpp" />
+    <ClCompile Include="Windows\TopLabelViewer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\CommonApp\Log\LogBuffer.h" />
+    <ClInclude Include="..\..\CommonApp\Log\LogMessages.h" />
+    <ClInclude Include="..\..\CommonApp\Log\LogMessageToTopLabel.h" />
+    <ClInclude Include="..\..\Common\1730\Device1730.h" />
+    <ClInclude Include="..\..\Common\Base\Base.hpp" />
+    <ClInclude Include="..\..\Common\Base\ExpressBase.hpp" />
+    <ClInclude Include="..\..\Common\Base\tables.hpp" />
+    <ClInclude Include="..\..\Common\Base\TablesDefine.h" />
+    <ClInclude Include="..\..\Common\DlgTemplates\dlg.hpp" />
+    <ClInclude Include="..\..\Common\DlgTemplates\DlgItems.h" />
+    <ClInclude Include="..\..\Common\DlgTemplates\DlgTemplate.hpp" />
+    <ClInclude Include="..\..\Common\DlgTemplates\dlg_templates.h" />
+    <ClInclude Include="..\..\Common\DlgTemplates\EditDlg.h" />
+    <ClInclude Include="..\..\Common\DlgTemplates\EditWithButton.hpp" />
+    <ClInclude Include="..\..\Common\DlgTemplates\GridWindow.h" />
+    <ClInclude Include="..\..\Common\DlgTemplates\PacketTemplateWindow.hpp" />
+    <ClInclude Include="..\..\Common\DlgTemplates\ParamDlg.h" />
+    <ClInclude Include="..\..\Common\DlgTemplates\ParamDlg.hpp" />
+    <ClInclude Include="..\..\Common\DlgTemplates\TabWidgets.h" />
+    <ClInclude Include="..\..\Common\DlgTemplates\ViewersMenu.hpp" />
+    <ClInclude Include="..\..\Common\DspFilters\ChebyshevFiltre.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Biquad.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Cascade.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\ChebyshevII.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Common.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Design.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Filter.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Layout.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\MathSupplement.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Params.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\PoleFilter.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\State.h" />
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Types.h" />
+    <ClInclude Include="..\..\Common\Emulator\Emulator.h" />
+    <ClInclude Include="..\..\Common\FFT\FFT.h" />
+    <ClInclude Include="..\..\Common\Filtre\MedianFiltre.h" />
+    <ClInclude Include="..\..\Common\Graphics\BarSeries.h" />
+    <ClInclude Include="..\..\Common\Graphics\Borders.h" />
+    <ClInclude Include="..\..\Common\Graphics\Chart.h" />
+    <ClInclude Include="..\..\Common\Graphics\Chart.hpp" />
+    <ClInclude Include="..\..\Common\Graphics\Color.h" />
+    <ClInclude Include="..\..\Common\Graphics\ColorLabel.h" />
+    <ClInclude Include="..\..\Common\Graphics\EmptyLeftAxes.h" />
+    <ClInclude Include="..\..\Common\Graphics\FixedGridSeries.h" />
+    <ClInclude Include="..\..\Common\Graphics\Gate.h" />
+    <ClInclude Include="..\..\Common\Graphics\GridChart.h" />
+    <ClInclude Include="..\..\Common\Graphics\StepSeries.h" />
+    <ClInclude Include="..\..\Common\GridData\PacketTemplateData.hpp" />
+    <ClInclude Include="..\..\Common\GridData\TableData.h" />
+    <ClInclude Include="..\..\Common\L502\e502api.h" />
+    <ClInclude Include="..\..\Common\L502\L502.h" />
+    <ClInclude Include="..\..\Common\L502\l502api.h" />
+    <ClInclude Include="..\..\Common\L502\lcard_pstdint.h" />
+    <ClInclude Include="..\..\Common\L502\lpcie.h" />
+    <ClInclude Include="..\..\Common\L502\pstdint.h" />
+    <ClInclude Include="..\..\Common\L502\x502api.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\IRshDevice.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\IRshFactory.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\Rsh.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshApi.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshConsts.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshDefChk.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshDllClient.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshError.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshErrorDescription.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshEventManager.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshFunctions.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshMacro.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshStatusCodes.h" />
+    <ClInclude Include="..\..\Common\Lan\Include\RshTypes.h" />
+    <ClInclude Include="..\..\Common\Lan\Lan.h" />
+    <ClInclude Include="..\..\Common\Lan\LanParameters.h" />
+    <ClInclude Include="..\..\Common\Lir\Lir.h" />
+    <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h" />
+    <ClInclude Include="..\..\Common\templates\Hash.h" />
+    <ClInclude Include="..\..\Common\templates\HexColor.h" />
+    <ClInclude Include="..\..\Common\templates\sort.hpp" />
+    <ClInclude Include="..\..\Common\templates\templates.hpp" />
+    <ClInclude Include="..\..\Common\templates\typelist.hpp" />
+    <ClInclude Include="..\..\Common\templates\WindowsEventTemplate.hpp" />
+    <ClInclude Include="..\..\Common\tools_debug\DebugMess.h" />
+    <ClInclude Include="..\..\Common\window_tool\AnimationControl.h" />
+    <ClInclude Include="..\..\Common\window_tool\Button.h" />
+    <ClInclude Include="..\..\Common\window_tool\CheckBoxWidget.h" />
+    <ClInclude Include="..\..\Common\window_tool\DlgFiles.h" />
+    <ClInclude Include="..\..\Common\window_tool\DropDownItem.h" />
+    <ClInclude Include="..\..\Common\window_tool\Emptywindow.h" />
+    <ClInclude Include="..\..\Common\window_tool\Grid.h" />
+    <ClInclude Include="..\..\Common\window_tool\GridItems.h" />
+    <ClInclude Include="..\..\Common\window_tool\GridNotify.hpp" />
+    <ClInclude Include="..\..\Common\window_tool\HookKey.h" />
+    <ClInclude Include="..\..\Common\window_tool\InitToolbar.hpp" />
+    <ClInclude Include="..\..\Common\window_tool\InRect.h" />
+    <ClInclude Include="..\..\Common\window_tool\ItemIni.h" />
+    <ClInclude Include="..\..\Common\window_tool\MenuAPI.h" />
+    <ClInclude Include="..\..\Common\window_tool\message.h" />
+    <ClInclude Include="..\..\Common\window_tool\MessagesInterface.h" />
+    <ClInclude Include="..\..\Common\window_tool\Pass.h" />
+    <ClInclude Include="..\..\Common\window_tool\ProcessRun.h" />
+    <ClInclude Include="..\..\Common\window_tool\RadioBtnWidget.h" />
+    <ClInclude Include="..\..\Common\window_tool\SelectTypeSizeList.h" />
+    <ClInclude Include="..\..\Common\window_tool\ToolBarButton.h" />
+    <ClInclude Include="..\..\Common\window_tool\ToolBarWidth.hpp" />
+    <ClInclude Include="..\..\Common\window_tool\WindowsPosition.h" />
+    <ClInclude Include="..\..\Common\window_tool\Zip.h" />
+    <ClInclude Include="..\..\Common\window_tool\ZipAll.h" />
+    <ClInclude Include="App\App.h" />
+    <ClInclude Include="App\AppBase.h" />
+    <ClInclude Include="App\ChangeTypeSize.h" />
+    <ClInclude Include="App\Config.h" />
+    <ClInclude Include="App\VersionDiff.h" />
+    <ClInclude Include="Compute\AppKeyHandler.h" />
+    <ClInclude Include="Compute\Automat.h" />
+    <ClInclude Include="Compute\Automat.hpp" />
+    <ClInclude Include="Compute\Compute.h" />
+    <ClInclude Include="Compute\ComputeSignal.h" />
+    <ClInclude Include="Compute\ComputeZone.h" />
+    <ClInclude Include="Compute\Unit502.h" />
+    <ClInclude Include="DataItem\ConstData.h" />
+    <ClInclude Include="DataItem\DataItem.h" />
+    <ClInclude Include="DataItem\DataViewer.h" />
+    <ClInclude Include="DataItem\ThicknessData.h" />
+    <ClInclude Include="Defectoscope.h" />
+    <ClInclude Include="Dialogs\Dialogs.h" />
+    <ClInclude Include="Dialogs\InputOutputDlg.h" />
+    <ClInclude Include="Dialogs\PacketDlg.h" />
+    <ClInclude Include="IOports\IOportsViewer.h" />
+    <ClInclude Include="IOports\IOportsWindow.h" />
+    <ClInclude Include="IOports\IOportsWindowMenu.hpp" />
+    <ClInclude Include="MessageText\LabelMessage.hpp" />
+    <ClInclude Include="MessageText\SelectMessage.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Solid\AddThresholdsWindow\AddThresholdsWindow.h" />
+    <ClInclude Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.h" />
+    <ClInclude Include="Solid\AddThresholdsWindow\TableData.h" />
+    <ClInclude Include="Solid\AddThresholdsWindow\ThresholdDataTable.h" />
+    <ClInclude Include="Solid\AddThresholdsWindow\TreshWindow.h" />
+    <ClInclude Include="Solid\ColorPanel\ColorPanel.h" />
+    <ClInclude Include="Solid\Common\Viewer.h" />
+    <ClInclude Include="Solid\Dates\ChartData.h" />
+    <ClInclude Include="Solid\Dates\ComputeSolid.h" />
+    <ClInclude Include="Solid\Dates\CounterTubes.h" />
+    <ClInclude Include="Solid\Dates\SaveLoadDates.h" />
+    <ClInclude Include="Solid\Dates\SolidData.h" />
+    <ClInclude Include="Solid\Dates\StoreResultBase.h" />
+    <ClInclude Include="Solid\FrameWindow\FrameViewer.h" />
+    <ClInclude Include="Solid\FrameWindow\FrameWindow.h" />
+    <ClInclude Include="Solid\FrameWindow\FrameWindowMenu.hpp" />
+    <ClInclude Include="Solid\FrameWindow\FrameWindowToolBar.h" />
+    <ClInclude Include="Solid\FrameWindow\ThresholdsViewer.h" />
+    <ClInclude Include="Solid\MainWindow\ChartLines.h" />
+    <ClInclude Include="Solid\MainWindow\PointsViewer.h" />
+    <ClInclude Include="Solid\MainWindow\PointsWindow.h" />
+    <ClInclude Include="Solid\MainWindow\SolidSignalViewer.h" />
+    <ClInclude Include="Solid\SolidGroupAlgoritm\CommunicationIDItems.h" />
+    <ClInclude Include="Solid\SolidGroupAlgoritm\ComputeSolidGroup.h" />
+    <ClInclude Include="Solid\SolidGroupAlgoritm\SolidBase.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoredData\PacketBase.h" />
+    <ClInclude Include="StoredData\StoredBase.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Windows\Common.h" />
+    <ClInclude Include="Windows\CommonViewer.h" />
+    <ClInclude Include="Windows\CrossViewer.h" />
+    <ClInclude Include="Windows\CrossWindow.h" />
+    <ClInclude Include="Windows\LineChart.hpp" />
+    <ClInclude Include="Windows\LineViewer.h" />
+    <ClInclude Include="Windows\LongViewer.h" />
+    <ClInclude Include="Windows\LongWindow.h" />
+    <ClInclude Include="Windows\MainWindow.h" />
+    <ClInclude Include="Windows\MainWindowMenu.hpp" />
+    <ClInclude Include="Windows\MainWindowToolBar.h" />
+    <ClInclude Include="Windows\ResultViewer.h" />
+    <ClInclude Include="Windows\ScanWindow.h" />
+    <ClInclude Include="Windows\SignalViewer.h" />
+    <ClInclude Include="Windows\SignalWindow.h" />
+    <ClInclude Include="Windows\ThicknessViewer.h" />
+    <ClInclude Include="Windows\ThicknessWindow.h" />
+    <ClInclude Include="Windows\TopLabelViewer.h" />
+    <ClInclude Include="Windows\ViewersMenu.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Common\Resource\Defectoscope.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Drivers.ri" />
+    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Library.ri" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,1093 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{3f964ab8-9de2-4c62-bb23-597a8f33d5ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Base">
+      <UniqueIdentifier>{73a0cd65-68d5-4f5b-aa23-2e0fb43b0b60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App">
+      <UniqueIdentifier>{65dc04f3-a101-4fd6-a78d-da683849de07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{13a21b84-a484-42bf-bdd2-d74153107c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\window_tool">
+      <UniqueIdentifier>{987b0b3f-298d-4638-865b-1763e78f6604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Graphics">
+      <UniqueIdentifier>{ed871937-e108-4734-8c99-b5acf9443a58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataItem">
+      <UniqueIdentifier>{e7d52e2e-4511-4120-bca1-014cf88161bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MessageText">
+      <UniqueIdentifier>{c737ace4-8618-4d33-8441-909114080129}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\templates">
+      <UniqueIdentifier>{51a393de-7068-43e7-b9c2-f217e8568bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{a34ac849-8143-42a0-86a1-063c13f5119f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\DlgTemplates">
+      <UniqueIdentifier>{e4203d67-e63d-43ae-b88e-a1753a5fda20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices">
+      <UniqueIdentifier>{78f7aa5d-150f-4679-9487-f88c54194100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\L502">
+      <UniqueIdentifier>{c266de1f-271f-455b-899f-530328902032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compute">
+      <UniqueIdentifier>{2b59932a-acd5-47c8-acbf-af65f1404679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IOPorts">
+      <UniqueIdentifier>{128aedce-de51-43fb-9cc7-c639e6c8c034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\1730">
+      <UniqueIdentifier>{fa130dfd-6a4c-4d25-beaa-74805e6e6a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\tools_debug">
+      <UniqueIdentifier>{fe4de700-e187-470d-aac9-e37384ebf79f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{a5f845d9-73b4-4734-988b-f8f170decf44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\Lir">
+      <UniqueIdentifier>{534b6313-12d5-4567-9078-7a58e6ec7980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\PerformanceCounter">
+      <UniqueIdentifier>{7c16e70d-cd58-4ceb-be29-7276741ddd58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\Lan">
+      <UniqueIdentifier>{2fe6691b-2945-4510-a585-f05751e90a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\Lan\Include">
+      <UniqueIdentifier>{9f769bf7-6c61-49b7-afb4-623b2a727ae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\Lan\Include\RegKey">
+      <UniqueIdentifier>{e24ca136-10a4-4b98-95b5-82608f35db76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\FFT">
+      <UniqueIdentifier>{77ea88f1-53cd-41a5-a0a1-f289e9297ce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\Emulator">
+      <UniqueIdentifier>{997e88cb-e401-4242-b186-614347f1c674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\ThicknessSignal">
+      <UniqueIdentifier>{0e859c43-735a-46a0-9c94-221cfd756e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Filtre">
+      <UniqueIdentifier>{92d2b327-b77f-48e7-bd4e-55fb3237e374}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\DspFilters">
+      <UniqueIdentifier>{57b7b6a6-c1bb-4bf3-a6ef-05b7aeed1bdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\DspFilters\include">
+      <UniqueIdentifier>{ae570693-81f7-4f35-9b20-4ad6248b38c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\DspFilters\source">
+      <UniqueIdentifier>{37cf1358-b28f-468c-b7e1-51e8e1202a1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\DspFilters\include\DspFilters">
+      <UniqueIdentifier>{0ffc744c-8c66-401a-bb54-76380df3dbd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid">
+      <UniqueIdentifier>{24f5354d-6656-4ccf-9d44-f687b7a4e0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid\Windows">
+      <UniqueIdentifier>{3b89727d-114d-4c5b-b683-a32a8cae38c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid\SolidGroupAlgoritm">
+      <UniqueIdentifier>{4a63f8f0-dfe1-4e9f-b44e-5c617c3db2ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid\Common">
+      <UniqueIdentifier>{6df9e3d9-99c0-4e90-958f-61cd0d5954c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid\Dates">
+      <UniqueIdentifier>{40c194e5-31f6-4c48-9187-4e008c930c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid\AddThresholdWindow">
+      <UniqueIdentifier>{5a40f21f-d01c-43c7-a723-30b5c5c5386d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid\MainWindow">
+      <UniqueIdentifier>{97e6f9c4-7482-43cc-a821-1666b339e245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solid\ColorPanel">
+      <UniqueIdentifier>{056dfbca-cb36-4dad-b221-dbc1effda020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoredData">
+      <UniqueIdentifier>{51b04ba6-6675-45f4-9e24-1cf5458aec23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GridData">
+      <UniqueIdentifier>{a159de4a-4d53-4f57-9b98-6929b8627ef7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Defectoscope.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="App\App.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\MainWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\MainWindowToolBar.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\AnimationControl.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\Button.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\DlgFiles.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\DropDownItem.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\EmptyWindow.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\Grid.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\GridItems.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\HookKey.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\InRect.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\MenuAPI.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\Pass.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\ProcessRun.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\SelectTypeSizeList.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\ToolBarButton.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\Zip.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\ZipAll.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="App\AppBase.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="App\VersionDiff.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\CommonViewer.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\CrossViewer.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\TopLabelViewer.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\BarSeries.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\Borders.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\Chart.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\ColorLabel.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\EmptyLeftAxes.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\FixedGridSeries.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\Gate.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\GridChart.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Graphics\StepSeries.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Common.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataItem\DataItem.cpp">
+      <Filter>DataItem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataItem\ConstData.cpp">
+      <Filter>DataItem</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageText\SelectMessage.cpp">
+      <Filter>MessageText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\templates\Hash.cpp">
+      <Filter>Common\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\LineViewer.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\CrossWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\ScanWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataItem\DataViewer.cpp">
+      <Filter>DataItem</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\TypeSizeDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DlgTemplates\DlgItems.cpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DlgTemplates\EditDlg.cpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DlgTemplates\ParamDlg.cpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include="App\ChangeTypeSize.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\LongViewer.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\ThicknessViewer.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\ResultViewer.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\LongWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\ThicknessWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\AboutWindow.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\ThresholdsDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\DeadZonesDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\MedianFiltreDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\InputOutputDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\ColorItemsDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\L502\L502.cpp">
+      <Filter>Common\Devices\L502</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\Unit502.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="IOports\IOportsDlg.cpp">
+      <Filter>IOPorts</Filter>
+    </ClCompile>
+    <ClCompile Include="IOports\IOportsViewer.cpp">
+      <Filter>IOPorts</Filter>
+    </ClCompile>
+    <ClCompile Include="IOports\IOportsWindow.cpp">
+      <Filter>IOPorts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\1730\Device1730.cpp">
+      <Filter>Common\Devices\1730</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\Automat.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\tools_debug\DebugMess.cpp">
+      <Filter>Common\tools_debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\AppKeyHandler.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CommonApp\Log\LogBuffer.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CommonApp\Log\LogMessages.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CommonApp\Log\LogMessageToTopLabel.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lir\Lir.cpp">
+      <Filter>Common\Devices\Lir</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\PerformanceCounter\PerformanceCounter.cpp">
+      <Filter>Common\Devices\PerformanceCounter</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\Compute.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lan\Lan.cpp">
+      <Filter>Common\Devices\Lan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lan\Include\RshApi.cpp">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lan\Include\RshDllClient.cpp">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lan\Include\RshError.cpp">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lan\Include\RshEventManager.cpp">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Lan\Include\RshFunctions.cpp">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="DataItem\ThicknessData.cpp">
+      <Filter>DataItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\FFT\FFT.cpp">
+      <Filter>Common\FFT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Emulator\Emulator.cpp">
+      <Filter>Common\Devices\Emulator</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\SignalViewer.cpp">
+      <Filter>Windows\ThicknessSignal</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\SignalWindow.cpp">
+      <Filter>Windows\ThicknessSignal</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\ComputeSignal.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\PipeThicknessDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\AcfCutOffBordersDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Filtre\MedianFiltre.cpp">
+      <Filter>Common\Filtre</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\Cascade.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\ChebyshevII.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\Design.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\Filter.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\Param.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\PoleFilter.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\State.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\ChebyshevFiltre.cpp">
+      <Filter>Common\DspFilters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DspFilters\source\Biquad.cpp">
+      <Filter>Common\DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\FilterDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\SolidGroupAlgoritm\CommunicationIDItems.cpp">
+      <Filter>Solid\SolidGroupAlgoritm</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\SolidGroupAlgoritm\ComputeSolidGroup.cpp">
+      <Filter>Solid\SolidGroupAlgoritm</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\SolidGroupAlgoritm\SolidBase.cpp">
+      <Filter>Solid\SolidGroupAlgoritm</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\FrameWindow\FrameViewer.cpp">
+      <Filter>Solid\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\FrameWindow\FrameWindow.cpp">
+      <Filter>Solid\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\FrameWindow\FrameWindowToolBar.cpp">
+      <Filter>Solid\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\FrameWindow\ThresholdsViewer.cpp">
+      <Filter>Solid\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\Common\Viewer.cpp">
+      <Filter>Solid\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\Dates\ChartData.cpp">
+      <Filter>Solid\Dates</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\Dates\CounterTubes.cpp">
+      <Filter>Solid\Dates</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\Dates\SaveLoadDates.cpp">
+      <Filter>Solid\Dates</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\Dates\SolidData.cpp">
+      <Filter>Solid\Dates</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\Dates\StoreResultBase.cpp">
+      <Filter>Solid\Dates</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\AddThresholdsWindow\AddThresholdsWindow.cpp">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\AddThresholdsWindow\ThresholdDataTable.cpp">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\AddThresholdsWindow\TreshWindow.cpp">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\MainWindow\PointsViewer.cpp">
+      <Filter>Solid\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\MainWindow\PointsWindow.cpp">
+      <Filter>Solid\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\ThresholdDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\ColorPanel\ColorPanel.cpp">
+      <Filter>Solid\ColorPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\WindowsPosition.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\ItemIni.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\Dates\ComputeSolid.cpp">
+      <Filter>Solid\Dates</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\MainWindow\SolidSignalViewer.cpp">
+      <Filter>Solid\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\FrameWindowDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\AnalogPlateDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\LirDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\PacketDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.cpp">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\DlgTemplates\GridWindow.cpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include="StoredData\PacketBase.cpp">
+      <Filter>StoredData</Filter>
+    </ClCompile>
+    <ClCompile Include="StoredData\StoredBase.cpp">
+      <Filter>StoredData</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Defectoscope.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\Base.hpp">
+      <Filter>Common\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\ExpressBase.hpp">
+      <Filter>Common\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\tables.hpp">
+      <Filter>Common\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Base\TablesDefine.h">
+      <Filter>Common\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="App\App.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\MainWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\MainWindowMenu.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\MainWindowToolBar.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\AnimationControl.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\Button.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\CheckBoxWidget.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\DlgFiles.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\DropDownItem.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\Emptywindow.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\Grid.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\GridItems.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\GridNotify.hpp">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\HookKey.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\InitToolbar.hpp">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\InRect.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\MenuAPI.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\message.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\MessagesInterface.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\Pass.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\ProcessRun.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\RadioBtnWidget.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\SelectTypeSizeList.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\ToolBarButton.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\ToolBarWidth.hpp">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\Zip.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\ZipAll.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="App\AppBase.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Config.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="App\VersionDiff.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\CommonViewer.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\CrossViewer.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\TopLabelViewer.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\BarSeries.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\Borders.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\Chart.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\Chart.hpp">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\ColorLabel.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\EmptyLeftAxes.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\FixedGridSeries.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\Gate.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\GridChart.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\StepSeries.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Common.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataItem\DataItem.h">
+      <Filter>DataItem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataItem\ConstData.h">
+      <Filter>DataItem</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageText\LabelMessage.hpp">
+      <Filter>MessageText</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageText\SelectMessage.h">
+      <Filter>MessageText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\Hash.h">
+      <Filter>Common\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\sort.hpp">
+      <Filter>Common\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\templates.hpp">
+      <Filter>Common\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\typelist.hpp">
+      <Filter>Common\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\WindowsEventTemplate.hpp">
+      <Filter>Common\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ViewersMenu.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialogs\Dialogs.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\LineViewer.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\LineChart.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\CrossWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ScanWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataItem\DataViewer.h">
+      <Filter>DataItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\dlg.hpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\dlg_templates.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\DlgItems.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\DlgTemplate.hpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\EditDlg.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\ParamDlg.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\ParamDlg.hpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\TabWidgets.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="App\ChangeTypeSize.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\LongViewer.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ThicknessViewer.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ResultViewer.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\LongWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ThicknessWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialogs\InputOutputDlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\L502\e502api.h">
+      <Filter>Common\Devices\L502</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\L502\L502.h">
+      <Filter>Common\Devices\L502</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\L502\l502api.h">
+      <Filter>Common\Devices\L502</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\L502\lcard_pstdint.h">
+      <Filter>Common\Devices\L502</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\L502\lpcie.h">
+      <Filter>Common\Devices\L502</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\L502\pstdint.h">
+      <Filter>Common\Devices\L502</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\L502\x502api.h">
+      <Filter>Common\Devices\L502</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\Unit502.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="IOports\IOportsViewer.h">
+      <Filter>IOPorts</Filter>
+    </ClInclude>
+    <ClInclude Include="IOports\IOportsWindow.h">
+      <Filter>IOPorts</Filter>
+    </ClInclude>
+    <ClInclude Include="IOports\IOportsWindowMenu.hpp">
+      <Filter>IOPorts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\1730\Device1730.h">
+      <Filter>Common\Devices\1730</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\Automat.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\Automat.hpp">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\tools_debug\DebugMess.h">
+      <Filter>Common\tools_debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\AppKeyHandler.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonApp\Log\LogBuffer.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonApp\Log\LogMessages.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonApp\Log\LogMessageToTopLabel.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lir\Lir.h">
+      <Filter>Common\Devices\Lir</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h">
+      <Filter>Common\Devices\PerformanceCounter</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\Compute.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Lan.h">
+      <Filter>Common\Devices\Lan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\LanParameters.h">
+      <Filter>Common\Devices\Lan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\IRshDevice.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\IRshFactory.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\Rsh.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshApi.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshConsts.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshDefChk.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshDllClient.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshError.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshErrorDescription.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshEventManager.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshFunctions.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshMacro.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshStatusCodes.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Lan\Include\RshTypes.h">
+      <Filter>Common\Devices\Lan\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataItem\ThicknessData.h">
+      <Filter>DataItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\FFT\FFT.h">
+      <Filter>Common\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Emulator\Emulator.h">
+      <Filter>Common\Devices\Emulator</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\ComputeZone.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\SignalViewer.h">
+      <Filter>Windows\ThicknessSignal</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\SignalWindow.h">
+      <Filter>Windows\ThicknessSignal</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\ComputeSignal.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Filtre\MedianFiltre.h">
+      <Filter>Common\Filtre</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Biquad.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Cascade.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\ChebyshevII.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Common.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Design.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Filter.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Layout.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\MathSupplement.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Params.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\PoleFilter.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\State.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Types.h">
+      <Filter>Common\DspFilters\include\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DspFilters\ChebyshevFiltre.h">
+      <Filter>Common\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Graphics\Color.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\SolidGroupAlgoritm\CommunicationIDItems.h">
+      <Filter>Solid\SolidGroupAlgoritm</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\SolidGroupAlgoritm\ComputeSolidGroup.h">
+      <Filter>Solid\SolidGroupAlgoritm</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\SolidGroupAlgoritm\SolidBase.h">
+      <Filter>Solid\SolidGroupAlgoritm</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\FrameWindow\FrameViewer.h">
+      <Filter>Solid\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\FrameWindow\FrameWindow.h">
+      <Filter>Solid\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\FrameWindow\FrameWindowMenu.hpp">
+      <Filter>Solid\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\FrameWindow\FrameWindowToolBar.h">
+      <Filter>Solid\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\FrameWindow\ThresholdsViewer.h">
+      <Filter>Solid\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\Common\Viewer.h">
+      <Filter>Solid\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\Dates\ChartData.h">
+      <Filter>Solid\Dates</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\Dates\CounterTubes.h">
+      <Filter>Solid\Dates</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\Dates\SaveLoadDates.h">
+      <Filter>Solid\Dates</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\Dates\SolidData.h">
+      <Filter>Solid\Dates</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\Dates\StoreResultBase.h">
+      <Filter>Solid\Dates</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\AddThresholdsWindow\AddThresholdsWindow.h">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\AddThresholdsWindow\TableData.h">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\AddThresholdsWindow\ThresholdDataTable.h">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\AddThresholdsWindow\TreshWindow.h">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\MainWindow\PointsViewer.h">
+      <Filter>Solid\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\MainWindow\PointsWindow.h">
+      <Filter>Solid\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\templates\HexColor.h">
+      <Filter>Common\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\ColorPanel\ColorPanel.h">
+      <Filter>Solid\ColorPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\MainWindow\ChartLines.h">
+      <Filter>Solid\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\WindowsPosition.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\ItemIni.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\Dates\ComputeSolid.h">
+      <Filter>Solid\Dates</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\MainWindow\SolidSignalViewer.h">
+      <Filter>Solid\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\EditWithButton.hpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialogs\PacketDlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\PacketTemplateWindow.hpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\ViewersMenu.hpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\GridData\PacketTemplateData.hpp">
+      <Filter>GridData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\GridData\TableData.h">
+      <Filter>GridData</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.h">
+      <Filter>Solid\AddThresholdWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\DlgTemplates\GridWindow.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="StoredData\PacketBase.h">
+      <Filter>StoredData</Filter>
+    </ClInclude>
+    <ClInclude Include="StoredData\StoredBase.h">
+      <Filter>StoredData</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Common\Resource\Defectoscope.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Drivers.ri">
+      <Filter>Common\Devices\Lan\Include\RegKey</Filter>
+    </None>
+    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Library.ri">
+      <Filter>Common\Devices\Lan\Include\RegKey</Filter>
+    </None>
+  </ItemGroup>
+</Project>
