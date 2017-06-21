@@ -11,9 +11,11 @@ MIN_EQUAL_VALUE(BorderDefect<Long>, 5)
 MIN_EQUAL_VALUE(BorderKlass2<Cross>, 5)
 MIN_EQUAL_VALUE(BorderDefect<Cross>, 5)
 
-MIN_EQUAL_VALUE(BorderAbove<Thick>, -15)
-MIN_EQUAL_VALUE(BorderLower<Thick>, -15)
-MIN_EQUAL_VALUE(BorderNominal<Thick>, 5)
+MIN_EQUAL_VALUE(BorderKlass2<Thick>, 3)
+MIN_EQUAL_VALUE(BorderKlass3<Thick>, 3)
+MIN_EQUAL_VALUE(BorderDefect<Thick>, 3)
+
+
 
 
 MAX_EQUAL_VALUE(BorderKlass2<Long>, 110)
@@ -22,9 +24,9 @@ MAX_EQUAL_VALUE(BorderDefect<Long>, 110)
 MAX_EQUAL_VALUE(BorderKlass2<Cross>, 110)
 MAX_EQUAL_VALUE(BorderDefect<Cross>, 110)
 
-MAX_EQUAL_VALUE(BorderAbove<Thick>, 15)
-MAX_EQUAL_VALUE(BorderLower<Thick>, 15)
-MAX_EQUAL_VALUE(BorderNominal<Thick>, 30)
+MAX_EQUAL_VALUE(BorderKlass2<Thick>, 40)
+MAX_EQUAL_VALUE(BorderKlass3<Thick>, 40)
+MAX_EQUAL_VALUE(BorderDefect<Thick>, 40)
 
 
 PARAM_TITLE(BorderKlass2<Long>, L"Продольный 2 класс")
@@ -33,9 +35,13 @@ PARAM_TITLE(BorderDefect<Long>, L"Продольный дефект")
 PARAM_TITLE(BorderKlass2<Cross>, L"Поперечный 2 класс")
 PARAM_TITLE(BorderDefect<Cross>, L"Поперечный дефект")
 
-PARAM_TITLE(BorderAbove<Thick>, L"Макс.отклонение толщины вверх(мм)")
-PARAM_TITLE(BorderLower<Thick>, L"Макс.отклонение толщины вниз(мм)")
-PARAM_TITLE(BorderNominal<Thick>, L"Номинальная толщина(mm)")
+//PARAM_TITLE(BorderAbove<Thick>, L"Макс.отклонение толщины вверх(мм)")
+//PARAM_TITLE(BorderLower<Thick>, L"Макс.отклонение толщины вниз(мм)")
+//PARAM_TITLE(BorderNominal<Thick>, L"Номинальная толщина(mm)")
+
+PARAM_TITLE(BorderKlass2<Thick>, L"Толщина 2 класс")
+PARAM_TITLE(BorderKlass3<Thick>, L"Толщина 3 класс")
+PARAM_TITLE(BorderDefect<Thick>, L"Толщина дефект")
 
 void ThresholdCrossDlg::Do(HWND h)
 {
@@ -56,7 +62,7 @@ void ThresholdLongDlg::Do(HWND h)
 void ThresholdThickDlg::Do(HWND h)
 {
 	if(TemplDialogList<ParametersBase, ThresholdsTable
-		, TL::MkTlst<BorderAbove<Thick>, BorderLower<Thick>, BorderNominal<Thick>>::Result
+		, TL::MkTlst<BorderKlass2<Thick>, BorderKlass3<Thick>, BorderDefect<Thick>>::Result
 	>(Singleton<ThresholdsTable>::Instance()).Do(h, L"Пороги толщины"))
 	{}
 }

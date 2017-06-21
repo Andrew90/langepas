@@ -3,7 +3,7 @@
 #include "DataItem\DataItem.h"
 #include "App\AppBase.h"
 #include "MessageText\SelectMessage.h"
-#include "DataItem\ThicknessData.h"
+//#include "DataItem\ThicknessData.h"
 #include "Filtre\MedianFiltre.h"
 #include "DspFilters\ChebyshevFiltre.h"
 
@@ -237,6 +237,7 @@ template<>struct ComputeZone<Thick>
 	bool operator()(double(&xbuf)[10 * 1024], char(&xstatus)[10 * 1024]
 	, unsigned &xcount, unsigned zone, unsigned sensor, int width)//MedianFiltre &filtre)
 	{
+#if 0
 		typedef Thick T;
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double nominal = Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<T>>().value;
@@ -335,6 +336,7 @@ template<>struct ComputeZone<Thick>
 		//count = k;
 		if(valueMin == 99999) valueMin = nominal;
 		if(valueMax == 0) valueMax = nominal;
+#endif
 		return true;//k > 0;
 	}
 };
@@ -344,6 +346,7 @@ template<>struct ComputeZoneBegin<Thick>
 	bool operator()(double(&xbuf)[10 * 1024], char(&xstatus)[10 * 1024]
 	, unsigned &xcount, unsigned zone, unsigned sensor, int width)//MedianFiltre &filtre)
 	{
+#if 0
 		typedef Thick T;
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double nominal = Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<T>>().value;
@@ -433,6 +436,7 @@ template<>struct ComputeZoneBegin<Thick>
 		//count = k;
 		if(valueMin == 99999) valueMin = nominal;
 		if(valueMax == 0) valueMax = nominal;
+#endif
 		return true;
 	}
 };
@@ -442,6 +446,7 @@ template<>struct ComputeZoneEnd<Thick>
 	bool operator()(double(&xbuf)[10 * 1024], char(&xstatus)[10 * 1024]
 	, unsigned &xcount, unsigned zone, unsigned sensor, int width)//MedianFiltre &filtre)
 	{
+#if 0
 		typedef Thick T;
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double nominal = Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<T>>().value;
@@ -529,6 +534,7 @@ template<>struct ComputeZoneEnd<Thick>
 		//count = k;
 		if(valueMin == 99999) valueMin = nominal;
 		if(valueMax == 0) valueMax = nominal;
+#endif
 		return true;//k > 0;
 	}
 };

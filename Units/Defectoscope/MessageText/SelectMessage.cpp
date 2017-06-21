@@ -78,7 +78,7 @@ namespace SelectMesageN
 			if(p & (1 << TL::IndexOf<__selected_list__, O>::value))
 			{
 				p &= ~(1 << TL::IndexOf<__selected_list__, Undefined>::value);
-				p &= ~(1 << TL::IndexOf<__selected_list__, Nominal>::value);
+//				p &= ~(1 << TL::IndexOf<__selected_list__, Nominal>::value);
 			}
 		}
 	};
@@ -95,27 +95,27 @@ namespace SelectMesageN
 		}
 	};
 
-	template<class P>struct __skip__<Nominal, P>
-	{
-		void operator()(P &p)
-		{
-			if(p.get<__selectItem__<Nominal>>().value)
-			{
-				p.get<__selectItem__<Undefined>>().value = false;
-			}
-		}
-	};
+	//template<class P>struct __skip__<Nominal, P>
+	//{
+	//	void operator()(P &p)
+	//	{
+	//		if(p.get<__selectItem__<Nominal>>().value)
+	//		{
+	//			p.get<__selectItem__<Undefined>>().value = false;
+	//		}
+	//	}
+	//};
 
-	template<class P>struct __skip__X<Nominal, P>
-	{
-		void operator()(P &p)
-		{
-			if(p & (1 << TL::IndexOf<__selected_list__, Nominal>::value))
-			{
-				p &= ~(1 << TL::IndexOf<__selected_list__, Undefined>::value);
-			}
-		}
-	};
+	//template<class P>struct __skip__X<Nominal, P>
+	//{
+	//	void operator()(P &p)
+	//	{
+	//		if(p & (1 << TL::IndexOf<__selected_list__, Nominal>::value))
+	//		{
+	//			p &= ~(1 << TL::IndexOf<__selected_list__, Undefined>::value);
+	//		}
+	//	}
+	//};
 
 	template<class P>struct __skip__X<DeathZone, P>
 	{
@@ -162,7 +162,7 @@ namespace SelectMesageN
 			if(p & (1 << TL::IndexOf<__selected_list__, BorderDefect<X>>::value))
 			{
 				p &= ~(1 << TL::IndexOf<__selected_list__, Undefined>::value);
-				p &= ~(1 << TL::IndexOf<__selected_list__, Nominal>::value);
+//				p &= ~(1 << TL::IndexOf<__selected_list__, Nominal>::value);
 				p &= ~(1 << TL::IndexOf<__selected_list__, BorderKlass2<X>>::value);
 			}
 		}
@@ -378,11 +378,11 @@ char *SelectMessage(int *x, int &res)
 	return NULL;
 }
 
-bool MinAndLamination(char status)
-{
-	static const unsigned mask = (1 << TL::IndexOf<SelectMesageN::__selected_list__, BorderLower<Thick>>::value); 
-	return mask == (mask & SelectMesageN::__bits__[status]);
-}
+//bool MinAndLamination(char status)
+//{
+//	static const unsigned mask = (1 << TL::IndexOf<SelectMesageN::__selected_list__, BorderLower<Thick>>::value); 
+//	return mask == (mask & SelectMesageN::__bits__[status]);
+//}
 
 template<class T>struct __first__;
 	template<class A, class B, class C, class D, class E,class F>struct __first__<Clr<A, B, C, D, E,F>>
@@ -415,10 +415,10 @@ template<class T>struct ResultOk
 	bool operator()(){return true;}
 };
 
-template<class T>struct ResultOk<BorderLower<T>>
-{
-	bool operator()(){return false;}
-};
+//template<class T>struct ResultOk<BorderLower<T>>
+//{
+//	bool operator()(){return false;}
+//};
 template<class T>struct ResultOk<BorderDefect<T>>
 {
 	bool operator()(){return false;}

@@ -113,9 +113,9 @@ namespace Stored
 			, BorderDefect  <Long >
 			, BorderKlass2  <Cross>
 			, BorderDefect  <Cross>
-			, BorderAbove   <Thick>
-			, BorderLower   <Thick>
-			, BorderNominal <Thick>
+			, BorderKlass2 <Thick>
+			, BorderKlass3 <Thick>
+			, BorderDefect <Thick>
 			, LengthTube
 		>::Result items_list;
 		typedef TL::Factory<items_list> TItems;

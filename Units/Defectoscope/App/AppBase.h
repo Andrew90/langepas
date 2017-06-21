@@ -2,7 +2,7 @@
 #include "App/App.h"
 #include "Base/tables.hpp"
 #include "Base/TablesDefine.h"
-#include "Lan/LanParameters.h"
+//#include "Lan/LanParameters.h"
 //-------------------------------------------------------------------------------------------
 void TrimTypeList(wchar_t *, wchar_t *);
 //-------------------------------------------------------------------------------------------
@@ -18,11 +18,12 @@ struct CurrentParametersTable
 };
 //------------------------------------------------------------------------------------------
 template<class>struct BorderKlass2;
+template<class>struct BorderKlass3;
 template<class>struct BorderDefect;
 
-template<class>struct BorderAbove;
-template<class>struct BorderLower;
-template<class>struct BorderNominal;
+//template<class>struct BorderAbove;
+//template<class>struct BorderLower;
+//template<class>struct BorderNominal;
 
 DEFINE_PARAM_WAPPER(BorderKlass2, Long, double, 106)
 DEFINE_PARAM_WAPPER(BorderDefect, Long, double, 45)
@@ -30,9 +31,9 @@ DEFINE_PARAM_WAPPER(BorderDefect, Long, double, 45)
 DEFINE_PARAM_WAPPER(BorderKlass2, Cross, double, 106)
 DEFINE_PARAM_WAPPER(BorderDefect, Cross, double, 70)
 
-DEFINE_PARAM_WAPPER(BorderAbove  , Thick, double, 3.0)
-DEFINE_PARAM_WAPPER(BorderLower  , Thick, double, 2.0)
-DEFINE_PARAM_WAPPER(BorderNominal, Thick, double, 12.0)
+DEFINE_PARAM_WAPPER(BorderKlass2, Thick, double, 3.0)
+DEFINE_PARAM_WAPPER(BorderKlass3, Thick, double, 2.0)
+DEFINE_PARAM_WAPPER(BorderDefect, Thick, double, 12.0)
 
 struct ThresholdsTable
 {
@@ -41,9 +42,9 @@ struct ThresholdsTable
 		, BorderDefect<Long>
 		, BorderKlass2<Cross>
 		, BorderDefect<Cross>
-		 , BorderAbove  <Thick>
-		 , BorderLower  <Thick>
-		 , BorderNominal<Thick>
+		, BorderKlass2  <Thick>
+		, BorderKlass3  <Thick>
+		, BorderDefect<Thick>
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
@@ -153,8 +154,11 @@ DEFINE_WAPPER(Clr<ValueLessThreshold>, int, 0xff555555)
 
 DEFINE_WAPPER(Clr<Nominal  >, int, 0xff00ff00)
 DEFINE_WAPPER(Clr<DeathZone>, int, 0xff333333) 
-DEFINE_WAPPER(Clr<BorderAbove<Thick>  >, int, 0xff0000ff)
-DEFINE_WAPPER(Clr<BorderLower<Thick>  >, int, 0xffff0000)
+
+DEFINE_WAPPER(Clr<BorderKlass2<Thick>  >, int, 0xff0000ff)
+DEFINE_WAPPER(Clr<BorderKlass3<Thick>  >, int, 0xffff0000)
+DEFINE_WAPPER(Clr<BorderDefect<Thick>  >, int, 0xffff0000)
+
 DEFINE_WAPPER(Clr<BorderKlass2<Long>      >, int, 0xffffff00)
 DEFINE_WAPPER(Clr<BorderDefect<Long>      >, int, 0xffff0000)
 DEFINE_WAPPER(Clr<BorderKlass2<Cross>     >, int, 0xffffff00)
@@ -169,8 +173,9 @@ struct ColorTable
 /*0*/		Clr<Undefined   >
 /*1*/		, Clr<DeathZone>
 /*2*/		, Clr<Nominal	>
-/*3*/	    , Clr<BorderAbove<Thick> >
-/*4*/	    , Clr<BorderLower<Thick> >
+/*3*/	    , Clr<BorderKlass2<Thick> >
+/*4*/	    , Clr<BorderKlass3<Thick> >
+			, Clr<BorderDefect<Thick> >
 /*5*/	    , Clr<BorderKlass2<Long> > 
 /*6*/	    , Clr<BorderDefect<Long> >
 /*7*/	    , Clr<BorderKlass2<Cross>>
@@ -280,8 +285,8 @@ DEFINE_PARAM_ID(MedianFiltreTable, int, 1)
 STR_PARAM(NameParam, 128, L"NONAME")
 DEFINE_PARAM(CrossCountSensors, int, 10)
 DEFINE_PARAM_ID(RecalculationFactorTable, int, 1)
-struct BorderACFCutOffTable;
-DEFINE_PARAM_ID(BorderACFCutOffTable, int, 1)
+//struct BorderACFCutOffTable;
+//DEFINE_PARAM_ID(BorderACFCutOffTable, int, 1)
 DEFINE_PARAM_ID(MinMaxThresholdsTable, int, 1)
 DEFINE_PARAM_ID(AnalogFilterTable, int, 1)
 DEFINE_PARAM_ID(CalculationAlgorithmTable, int, 1)
@@ -295,7 +300,7 @@ DEFINE_PARAM(TubeMinLength            , int, 140)
 		, ID<AxesTable	   	>
 		, ID<MedianFiltreTable>
 		, ID<RecalculationFactorTable>
-		, ID<BorderACFCutOffTable>
+		//, ID<BorderACFCutOffTable>
 		, ID<MinMaxThresholdsTable>
 		, ID<AnalogFilterTable>
 		, ID<CalculationAlgorithmTable>
@@ -424,8 +429,20 @@ struct L502ParametersTable
 
 template<class T, int>struct Range;
 template<class T, int>struct Offset;
+
 struct ReferenceSignal{};
 struct InputSignal{};
+
+struct Temperature{};
+struct MagneticField{};
+
+template<class T, int>struct Inp502;
+template<class T, int>struct Out502;
+
+struct sinhro_s{};
+struct sinhro_d{};
+struct error_x{};
+struct start_x{};
 
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 1, int, 0)
@@ -447,6 +464,11 @@ DEFINE_PARAM_WAPPER_NUM(Range, Long, 3, int, 0)
 
 DEFINE_PARAM_WAPPER_NUM(Range, ReferenceSignal, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, InputSignal,     0, int, 0)
+
+DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 1, int, 0)
+
+DEFINE_PARAM_WAPPER_NUM(Range, MagneticField, 0, int, 0)
 
 
 DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 0, int, 0)
@@ -470,7 +492,64 @@ DEFINE_PARAM_WAPPER_NUM(Offset, Long, 3, int, 15)
 DEFINE_PARAM_WAPPER_NUM(Offset, ReferenceSignal, 0, int, 16)
 DEFINE_PARAM_WAPPER_NUM(Offset, InputSignal,     0, int, 17)
 
-struct L502RangeTable
+DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 1, int, 0)
+					
+DEFINE_PARAM_WAPPER_NUM(Offset, MagneticField, 0, int, 0)
+
+DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_s, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_d, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Inp502, error_x, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Out502, start_x, 0, int, 0)
+
+
+
+struct L502RangeTable1
+{
+	typedef TL::MkTlst<
+          Range<Long , 0> 
+        , Range<Long , 1> 
+        , Range<Long , 2> 
+        , Range<Long , 3> 
+        , Range<ReferenceSignal, 0>
+        , Range<InputSignal,     0>
+	>::Result items_list;
+	typedef NullType unique_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"L502RangeTable1";}
+};
+struct L502OffsetsTable1
+{
+	typedef TL::MkTlst<
+          Offset<Long , 0> 
+        , Offset<Long , 1> 
+        , Offset<Long , 2> 
+        , Offset<Long , 3> 
+        , Offset<ReferenceSignal, 0>
+        , Offset<InputSignal,     0>
+	>::Result items_list;
+	typedef NullType unique_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"L502OffsetsTable1";}
+};
+
+struct L502OffsetsDigitTable1
+{
+	typedef TL::MkTlst<
+	     Inp502<sinhro_s, 0>
+	   , Inp502<sinhro_d, 0>
+	   , Inp502<error_x, 0>
+	   , Out502<start_x, 0>
+	>::Result items_list;
+	typedef NullType unique_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"L502OffsetsDigitTable1";}
+};
+
+struct L502RangeTable2
 {
 	typedef TL::MkTlst<
 		  Range<Cross, 0> 
@@ -484,21 +563,19 @@ struct L502RangeTable
         , Range<Cross, 8> 
         , Range<Cross, 9> 
         , Range<Cross, 10>
-        , Range<Cross, 11>
-        , Range<Long , 0> 
-        , Range<Long , 1> 
-        , Range<Long , 2> 
-        , Range<Long , 3> 
-        , Range<ReferenceSignal, 0>
-        , Range<InputSignal,     0>
+        , Range<Cross, 11> 
+		 
+		, Range<Temperature, 0> 
+		, Range<Temperature, 1> 
+
+		, Range<MagneticField, 0>
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"L502RangeTable";}
+	const wchar_t *name(){return L"L502RangeTable2";}
 };
-
-struct L502OffsetsTable
+struct L502OffsetsTable2
 {
 	typedef TL::MkTlst<
 		  Offset<Cross, 0> 
@@ -512,116 +589,19 @@ struct L502OffsetsTable
         , Offset<Cross, 8> 
         , Offset<Cross, 9> 
         , Offset<Cross, 10>
-        , Offset<Cross, 11>
-        , Offset<Long , 0> 
-        , Offset<Long , 1> 
-        , Offset<Long , 2> 
-        , Offset<Long , 3> 
-        , Offset<ReferenceSignal, 0>
-        , Offset<InputSignal,     0>
+        , Offset<Cross, 11> 
+
+		, Offset<Temperature, 0> 
+		, Offset<Temperature, 1> 
+
+		, Offset<MagneticField, 0>
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"L502OffsetsTable";}
+	const wchar_t *name(){return L"L502OffsetsTable2";}
 };
 //-------------------------------------------------------------------
-DEFINE_PARAM(TickPerZoneLir0, double, 106)
-DEFINE_PARAM(TickPerZoneLir1, double, 106)
-DEFINE_PARAM(DescriptorLir, int, 3)
-struct LirParamTable
-{
-	typedef TL::MkTlst<	
-		TickPerZoneLir0
-		, TickPerZoneLir1
-		, DescriptorLir
-	>::Result items_list;
-	typedef TL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name(){return L"LirParamTable";}
-};
-//-------------------------------------------------------------------
-template<int NUM>struct CoefficientA;
-template<int NUM>struct CoefficientB;
-
-DEFINE_PARAM_NUM(CoefficientA, 0, double, 6.12e-002)
-DEFINE_PARAM_NUM(CoefficientB, 0, double, 0.3398)
-DEFINE_PARAM_NUM(CoefficientA, 1, double, 6.12e-002)
-DEFINE_PARAM_NUM(CoefficientB, 1, double, 0.3398)
-DEFINE_PARAM_NUM(CoefficientA, 2, double, 6.12e-002)
-DEFINE_PARAM_NUM(CoefficientB, 2, double, 0.3398)
-
-struct CoefficientParametersTable
-{
-	typedef TL::MkTlst<		
-		CoefficientA<0>
-		, CoefficientB<0>
-		, CoefficientA<1>
-		, CoefficientB<1>
-		, CoefficientA<2>
-		, CoefficientB<2>
-	>::Result items_list;
-	typedef NullType unique_list;
-	typedef TL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name(){return L"CoefficientParametersTable";}
-};
-
-template<int>struct MinEnergy;
-template<int>struct MaxEnergy;
-template<int>struct Peak;
-
-#define PEAK(n)\
-DEFINE_PARAM_NUM(MinEnergy, n, double, 0.1)\
-DEFINE_PARAM_NUM(MaxEnergy, n, double, 1000)\
-DEFINE_PARAM_NUM(Peak, n, double, 0.2)
-
-PEAK(0)
-PEAK(1)
-PEAK(2)
-
-#undef PEAK
-
-#define PEAK(n) MinEnergy<n>, MaxEnergy<n>, Peak<n>
-struct SignalParametersTable
-{
-	typedef TL::MkTlst<		
-		PEAK(0), PEAK(1), PEAK(2)
-	>::Result items_list;
-	typedef NullType unique_list;
-	typedef TL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name(){return L"SignalParametersTable";}
-};
-#undef PEAK
-
-template<int>struct LeftBorderACFCutOff;
-template<int>struct RightBorderACFCutOff;
-
-DEFINE_PARAM_NUM(LeftBorderACFCutOff, 0, int, 60)
-DEFINE_PARAM_NUM(LeftBorderACFCutOff, 1, int, 60)
-DEFINE_PARAM_NUM(LeftBorderACFCutOff, 2, int, 60)
-
-DEFINE_PARAM_NUM(RightBorderACFCutOff, 0, int, 110)
-DEFINE_PARAM_NUM(RightBorderACFCutOff, 1, int, 110)
-DEFINE_PARAM_NUM(RightBorderACFCutOff, 2, int, 110)
-
-struct BorderACFCutOffTable
-{
-	typedef TL::MkTlst<
-		LeftBorderACFCutOff<0>
-		, RightBorderACFCutOff<0>
-		, LeftBorderACFCutOff<1>
-		, RightBorderACFCutOff<1>
-		, LeftBorderACFCutOff<2>
-		, RightBorderACFCutOff<2>
-	>::Result items_list;
-	typedef NullType unique_list;
-	typedef TL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name(){return L"BorderACFCutOffTable";}
-};
-//--------------------------------------------------------------------
 template<class T>struct CutoffFrequency;
 template<class T>struct CutoffFrequencyOn;
 
@@ -707,12 +687,13 @@ struct GraphAxesTable
 		 , InputBitTable
 		 , OutputBitTable		
 		 , OnTheJobTable
-		 , L502RangeTable
-		 , L502OffsetsTable
-		 , LirParamTable
-		 , LanParametersTable
-		 , CoefficientParametersTable		
-		 , GraphAxesTable		 
+	//	 , LanParametersTable
+		 , GraphAxesTable	
+		 , L502RangeTable1
+		 , L502OffsetsTable1
+		 , L502OffsetsDigitTable1
+		 , L502RangeTable2
+		 , L502OffsetsTable2
 	 >::Result one_row_table_list;
 
 	 typedef TL::MkTlst<
@@ -723,7 +704,7 @@ struct GraphAxesTable
 		 , MedianFiltreTable
 		 , AxesTable
 		 , RecalculationFactorTable
-		 , BorderACFCutOffTable
+		// , BorderACFCutOffTable
 		 , MinMaxThresholdsTable
 		 , AnalogFilterTable
 		 , CountSubZonesTable

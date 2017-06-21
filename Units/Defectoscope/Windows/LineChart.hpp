@@ -5,7 +5,6 @@
 #include "templates/templates.hpp"
 #include "window_tool\MenuAPI.h"
 #include "DataItem/DataViewer.h"
-#include "Windows\SignalWindow.h"
 
 namespace
 {
@@ -27,7 +26,7 @@ template<class T>struct SignalWrapper
 
 template<>struct SignalWrapper<Thick>
 {
-	void operator()(int zone , int offset){SignalWindow::ChangeOffset(zone, offset);}
+	void operator()(int zone , int offset){/*SignalWindow::ChangeOffset(zone, offset);*/}
 };
 
 template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result>
@@ -59,14 +58,14 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			return 0;
 		}
 	};
-	template<int N>struct Test<ThickWindow, N>
-	{
-		template<class Z>int operator()(Z &t, int i)
-		{
-			char *c = t.firstScan[i];
-			return *(int *)&c[sizeof(int) * N];
-		}
-	};
+	//template<int N>struct Test<ThickWindow, N>
+	//{
+	//	template<class Z>int operator()(Z &t, int i)
+	//	{
+	//		char *c = t.firstScan[i];
+	//		return *(int *)&c[sizeof(int) * N];
+	//	}
+	//};
 
 	bool CursorDraw(TMouseMove &l, VGraphics &g)	  
 	{	
@@ -112,7 +111,7 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 
 	void MenuItemScan()
 	{
-		if(owner->viewer.viewerData.currentOffsetZones > owner->lastZone) SignalWindow::Open(owner->lastZone, N, offsetX);
+		//if(owner->viewer.viewerData.currentOffsetZones > owner->lastZone) SignalWindow::Open(owner->lastZone, N, offsetX);
 	}
 	/*
 

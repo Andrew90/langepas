@@ -6,7 +6,7 @@
 #include "App/AppBase.h"
 #include "window_tool\MenuAPI.h"
 #include "Windows/ViewersMenu.hpp"
-#include "Windows\ThicknessWindow.h"
+//#include "Windows\ThicknessWindow.h"
 #include "Graphics\Color.h"
 
 using namespace Gdiplus;
@@ -83,7 +83,7 @@ bool ThickViewer::GetColorBar(int zone, double &data_, unsigned &color, double &
 		, color1
 		//, viewerData.status[zone]
 		, status
-	    , Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<Thick> >().value
+	    , Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<Thick>>().value
 		);
 	color = color1;
 	unsigned char *x = (unsigned char *) &color;
@@ -147,11 +147,11 @@ bool ThickViewer::Draw(TMouseMove &l, VGraphics &g)
 	return drawZones;
 }
 
-CONTEXT_MENU(ThickWindow)
+//CONTEXT_MENU(ThickWindow)
 void ThickViewer::operator()(TRButtonDown &l)
 {
-	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value)
-	PopupMenu<ContextMenuThickWindow::items_list>::Do(l.hwnd, l.hwnd);
+	//if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value)
+	//PopupMenu<ContextMenuThickWindow::items_list>::Do(l.hwnd, l.hwnd);
 }
 
 #undef xmin

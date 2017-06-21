@@ -9,8 +9,6 @@
 #include "Compute/Compute.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "Windows\MainWindow.h"
-#include "Lir/Lir.h"
-#include "Lan\Lan.h"
 #include "Dates\ComputeSolid.h"
 #include "Dialogs/PacketDlg.h"
 
@@ -269,7 +267,8 @@ namespace AutomatN
 		while(true)
 		{
 			try
-			{				
+			{
+#if 0
 				App::measurementOfRunning = false;	
 				AND_BITS(Ex<ExceptionRun>, Ex<ExceptionStop>)(); //кнопка начала измерений
 				if(packet && !PacketDlg::Do())
@@ -361,6 +360,7 @@ namespace AutomatN
 				//расчёт группы прочности конец
 
 				zprint("  collection stop\n");
+#endif
 				
 			}
 			catch(ExceptionStop)

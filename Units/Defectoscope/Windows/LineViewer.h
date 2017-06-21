@@ -49,44 +49,44 @@ template<class T>struct Border: HBorder
 	 }
 };
 
-template<>struct Border<BorderAbove<Thick>>: HBorder
-{
-	double &val;
-	double &nominal;
-	Border(Chart &c)
-		: HBorder(c)
-		, val(Singleton<ThresholdsTable>::Instance().items.get<BorderAbove<Thick>>().value)
-		, nominal(Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<Thick>>().value)
-	{}
-	 void Draw()
-	 {
-		 value = nominal + val;
-		 HBorder::Draw();
-	 }
-};
-
-template<>struct Border<BorderLower<Thick>>: HBorder
-{
-	double &val;
-	double &nominal;
-	Border(Chart &c)
-		: HBorder(c)
-		, val(Singleton<ThresholdsTable>::Instance().items.get<BorderLower<Thick>>().value)
-		, nominal(Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<Thick>>().value)
-	{}
-	 void Draw()
-	 {
-		 value = nominal - val;
-		 HBorder::Draw();
-	 }
-};
-
-template<>struct Border<BorderNominal<Thick>>
-{
-	int color;
-	Border(Chart &c){}
-	void Draw(){}
-};
+//template<>struct Border<BorderAbove<Thick>>: HBorder
+//{
+//	double &val;
+//	double &nominal;
+//	Border(Chart &c)
+//		: HBorder(c)
+//		, val(Singleton<ThresholdsTable>::Instance().items.get<BorderAbove<Thick>>().value)
+//		, nominal(Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<Thick>>().value)
+//	{}
+//	 void Draw()
+//	 {
+//		 value = nominal + val;
+//		 HBorder::Draw();
+//	 }
+//};
+//
+//template<>struct Border<BorderLower<Thick>>: HBorder
+//{
+//	double &val;
+//	double &nominal;
+//	Border(Chart &c)
+//		: HBorder(c)
+//		, val(Singleton<ThresholdsTable>::Instance().items.get<BorderLower<Thick>>().value)
+//		, nominal(Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<Thick>>().value)
+//	{}
+//	 void Draw()
+//	 {
+//		 value = nominal - val;
+//		 HBorder::Draw();
+//	 }
+//};
+//
+//template<>struct Border<BorderNominal<Thick>>
+//{
+//	int color;
+//	Border(Chart &c){}
+//	void Draw(){}
+//};
 
 template<class Thresh>class LineTresholdsViewer: public LineViewer
 {

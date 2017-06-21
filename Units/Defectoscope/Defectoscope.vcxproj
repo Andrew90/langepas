@@ -109,13 +109,6 @@
     <ClCompile Include="..\..\Common\Graphics\GridChart.cpp" />
     <ClCompile Include="..\..\Common\Graphics\StepSeries.cpp" />
     <ClCompile Include="..\..\Common\L502\L502.cpp" />
-    <ClCompile Include="..\..\Common\Lan\Include\RshApi.cpp" />
-    <ClCompile Include="..\..\Common\Lan\Include\RshDllClient.cpp" />
-    <ClCompile Include="..\..\Common\Lan\Include\RshError.cpp" />
-    <ClCompile Include="..\..\Common\Lan\Include\RshEventManager.cpp" />
-    <ClCompile Include="..\..\Common\Lan\Include\RshFunctions.cpp" />
-    <ClCompile Include="..\..\Common\Lan\Lan.cpp" />
-    <ClCompile Include="..\..\Common\Lir\Lir.cpp" />
     <ClCompile Include="..\..\Common\PerformanceCounter\PerformanceCounter.cpp" />
     <ClCompile Include="..\..\Common\templates\Hash.cpp" />
     <ClCompile Include="..\..\Common\tools_debug\DebugMess.cpp" />
@@ -144,12 +137,10 @@
     <ClCompile Include="Compute\AppKeyHandler.cpp" />
     <ClCompile Include="Compute\Automat.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
-    <ClCompile Include="Compute\ComputeSignal.cpp" />
     <ClCompile Include="Compute\Unit502.cpp" />
     <ClCompile Include="DataItem\ConstData.cpp" />
     <ClCompile Include="DataItem\DataItem.cpp" />
     <ClCompile Include="DataItem\DataViewer.cpp" />
-    <ClCompile Include="DataItem\ThicknessData.cpp" />
     <ClCompile Include="Defectoscope.cpp" />
     <ClCompile Include="Dialogs\AboutWindow.cpp" />
     <ClCompile Include="Dialogs\AcfCutOffBordersDlg.cpp" />
@@ -159,7 +150,6 @@
     <ClCompile Include="Dialogs\FilterDlg.cpp" />
     <ClCompile Include="Dialogs\FrameWindowDlg.cpp" />
     <ClCompile Include="Dialogs\InputOutputDlg.cpp" />
-    <ClCompile Include="Dialogs\LirDlg.cpp" />
     <ClCompile Include="Dialogs\MedianFiltreDlg.cpp" />
     <ClCompile Include="Dialogs\PacketDlg.cpp" />
     <ClCompile Include="Dialogs\PipeThicknessDlg.cpp" />
@@ -206,10 +196,7 @@
     <ClCompile Include="Windows\MainWindowToolBar.cpp" />
     <ClCompile Include="Windows\ResultViewer.cpp" />
     <ClCompile Include="Windows\ScanWindow.cpp" />
-    <ClCompile Include="Windows\SignalViewer.cpp" />
-    <ClCompile Include="Windows\SignalWindow.cpp" />
     <ClCompile Include="Windows\ThicknessViewer.cpp" />
-    <ClCompile Include="Windows\ThicknessWindow.cpp" />
     <ClCompile Include="Windows\TopLabelViewer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -269,23 +256,6 @@
     <ClInclude Include="..\..\Common\L502\lpcie.h" />
     <ClInclude Include="..\..\Common\L502\pstdint.h" />
     <ClInclude Include="..\..\Common\L502\x502api.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\IRshDevice.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\IRshFactory.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\Rsh.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshApi.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshConsts.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshDefChk.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshDllClient.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshError.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshErrorDescription.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshEventManager.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshFunctions.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshMacro.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshStatusCodes.h" />
-    <ClInclude Include="..\..\Common\Lan\Include\RshTypes.h" />
-    <ClInclude Include="..\..\Common\Lan\Lan.h" />
-    <ClInclude Include="..\..\Common\Lan\LanParameters.h" />
-    <ClInclude Include="..\..\Common\Lir\Lir.h" />
     <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h" />
     <ClInclude Include="..\..\Common\templates\Hash.h" />
     <ClInclude Include="..\..\Common\templates\HexColor.h" />
@@ -328,13 +298,11 @@
     <ClInclude Include="Compute\Automat.h" />
     <ClInclude Include="Compute\Automat.hpp" />
     <ClInclude Include="Compute\Compute.h" />
-    <ClInclude Include="Compute\ComputeSignal.h" />
     <ClInclude Include="Compute\ComputeZone.h" />
     <ClInclude Include="Compute\Unit502.h" />
     <ClInclude Include="DataItem\ConstData.h" />
     <ClInclude Include="DataItem\DataItem.h" />
     <ClInclude Include="DataItem\DataViewer.h" />
-    <ClInclude Include="DataItem\ThicknessData.h" />
     <ClInclude Include="Defectoscope.h" />
     <ClInclude Include="Dialogs\Dialogs.h" />
     <ClInclude Include="Dialogs\InputOutputDlg.h" />
@@ -387,19 +355,12 @@
     <ClInclude Include="Windows\MainWindowToolBar.h" />
     <ClInclude Include="Windows\ResultViewer.h" />
     <ClInclude Include="Windows\ScanWindow.h" />
-    <ClInclude Include="Windows\SignalViewer.h" />
-    <ClInclude Include="Windows\SignalWindow.h" />
     <ClInclude Include="Windows\ThicknessViewer.h" />
-    <ClInclude Include="Windows\ThicknessWindow.h" />
     <ClInclude Include="Windows\TopLabelViewer.h" />
     <ClInclude Include="Windows\ViewersMenu.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\Resource\Defectoscope.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Drivers.ri" />
-    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Library.ri" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

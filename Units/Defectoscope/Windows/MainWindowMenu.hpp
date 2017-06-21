@@ -112,7 +112,7 @@ namespace MainWindowMenu
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	struct AnalogPlate__           {};//{static void Do(HWND h){zprint("");}};//: AnalogPlateDlg{};//{static void Do(HWND h){zprint("");}};
 	struct DiscretePlate	      {};//{static void Do(HWND h){zprint("");}};//{};//static void Do(HWND h){zprint("");}};
-	struct Lir__{};
+	//struct Lir__{};
 	struct DiscretePlateInputs    : InputsDlg{};//{static void Do(HWND h){zprint("");}};
 	struct DiscretePlateOutputs   : OutputsDlg{};//{static void Do(HWND h){zprint("");}};
 	struct ColorItems             : ColorItemsDlg{};//{static void Do(HWND h){zprint("");}};
@@ -121,7 +121,7 @@ namespace MainWindowMenu
 	struct Signal                 {static void Do(HWND h){zprint("");}};//{static void Do(HWND h){zprint("");}};
 	struct ACFBorder              {static void Do(HWND h){zprint("");}};//{static void Do(HWND h){zprint("");}};
 
-	struct OffsetChannels         : OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};
+	struct OffsetChannels         {static void Do(HWND h){zprint("");}};//: OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};
 	struct AmplificationChannels  : AmplificationChannelDlg{};//{static void Do(HWND h){zprint("");}};
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
@@ -154,24 +154,24 @@ namespace MainWindowMenu
 		>::Result list;
 	};
 
-	MENU_TEXT(L"Настройки лир", SubMenu<Lir__>)
-	MENU_ITEM(L"Дискриптор лир", LirDescriptorDlg)
+	//MENU_TEXT(L"Настройки лир", SubMenu<Lir__>)
+	//MENU_ITEM(L"Дискриптор лир", LirDescriptorDlg)
 	MENU_ITEM(L"Датчики лир", LirDlg)
 
-	template<>struct SubMenu<Lir__>
-	{
-		typedef TL::TypeToTypeLst<
-			typename TL::MkTlst<LirDescriptorDlg, LirDlg>::Result 
-			, MenuItem
-		>::Result list;
-	};
+	//template<>struct SubMenu<Lir__>
+	//{
+	//	//typedef TL::TypeToTypeLst<
+	//	//	typename TL::MkTlst<LirDescriptorDlg, LirDlg>::Result 
+	//	//	, MenuItem
+	//	//>::Result list;
+	//};
 
 	template<>struct TopMenu<Setting>
 	{
 		typedef TL::MkTlst<
 			 SubMenu<DiscretePlate>	
 			 , SubMenu<AnalogPlate__>
-			 , SubMenu<Lir__>
+			// , SubMenu<Lir__>
 			, MenuItem<ColorItems>
 		>::Result list;		
 	};

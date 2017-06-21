@@ -9,10 +9,8 @@
 #include "Compute/AppKeyHandler.h"
 #include "Compute\Automat.h"
 #include "Compute/Compute.h"
-#include "Lir\Lir.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "App/Config.h"
-#include "Lan\Lan.h"
 #include "SolidGroupAlgoritm\ComputeSolidGroup.h"
 #include "StoredData\PacketBase.h"
 
@@ -61,19 +59,6 @@ void App::Init()
 		MessageBox(h, L"Не могу загрузить параметры в плату 502", L"Ошибка !!!", MB_ICONERROR);
 		ok = false;
 	}
-
-	if(ok && Lir::Init())
-	{
-		MessageBox(h, L"Не могу инициировать плату лир", L"Ошибка !!!", MB_ICONERROR);
-		ok = false;
-	}
-	if(unsigned res = Lan::Init())
-	{
-		wchar_t buf[256];
-		wsprintf(buf, L"Не могу инициировать плату Lan10m8-100 номер %d", res);
-		MessageBox(0, buf, L"Ошибка !!!", MB_ICONERROR);
-		ok = false;
-	}
 #ifdef DEBUG_ITEMS
 	ok = true;
 #endif
@@ -88,7 +73,6 @@ void App::Destroy()
 {
 	Automat::Exit();
 	Compute::Destroy();
-	Lan::Destroy();
 }
 
 App app;

@@ -4,7 +4,7 @@
 #include "Filtre\MedianFiltre.h"
 #include "App/AppBase.h"
 #include "App/App.h"
-#include "DataItem\ThicknessData.h"
+//#include "DataItem\ThicknessData.h"
 #include "DspFilters\ChebyshevFiltre.h"
 
 namespace
@@ -70,20 +70,21 @@ void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2,
 
 		if(data[i] > brackThreshold) status[i] = borderDefect;
 		else if(data[i] > klass2Threshold) status[i] = borderKlass2;
-		else status[i] = StatusId<Clr<Nominal>>();
+//		else status[i] = StatusId<Clr<Nominal>>();
 	}
 }
 
-ThickDataViewer::ThickDataViewer(int &width, bool &on, double &above, double &lower, double &nominal)
+ThickDataViewer::ThickDataViewer(int &width, bool &on, double &klass2Border, double &klass3Border, double &defectBorder)
 	: medianFiltreWidth(width)
 	, medianFiltreOn(on)
-	, aboveBorder(above)
-	, lowerBorder(lower)
-	, nominalBorder(nominal)
+	, klass2Border(klass2Border)
+	, klass3Border(klass3Border)
+	, defectBorder(defectBorder)
 {}
 
 void ThickDataViewer::Set(int start, int stop, int channel, double *ascan, char *scanStatus, const int lower, const int above, int widthFiltre)
 {
+#if 0
 	int len = stop - start;
 	count = len;
 	char *buf = ThickData::buffer;
@@ -141,15 +142,16 @@ void ThickDataViewer::Set(int start, int stop, int channel, double *ascan, char 
 	}
 
 	zprint(" start %d channel %d\n", start, channel);
+#endif
 }
 
 DataViewer<Thick>::DataViewer()
 	: ThickDataViewer(
 	Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T> >().value
 	, Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T> >().value
-	, Singleton<ThresholdsTable>::Instance().items.get<BorderAbove  <T> >().value
-	, Singleton<ThresholdsTable>::Instance().items.get<BorderLower  <T> >().value
-	, Singleton<ThresholdsTable>::Instance().items.get<BorderNominal<T> >().value
+	, Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2  <Thick> >().value
+	, Singleton<ThresholdsTable>::Instance().items.get<BorderKlass3  <Thick> >().value
+	, Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<Thick> >().value
 	)
 {}
 
@@ -163,5 +165,5 @@ void DataViewer<Thick>::Do(int zone, int channel)
 	{
 		widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T>>().value;
 	}
-	Set(d.offsets[zone], stop, channel, d.ascan[channel], d.ascanStatus[channel], StatusId<Clr<BorderLower<T>>>(), StatusId<Clr<BorderAbove<T>>>(), widthFiltre);
+//	Set(d.offsets[zone], stop, channel, d.ascan[channel], d.ascanStatus[channel], StatusId<Clr<BorderLower<T>>>(), StatusId<Clr<BorderAbove<T>>>(), widthFiltre);
 }

@@ -7,6 +7,7 @@
 
 namespace
 {
+#if 0
 #define OFFS_CROSS(N)template<>struct ParamTitle<Offset<Cross, N> >{wchar_t *operator()(){\
 	return L"смешение поперечного канала "##L#N;}};
 #define OFFS_LONG(N)template<>struct ParamTitle<Offset<Long, N> >{wchar_t *operator()(){\
@@ -185,13 +186,14 @@ COMBO_ITEMS(Long, 1)
 COMBO_ITEMS(Long, 2)
 COMBO_ITEMS(Long, 3)
 #undef COMBO_ITEMS
+#endif
 }
 
 void AmplificationChannelDlg::Do(HWND h)
 {
-	if(TemplDialog<ParametersBase
-		, L502RangeTable, DlgItem
-	>(Singleton<L502RangeTable>::Instance()).Do(h, L"Усиление каналов"))
-	{
-	}
+	//if(TemplDialog<ParametersBase
+	//	, L502RangeTable, DlgItem
+	//>(Singleton<L502RangeTable>::Instance()).Do(h, L"Усиление каналов"))
+	//{
+	//}
 }

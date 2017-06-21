@@ -254,7 +254,6 @@
 						unsigned t = res ^ bitInv;
 						if(bitOn == (t & (bitOn | bitOff))) 
 						{
-								//OnceDo<typename Filt<List, Once>::Result>()();
 								return res;
 						}
 					}					

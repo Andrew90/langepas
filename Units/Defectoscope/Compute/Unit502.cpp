@@ -3,7 +3,7 @@
 #include "L502\L502.h"
 #include "DataItem\DataItem.h"
 #include "tools_debug\DebugMess.h"
-#include "Lir/Lir.h"
+//#include "Lir/Lir.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 
 namespace Unit502N
@@ -99,7 +99,7 @@ void Unit502::Read()
 		}
 
 		Unit502N::timeFrames.time[Unit502N::timeFrames.currentTimeOffset] = currentTime;
-		Unit502N::timeFrames.lir[Unit502N::timeFrames.currentTimeOffset] = Lir::Do();
+		//Unit502N::timeFrames.lir[Unit502N::timeFrames.currentTimeOffset] = Lir::Do();
 		if(Unit502N::timeFrames.currentTimeOffset < dimention_of(Unit502N::timeFrames.lir))
 		{
 			++Unit502N::timeFrames.currentTimeOffset;

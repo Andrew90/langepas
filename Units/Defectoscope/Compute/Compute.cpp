@@ -10,7 +10,7 @@
 #include "Windows\MainWindow.h"
 #include "window_tool\Emptywindow.h"
 #include "Compute\ComputeZone.h"
-#include "DataItem\ThicknessData.h"
+//#include "DataItem\ThicknessData.h"
 #include "window_tool\AnimationControl.h"
 #include "Filtre\MedianFiltre.h"
 
@@ -398,37 +398,37 @@ BREAK:
 
 	static DWORD WINAPI __Do__(LPVOID)
 	{
-		HANDLE h[] = {hExit, hEvent, hFrameReady};
-		ThickData &thickData = Singleton<ThickData>::Instance();
-		__data__ &data = Singleton<__data__>::Instance();
-		while(true)
-		{
-			switch(WaitForMultipleObjects(dimention_of(h), h, FALSE, INFINITE))
-			{
-			case 0 + WAIT_OBJECT_0: return 0;
-			case 1 + WAIT_OBJECT_0:
-				{
-					TL::foreach<units_list, __do__>()(units, data);
-					RepaintWindow(Singleton<MainWindow>::Instance().hWnd);
-				}
-				break;
-			case 2 + WAIT_OBJECT_0:
-				{
-					thickData.Compute();
-				}
-				break;
-			}
-		}
+		//HANDLE h[] = {hExit, hEvent, hFrameReady};
+		//ThickData &thickData = Singleton<ThickData>::Instance();
+		//__data__ &data = Singleton<__data__>::Instance();
+		//while(true)
+		//{
+		//	switch(WaitForMultipleObjects(dimention_of(h), h, FALSE, INFINITE))
+		//	{
+		//	case 0 + WAIT_OBJECT_0: return 0;
+		//	case 1 + WAIT_OBJECT_0:
+		//		{
+		//			TL::foreach<units_list, __do__>()(units, data);
+		//			RepaintWindow(Singleton<MainWindow>::Instance().hWnd);
+		//		}
+		//		break;
+		//	case 2 + WAIT_OBJECT_0:
+		//		{
+		//			thickData.Compute();
+		//		}
+		//		break;
+		//	}
+		//}
 		return 0;
 	}
 
 	void Init()
 	{
-		Singleton<ThickData>::Instance().Init();
+	//	Singleton<ThickData>::Instance().Init();
 		hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		hExit = CreateEvent(NULL, TRUE, FALSE, NULL);
 		hFrameReady = CreateEvent(NULL, FALSE, FALSE, L"LanDeviceFrameReady");
-		hThread = CreateThread(NULL, 0, __Do__, NULL, 0, NULL);
+	//	hThread = CreateThread(NULL, 0, __Do__, NULL, 0, NULL);
 	}
 
 	void Destroy()
@@ -540,12 +540,12 @@ BREAK:
 		__data__ &data = Singleton<__data__>::Instance();
 		data.currentOffsetZones = 0;
 		data.stopUnits = 0;
-		ThickData &thickData = Singleton<ThickData>::Instance();
+//		ThickData &thickData = Singleton<ThickData>::Instance();
 		TL::foreach<units_list, __recompute_start__>()(units);
 
-		thickData.startOffset = 0;
-		thickData.InitParam();
-		thickData.Compute();
+		//thickData.startOffset = 0;
+		//thickData.InitParam();
+		//thickData.Compute();
 
 		for(int i = 0; i < 3; ++i)
 		{

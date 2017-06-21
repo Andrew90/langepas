@@ -99,9 +99,9 @@ struct ThickDataViewer
 	int zone;
 	int &medianFiltreWidth;
 	bool &medianFiltreOn;
-	double &aboveBorder  ;
-	double &lowerBorder  ;
-	double &nominalBorder;
+	double &klass2Border;
+	double &klass3Border;
+	double &defectBorder;
 	ThickDataViewer(int &, bool &, double &, double &, double &);
 	 void Set(int start, int stop, int channel, double *ascan, char *scanStatus, const int, const int, int);
 };

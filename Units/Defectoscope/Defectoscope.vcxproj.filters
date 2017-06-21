@@ -67,20 +67,8 @@
     <Filter Include="Log">
       <UniqueIdentifier>{a5f845d9-73b4-4734-988b-f8f170decf44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Devices\Lir">
-      <UniqueIdentifier>{534b6313-12d5-4567-9078-7a58e6ec7980}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Devices\PerformanceCounter">
       <UniqueIdentifier>{7c16e70d-cd58-4ceb-be29-7276741ddd58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\Devices\Lan">
-      <UniqueIdentifier>{2fe6691b-2945-4510-a585-f05751e90a8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\Devices\Lan\Include">
-      <UniqueIdentifier>{9f769bf7-6c61-49b7-afb4-623b2a727ae4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\Devices\Lan\Include\RegKey">
-      <UniqueIdentifier>{e24ca136-10a4-4b98-95b5-82608f35db76}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\FFT">
       <UniqueIdentifier>{77ea88f1-53cd-41a5-a0a1-f289e9297ce7}</UniqueIdentifier>
@@ -297,9 +285,6 @@
     <ClCompile Include="Windows\LongWindow.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\ThicknessWindow.cpp">
-      <Filter>Windows</Filter>
-    </ClCompile>
     <ClCompile Include="Dialogs\AboutWindow.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
@@ -354,50 +339,17 @@
     <ClCompile Include="..\..\CommonApp\Log\LogMessageToTopLabel.cpp">
       <Filter>Log</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\Lir\Lir.cpp">
-      <Filter>Common\Devices\Lir</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\PerformanceCounter\PerformanceCounter.cpp">
       <Filter>Common\Devices\PerformanceCounter</Filter>
     </ClCompile>
     <ClCompile Include="Compute\Compute.cpp">
       <Filter>Compute</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\Lan\Lan.cpp">
-      <Filter>Common\Devices\Lan</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Lan\Include\RshApi.cpp">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Lan\Include\RshDllClient.cpp">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Lan\Include\RshError.cpp">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Lan\Include\RshEventManager.cpp">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Lan\Include\RshFunctions.cpp">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClCompile>
-    <ClCompile Include="DataItem\ThicknessData.cpp">
-      <Filter>DataItem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\FFT\FFT.cpp">
       <Filter>Common\FFT</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\Emulator\Emulator.cpp">
       <Filter>Common\Devices\Emulator</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\SignalViewer.cpp">
-      <Filter>Windows\ThicknessSignal</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\SignalWindow.cpp">
-      <Filter>Windows\ThicknessSignal</Filter>
-    </ClCompile>
-    <ClCompile Include="Compute\ComputeSignal.cpp">
-      <Filter>Compute</Filter>
     </ClCompile>
     <ClCompile Include="Dialogs\PipeThicknessDlg.cpp">
       <Filter>Dialogs</Filter>
@@ -514,9 +466,6 @@
       <Filter>Dialogs</Filter>
     </ClCompile>
     <ClCompile Include="Dialogs\AnalogPlateDlg.cpp">
-      <Filter>Dialogs</Filter>
-    </ClCompile>
-    <ClCompile Include="Dialogs\LirDlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
     <ClCompile Include="Dialogs\PacketDlg.cpp">
@@ -779,9 +728,6 @@
     <ClInclude Include="Windows\LongWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\ThicknessWindow.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
     <ClInclude Include="Dialogs\InputOutputDlg.h">
       <Filter>Dialogs</Filter>
     </ClInclude>
@@ -842,65 +788,11 @@
     <ClInclude Include="..\..\CommonApp\Log\LogMessageToTopLabel.h">
       <Filter>Log</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\Lir\Lir.h">
-      <Filter>Common\Devices\Lir</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h">
       <Filter>Common\Devices\PerformanceCounter</Filter>
     </ClInclude>
     <ClInclude Include="Compute\Compute.h">
       <Filter>Compute</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Lan.h">
-      <Filter>Common\Devices\Lan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\LanParameters.h">
-      <Filter>Common\Devices\Lan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\IRshDevice.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\IRshFactory.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\Rsh.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshApi.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshConsts.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshDefChk.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshDllClient.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshError.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshErrorDescription.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshEventManager.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshFunctions.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshMacro.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshStatusCodes.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Lan\Include\RshTypes.h">
-      <Filter>Common\Devices\Lan\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="DataItem\ThicknessData.h">
-      <Filter>DataItem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\FFT\FFT.h">
       <Filter>Common\FFT</Filter>
@@ -909,15 +801,6 @@
       <Filter>Common\Devices\Emulator</Filter>
     </ClInclude>
     <ClInclude Include="Compute\ComputeZone.h">
-      <Filter>Compute</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\SignalViewer.h">
-      <Filter>Windows\ThicknessSignal</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\SignalWindow.h">
-      <Filter>Windows\ThicknessSignal</Filter>
-    </ClInclude>
-    <ClInclude Include="Compute\ComputeSignal.h">
       <Filter>Compute</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\Filtre\MedianFiltre.h">
@@ -1081,13 +964,5 @@
     <ResourceCompile Include="..\..\Common\Resource\Defectoscope.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Drivers.ri">
-      <Filter>Common\Devices\Lan\Include\RegKey</Filter>
-    </None>
-    <None Include="..\..\Common\Lan\Include\REGKEY\VT_Library.ri">
-      <Filter>Common\Devices\Lan\Include\RegKey</Filter>
-    </None>
   </ItemGroup>
 </Project>

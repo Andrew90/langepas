@@ -60,10 +60,10 @@ DLG(PrimarySignalDlg)
 DLG(FrameWindowDlg)
 
 DLG(SolidDlg)
-DLG(OffsetsChannelDlg)
+//DLG(OffsetsChannelDlg)
 DLG(AmplificationChannelDlg)
 
 DLG(LirDlg)
-DLG(LirDescriptorDlg)
+//DLG(LirDescriptorDlg)
 
 #undef DLG

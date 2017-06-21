@@ -201,10 +201,10 @@ namespace Common
 	{
 		typedef T Result;
 	};
-	template<>struct __set_color_wapper__<BorderNominal<Thick>>
-	{
-		typedef Nominal Result;
-	};
+	//template<>struct __set_color_wapper__<BorderNominal<Thick>>
+	//{
+	//	typedef Nominal Result;
+	//};
 
 	template<class O, class P>struct __set_color__
 	{

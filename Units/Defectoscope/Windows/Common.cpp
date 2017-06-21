@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Common.h"
 
-#include "Windows/ThicknessWindow.h"
+//#include "Windows/ThicknessWindow.h"
 #include "LongWindow.h"
 #include "CrossWindow.h"
 #include "Windows/MainWindow.h"
@@ -30,19 +30,19 @@ namespace Common
 {
 	template<class T>void __set_param__(HWND h)
 	{
-		T &t = *(T *)GetWindowLongPtr(h, GWLP_USERDATA);
-		typedef typename T::viewers_list::Head TViewer;
-		typedef typename TL::Inner<TViewer>::Result TMainViewer;
-		TViewer &viewer = t.viewers.get<TViewer>();
-		TMainViewer &mainViewer = Singleton<MainWindow>::Instance().viewers.get<TMainViewer>();
-		viewer.mouseMove = false;
-		viewer.currentX = mainViewer.currentX;
-		viewer.currentY = mainViewer.currentY;	
-		
-		ZoneToCoord(*viewer.chart, viewer.currentX, viewer.currentY
-			, viewer.storedMouseMove.x, viewer.storedMouseMove.y);
-		
-		SendMessage(h, WM_PAINT, 0, 0);
+	//	T &t = *(T *)GetWindowLongPtr(h, GWLP_USERDATA);
+	//	typedef typename T::viewers_list::Head TViewer;
+	//	typedef typename TL::Inner<TViewer>::Result TMainViewer;
+	//	TViewer &viewer = t.viewers.get<TViewer>();
+	//	TMainViewer &mainViewer = Singleton<MainWindow>::Instance().viewers.get<TMainViewer>();
+	//	viewer.mouseMove = false;
+	//	viewer.currentX = mainViewer.currentX;
+	//	viewer.currentY = mainViewer.currentY;	
+	//	
+	//	ZoneToCoord(*viewer.chart, viewer.currentX, viewer.currentY
+	//		, viewer.storedMouseMove.x, viewer.storedMouseMove.y);
+	//	
+	//	SendMessage(h, WM_PAINT, 0, 0);
 	}
 	
 	void SetParamOpenWindow<CrossWindow>::operator()(HWND h)

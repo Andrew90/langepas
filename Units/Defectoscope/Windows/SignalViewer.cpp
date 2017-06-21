@@ -7,7 +7,7 @@
 #include "App/AppBase.h"
 #include "window_tool\MenuAPI.h"
 #include "DataItem/ThicknessData.h"
-#include "Windows\SignalWindow.h"
+//#include "Windows\SignalWindow.h"
 #include "Lan\LanParameters.h"
 #include "templates\templates.hpp"
 
@@ -103,10 +103,10 @@ void ACFViewer::operator()(TRButtonDown &l)
 
 void ACFViewer::operator()(TSize &l)
 {
-	tchart.items.get<LeftBorder>().value = owner.leftAcfCutOff;
-	tchart.items.get<RightBorder>().value = owner.rightAcfCutOff;
-
-	(*(Parent *)this)(l);
+	//tchart.items.get<LeftBorder>().value = owner.leftAcfCutOff;
+	//tchart.items.get<RightBorder>().value = owner.rightAcfCutOff;
+	//
+	//(*(Parent *)this)(l);
 }
 
 void ACFViewer::operator()(TMouseWell &l)
@@ -171,12 +171,12 @@ void ACFViewer::LeftCutOff(TMouseWell &l)
 	}
 	else
 	{
-		owner.leftAcfCutOff -= offs;
-
-		if(owner.leftAcfCutOff >= chart->maxAxesX) 	owner.leftAcfCutOff = (int)chart->maxAxesX - 1;
-		else  if(owner.leftAcfCutOff < 0) 	owner.leftAcfCutOff = 0;
-		TL::find<__select_item__<BorderACFCutOffTable::items_list, LeftBorderACFCutOff>::Result, __set_border__>()(owner.bordersCutOff, __data_cut__(owner.sensor, owner.leftAcfCutOff));
-		RepaintWindow(l.hwnd);
+//		owner.leftAcfCutOff -= offs;
+//
+//		if(owner.leftAcfCutOff >= chart->maxAxesX) 	owner.leftAcfCutOff = (int)chart->maxAxesX - 1;
+//		else  if(owner.leftAcfCutOff < 0) 	owner.leftAcfCutOff = 0;
+//		TL::find<__select_item__<BorderACFCutOffTable::items_list, LeftBorderACFCutOff>::Result, __set_border__>()(owner.bordersCutOff, __data_cut__(owner.sensor, owner.leftAcfCutOff));
+//		RepaintWindow(l.hwnd);
 	}	    
 }
 
@@ -197,12 +197,12 @@ void ACFViewer::RightCutOff(TMouseWell &l)
 	}
 	else
 	{
-		owner.rightAcfCutOff -= offs;
-
-		if(owner.rightAcfCutOff >= chart->maxAxesX) 	owner.rightAcfCutOff = (int)chart->maxAxesX - 1;
-		else  if(owner.rightAcfCutOff < 0) 	owner.rightAcfCutOff = 0;
-		TL::find<__select_item__<BorderACFCutOffTable::items_list, RightBorderACFCutOff>::Result, __set_border__>()(owner.bordersCutOff, __data_cut__(owner.sensor, owner.rightAcfCutOff));
-		RepaintWindow(l.hwnd);
+		//owner.rightAcfCutOff -= offs;
+		//
+		//if(owner.rightAcfCutOff >= chart->maxAxesX) 	owner.rightAcfCutOff = (int)chart->maxAxesX - 1;
+		//else  if(owner.rightAcfCutOff < 0) 	owner.rightAcfCutOff = 0;
+		//TL::find<__select_item__<BorderACFCutOffTable::items_list, RightBorderACFCutOff>::Result, __set_border__>()(owner.bordersCutOff, __data_cut__(owner.sensor, owner.rightAcfCutOff));
+		//RepaintWindow(l.hwnd);
 	}	    
 }
 //--------------------------------------------------------------
