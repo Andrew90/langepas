@@ -114,7 +114,7 @@ DLG_SUB(Clr<BorderKlass3<Thick>      >)
 DLG_SUB(Clr<BorderDefect<Thick>      >)
 
 
-DLG_SUB(Clr<Cancel<Projectionist>>)
+//DLG_SUB(Clr<Cancel<Projectionist>>)
 //------------------------------------------------------------------------------------------------
 PARAM_TITLE(Clr<Undefined>			 , L"Результат не определён")
 PARAM_TITLE(Clr<Nominal  >			 , L"\"Норма\"")

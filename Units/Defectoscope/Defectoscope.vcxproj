@@ -159,7 +159,7 @@
     <ClCompile Include="IOports\IOportsDlg.cpp" />
     <ClCompile Include="IOports\IOportsViewer.cpp" />
     <ClCompile Include="IOports\IOportsWindow.cpp" />
-    <ClCompile Include="MessageText\SelectMessage.cpp" />
+    <ClCompile Include="MessageText\StatusMessages.cpp" />
     <ClCompile Include="Solid\AddThresholdsWindow\AddThresholdsWindow.cpp" />
     <ClCompile Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.cpp" />
     <ClCompile Include="Solid\AddThresholdsWindow\ThresholdDataTable.cpp" />
@@ -310,8 +310,7 @@
     <ClInclude Include="IOports\IOportsViewer.h" />
     <ClInclude Include="IOports\IOportsWindow.h" />
     <ClInclude Include="IOports\IOportsWindowMenu.hpp" />
-    <ClInclude Include="MessageText\LabelMessage.hpp" />
-    <ClInclude Include="MessageText\SelectMessage.h" />
+    <ClInclude Include="MessageText\StatusMessages.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Solid\AddThresholdsWindow\AddThresholdsWindow.h" />
     <ClInclude Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.h" />

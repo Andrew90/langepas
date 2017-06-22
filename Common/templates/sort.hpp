@@ -1,5 +1,5 @@
 #pragma once
-template<class T>void __quickSort_private__(T* a, long count)
+template<class T>void __quick_sort_private__(T* a, long count)
 {
 // Ќа входе - массив a[], N - размер массива.
   long i = 0, j = count; 		// поставить указатели на исходные места
@@ -17,9 +17,9 @@ template<class T>void __quickSort_private__(T* a, long count)
     }
   } while ( i<=j );
   // рекурсивные вызовы, если есть, что сортировать
-  if ( j > 0 ) __quickSort_private__(a, j);
-  if ( count > i ) __quickSort_private__(a+i, count-i);
+  if ( j > 0 ) __quick_sort_private__(a, j);
+  if ( count > i ) __quick_sort_private__(a+i, count-i);
 }
 
-template<class T>void QuickSort(T* a, long count){__quickSort_private__(a, count - 1);}
+template<class T>void QuickSort(T* a, long count){__quick_sort_private__(a, count - 1);}
 

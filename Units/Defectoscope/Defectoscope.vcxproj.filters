@@ -240,9 +240,6 @@
     <ClCompile Include="DataItem\ConstData.cpp">
       <Filter>DataItem</Filter>
     </ClCompile>
-    <ClCompile Include="MessageText\SelectMessage.cpp">
-      <Filter>MessageText</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\templates\Hash.cpp">
       <Filter>Common\templates</Filter>
     </ClCompile>
@@ -483,6 +480,9 @@
     <ClCompile Include="StoredData\StoredBase.cpp">
       <Filter>StoredData</Filter>
     </ClCompile>
+    <ClCompile Include="MessageText\StatusMessages.cpp">
+      <Filter>MessageText</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -646,12 +646,6 @@
     </ClInclude>
     <ClInclude Include="DataItem\ConstData.h">
       <Filter>DataItem</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageText\LabelMessage.hpp">
-      <Filter>MessageText</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageText\SelectMessage.h">
-      <Filter>MessageText</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\templates\Hash.h">
       <Filter>Common\templates</Filter>
@@ -958,6 +952,9 @@
     </ClInclude>
     <ClInclude Include="StoredData\StoredBase.h">
       <Filter>StoredData</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageText\StatusMessages.h">
+      <Filter>MessageText</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

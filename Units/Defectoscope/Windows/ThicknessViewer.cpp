@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Windows\ThicknessViewer.h"
 #include "DataItem/ConstData.h"
-#include "MessageText/SelectMessage.h"
+//#include "MessageText/SelectMessage.h"
 #include "templates/templates.hpp"
 #include "App/AppBase.h"
 #include "window_tool\MenuAPI.h"
