@@ -81,9 +81,9 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			bool b;
 			char *s = StatusText()(dataViewer.status[offsetX], color, b);
 			bool no = TL::IndexOf<ColorTable::items_list, Clr<Undefined>>::value == status
-				|| TL::IndexOf<ColorTable::items_list, Clr<LessMinimumEnergy>>::value == status
-				|| TL::IndexOf<ColorTable::items_list, Clr<GreaterMaximumEnergy>>::value == status
-				|| TL::IndexOf<ColorTable::items_list, Clr<ValueLessThreshold>>::value == status
+				//|| TL::IndexOf<ColorTable::items_list, Clr<LessMinimumEnergy>>::value == status
+				//|| TL::IndexOf<ColorTable::items_list, Clr<GreaterMaximumEnergy>>::value == status
+				//|| TL::IndexOf<ColorTable::items_list, Clr<ValueLessThreshold>>::value == status
 				;
 
 			if(!no)

@@ -4,6 +4,7 @@
 #include "Compute\Unit502.h"
 
 #include "Config.h"
+#include "App/MessageItems.h"
 
 //#ifdef DEBUG_ITEMS
 //#include "Emulator\Emulator.h"
@@ -12,9 +13,6 @@
 
 
 #define DEFECT_APP
-struct Long{};
-struct Cross{};
-struct Thick{};
 struct ViewInterrupt{};
 struct Solid{};
 class MainWindow;

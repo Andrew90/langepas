@@ -3,6 +3,7 @@
 #include "Base/tables.hpp"
 #include "Base/TablesDefine.h"
 //#include "Lan/LanParameters.h"
+#include "App/MessageItems.h"
 //-------------------------------------------------------------------------------------------
 void TrimTypeList(wchar_t *, wchar_t *);
 //-------------------------------------------------------------------------------------------
@@ -17,14 +18,6 @@ struct CurrentParametersTable
 	const wchar_t *name(){return L"CurrentParametersTable";}
 };
 //------------------------------------------------------------------------------------------
-template<class>struct BorderKlass2;
-template<class>struct BorderKlass3;
-template<class>struct BorderDefect;
-
-//template<class>struct BorderAbove;
-//template<class>struct BorderLower;
-//template<class>struct BorderNominal;
-
 DEFINE_PARAM_WAPPER(BorderKlass2, Long, double, 106)
 DEFINE_PARAM_WAPPER(BorderDefect, Long, double, 45)
 
@@ -135,22 +128,22 @@ template<template<class, class, class, class, class,class>class W, class _0, cla
 	typedef typename TL::MkTlst<_0, _1, _2, _3, _4, _5>::Result Result;
 };
 
-struct Undefined{};
-struct Nominal{};
-struct DeathZone{typedef NullType items_list;};
-template<class>struct Cancel;
-struct Projectionist{};
+//struct Undefined{};
+//struct Nominal{};
+//struct DeathZone{typedef NullType items_list;};
+//template<class>struct Cancel;
+//struct Projectionist{};
 
-struct LessMinimumEnergy	{};  
-struct GreaterMaximumEnergy	{};
-struct ValueLessThreshold  	{};
+//struct LessMinimumEnergy	{};  
+//struct GreaterMaximumEnergy	{};
+//struct ValueLessThreshold  	{};
 
 #define	JOIN2(a, b) a##,##b
 DEFINE_WAPPER(Clr<Undefined>, int, 0xff555555)
 
-DEFINE_WAPPER(Clr<LessMinimumEnergy>, int, 0xff555555)
-DEFINE_WAPPER(Clr<GreaterMaximumEnergy>, int, 0xff555555)
-DEFINE_WAPPER(Clr<ValueLessThreshold>, int, 0xff555555)
+//DEFINE_WAPPER(Clr<LessMinimumEnergy>, int, 0xff555555)
+//DEFINE_WAPPER(Clr<GreaterMaximumEnergy>, int, 0xff555555)
+//DEFINE_WAPPER(Clr<ValueLessThreshold>, int, 0xff555555)
 
 DEFINE_WAPPER(Clr<Nominal  >, int, 0xff00ff00)
 DEFINE_WAPPER(Clr<DeathZone>, int, 0xff333333) 
@@ -163,7 +156,7 @@ DEFINE_WAPPER(Clr<BorderKlass2<Long>      >, int, 0xffffff00)
 DEFINE_WAPPER(Clr<BorderDefect<Long>      >, int, 0xffff0000)
 DEFINE_WAPPER(Clr<BorderKlass2<Cross>     >, int, 0xffffff00)
 DEFINE_WAPPER(Clr<BorderDefect<Cross>     >, int, 0xffff0000)
-DEFINE_WAPPER( Clr<Cancel<Projectionist>>, int, 0xff56ff32)
+//DEFINE_WAPPER( Clr<Cancel<Projectionist>>, int, 0xff56ff32)
 #undef	JOIN2
 
 
@@ -180,10 +173,10 @@ struct ColorTable
 /*6*/	    , Clr<BorderDefect<Long> >
 /*7*/	    , Clr<BorderKlass2<Cross>>
 /*8*/	    , Clr<BorderDefect<Cross>>
-/*10*/      , Clr<Cancel<Projectionist>>
-            , Clr<LessMinimumEnergy	  >
-		    , Clr<GreaterMaximumEnergy>
-		    , Clr<ValueLessThreshold  >
+///*10*/      , Clr<Cancel<Projectionist>>
+//            , Clr<LessMinimumEnergy	  >
+//		    , Clr<GreaterMaximumEnergy>
+//		    , Clr<ValueLessThreshold  >
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;

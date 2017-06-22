@@ -416,6 +416,6 @@ void Automat::Continue(){}
 void Automat::Exit()
 {
 	 SetEvent(AutomatN::Ex<AutomatN::ExceptionExit>::handle);
-	 WaitForSingleObject(AutomatN::hThread, INFINITE);
+	 WaitForSingleObject(AutomatN::hThread, 5000);
 	 dprint("Exit from automat loop\n");
 }

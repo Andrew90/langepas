@@ -2,9 +2,6 @@
 #include "App\App.h" 
 char *SelectMessage(int *, int &);
 
-bool MinAndLamination(char);
-
-
 struct StatusText
 {
 	char *operator()(int id, int &color, bool &visible);	
