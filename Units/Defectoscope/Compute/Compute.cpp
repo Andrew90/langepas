@@ -13,6 +13,7 @@
 //#include "DataItem\ThicknessData.h"
 #include "window_tool\AnimationControl.h"
 #include "Filtre\MedianFiltre.h"
+#include "MessageText\StatusMessages.h"
 
 namespace Compute
 {
@@ -302,7 +303,7 @@ BREAK:
 	{
 		void operator()(O &o, P &p)
 		{
-			int status[2 + o.item.count_sensors];
+			unsigned status[2 + o.item.count_sensors];
 			for(int i = 0; i < o.item.count_sensors; ++i)
 			{
 				status[i] = o.item.status[i][p.currentZones];

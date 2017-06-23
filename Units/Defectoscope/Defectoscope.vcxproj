@@ -293,6 +293,7 @@
     <ClInclude Include="App\AppBase.h" />
     <ClInclude Include="App\ChangeTypeSize.h" />
     <ClInclude Include="App\Config.h" />
+    <ClInclude Include="App\MessageItems.h" />
     <ClInclude Include="App\VersionDiff.h" />
     <ClInclude Include="Compute\AppKeyHandler.h" />
     <ClInclude Include="Compute\Automat.h" />
@@ -311,6 +312,7 @@
     <ClInclude Include="IOports\IOportsWindow.h" />
     <ClInclude Include="IOports\IOportsWindowMenu.hpp" />
     <ClInclude Include="MessageText\StatusMessages.h" />
+    <ClInclude Include="MessageText\TemplateMessages.hpp" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Solid\AddThresholdsWindow\AddThresholdsWindow.h" />
     <ClInclude Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.h" />

@@ -1,12 +1,15 @@
 #include "StdAfx.h"
 #include "StatusMessages.h"
-#include "MessageItems.h"
+#include "App/MessageItems.h"
 #include "TemplateMessages.hpp"
 #include "templates\sort.hpp"
-
-#define SKIP(item, ...)template<>struct TmplMess::ItemSkip<item>\
-	{typedef TL::MkTlst<__VA_ARGS__>::Result Result;};
-
+#include "App\AppBase.h"
+namespace StatusMessages
+{
+	template<class T>struct ItemSkipX;
+#define SKIP(item, ...)template<>struct ItemSkipX<item>{typedef TL::MkTlst<__VA_ARGS__>::Result Result;};
+	
+	template<>struct ItemSkipX<DeathZone>{typedef NullType Result;};
 	SKIP(Undefined
 		, DeathZone
 		, Nominal			   
@@ -58,10 +61,10 @@
 		SKIP(BorderDefect<Long>
 		, DeathZone
 		)
-#undef SKIP
+		#undef SKIP
+		typedef TmplMess::GenList<status_list, ItemSkipX>::Result statusMessages_list;		
 
-namespace StatusMessages
-{
+
 	template<class T>struct Txt;
 	template<>struct Txt<Undefined			  >{wchar_t *operator()(){return L"\"результат не определён\"";}};
 	template<>struct Txt<DeathZone			  >{wchar_t *operator()(){return L"\"мёртвая зона\"";}};
@@ -74,18 +77,21 @@ namespace StatusMessages
 	template<>struct Txt<BorderKlass2<Cross>  >{wchar_t *operator()(){return L"\"поперечный 2 класс\"";}};
 	template<>struct Txt<BorderKlass2<Long>   >{wchar_t *operator()(){return L"\"продольный 2 класс\"";}};
 
-	template<class T>struct Color;
+	//template<class T>struct Color;
 /// \todo вставить цвета для текстового сообщения
-	template<>struct Color<Undefined			>{const int value; Color():value(1){} };
-	template<>struct Color<DeathZone			>{const int value; Color():value(2){} };
-	template<>struct Color<Nominal				>{const int value; Color():value(3){} };
-	template<>struct Color<BorderDefect<Thick>	>{const int value; Color():value(4){} };
-	template<>struct Color<BorderDefect<Cross>	>{const int value; Color():value(5){} };
-	template<>struct Color<BorderDefect<Long> 	>{const int value; Color():value(6){} };
-	template<>struct Color<BorderKlass3<Thick>	>{const int value; Color():value(7){} };
-	template<>struct Color<BorderKlass2<Thick>	>{const int value; Color():value(8){} };
-	template<>struct Color<BorderKlass2<Cross>	>{const int value; Color():value(9){} };
-	template<>struct Color<BorderKlass2<Long> 	>{const int value; Color():value(10){}};
+
+	ColorTable::TItems &ct = Singleton<ColorTable>::Instance().items;
+
+	//template<>struct Color<Undefined			>{const int value; Color():value(1){} };
+	//template<>struct Color<DeathZone			>{const int value; Color():value(2){} };
+	//template<>struct Color<Nominal				>{const int value; Color():value(3){} };
+	//template<>struct Color<BorderDefect<Thick>	>{const int value; Color():value(4){} };
+	//template<>struct Color<BorderDefect<Cross>	>{const int value; Color():value(5){} };
+	//template<>struct Color<BorderDefect<Long> 	>{const int value; Color():value(6){} };
+	//template<>struct Color<BorderKlass3<Thick>	>{const int value; Color():value(7){} };
+	//template<>struct Color<BorderKlass2<Thick>	>{const int value; Color():value(8){} };
+	//template<>struct Color<BorderKlass2<Cross>	>{const int value; Color():value(9){} };
+	//template<>struct Color<BorderKlass2<Long> 	>{const int value; Color():value(10){}};
 
 
 	struct __arr_proc_data__
@@ -105,17 +111,20 @@ namespace StatusMessages
 
 	template<class T>struct ArrProc
 	{
-		static void Do(wchar_t *buf, int &color)
+		static void Do(wchar_t *buf, unsigned &color)
 		{
-			__arr_proc_data__ data = {buf};
-			TL::foreach<T, __arr_proc__>()(data);
-			color = Color<typename T::Head>().value;
+			if(NULL != buf)
+			{
+				__arr_proc_data__ data = {buf};
+				TL::foreach<T, __arr_proc__>()(data);
+			}
+			color = ct.get<Clr<typename T::Head>>().value;//Color<typename T::Head>().value;
 		}
 	};
 
-	typedef TmplMess::GenList<status_list, 100>::Result lst;
+//	typedef TmplMess::GenList<status_list>::Result lst;
 
-	typedef void(*PtrMess)(wchar_t *, int &);
+	typedef void(*PtrMess)(wchar_t *, unsigned &);
 	struct IndBits
 	{
 		int id;
@@ -123,8 +132,8 @@ namespace StatusMessages
 		bool operator >(IndBits &val){return bits > val.bits;}		
 	};
 
-	PtrMess ptrMess[TL::Length<lst>::value];
-	IndBits bits[TL::Length<lst>::value];
+	PtrMess ptrMess[TL::Length<statusMessages_list>::value];
+	IndBits bits[TL::Length<statusMessages_list>::value];
 
 	template<class List>struct __bits__;
 	template<class Head, class Tail>struct __bits__<Tlst<Head, Tail>>
@@ -141,7 +150,7 @@ namespace StatusMessages
 	{
 		InitArrayProc(): InitArrayProc<Tail>()
 		{
-			static const int i = TL::IndexOf<lst, Head>::value;
+			static const int i = TL::IndexOf<statusMessages_list, Head>::value;
 			ptrMess[i] = ArrProc<Head>::Do;
 			IndBits t = {i, __bits__<status_list>::value};
 			bits[i] = t;
@@ -150,7 +159,7 @@ namespace StatusMessages
 
 	template<>struct InitArrayProc<NullType>{};
 
-	InitArrayProc<lst> initArrayProc;
+	InitArrayProc<statusMessages_list> initArrayProc;
 
 	
 	struct IdBits
@@ -196,8 +205,9 @@ namespace StatusMessages
 	IdBits idBits;
 
 
-	bool Message(int id, wchar_t *mess, int &color)
+	bool Message(int id, wchar_t *mess, unsigned &color)
 	{
+		mess[0] = 0;
 		if(id < dimention_of(ptrMess))
 		{
 			ptrMess[id](mess, color);
@@ -206,4 +216,106 @@ namespace StatusMessages
 		return false;
 	}
 }
+//TmplMess::ItemSkip
+
+		 //__bits__
+
+//template<class T>struct SkipBits
+//{
+//
+//};
+
+template<class O, class P>struct __skip__
+{
+	void operator()(P &p)
+	{
+		if(0 != (TL::IndexOf<status_list, O>::value & p))
+		{
+			p &=~StatusMessages::__bits__<ItemSkip<O>::Result>::value;
+		}
+	}
+};
+
+int ResultMessageId(unsigned *x)
+{
+	//throw "Overwritte procedure";
+	unsigned res = 0;
+	while(-1 != *x)
+	{
+		if(*x < dimention_of(StatusMessages::bits)) res |= StatusMessages::bits[*x].bits;
+		x = &x[1];
+	}
+	TL::foreach<status_list, __skip__>()(res);
+
+	return StatusMessages::idBits(res);
+}
+
+void ColorBar::operator()(double &data, unsigned &color, int id, double defData)
+{
+  //throw "Overwritte procedure";
+  //color = *__color__[id];
+   if(id < dimention_of(StatusMessages::bits))StatusMessages::ptrMess[id](NULL, color);
+   if(TL::IndexOf<statusMessages_list, TL::MkTlst<Undefined>::Result>::value == id 
+	   || TL::IndexOf<statusMessages_list, TL::MkTlst<DeathZone>::Result>::value == id)
+			data = defData;
+}
+
+void StatusText::FromSensors(unsigned *sens, unsigned &color, bool &visible, wchar_t *buf)
+	{
+		// throw "Overwritte procedure";
+		//int id = SelectMesageN::Result(sens);
+		buf[0] = 0;
+		unsigned id = ResultMessageId(sens);
+
+		if(id < dimention_of(StatusMessages::ptrMess))
+		{
+			StatusMessages::ptrMess[id](buf, color);
+			//return true;
+		}
+		//
+		//color = *__color__[id];
+		//
+		//visible = !(TL::IndexOf<label_message_list, Clr<Undefined>>::value == id 
+		//	|| TL::IndexOf<label_message_list, Clr<DeathZone> >::value == id);
+		//
+		//if(id < TL::Length<label_message_list>::value) return __message__[id];
+
+		 visible = !(TL::IndexOf<statusMessages_list, TL::MkTlst<Undefined>::Result>::value == id 
+			 || TL::IndexOf<statusMessages_list, TL::MkTlst<DeathZone>::Result>::value == id);
+
+		//return "";
+	}
+
+unsigned StatusColor::operator()(unsigned id)
+	{
+		// throw "Overwritte procedure";
+		 unsigned color = 0;
+		if(id < dimention_of(StatusMessages::bits))StatusMessages::ptrMess[id](NULL, color);
+		return color;//*__color__[id];
+	}
+
+void StatusText::operator()(int id, unsigned &color, bool &visible, wchar_t *buf)
+	{
+	//	 throw "Overwritte procedure";
+		// visible = false;
+		//color = *__color__[id];
+		//
+		//visible = !(TL::IndexOf<label_message_list, Clr<Undefined>>::value == id 
+		//	|| TL::IndexOf<label_message_list, Clr<DeathZone> >::value == id);
+		//
+		//if((unsigned)id < TL::Length<label_message_list>::value) return __message__[id];
+
+		//return "";
+		buf[0] = 0;
+
+		if(id < dimention_of(StatusMessages::ptrMess))
+		{
+			StatusMessages::ptrMess[id](buf, color);
+		}
+
+		  visible = !(TL::IndexOf<statusMessages_list, TL::MkTlst<Undefined>::Result>::value == id 
+			 || TL::IndexOf<statusMessages_list, TL::MkTlst<DeathZone>::Result>::value == id);
+	}
+
+
 

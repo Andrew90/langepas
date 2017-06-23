@@ -6,7 +6,8 @@
 #include "Common.h"
 #include "tools_debug\DebugMess.h"
 #include "App/App.h"
-#include "MessageText\SelectMessage.h"
+//#include "MessageText\SelectMessage.h"
+#include "MessageText\StatusMessages.h"
 
 CrossWindow::CrossWindow()
     : viewer(viewers.get<NoSubMenu<CrossViewer>>())

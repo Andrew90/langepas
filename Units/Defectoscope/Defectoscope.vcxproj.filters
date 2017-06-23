@@ -956,6 +956,12 @@
     <ClInclude Include="MessageText\StatusMessages.h">
       <Filter>MessageText</Filter>
     </ClInclude>
+    <ClInclude Include="App\MessageItems.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageText\TemplateMessages.hpp">
+      <Filter>MessageText</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\Resource\Defectoscope.rc">

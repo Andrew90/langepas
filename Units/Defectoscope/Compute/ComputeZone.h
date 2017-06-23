@@ -2,7 +2,7 @@
 #include "App/App.h"
 #include "DataItem\DataItem.h"
 #include "App\AppBase.h"
-#include "MessageText\SelectMessage.h"
+//#include "MessageText\SelectMessage.h"
 //#include "DataItem\ThicknessData.h"
 #include "Filtre\MedianFiltre.h"
 #include "DspFilters\ChebyshevFiltre.h"

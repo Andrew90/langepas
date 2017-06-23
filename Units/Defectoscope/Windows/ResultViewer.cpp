@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Windows\ResultViewer.h"
 #include "DataItem/ConstData.h"
-#include "MessageText/SelectMessage.h"
+//#include "MessageText/SelectMessage.h"
+#include "MessageText\StatusMessages.h"
 #include "templates/templates.hpp"
 #include "App/AppBase.h"
 #include "window_tool\MenuAPI.h"
@@ -35,10 +36,11 @@ bool ResultViewer::Draw(TMouseMove &l, VGraphics &g)
 	bool drawZones =  x < viewerData.currentOffsetZones - 1;
 	if(drawZones)
 	{		
-		int color;
+		unsigned color;
 		bool b;
-		char *s = StatusText()(viewerData.status[x], color, b);
-		wsprintf(label.buffer, L"<ff>результат зона <ff>%d <%6x>%S"
+		wchar_t s[256];
+		StatusText()(viewerData.status[x], color, b, s);
+		wsprintf(label.buffer, L"<ff>результат зона <ff>%d <%6x>%s"
 			, 1 + x
 			, color
 			, s

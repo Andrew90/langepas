@@ -6,7 +6,7 @@
 #include "Common.h"
 #include "tools_debug\DebugMess.h"
 #include "App/App.h"
-#include "MessageText\SelectMessage.h"
+//#include "MessageText\SelectMessage.h"
 
 LongWindow::LongWindow()
     : viewer(viewers.get<NoSubMenu<LongViewer>>())

@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Windows\LongViewer.h"
 #include "DataItem/ConstData.h"
-#include "MessageText/SelectMessage.h"
+//#include "MessageText/SelectMessage.h"
+#include "MessageText\StatusMessages.h"
 #include "templates/templates.hpp"
 #include "App/AppBase.h"
 #include "window_tool\MenuAPI.h"
@@ -37,9 +38,10 @@ bool LongViewer::Draw(TMouseMove &l, VGraphics &g)
 	bool drawZones =  x < viewerData.currentOffsetZones - 1;
 	if(drawZones)
 	{		
-		int color;
+		unsigned color;
 		bool b;
-		char *s = StatusText()(viewerData.status[y][x], color, b);
+		wchar_t s[256];
+		StatusText()(viewerData.status[y][x], color, b, s);
 		wchar_t buf[128];
 		if(b)
 		{
@@ -49,7 +51,7 @@ bool LongViewer::Draw(TMouseMove &l, VGraphics &g)
 		{
 			buf[0] = 0;
 		}
-		wsprintf(label.buffer, L"<ff>продольный зона %d  датчик <ff00>%d   <%6x>%S %s"
+		wsprintf(label.buffer, L"<ff>продольный зона %d  датчик <ff00>%d   <%6x>%s %s"
 			, 1 + x
 			, 1 + y
 			, color

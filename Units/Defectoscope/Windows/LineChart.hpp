@@ -5,6 +5,7 @@
 #include "templates/templates.hpp"
 #include "window_tool\MenuAPI.h"
 #include "DataItem/DataViewer.h"
+#include "MessageText\StatusMessages.h"
 
 namespace
 {
@@ -76,10 +77,11 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			storedMouseMove.x = (WORD)(chart->rect.left + chart->offsetAxesLeft + dX * offsetX + dX / 2);
 
 			double valY = ((Parent::TChart *)chart)->items.get<BarSeries>().ValueY(offsetX);
-			int color;
+			unsigned color;
 			char status = dataViewer.status[offsetX];
 			bool b;
-			char *s = StatusText()(dataViewer.status[offsetX], color, b);
+			wchar_t s[256];
+			StatusText()(dataViewer.status[offsetX], color, b, s);
 			bool no = TL::IndexOf<ColorTable::items_list, Clr<Undefined>>::value == status
 				//|| TL::IndexOf<ColorTable::items_list, Clr<LessMinimumEnergy>>::value == status
 				//|| TL::IndexOf<ColorTable::items_list, Clr<GreaterMaximumEnergy>>::value == status
@@ -88,7 +90,7 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 
 			if(!no)
 			{
-				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d  величина %s   %S    <ff00>%d   %d  %d"
+				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d  величина %s   %s    <ff00>%d   %d  %d"
 					, 1 + owner->lastZone, 1 + N, 1 + offsetX, Wchar_from<double, 1>(valY)(), s, dataViewer.status[offsetX]
 					, Test<T, 0>()(dataViewer, offsetX)
 					, Test<T, 1>()(dataViewer, offsetX)
@@ -96,7 +98,7 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			}
 			else
 			{
-				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d   %S    <ff00>%d "
+				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d   %s    <ff00>%d "
 					, 1 + owner->lastZone, 1 + N, 1 + offsetX, s, dataViewer.status[offsetX]);
 			}
 		}

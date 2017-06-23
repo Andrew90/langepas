@@ -8,6 +8,7 @@
 #include "Windows/ViewersMenu.hpp"
 //#include "Windows\ThicknessWindow.h"
 #include "Graphics\Color.h"
+#include "MessageText\StatusMessages.h"
 
 using namespace Gdiplus;
 
@@ -68,7 +69,7 @@ bool ThickViewer::GetColorBar(int zone, double &data_, unsigned &color, double &
 	data_1 = min3(viewerData.bufferMin[0][zone], viewerData.bufferMin[1][zone], viewerData.bufferMin[2][zone]);
 	data_ =  max3(viewerData.bufferMax[0][zone], viewerData.bufferMax[1][zone], viewerData.bufferMax[2][zone]);
 
-	int st[1 + App::count_Thick_sensors] = {
+	unsigned st[1 + App::count_Thick_sensors] = {
 	   viewerData.status[0][zone]
 	   , viewerData.status[1][zone]
 	   , viewerData.status[2][zone]
@@ -81,7 +82,6 @@ bool ThickViewer::GetColorBar(int zone, double &data_, unsigned &color, double &
 	ColorBar()(
 		data_1
 		, color1
-		//, viewerData.status[zone]
 		, status
 	    , Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<Thick>>().value
 		);
@@ -109,20 +109,21 @@ bool ThickViewer::Draw(TMouseMove &l, VGraphics &g)
 	//*
 	if(drawZones)
 	{		
-		int color;
+		unsigned color;
 		bool b;
 
 		double dataMin = min3(viewerData.bufferMin[0][x], viewerData.bufferMin[1][x], viewerData.bufferMin[2][x]);
 	    double dataMax =  max3(viewerData.bufferMax[0][x], viewerData.bufferMax[1][x], viewerData.bufferMax[2][x]);
 
 		//char *s = StatusText()(viewerData.status[x], color, b);
-		int mess[1 + App::count_Thick_sensors] = {
+		unsigned mess[1 + App::count_Thick_sensors] = {
 		  viewerData.status[0][x]
 		  , viewerData.status[1][x]
 		  , viewerData.status[2][x]
 		  , -1
 		};
-		char *s = StatusText().FromSensors(mess, color, b);
+		wchar_t s[128];
+		StatusText().FromSensors(mess, color, b, s);
 		wchar_t buf[512];
 		if(b)
 		{
@@ -135,7 +136,7 @@ bool ThickViewer::Draw(TMouseMove &l, VGraphics &g)
 		{
 			buf[0] = 0;
 		}
-		wsprintf(label.buffer, L"<ff>толщины зона <ff00>%d <%6x>%S %s"
+		wsprintf(label.buffer, L"<ff>толщины зона <ff00>%d <%6x>%s %s"
 			, 1 + x
 			, color
 			, s
