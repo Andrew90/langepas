@@ -298,23 +298,23 @@
 		}
 	};
 
-	template<>struct Off<i—ontrol—ircuits>
-	{
-		static unsigned &bit;
-		static void Do(unsigned bits)
-		{
-		   if(0 == (bits & bit)) throw Exception—ontrol—ircuitsOff();
-		}
-	};
-
-	template<>struct Off<iCycle>
-	{
-		static unsigned &bit;
-		static void Do(unsigned bits)
-		{
-			if(0 == (bits & bit)) throw Exception—ycleOff();
-		}
-	};
+	//template<>struct Off<i—ontrol—ircuits>
+	//{
+	//	static unsigned &bit;
+	//	static void Do(unsigned bits)
+	//	{
+	//	   if(0 == (bits & bit)) throw Exception—ontrol—ircuitsOff();
+	//	}
+	//};
+	//
+	//template<>struct Off<iCycle>
+	//{
+	//	static unsigned &bit;
+	//	static void Do(unsigned bits)
+	//	{
+	//		if(0 == (bits & bit)) throw Exception—ycleOff();
+	//	}
+	//};
 
 #define AND_BITS(...) AND_Bits<TL::MkTlst<__VA_ARGS__>::Result>()
 #define OR_BITS(...) OR_Bits<TL::MkTlst<__VA_ARGS__>::Result>()

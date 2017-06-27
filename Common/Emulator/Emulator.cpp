@@ -30,18 +30,18 @@ namespace {
 
 int start_time;
 
-unsigned &inControlCircuts = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
-unsigned &inCross0 = Singleton<InputBitTable>::Instance().items.get<iCross0>().value;
-unsigned &inCross1 = Singleton<InputBitTable>::Instance().items.get<iCross1>().value;
-
-unsigned &inLong0 = Singleton<InputBitTable>::Instance().items.get<iLong0>().value;
-unsigned &inLong1 = Singleton<InputBitTable>::Instance().items.get<iLong1>().value;
-
-unsigned &inThick0 = Singleton<InputBitTable>::Instance().items.get<iThick0>().value;
-unsigned &inThick1 = Singleton<InputBitTable>::Instance().items.get<iThick1>().value;
-
-unsigned &inSolid = Singleton<InputBitTable>::Instance().items.get<iSolid>().value;
-unsigned &inReady= Singleton<InputBitTable>::Instance().items.get<iReady>().value;
+//unsigned &inControlCircuts = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
+//unsigned &inCross0 = Singleton<InputBitTable>::Instance().items.get<iCross0>().value;
+//unsigned &inCross1 = Singleton<InputBitTable>::Instance().items.get<iCross1>().value;
+//
+//unsigned &inLong0 = Singleton<InputBitTable>::Instance().items.get<iLong0>().value;
+//unsigned &inLong1 = Singleton<InputBitTable>::Instance().items.get<iLong1>().value;
+//
+//unsigned &inThick0 = Singleton<InputBitTable>::Instance().items.get<iThick0>().value;
+//unsigned &inThick1 = Singleton<InputBitTable>::Instance().items.get<iThick1>().value;
+//
+//unsigned &inSolid = Singleton<InputBitTable>::Instance().items.get<iSolid>().value;
+//unsigned &inReady= Singleton<InputBitTable>::Instance().items.get<iReady>().value;
 
 static const int dl = 25000;
 static const int xl = 2000;
@@ -59,6 +59,7 @@ bool tst()
 
 void Bits()
 {
+	/*
 	unsigned t = Performance::Counter() - start_time;
 	if(dl + 20000 < t)
 	{
@@ -154,7 +155,7 @@ void Bits()
 		map->bits |= (inControlCircuts);
 		if(tst()) printf("ControlCircuts on %x time %d\n", map->bits, t);
 	}
-
+   */
 }
 
 Emulator::Emulator()
@@ -317,7 +318,7 @@ void Emulator::Start()
 
 void Emulator::Stop()
 {
-	map->bits &= ~inControlCircuts;
+//	map->bits &= ~inControlCircuts;
 	map->isStart = false;
 }
 

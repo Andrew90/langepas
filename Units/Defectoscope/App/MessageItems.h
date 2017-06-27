@@ -13,16 +13,6 @@ template<class T>struct BorderKlass3;
 	struct DeathZone{};
 	struct Nominal	{};
 
-	//template<>struct BorderKlass3<Thick> {};
-	//template<>struct BorderKlass2<Thick> {};
-	//template<>struct BorderDefect<Thick> {};
-	//
-	//template<>struct BorderKlass2<Cross> {};
-	//template<>struct BorderDefect<Cross> {};
-	//
-	//template<>struct BorderKlass2<Long> {};
-	//template<>struct BorderDefect<Long> {};
-
 typedef TL::MkTlst<
 	Undefined
 	, DeathZone

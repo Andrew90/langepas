@@ -42,7 +42,7 @@ void App::Init()
 
 	bool ok = true;
 
-	if(!device1730.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730>().value))
+	if(!device1730.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730_1>().value))
 	{
 		MessageBox(h, L"Не могу инициировать плату 1730", L"Ошибка !!!", MB_ICONERROR);
 		ok = false;

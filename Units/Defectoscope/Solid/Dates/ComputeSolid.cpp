@@ -22,14 +22,14 @@ namespace ComputeSolid
 		//todo написать фильтр
 		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 
-		if(flt.get<CutoffFrequencyOn<InputSignal>>().value)
+		if(flt.get<CutoffFrequencyOn<Voltage>>().value)
 		{
 			{
 				ChebyshevFiltre dsp;
 				dsp.Setup(
 					Singleton<SolidParametersTable>::Instance().items.get<FrequencySamples>().value / 2
 					, 3
-					, flt.get<CutoffFrequency<InputSignal>>().value
+					, flt.get<CutoffFrequency<Voltage>>().value
 					, 40
 					);	
 				double (&s)[SolidData::MAX_ZONES_COUNT] = solidData.signal;
@@ -44,7 +44,7 @@ namespace ComputeSolid
 				dsp.Setup(
 					Singleton<SolidParametersTable>::Instance().items.get<FrequencySignal>().value / 2
 					, 3
-					, flt.get<CutoffFrequency<InputSignal>>().value
+					, flt.get<CutoffFrequency<Voltage>>().value
 					, 40
 					);	
 				double (&s)[SolidData::MAX_ZONES_COUNT] = solidData.reference;

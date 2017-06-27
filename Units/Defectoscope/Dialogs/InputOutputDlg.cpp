@@ -98,6 +98,7 @@ struct DefaultBtn
 	}
 };
 //----------------------------------------------------------------------------
+/*
 MIN_EQUAL_VALUE(iСontrolСircuits, 0)
 MIN_EQUAL_VALUE(iCycle          , 0)
 MIN_EQUAL_VALUE(iReady          , 0)
@@ -167,25 +168,123 @@ template<>struct DlgSubItems<oPowerBM   , unsigned >: UpDownSubItem<oPowerBM   >
 template<>struct DlgSubItems<oReserve   , unsigned >: UpDownSubItem<oReserve   >{};
 
 template<>struct DlgSubItems<iSolid   , unsigned >: UpDownSubItem<iSolid   >{};
+*/
 
-DO_NOT_CHECK(NamePlate1730)
-PARAM_TITLE(NamePlate1730, L"Дескриптор платы 1730")
+#define PAR(n)\
+MIN_EQUAL_VALUE(n	 , 0)\
+MAX_EQUAL_VALUE(n	 , 31)\
+template<>struct DlgSubItems<n, unsigned >: UpDownSubItem<n>{};
+
+PAR(iSQ1pr   )
+PAR(iSQ2pr   )
+PAR(iRPpr    )
+PAR(iOPpr    )
+PAR(iSQ1po   )
+PAR(iSQ2po   )
+PAR(iRPpo    )
+PAR(iOPpo    )
+PAR(iSQ1t    )
+PAR(iSQ2t    )
+PAR(iRPt     )
+PAR(iOpt     )
+PAR(iReadyT  )
+PAR(iControlT)
+PAR(iResultT )
+PAR(iReserve )
+
+PAR(oPowerPCH)
+PAR(oRL      )
+PAR(oRM      )
+PAR(oRH      )
+PAR(oSTF     )
+PAR(oPowerSU )
+PAR(oMagnet  )
+PAR(oCooling )
+PAR(oReloc1  )
+PAR(oRP      )
+PAR(oOP      )
+PAR(oDefect  )
+PAR(oReloc2  )
+PAR(oWorkPR  )
+PAR(oWorkPO  )
+PAR(oWorkT 	 )
+
+PAR(iZU           )
+PAR(iPCH_B        )
+PAR(iPCH_RUN      )
+PAR(iPCH_A        )
+PAR(iCycle        )
+PAR(iReadyR1      )
+PAR(iDone         )
+PAR(iReserve0     )
+PAR(iEtalon       )
+PAR(iWork_pnevmo  )
+PAR(iRevers_pnevmo)
+PAR(iError_pnevmo )
+PAR(iReserve1     )
+PAR(iReserve2     )
+PAR(iSQ1DM        )
+PAR(iSQ2DM        )
+				
+PAR(oPR_OP   	  )
+PAR(oPR_RP   	  )
+PAR(oPO_OP   	  )
+PAR(oPO_RP   	  )
+PAR(oT_OP    	  )
+PAR(oT_RP    	  )
+PAR(oReserve0	  )
+PAR(oReserve1	  )
+PAR(oT_Work  	  )
+PAR(oT_Cycle 	  )
+PAR(oT_Base  	  )
+PAR(oT_reserv	  )
+PAR(oReserve2	  )
+PAR(oReserve3	  )
+PAR(oReserve4	  )
+PAR(oReserve5	  )
+
+
+
+#undef PAR
+
+DO_NOT_CHECK(NamePlate1730_1)
+PARAM_TITLE(NamePlate1730_1, L"Дескриптор платы 1730  1")
+DO_NOT_CHECK(NamePlate1730_2)
+PARAM_TITLE(NamePlate1730_2, L"Дескриптор платы 1730  2")
 }
 //---------------------------   ----------------------------   ---------------------------
-void InputsDlg::Do(HWND h)
+void Inputs1Dlg::Do(HWND h)
 {
-	InputBitTable t;
-	TL::foreach<InputBitTable::items_list, __compress_bits__>()(&t.items, &Singleton<InputBitTable>::Instance().items);
-	if(TemplDialog<ParametersBase, InputBitTable, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит входного порта"))
+	InputBit1Table t;
+	TL::foreach<InputBit1Table::items_list, __compress_bits__>()(&t.items, &Singleton<InputBit1Table>::Instance().items);
+	if(TemplDialog<ParametersBase, InputBit1Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит входного порта платы 1"))
 	{
 	}
 }
 //-----------------------------------------------------------------------------
-void OutputsDlg::Do(HWND h)
+void Outputs1Dlg::Do(HWND h)
 {
-	OutputBitTable t;
-	TL::foreach<OutputBitTable::items_list, __compress_bits__>()(&t.items, &Singleton<OutputBitTable>::Instance().items);
-	if(TemplDialog<ParametersBase, OutputBitTable, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит выходного порта"))
+	OutputBit1Table t;
+	TL::foreach<OutputBit1Table::items_list, __compress_bits__>()(&t.items, &Singleton<OutputBit1Table>::Instance().items);
+	if(TemplDialog<ParametersBase, OutputBit1Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит выходного порта платы 1"))
+	{
+	}
+}
+//---------------------------   ----------------------------   ---------------------------
+void Inputs2Dlg::Do(HWND h)
+{
+	InputBit2Table t;
+	TL::foreach<InputBit2Table::items_list, __compress_bits__>()(&t.items, &Singleton<InputBit2Table>::Instance().items);
+	if(TemplDialog<ParametersBase, InputBit2Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит входного порта платы 2"))
+	{
+	}
+}
+//-----------------------------------------------------------------------------
+void Outputs2Dlg::Do(HWND h)
+{
+	OutputBit2Table t;
+	TL::foreach<OutputBit2Table::items_list, __compress_bits__>()(&t.items, &Singleton<OutputBit2Table>::Instance().items);
+	if(TemplDialog<ParametersBase, OutputBit2Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит выходного порта платы 2"))
 	{
 	}
 }
@@ -193,42 +292,8 @@ void OutputsDlg::Do(HWND h)
 void Descriptor1730Dlg::Do(HWND h)
 {
 	NamePlate1730ParametersTable &t = Singleton<NamePlate1730ParametersTable>::Instance();
-	if(TemplDialog<ParametersBase, NamePlate1730ParametersTable, DlgItem>(t).Do(h, L"Дескриптор платы 1730"))
+	if(TemplDialog<ParametersBase, NamePlate1730ParametersTable, DlgItem>(t).Do(h, L"Дескрипторы плат 1730"))
 	{
-		//device1730.Destroy();
-		//Sleep(500);
-		//if(!device1730.Init(t.items.get<Descriptor1730>().value))
-		//{
-		//	MessageBox(0, L"Не могу инициировать плату 1730", L"Ошибка !!!", MB_ICONERROR);
-		//}
 	}
 }
 
-//namespace
-//{
-//	PARAM_TITLE(DeviceDescription1730, L"Дескриптор")
-//	DO_NOT_CHECK(DeviceDescription1730)
-//}
-//
-//void Descriptor1730Dlg::Do(HWND h)
-//{
-//	DeviceDescription1730::type_value &val = Singleton<DifferentOptionsTable>::Instance().items.get<DeviceDescription1730>().value;
-//	DeviceDescription1730::type_value last = val;
-//	if(TemplDialogList<ParametersBase, DifferentOptionsTable, TL::MkTlst<
-//		DeviceDescription1730
-//	>::Result>(Singleton<DifferentOptionsTable>::Instance()).Do(h, L"Дескриптор платы 1730"))
-//	{
-//		if(last != val)
-//		{
-//			if(Automat::Suspend())
-//			{
-//				Sleep(100);
-//				if(Automat::Init1730()) Automat::Resume();
-//			}
-//			else
-//			{
-//				if(Automat::Init1730()) Automat::Run();
-//			}
-//		}
-//	}
-//}

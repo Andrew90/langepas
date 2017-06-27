@@ -7,18 +7,26 @@
 
 namespace
 {
-#if 0
+#if 1
 #define OFFS_CROSS(N)template<>struct ParamTitle<Offset<Cross, N> >{wchar_t *operator()(){\
 	return L"смешение поперечного канала "##L#N;}};
 #define OFFS_LONG(N)template<>struct ParamTitle<Offset<Long, N> >{wchar_t *operator()(){\
 	return L"смешение продольного канала "##L#N;}};
 
-	typedef Offset<ReferenceSignal, 0> OffsRef ;
-	PARAM_TITLE(OffsRef, L"смещение опорного сигнала группы прочности")
-		typedef	Offset<InputSignal, 0> OffsInp;
-	PARAM_TITLE(OffsInp, L"смещение входного сигнала группы прочности")
+	typedef Offset<Voltage, 0> OffsVoltage;
+	PARAM_TITLE(OffsVoltage, L"смещение канала напряжения для группы прочности")
+	typedef	Offset<Current, 0> OffsCurrent;
+	PARAM_TITLE(OffsCurrent, L"смещение канала тока для группы прочности")
 
-		OFFS_CROSS(0)
+	typedef	Offset<MagneticField, 0> OffsetMagneticField;
+	PARAM_TITLE(OffsetMagneticField, L"смещение канала датчика наличия магнитного поля")
+
+	typedef	Offset<Temperature, 0> OffsetTemperature1;
+	PARAM_TITLE(OffsetTemperature1, L"смещение канала датчика температуры 1")
+
+	typedef	Offset<Temperature, 1> OffsetTemperature2;
+	PARAM_TITLE(OffsetTemperature2, L"смещение канала датчика температуры 2")
+		
 		OFFS_CROSS(1)
 		OFFS_CROSS(2)
 		OFFS_CROSS(3)
@@ -30,16 +38,17 @@ namespace
 		OFFS_CROSS(9)
 		OFFS_CROSS(10)
 		OFFS_CROSS(11)
-
-		OFFS_LONG(0)
+		OFFS_CROSS(12)
+		
 		OFFS_LONG(1)
 		OFFS_LONG(2)
 		OFFS_LONG(3)
+		OFFS_LONG(4)
 
 #undef OFFS_CROSS
 #undef OFFS_LONG
 
-		template<template<class>class W, template<class, int>class X, class T, int N, class Q>struct Skip<W<X<T, N>>, Q>
+	template<template<class>class W, template<class, int>class X, class T, int N, class Q>struct Skip<W<X<T, N>>, Q>
 	{
 		template<class P>bool operator()(W<X<T, N>> *, P *){return true;}
 	};
@@ -63,12 +72,21 @@ namespace
 #define RANGE_LONG(N)template<>struct ParamTitle<Range<Long, N> >{wchar_t *operator()(){\
 	return L"усиление продольного канала "##L#N;}};
 
-	typedef Range<ReferenceSignal, 0> RangeRef ;
-	PARAM_TITLE(RangeRef, L"усиление опорного сигнала группы прочности")
-	typedef	Range<InputSignal, 0> RangeInp;
-	PARAM_TITLE(RangeInp, L"усиление входного сигнала группы прочности")
+	typedef Range<Voltage, 0> RangeVoltage;
+	PARAM_TITLE(RangeVoltage, L"напряжение для группы прочности")
+	typedef	Range<Current, 0> RangeCurrent;
+	PARAM_TITLE(RangeCurrent, L"ток для группы прочности")
 
-		RANGE_CROSS(0)
+	typedef	Range<MagneticField, 0> RangeMagneticField;
+	PARAM_TITLE(RangeMagneticField, L"датчик наличия магнитного поля")
+
+	typedef	Range<Temperature, 0> RangeTemperature1;
+	PARAM_TITLE(RangeTemperature1, L"датчик температуры 1")
+
+	typedef	Range<Temperature, 1> RangeTemperature2;
+	PARAM_TITLE(RangeTemperature2, L"датчик температуры 2")
+
+	
 		RANGE_CROSS(1)
 		RANGE_CROSS(2)
 		RANGE_CROSS(3)
@@ -80,11 +98,12 @@ namespace
 		RANGE_CROSS(9)
 		RANGE_CROSS(10)
 		RANGE_CROSS(11)
-
-		RANGE_LONG(0)
+		RANGE_CROSS(12)
+		
 		RANGE_LONG(1)
 		RANGE_LONG(2)
 		RANGE_LONG(3)
+		RANGE_LONG(4)
 
 #undef RANGE_CROSS
 #undef RANGE_LONG
@@ -127,8 +146,12 @@ namespace
 		}	 \
 	};
 
-COMBO_ITEMS(RangeRef)
-COMBO_ITEMS(RangeInp)
+COMBO_ITEMS(RangeVoltage)
+COMBO_ITEMS(RangeCurrent)
+
+COMBO_ITEMS(RangeMagneticField)
+COMBO_ITEMS(RangeTemperature1)
+COMBO_ITEMS(RangeTemperature2)
 #undef COMBO_ITEMS
 
 #define COMBO_ITEMS(TYPE, N)\
@@ -168,7 +191,6 @@ COMBO_ITEMS(RangeInp)
 		}	 \
 	};
 
-COMBO_ITEMS(Cross, 0)
 COMBO_ITEMS(Cross, 1)
 COMBO_ITEMS(Cross, 2)
 COMBO_ITEMS(Cross, 3)
@@ -180,20 +202,21 @@ COMBO_ITEMS(Cross, 8)
 COMBO_ITEMS(Cross, 9)
 COMBO_ITEMS(Cross, 10)
 COMBO_ITEMS(Cross, 11)
+COMBO_ITEMS(Cross, 12)
 
-COMBO_ITEMS(Long, 0)
 COMBO_ITEMS(Long, 1)
 COMBO_ITEMS(Long, 2)
 COMBO_ITEMS(Long, 3)
+COMBO_ITEMS(Long, 4)
 #undef COMBO_ITEMS
 #endif
 }
 
 void AmplificationChannelDlg::Do(HWND h)
 {
-	//if(TemplDialog<ParametersBase
-	//	, L502RangeTable, DlgItem
-	//>(Singleton<L502RangeTable>::Instance()).Do(h, L"Усиление каналов"))
-	//{
-	//}
+	if(TemplDialog<ParametersBase
+		, L502RangeTable, DlgItem
+	>(Singleton<L502RangeTable>::Instance()).Do(h, L"Усиление каналов"))
+	{
+	}
 }

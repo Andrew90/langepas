@@ -2,34 +2,6 @@
 #include "DataItem.h"
 #include "templates/templates.hpp"
 
-//void TimeFrames::Clear()
-//{
-//	QueryPerformanceFrequency(&frequency);
-//	QueryPerformanceCounter(&start);
-//	currentTimeOffset = 0;
-//}
-//
-//void TimeFrames::Do(unsigned lirData)
-//{
-//	LARGE_INTEGER stop;
-//	QueryPerformanceCounter(&stop);
-//	if(App::count_time_count_down > currentTimeOffset)
-//	{
-//		time[currentTimeOffset] = unsigned(1000.0 * (stop.QuadPart - start.QuadPart)/frequency.QuadPart);
-//		lir[currentTimeOffset] =  lirData;
-//		++currentTimeOffset;
-//	}
-//}
-//
-//unsigned TimeFrames::CurrentTickCount()
-//{
-//	LARGE_INTEGER stop;
-//	QueryPerformanceCounter(&stop);
-//	return unsigned(1000.0 * (stop.QuadPart - start.QuadPart)/frequency.QuadPart);
-//}
-
-//TimeFrames timeFrames;
-
 ///test/////////////////////
 struct test_test
 {

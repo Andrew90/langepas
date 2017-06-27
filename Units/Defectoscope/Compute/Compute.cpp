@@ -22,14 +22,14 @@ namespace Compute
 
 	template<class T, int N>struct TimeX;
 
-#define TIMEX(name, num) template<>struct TimeX<name, num>{typedef i##name##num Result;};
-	TIMEX(Cross, 0)
-	TIMEX(Cross, 1)
-	TIMEX(Long, 0)
-	TIMEX(Long, 1)
-	TIMEX(Thick, 0)
-	TIMEX(Thick, 1)
-#undef TIMEX
+//#define TIMEX(name, num) template<>struct TimeX<name, num>{typedef i##name##num Result;};
+//	TIMEX(Cross, 0)
+//	TIMEX(Cross, 1)
+//	TIMEX(Long, 0)
+//	TIMEX(Long, 1)
+//	TIMEX(Thick, 0)
+//	TIMEX(Thick, 1)
+//#undef TIMEX
 
 	struct __data__
 	{
@@ -61,11 +61,14 @@ namespace Compute
 
 	template<class T>struct Unit
 	{
-		unsigned &start0, &start1, &stop0, &stop1;
+		//unsigned &start0, &start1, &stop0, &stop1;
+		unsigned start0, start1, stop0, stop1;
 		unsigned start, stop;
 		void (Unit::*ptrProc)(__data__ &);
-		ItemData<T> &item;
-		TimeLir &timeLir;
+		ItemData<T> item;
+		//ItemData<T> &item;
+		//TimeLir &timeLir;
+		TimeLir timeLir;
 		int index;
 		int lir;
 		int lirIndex;
@@ -73,13 +76,13 @@ namespace Compute
 		int widthFiltre;
 		//MedianFiltre filtre;
 		Unit()
-			: start0(Singleton<Time<On<TimeX<T,0>::Result>>>::Instance().value)
-			, start1(Singleton<Time<On<TimeX<T,1>::Result>>>::Instance().value)
-			, stop0(Singleton<Time<Off<TimeX<T,0>::Result>>>::Instance().value)
-			, stop1(Singleton<Time<Off<TimeX<T,1>::Result>>>::Instance().value)
-			, ptrProc(&Unit::Start)
-			, item(Singleton<ItemData<T>>::Instance())
-			, timeLir(Singleton<TimeLir>::Instance())
+		//	: start0(Singleton<Time<On<TimeX<T,0>::Result>>>::Instance().value)
+		//	, start1(Singleton<Time<On<TimeX<T,1>::Result>>>::Instance().value)
+		//	, stop0(Singleton<Time<Off<TimeX<T,0>::Result>>>::Instance().value)
+		//	, stop1(Singleton<Time<Off<TimeX<T,1>::Result>>>::Instance().value)
+		//	, ptrProc(&Unit::Start)
+		//	, item(Singleton<ItemData<T>>::Instance())
+		//	, timeLir(Singleton<TimeLir>::Instance())
 		{
 		}
 #undef TIMEX

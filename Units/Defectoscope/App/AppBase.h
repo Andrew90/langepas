@@ -163,20 +163,16 @@ DEFINE_WAPPER(Clr<BorderDefect<Cross>     >, int, 0xffff0000)
 struct ColorTable
 {
 	typedef TL::MkTlst<	
-/*0*/		Clr<Undefined   >
-/*1*/		, Clr<DeathZone>
-/*2*/		, Clr<Nominal	>
-/*3*/	    , Clr<BorderKlass2<Thick> >
-/*4*/	    , Clr<BorderKlass3<Thick> >
-			, Clr<BorderDefect<Thick> >
-/*5*/	    , Clr<BorderKlass2<Long> > 
-/*6*/	    , Clr<BorderDefect<Long> >
-/*7*/	    , Clr<BorderKlass2<Cross>>
-/*8*/	    , Clr<BorderDefect<Cross>>
-///*10*/      , Clr<Cancel<Projectionist>>
-//            , Clr<LessMinimumEnergy	  >
-//		    , Clr<GreaterMaximumEnergy>
-//		    , Clr<ValueLessThreshold  >
+		Clr<Undefined   >
+		, Clr<DeathZone>
+		, Clr<Nominal	>
+	    , Clr<BorderKlass2<Thick> >
+	    , Clr<BorderKlass3<Thick> >
+        , Clr<BorderDefect<Thick> >
+	    , Clr<BorderKlass2<Long> > 
+	    , Clr<BorderDefect<Long> >
+	    , Clr<BorderKlass2<Cross>>
+	    , Clr<BorderDefect<Cross>>
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
@@ -257,11 +253,13 @@ struct AdditionalSettingsTable
 	 const wchar_t *name(){return L"MedianFiltreTable";}
  };
  //---------------------------------------------------------------------------------------------------------
- STR_PARAM(NamePlate1730, 64, L"PCIE-1730,BID#0")
+STR_PARAM(NamePlate1730_1, 64, L"PCIE-1730,BID#0")
+STR_PARAM(NamePlate1730_2, 64, L"PCIE-1730,BID#1")
  struct NamePlate1730ParametersTable
  {
 	 typedef TL::MkTlst<
-		 NamePlate1730
+		 NamePlate1730_1
+		 ,  NamePlate1730_2
 	 >::Result items_list;
 	 typedef TL::Factory<items_list> TItems;
 	 TItems items;
@@ -278,13 +276,11 @@ DEFINE_PARAM_ID(MedianFiltreTable, int, 1)
 STR_PARAM(NameParam, 128, L"NONAME")
 DEFINE_PARAM(CrossCountSensors, int, 10)
 DEFINE_PARAM_ID(RecalculationFactorTable, int, 1)
-//struct BorderACFCutOffTable;
-//DEFINE_PARAM_ID(BorderACFCutOffTable, int, 1)
 DEFINE_PARAM_ID(MinMaxThresholdsTable, int, 1)
 DEFINE_PARAM_ID(AnalogFilterTable, int, 1)
 DEFINE_PARAM_ID(CalculationAlgorithmTable, int, 1)
-
 DEFINE_PARAM(TubeMinLength            , int, 140)
+
  struct ParametersTable
  {
 	typedef TL::MkTlst<
@@ -293,7 +289,6 @@ DEFINE_PARAM(TubeMinLength            , int, 140)
 		, ID<AxesTable	   	>
 		, ID<MedianFiltreTable>
 		, ID<RecalculationFactorTable>
-		//, ID<BorderACFCutOffTable>
 		, ID<MinMaxThresholdsTable>
 		, ID<AnalogFilterTable>
 		, ID<CalculationAlgorithmTable>
@@ -306,64 +301,173 @@ DEFINE_PARAM(TubeMinLength            , int, 140)
 	const wchar_t *name(){return L"ParametersTable";}
  };
 //--------------------------------------------------------------------------------------------------------
-DEFINE_PARAM(i—ontrol—ircuits  , unsigned, 1 << 0)
-DEFINE_PARAM(iCycle            , unsigned, 1 << 1)
-DEFINE_PARAM(iReady            , unsigned, 1 << 2)
-DEFINE_PARAM(iControl          , unsigned, 1 << 3)
-DEFINE_PARAM(iBase             , unsigned, 1 << 4)
-DEFINE_PARAM(iReserve          , unsigned, 1 << 5)
+DEFINE_PARAM(iSQ1pr   , unsigned, 1 << 0)
+DEFINE_PARAM(iSQ2pr   , unsigned, 1 << 1)
+DEFINE_PARAM(iRPpr    , unsigned, 1 << 2)
+DEFINE_PARAM(iOPpr    , unsigned, 1 << 3)
+DEFINE_PARAM(iSQ1po   , unsigned, 1 << 4)
+DEFINE_PARAM(iSQ2po   , unsigned, 1 << 5)
+DEFINE_PARAM(iRPpo    , unsigned, 1 << 6)
+DEFINE_PARAM(iOPpo    , unsigned, 1 << 7)
+DEFINE_PARAM(iSQ1t    , unsigned, 1 << 8)
+DEFINE_PARAM(iSQ2t    , unsigned, 1 << 9)
+DEFINE_PARAM(iRPt     , unsigned, 1 << 10)
+DEFINE_PARAM(iOpt     , unsigned, 1 << 11)
+DEFINE_PARAM(iReadyT  , unsigned, 1 << 12)
+DEFINE_PARAM(iControlT, unsigned, 1 << 13)
+DEFINE_PARAM(iResultT , unsigned, 1 << 14)
+DEFINE_PARAM(iReserve , unsigned, 1 << 15)
 
-DEFINE_PARAM(iCross0          , unsigned, 1 << 6)
-DEFINE_PARAM(iCross1          , unsigned, 1 << 7)
-DEFINE_PARAM(iLong0          , unsigned, 1 << 8)
-DEFINE_PARAM(iLong1          , unsigned, 1 << 9)
-DEFINE_PARAM(iThick0          , unsigned, 1 << 10)
-DEFINE_PARAM(iThick1          , unsigned, 1 << 11)
-DEFINE_PARAM(iSolid          , unsigned, 1 << 12)
-
-struct InputBitTable
+struct InputBit1Table
  {
 	typedef TL::MkTlst<
-		i—ontrol—ircuits
-		, iCycle          
-		, iReady          
-		, iControl        
-		, iBase           
-		, iReserve
-		, iCross0
-		, iCross1
-		, iLong0 
-		, iLong1 
-		, iThick0
-		, iThick1
-		, iSolid
+		iSQ1pr   
+		, iSQ2pr   
+		, iRPpr    
+		, iOPpr    
+		, iSQ1po   
+		, iSQ2po   
+		, iRPpo    
+		, iOPpo    
+		, iSQ1t    
+		, iSQ2t    
+		, iRPt     
+		, iOpt     
+		, iReadyT  
+		, iControlT
+		, iResultT 
+		, iReserve 
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"InputBitTable";}
+	const wchar_t *name(){return L"InputBit1Table";}
  };
 
-DEFINE_PARAM(oWork            , unsigned, 1 << 0)
-DEFINE_PARAM(oToShiftThe      , unsigned, 1 << 1)
-DEFINE_PARAM(oResult1         , unsigned, 1 << 2)
-DEFINE_PARAM(oResult2         , unsigned, 1 << 3)
-DEFINE_PARAM(oPowerBM         , unsigned, 1 << 4)
-DEFINE_PARAM(oReserve         , unsigned, 1 << 5)
+DEFINE_PARAM(oPowerPCH, unsigned, 1 << 0)
+DEFINE_PARAM(oRL      , unsigned, 1 << 1)
+DEFINE_PARAM(oRM      , unsigned, 1 << 2)
+DEFINE_PARAM(oRH      , unsigned, 1 << 3)
+DEFINE_PARAM(oSTF     , unsigned, 1 << 4)
+DEFINE_PARAM(oPowerSU , unsigned, 1 << 5)
+DEFINE_PARAM(oMagnet  , unsigned, 1 << 6)
+DEFINE_PARAM(oCooling , unsigned, 1 << 7)
+DEFINE_PARAM(oReloc1  , unsigned, 1 << 8)
+DEFINE_PARAM(oRP      , unsigned, 1 << 9)
+DEFINE_PARAM(oOP      , unsigned, 1 << 10)
+DEFINE_PARAM(oDefect  , unsigned, 1 << 11)
+DEFINE_PARAM(oReloc2  , unsigned, 1 << 12)
+DEFINE_PARAM(oWorkPR  , unsigned, 1 << 13)
+DEFINE_PARAM(oWorkPO  , unsigned, 1 << 14)
+DEFINE_PARAM(oWorkT   , unsigned, 1 << 15)
 
-struct OutputBitTable
- {
+struct OutputBit1Table
+{
 	typedef TL::MkTlst<
-		oWork      
-		, oToShiftThe  //ÔÂÂÍÎ‡‰Í‡
-		, oResult1   
-		, oResult2   
-		, oPowerBM   
-		, oReserve   
+		oPowerPCH
+		, oRL      
+		, oRM      
+		, oRH      
+		, oSTF     
+		, oPowerSU 
+		, oMagnet  
+		, oCooling 
+		, oReloc1  
+		, oRP      
+		, oOP      
+		, oDefect  
+		, oReloc2  
+		, oWorkPR  
+		, oWorkPO  
+		, oWorkT   	
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"OutputBitTable";}
+	const wchar_t *name(){return L"OutputBit1Table";}
+};
+
+DEFINE_PARAM(iZU           , unsigned, 1 << 0)
+DEFINE_PARAM(iPCH_B        , unsigned, 1 << 1)
+DEFINE_PARAM(iPCH_RUN      , unsigned, 1 << 2)
+DEFINE_PARAM(iPCH_A        , unsigned, 1 << 3)
+DEFINE_PARAM(iCycle        , unsigned, 1 << 4)
+DEFINE_PARAM(iReadyR1      , unsigned, 1 << 5)
+DEFINE_PARAM(iDone         , unsigned, 1 << 6)
+DEFINE_PARAM(iReserve0     , unsigned, 1 << 7)
+DEFINE_PARAM(iEtalon       , unsigned, 1 << 8)
+DEFINE_PARAM(iWork_pnevmo  , unsigned, 1 << 9)
+DEFINE_PARAM(iRevers_pnevmo, unsigned, 1 << 10)
+DEFINE_PARAM(iError_pnevmo , unsigned, 1 << 11)
+DEFINE_PARAM(iReserve1     , unsigned, 1 << 12)
+DEFINE_PARAM(iReserve2     , unsigned, 1 << 13)
+DEFINE_PARAM(iSQ1DM        , unsigned, 1 << 14)
+DEFINE_PARAM(iSQ2DM        , unsigned, 1 << 15)
+
+struct InputBit2Table
+ {
+	typedef TL::MkTlst<
+		iZU           
+		, iPCH_B        
+		, iPCH_RUN      
+		, iPCH_A        
+		, iCycle        
+		, iReadyR1      
+		, iDone         
+		, iReserve0     
+		, iEtalon       
+		, iWork_pnevmo  
+		, iRevers_pnevmo
+		, iError_pnevmo 
+		, iReserve1     
+		, iReserve2     
+		, iSQ1DM        
+		, iSQ2DM        
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"InputBit2Table";}
  };
+
+DEFINE_PARAM(oPR_OP   , unsigned, 1 << 0)
+DEFINE_PARAM(oPR_RP   , unsigned, 1 << 1)
+DEFINE_PARAM(oPO_OP   , unsigned, 1 << 2)
+DEFINE_PARAM(oPO_RP   , unsigned, 1 << 3)
+DEFINE_PARAM(oT_OP    , unsigned, 1 << 4)
+DEFINE_PARAM(oT_RP    , unsigned, 1 << 5)
+DEFINE_PARAM(oReserve0, unsigned, 1 << 6)
+DEFINE_PARAM(oReserve1, unsigned, 1 << 7)
+DEFINE_PARAM(oT_Work  , unsigned, 1 << 8)
+DEFINE_PARAM(oT_Cycle , unsigned, 1 << 9)
+DEFINE_PARAM(oT_Base  , unsigned, 1 << 10)
+DEFINE_PARAM(oT_reserv, unsigned, 1 << 11)
+DEFINE_PARAM(oReserve2, unsigned, 1 << 12)
+DEFINE_PARAM(oReserve3, unsigned, 1 << 13)
+DEFINE_PARAM(oReserve4, unsigned, 1 << 14)
+DEFINE_PARAM(oReserve5, unsigned, 1 << 15)
+
+struct OutputBit2Table
+{
+	typedef TL::MkTlst<
+		oPR_OP   
+		, oPR_RP   
+		, oPO_OP   
+		, oPO_RP   
+		, oT_OP    
+		, oT_RP    
+		, oReserve0
+		, oReserve1
+		, oT_Work  
+		, oT_Cycle 
+		, oT_Base  
+		, oT_reserv
+		, oReserve2
+		, oReserve3
+		, oReserve4
+		, oReserve5
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"OutputBit2Table";}
+};
 //-----------------------------------------------------------------------------------------------------------
 template<class T>struct AxesYMin;
 template<class T>struct AxesYMax;
@@ -423,8 +527,8 @@ struct L502ParametersTable
 template<class T, int>struct Range;
 template<class T, int>struct Offset;
 
-struct ReferenceSignal{};
-struct InputSignal{};
+struct Voltage{};
+struct Current{};
 
 struct Temperature{};
 struct MagneticField{};
@@ -437,7 +541,6 @@ struct sinhro_d{};
 struct error_x{};
 struct start_x{};
 
-DEFINE_PARAM_WAPPER_NUM(Range, Cross, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 1, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 2, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 3, int, 0)
@@ -449,14 +552,15 @@ DEFINE_PARAM_WAPPER_NUM(Range, Cross, 8, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 9, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 10, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 11, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Range, Cross, 12, int, 0)
 
-DEFINE_PARAM_WAPPER_NUM(Range, Long, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Long, 1, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Long, 2, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Long, 3, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Range, Long, 4, int, 0)
 
-DEFINE_PARAM_WAPPER_NUM(Range, ReferenceSignal, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Range, InputSignal,     0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Range, Current, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Range, Voltage, 0, int, 0)
 
 DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 1, int, 0)
@@ -464,71 +568,38 @@ DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 1, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, MagneticField, 0, int, 0)
 
 
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 1, int, 1)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 2, int, 2)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 3, int, 3)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 4, int, 4)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 5, int, 5)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 6, int, 6)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 7, int, 7)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 8, int, 8)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 9, int, 9)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 10, int, 10)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 11, int, 11)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 1, int, 7)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 2, int, 8)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 3, int, 9)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 4, int, 10)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 5, int, 11)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 6, int, 12)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 7, int, 13)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 8, int, 14)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 9, int, 15)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 10, int, 16)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 11, int,17)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 12, int,18)
 						
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 0, int, 12)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 1, int, 13)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 2, int, 14)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 3, int, 15)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 1, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 2, int, 1)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 3, int, 2)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 4, int, 3)
 						
-DEFINE_PARAM_WAPPER_NUM(Offset, ReferenceSignal, 0, int, 16)
-DEFINE_PARAM_WAPPER_NUM(Offset, InputSignal,     0, int, 17)
+DEFINE_PARAM_WAPPER_NUM(Offset, Voltage, 0, int, 4)
+DEFINE_PARAM_WAPPER_NUM(Offset, Current, 0, int, 6)
 
-DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 1, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 0, int, 21)
+DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 1, int, 22)
 					
-DEFINE_PARAM_WAPPER_NUM(Offset, MagneticField, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Offset, MagneticField, 0, int, 20)
 
-DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_s, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_d, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Inp502, error_x, 0, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Out502, start_x, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_s, 0, int, 1)
+DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_d, 0, int, 5)
+DEFINE_PARAM_WAPPER_NUM(Inp502, error_x, 0, int, 3)
+DEFINE_PARAM_WAPPER_NUM(Out502, start_x, 0, int, 1)
 
-
-
-struct L502RangeTable1
-{
-	typedef TL::MkTlst<
-          Range<Long , 0> 
-        , Range<Long , 1> 
-        , Range<Long , 2> 
-        , Range<Long , 3> 
-        , Range<ReferenceSignal, 0>
-        , Range<InputSignal,     0>
-	>::Result items_list;
-	typedef NullType unique_list;
-	typedef TL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name(){return L"L502RangeTable1";}
-};
-struct L502OffsetsTable1
-{
-	typedef TL::MkTlst<
-          Offset<Long , 0> 
-        , Offset<Long , 1> 
-        , Offset<Long , 2> 
-        , Offset<Long , 3> 
-        , Offset<ReferenceSignal, 0>
-        , Offset<InputSignal,     0>
-	>::Result items_list;
-	typedef NullType unique_list;
-	typedef TL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name(){return L"L502OffsetsTable1";}
-};
-
-struct L502OffsetsDigitTable1
+struct L502OffsetsDigitTable
 {
 	typedef TL::MkTlst<
 	     Inp502<sinhro_s, 0>
@@ -539,13 +610,17 @@ struct L502OffsetsDigitTable1
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"L502OffsetsDigitTable1";}
+	const wchar_t *name(){return L"L502OffsetsDigitTable";}
 };
 
-struct L502RangeTable2
+struct L502RangeTable
 {
-	typedef TL::MkTlst<
-		  Range<Cross, 0> 
+	typedef TL::MkTlst<		  
+        Range<Long , 1> 
+        , Range<Long , 2> 
+        , Range<Long , 3> 
+		, Range<Long, 4> 
+
         , Range<Cross, 1> 
         , Range<Cross, 2> 
         , Range<Cross, 3> 
@@ -557,21 +632,30 @@ struct L502RangeTable2
         , Range<Cross, 9> 
         , Range<Cross, 10>
         , Range<Cross, 11> 
-		 
+		, Range<Cross , 12> 
+		
+		, Range<MagneticField, 0>
+
 		, Range<Temperature, 0> 
 		, Range<Temperature, 1> 
 
-		, Range<MagneticField, 0>
+		, Range<Voltage, 0>
+        , Range<Current, 0>
+		
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"L502RangeTable2";}
+	const wchar_t *name(){return L"L502RangeTable";}
 };
-struct L502OffsetsTable2
+struct L502OffsetsTable
 {
 	typedef TL::MkTlst<
-		  Offset<Cross, 0> 
+		Offset<Long, 1> 
+        , Offset<Long, 2> 
+        , Offset<Long, 3> 
+		, Offset<Long, 4> 
+
         , Offset<Cross, 1> 
         , Offset<Cross, 2> 
         , Offset<Cross, 3> 
@@ -583,16 +667,21 @@ struct L502OffsetsTable2
         , Offset<Cross, 9> 
         , Offset<Cross, 10>
         , Offset<Cross, 11> 
+		, Offset<Cross, 12> 
+
+		, Offset<MagneticField, 0>
 
 		, Offset<Temperature, 0> 
 		, Offset<Temperature, 1> 
 
-		, Offset<MagneticField, 0>
+		, Offset<Voltage, 0>
+        , Offset<Current, 0>
+		
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"L502OffsetsTable2";}
+	const wchar_t *name(){return L"L502OffsetsTable";}
 };
 //-------------------------------------------------------------------
 template<class T>struct CutoffFrequency;
@@ -604,8 +693,8 @@ DEFINE_PARAM_WAPPER(CutoffFrequencyOn , Cross, bool, true)
 DEFINE_PARAM_WAPPER(CutoffFrequency   , Long, int, 1000)
 DEFINE_PARAM_WAPPER(CutoffFrequencyOn , Long, bool, true)
 
-DEFINE_PARAM_WAPPER(CutoffFrequency   , InputSignal, int, 1000)
-DEFINE_PARAM_WAPPER(CutoffFrequencyOn , InputSignal, bool, true)
+DEFINE_PARAM_WAPPER(CutoffFrequency   , Voltage, int, 1000)
+DEFINE_PARAM_WAPPER(CutoffFrequencyOn , Voltage, bool, true)
 
 struct AnalogFilterTable
 {
@@ -614,8 +703,8 @@ struct AnalogFilterTable
 		, CutoffFrequencyOn<Cross>
 		, CutoffFrequency<Long>
 		, CutoffFrequencyOn<Long>
-		, CutoffFrequency<InputSignal>
-		, CutoffFrequencyOn<InputSignal>
+		, CutoffFrequency<Voltage>
+		, CutoffFrequencyOn<Voltage>
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
@@ -677,16 +766,18 @@ struct GraphAxesTable
 		 , GraphicSignalOptionsTable	   
 		 , AdditionalSettingsTable
 		 , ColorTable
-		 , InputBitTable
-		 , OutputBitTable		
+		 , InputBit1Table
+		 , OutputBit1Table		
+		 , InputBit2Table
+		 , OutputBit2Table		
 		 , OnTheJobTable
 	//	 , LanParametersTable
 		 , GraphAxesTable	
-		 , L502RangeTable1
-		 , L502OffsetsTable1
-		 , L502OffsetsDigitTable1
-		 , L502RangeTable2
-		 , L502OffsetsTable2
+		 , L502RangeTable
+		 , L502OffsetsTable
+		 , L502OffsetsDigitTable
+	//	 , L502RangeTable2
+	//	 , L502OffsetsTable2
 	 >::Result one_row_table_list;
 
 	 typedef TL::MkTlst<

@@ -18,10 +18,10 @@ MAX_EQUAL_VALUE(CutoffFrequency<Long>, 4000)
 PARAM_TITLE(    CutoffFrequency<Long>, L"Частота отсечения фильтра нижних частот продольного модуля")
 PARAM_TITLE(    CutoffFrequencyOn<Long>, L"Включение фильтра нижних частот продольного модуля")
 
-MIN_EQUAL_VALUE(CutoffFrequency<InputSignal>, 10)
-MAX_EQUAL_VALUE(CutoffFrequency<InputSignal>, 4000)
-PARAM_TITLE(    CutoffFrequency<InputSignal>, L"Частота отсечения фильтра нижних частот сигнала модуля группы прочности")
-PARAM_TITLE(    CutoffFrequencyOn<InputSignal>, L"Включение фильтра нижних частот сигнала модуля группы прочности")
+MIN_EQUAL_VALUE(CutoffFrequency<Voltage>, 10)
+MAX_EQUAL_VALUE(CutoffFrequency<Voltage>, 4000)
+PARAM_TITLE(    CutoffFrequency<Voltage>, L"Частота отсечения фильтра нижних частот сигнала модуля группы прочности")
+PARAM_TITLE(    CutoffFrequencyOn<Voltage>, L"Включение фильтра нижних частот сигнала модуля группы прочности")
 
 //MIN_EQUAL_VALUE(CutoffFrequency<ReferenceSignal>, 10)
 //MAX_EQUAL_VALUE(CutoffFrequency<ReferenceSignal>, 4000)
@@ -43,7 +43,7 @@ void FilderDlg::Do(HWND h)
 void SolidDlg::Do(HWND h)
 {
 	if(TemplDialogList<ParametersBase, AnalogFilterTable
-		, TL::MkTlst<CutoffFrequency<InputSignal>, CutoffFrequencyOn<InputSignal>
+		, TL::MkTlst<CutoffFrequency<Voltage>, CutoffFrequencyOn<Voltage>
 		>::Result
 	>(Singleton<AnalogFilterTable>::Instance()).Do(h, L"Настройки аналогового фильтра"))
 	{

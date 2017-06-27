@@ -959,7 +959,7 @@
     <ClInclude Include="App\MessageItems.h">
       <Filter>App</Filter>
     </ClInclude>
-    <ClInclude Include="MessageText\TemplateMessages.hpp">
+    <ClInclude Include="MessageText\ListMess.hpp">
       <Filter>MessageText</Filter>
     </ClInclude>
   </ItemGroup>

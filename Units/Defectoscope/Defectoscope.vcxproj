@@ -311,8 +311,8 @@
     <ClInclude Include="IOports\IOportsViewer.h" />
     <ClInclude Include="IOports\IOportsWindow.h" />
     <ClInclude Include="IOports\IOportsWindowMenu.hpp" />
+    <ClInclude Include="MessageText\ListMess.hpp" />
     <ClInclude Include="MessageText\StatusMessages.h" />
-    <ClInclude Include="MessageText\TemplateMessages.hpp" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Solid\AddThresholdsWindow\AddThresholdsWindow.h" />
     <ClInclude Include="Solid\AddThresholdsWindow\SolidGroupGridWindow.h" />

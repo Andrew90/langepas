@@ -110,24 +110,32 @@ namespace MainWindowMenu
 	struct Setting{};
 	MENU_TEXT(L"Установка", TopMenu<Setting>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	struct AnalogPlate__           {};//{static void Do(HWND h){zprint("");}};//: AnalogPlateDlg{};//{static void Do(HWND h){zprint("");}};
-	struct DiscretePlate	      {};//{static void Do(HWND h){zprint("");}};//{};//static void Do(HWND h){zprint("");}};
+	struct AnalogPlate__           {};
+	struct DiscretePlate	      {};
 	//struct Lir__{};
-	struct DiscretePlateInputs    : InputsDlg{};//{static void Do(HWND h){zprint("");}};
-	struct DiscretePlateOutputs   : OutputsDlg{};//{static void Do(HWND h){zprint("");}};
-	struct ColorItems             : ColorItemsDlg{};//{static void Do(HWND h){zprint("");}};
+	struct DiscretePlateInputs    : Inputs1Dlg{};
+	struct DiscretePlateOutputs   : Outputs1Dlg{};
+
+	struct DiscretePlateInputs1    : Inputs2Dlg{};
+	struct DiscretePlateOutputs1   : Outputs2Dlg{};
+
+	struct ColorItems             : ColorItemsDlg{};
 	struct DiscretePlateDescriptor: Descriptor1730Dlg{};//{static void Do(HWND h){zprint("");}};
 	struct Coefficient            {static void Do(HWND h){zprint("");}};//{static void Do(HWND h){zprint("");}};
 	struct Signal                 {static void Do(HWND h){zprint("");}};//{static void Do(HWND h){zprint("");}};
 	struct ACFBorder              {static void Do(HWND h){zprint("");}};//{static void Do(HWND h){zprint("");}};
 
-	struct OffsetChannels         {static void Do(HWND h){zprint("");}};//: OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};
+	struct OffsetChannels         : OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};//: OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};
 	struct AmplificationChannels  : AmplificationChannelDlg{};//{static void Do(HWND h){zprint("");}};
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
-	MENU_ITEM(L"Входные порты", DiscretePlateInputs)
-	MENU_ITEM(L"Выодные порты", DiscretePlateOutputs)
-	MENU_ITEM(L"Дискриптор дискретной платы", DiscretePlateDescriptor)
+	MENU_ITEM(L"Входные порты плата 1", DiscretePlateInputs)
+	MENU_ITEM(L"Выодные порты плата 1", DiscretePlateOutputs)
+
+	MENU_ITEM(L"Входные порты плата 2", DiscretePlateInputs1)
+	MENU_ITEM(L"Выодные порты плата 2", DiscretePlateOutputs1)
+
+	MENU_ITEM(L"Дискрипторы дискретных плат", DiscretePlateDescriptor)
 	MENU_ITEM(L"Коэффициенты пересчёта", Coefficient)
 	
 	MENU_TEXT(L"Аналоговая плата", SubMenu<AnalogPlate__>)
@@ -149,14 +157,16 @@ namespace MainWindowMenu
 	template<>struct SubMenu<DiscretePlate>
 	{
 		typedef TL::TypeToTypeLst<
-			typename TL::MkTlst<DiscretePlateDescriptor, DiscretePlateInputs, DiscretePlateOutputs>::Result 
+			typename TL::MkTlst<DiscretePlateDescriptor, DiscretePlateInputs, DiscretePlateOutputs
+			, DiscretePlateInputs1, DiscretePlateOutputs1
+			>::Result 
 			, MenuItem
 		>::Result list;
 	};
 
 	//MENU_TEXT(L"Настройки лир", SubMenu<Lir__>)
 	//MENU_ITEM(L"Дискриптор лир", LirDescriptorDlg)
-	MENU_ITEM(L"Датчики лир", LirDlg)
+//	MENU_ITEM(L"Датчики лир", LirDlg)
 
 	//template<>struct SubMenu<Lir__>
 	//{

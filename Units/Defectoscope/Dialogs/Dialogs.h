@@ -21,8 +21,12 @@ public:
 #define DLG(n)struct n{static void Do(HWND);};
 
 DLG(Descriptor1730Dlg)
-DLG(OutputsDlg)
-DLG(InputsDlg)
+DLG(Outputs1Dlg)
+DLG(Inputs1Dlg)
+
+DLG(Outputs2Dlg)
+DLG(Inputs2Dlg)
+
 DLG(AddTypeSizeDlg)
 DLG(DelTypeSizeDlg)
 DLG(DeadZonesDlg)
@@ -60,7 +64,7 @@ DLG(PrimarySignalDlg)
 DLG(FrameWindowDlg)
 
 DLG(SolidDlg)
-//DLG(OffsetsChannelDlg)
+DLG(OffsetsChannelDlg)
 DLG(AmplificationChannelDlg)
 
 DLG(LirDlg)

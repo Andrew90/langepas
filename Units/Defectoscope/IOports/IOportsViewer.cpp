@@ -80,8 +80,13 @@ VOID CALLBACK __Update__(PVOID oo, BOOLEAN)
 	HDCGraphics g(o->hWnd, o->backScreen);
     unsigned input = device1730.Read();
 	unsigned output = device1730.ReadOutput(); 
-	TL::foreach<InputBitTable::items_list, __update__>()(&Singleton<InputBitTable>::Instance().items, &__io_update_data__(40, g, 0xff0000ff, input));
-	TL::foreach<OutputBitTable::items_list, __update__>()(&Singleton<OutputBitTable>::Instance().items, &__io_update_data__(230, g, 0xffff0000, output));
+	__io_update_data__ input_data(40, g, 0xff0000ff, input);
+	TL::foreach<InputBit1Table::items_list, __update__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
+	TL::foreach<InputBit2Table::items_list, __update__>()(&Singleton<InputBit2Table>::Instance().items, &input_data);
+
+	__io_update_data__ output_data(230, g, 0xffff0000, output);
+	TL::foreach<OutputBit1Table::items_list, __update__>()(&Singleton<OutputBit1Table>::Instance().items, &output_data);
+	TL::foreach<OutputBit2Table::items_list, __update__>()(&Singleton<OutputBit2Table>::Instance().items, &output_data);
 }
 }
 //--------------------------------------------------------------------------------------
@@ -97,8 +102,13 @@ void IOportsViewer::Size(Graphics &g, int width, int height)
 	g.FillRectangle(&SolidBrush(Color(0xffaaaaaa)), 0, 0, width, height);
 	unsigned input = device1730.Read();
 	unsigned output = device1730.ReadOutput(); 
-	TL::foreach<InputBitTable::items_list, __draw__>()(&Singleton<InputBitTable>::Instance().items, &__draw_data__(40, g, 0xff0000ff, input));
-	TL::foreach<OutputBitTable::items_list, __draw__>()(&Singleton<OutputBitTable>::Instance().items, &__draw_data__(230, g, 0xffff0000, output));
+	__draw_data__ input_data(40, g, 0xff0000ff, input);
+	TL::foreach<InputBit1Table::items_list, __draw__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
+	TL::foreach<InputBit2Table::items_list, __draw__>()(&Singleton<InputBit2Table>::Instance().items, &input_data);
+
+	__draw_data__ output_data(40, g, 0xff0000ff, input);
+	TL::foreach<OutputBit1Table::items_list, __draw__>()(&Singleton<OutputBit1Table>::Instance().items, &output_data);
+	TL::foreach<OutputBit2Table::items_list, __draw__>()(&Singleton<OutputBit2Table>::Instance().items, &output_data);
 }
 //---------------------------------------------------------------------------------------
 void IOportsViewer::Start()
@@ -148,7 +158,12 @@ void IOportsViewer::MouseLDown(TLButtonDown &l)
 	HDCGraphics g(hWnd, backScreen);
 	unsigned input = device1730.Read();
 	unsigned output = device1730.ReadOutput();
-	TL::foreach<InputBitTable::items_list, __update__>()(&Singleton<InputBitTable>::Instance().items, &__io_update_data__(40, g, 0xff0000ff, input));
-	TL::foreach<OutputBitTable::items_list, __mouse_down__>()(&Singleton<OutputBitTable>::Instance().items, &__mouse_down_data__(230, g, 0xffff0000, output, l));
+	__io_update_data__ input_data(40, g, 0xff0000ff, input);
+	TL::foreach<InputBit1Table::items_list, __update__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
+	TL::foreach<InputBit1Table::items_list, __update__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
+
+	__mouse_down_data__ output_data(230, g, 0xffff0000, output, l);
+	TL::foreach<OutputBit1Table::items_list, __mouse_down__>()(&Singleton<OutputBit1Table>::Instance().items, &output_data);
+	TL::foreach<OutputBit2Table::items_list, __mouse_down__>()(&Singleton<OutputBit2Table>::Instance().items, &output_data);
 }
 

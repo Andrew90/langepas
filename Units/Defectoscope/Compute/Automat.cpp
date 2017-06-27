@@ -25,8 +25,8 @@ namespace AutomatN
 
 #undef EX
 
-	unsigned &Off<iÑontrolÑircuits>::bit = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
-	unsigned &Off<iCycle>::bit =	Singleton<InputBitTable>::Instance().items.get<iCycle>().value;
+//	unsigned &Off<iÑontrolÑircuits>::bit = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
+//	unsigned &Off<iCycle>::bit =	Singleton<InputBitTable>::Instance().items.get<iCycle>().value;
 
 	HANDLE hThread;
 //----------------------------------------------------------------------
@@ -35,49 +35,49 @@ namespace AutomatN
 	{
 		void operator()(){}
 	};
-	template<>struct collections_data_unit502<On<iCross0>>
-	{
-		void operator()()
-		{
-			unit502.crossOn = true;
-		}
-	};
-	template<>struct collections_data_unit502<On<iLong0>>
-	{
-		void operator()()
-		{
-			unit502.longOn = true;
-		}
-	};
-	template<>struct collections_data_unit502<On<iSolid>>
-	{
-		void operator()()
-		{
-			unit502.solidOn = true;
-		}
-	};
-
-	template<>struct collections_data_unit502<Off<iCross1>>
-	{
-		void operator()()
-		{
-			unit502.crossOn = false;
-		}
-	};
-	template<>struct collections_data_unit502<Off<iLong1>>
-	{
-		void operator()()
-		{
-			unit502.longOn = false;
-		}
-	};
-	template<>struct collections_data_unit502<Off<iSolid>>
-	{
-		void operator()()
-		{
-			unit502.solidOn = false;
-		}
-	};
+	//template<>struct collections_data_unit502<On<iCross0>>
+	//{
+	//	void operator()()
+	//	{
+	//		unit502.crossOn = true;
+	//	}
+	//};
+	//template<>struct collections_data_unit502<On<iLong0>>
+	//{
+	//	void operator()()
+	//	{
+	//		unit502.longOn = true;
+	//	}
+	//};
+	//template<>struct collections_data_unit502<On<iSolid>>
+	//{
+	//	void operator()()
+	//	{
+	//		unit502.solidOn = true;
+	//	}
+	//};
+	//
+	//template<>struct collections_data_unit502<Off<iCross1>>
+	//{
+	//	void operator()()
+	//	{
+	//		unit502.crossOn = false;
+	//	}
+	//};
+	//template<>struct collections_data_unit502<Off<iLong1>>
+	//{
+	//	void operator()()
+	//	{
+	//		unit502.longOn = false;
+	//	}
+	//};
+	//template<>struct collections_data_unit502<Off<iSolid>>
+	//{
+	//	void operator()()
+	//	{
+	//		unit502.solidOn = false;
+	//	}
+	//};
 
 	template<class T>struct UnitBit;
 	template<class T>struct UnitBit<On<T>>
@@ -99,27 +99,27 @@ namespace AutomatN
 	};
 	
 	template<class T>struct __mess__{void operator()(){}};
-	template<>struct __mess__<iCross1>
-	{
-		void operator()()
-		{
-		   Log::Mess<LogMess::OffiCross>();
-		}
-	};
-	template<>struct __mess__<iLong1>
-	{
-		void operator()()
-		{
-		   Log::Mess<LogMess::OffiLong>();
-		}
-	};
-	template<>struct __mess__<iThick1>
-	{
-		void operator()()
-		{
-		   Log::Mess<LogMess::OffiThick>();
-		}
-	};
+	//template<>struct __mess__<iCross1>
+	//{
+	//	void operator()()
+	//	{
+	//	   Log::Mess<LogMess::OffiCross>();
+	//	}
+	//};
+	//template<>struct __mess__<iLong1>
+	//{
+	//	void operator()()
+	//	{
+	//	   Log::Mess<LogMess::OffiLong>();
+	//	}
+	//};
+	//template<>struct __mess__<iThick1>
+	//{
+	//	void operator()()
+	//	{
+	//	   Log::Mess<LogMess::OffiThick>();
+	//	}
+	//};
 	template<class T>struct UnitBit<Off<T>>		  
 	{
 		typedef T type;
@@ -139,48 +139,48 @@ namespace AutomatN
 		}
 	};
 
-	template<>struct UnitBit<Off<iSolid>>
-	{
-		typedef iSolid type;
-		unsigned &time;
-		UnitBit()
-			: time(Singleton<Time<Off<iSolid>>>::Instance().value)
-		{}
-		void operator()()
-		{
-			if(0 == time)
-			{
-				collections_data_unit502<Off<iSolid>>()();
-				time = Performance::Counter();
-			}
-		}
-	};
+	//template<>struct UnitBit<Off<iSolid>>
+	//{
+	//	typedef iSolid type;
+	//	unsigned &time;
+	//	UnitBit()
+	//		: time(Singleton<Time<Off<iSolid>>>::Instance().value)
+	//	{}
+	//	void operator()()
+	//	{
+	//		if(0 == time)
+	//		{
+	//			collections_data_unit502<Off<iSolid>>()();
+	//			time = Performance::Counter();
+	//		}
+	//	}
+	//};
 
 
-	typedef TL::MkTlst<
-		UnitBit<Off<iCross0>>
-		, UnitBit<Off<iCross1>>
-		, UnitBit<Off<iLong0 >>
-		, UnitBit<Off<iLong1 >>
-		, UnitBit<Off<iThick0>>
-		, UnitBit<Off<iThick1>>
-	>::Result unit_bit_off_list;
-
-	typedef TL::MkTlst<
-		  UnitBit<On<iCross0>>
-		, UnitBit<On<iCross1>>
-		, UnitBit<On<iLong0 >>
-		, UnitBit<On<iLong1 >>
-		, UnitBit<On<iThick0>>
-		, UnitBit<On<iThick1>>
-		, UnitBit<On<iSolid>>
-		, UnitBit<Off<iSolid>>
-	>::Result unit_bit_on_list;
+	//typedef TL::MkTlst<
+	//	UnitBit<Off<iCross0>>
+	//	, UnitBit<Off<iCross1>>
+	//	, UnitBit<Off<iLong0 >>
+	//	, UnitBit<Off<iLong1 >>
+	//	, UnitBit<Off<iThick0>>
+	//	, UnitBit<Off<iThick1>>
+	//>::Result unit_bit_off_list;
+	//
+	//typedef TL::MkTlst<
+	//	  UnitBit<On<iCross0>>
+	//	, UnitBit<On<iCross1>>
+	//	, UnitBit<On<iLong0 >>
+	//	, UnitBit<On<iLong1 >>
+	//	, UnitBit<On<iThick0>>
+	//	, UnitBit<On<iThick1>>
+	//	, UnitBit<On<iSolid>>
+	//	, UnitBit<Off<iSolid>>
+	//>::Result unit_bit_on_list;
 
 #define UNIT_BIT_ON(n) unit_bit_on.get<UnitBit<On<n>>>()() 
 
-	TL::Factory<unit_bit_off_list>  unit_bit_off;
-	TL::Factory<unit_bit_on_list>  unit_bit_on;
+//	TL::Factory<unit_bit_off_list>  unit_bit_off;
+//	TL::Factory<unit_bit_on_list>  unit_bit_on;
 	template<class O, class P>struct unit_bit_off_init
 	{
 		void operator()(O &o, P &p)
@@ -196,17 +196,17 @@ namespace AutomatN
 			o.time = 0;
 		}
 	};
-	void UnitBitInit()
-	{
-		TL::foreach<unit_bit_off_list, unit_bit_off_init>()(
-			unit_bit_off
-			, Singleton<InputBitTable>::Instance().items
-			);
-		TL::foreach<unit_bit_on_list, unit_bit_on_init>()(
-			unit_bit_on
-			, Singleton<InputBitTable>::Instance().items
-			);
-	};
+//	void UnitBitInit()
+//	{
+//		TL::foreach<unit_bit_off_list, unit_bit_off_init>()(
+//			unit_bit_off
+//			, Singleton<InputBitTable>::Instance().items
+//			);
+//		TL::foreach<unit_bit_on_list, unit_bit_on_init>()(
+//			unit_bit_on
+//			, Singleton<InputBitTable>::Instance().items
+//			);
+//	};
 	template<class O, class P>struct __test_bit_off__
 	{
 		void operator()(O &o, P &p)
@@ -218,10 +218,10 @@ namespace AutomatN
 	{
 		static void Do(unsigned bits)
 		{
-			TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
-			static unsigned counter = 0;
-			if((++counter % 20) == 0) 
-				unit502.Read();   //âûçûâàòüñÿ áóäåò ÷åðåç ~100 ì.ñåê.
+		//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
+		//	static unsigned counter = 0;
+		//	if((++counter % 20) == 0) 
+		//		unit502.Read();   //âûçûâàòüñÿ áóäåò ÷åðåç ~100 ì.ñåê.
 		}
 	};
 
@@ -239,19 +239,19 @@ namespace AutomatN
 		}
 	};
 
-	unsigned &iÑontrolÑircuitsBit = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
+	//unsigned &iÑontrolÑircuitsBit = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
 
-	struct Alarm
-	{
-		static void Do(unsigned bits)
-		{
-			if(0 == (bits & iÑontrolÑircuitsBit))
-			{
-				Log::Mess<LogMess::AlarmExitControlCircuitBitIn>();
-				throw ExceptionAlarm();
-			}
-		}
-	};
+	//struct Alarm
+	//{
+	//	static void Do(unsigned bits)
+	//	{
+	//		if(0 == (bits & iÑontrolÑircuitsBit))
+	//		{
+	//			Log::Mess<LogMess::AlarmExitControlCircuitBitIn>();
+	//			throw ExceptionAlarm();
+	//		}
+	//	}
+	//};
 //----------------------------------------------------------------------
 	static DWORD WINAPI Do(LPVOID)
 	{		
