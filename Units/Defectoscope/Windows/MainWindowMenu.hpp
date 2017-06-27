@@ -42,17 +42,15 @@ namespace MainWindowMenu
 	struct MainOptionTypeSize{};
 	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-	//struct Tresholds {};
-	//struct Thick{};
-	struct DeadZones                 : DeadZonesDlg{};//{static void Do(HWND h){zprint("");}};								 						
-	struct MainCreateTypesize        : AddTypeSizeDlg{};//{static void Do(HWND h){zprint("");}};
-	struct MainDeleteTypeSize        : DelTypeSizeDlg{};//{static void Do(HWND h){zprint("");}};
-	struct CrossThresholdWindow__    : ThresholdCrossDlg{};//{static void Do(HWND h){zprint("");}};//: Common::OpenWindow<CrossThresholdWindow>{};
-	struct LongThresholdWindow__     : ThresholdLongDlg{};//{static void Do(HWND h){zprint("");}};//: Common::OpenWindow<LongThresholdWindow>{};
-	struct ThickThresholdWindow__: ThresholdThickDlg{};//{static void Do(HWND h){zprint("");}};//: Common::OpenWindow<ThickThresholdWindow>{};
-	struct MedianFiltre              : MedianFiltreDlg{};//{static void Do(HWND h){zprint("");}};
-	struct PipeThicknes  : PipeThicknessDlg{};//{static void Do(HWND h){zprint("");}};
-	struct AcfCutOffBorders  : AcfCutOffBordersDlg{};
+	struct DeadZones                 : DeadZonesDlg{};							 						
+	struct MainCreateTypesize        : AddTypeSizeDlg{};
+	struct MainDeleteTypeSize        : DelTypeSizeDlg{};
+	struct CrossThresholdWindow__    : ThresholdCrossDlg{};
+	struct LongThresholdWindow__     : ThresholdLongDlg{};
+	struct ThickThresholdWindow__: ThresholdThickDlg{};
+	struct MedianFiltre              : MedianFiltreDlg{};
+	struct PipeThicknes  : PipeThicknessDlg{};
+//	struct AcfCutOffBorders  : AcfCutOffBordersDlg{};
 	struct Filter_: FilderDlg{}; 
 
 	MENU_ITEM(L"Поперечные пороги", CrossThresholdWindow__)
@@ -64,7 +62,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Медианный фильтр", MedianFiltre)
 
 	MENU_ITEM(L"Минимальная и максимальная стенки трубы", PipeThicknes)
-	MENU_ITEM(L"Границы отсечения в частотной области", AcfCutOffBorders)
+//	MENU_ITEM(L"Границы отсечения в частотной области", AcfCutOffBorders)
 	MENU_ITEM(L"Настройки аналогового фильтра", Filter_)
 
 	template<>struct TopMenu<MainOptionTypeSize>
@@ -78,7 +76,7 @@ namespace MainWindowMenu
 			, MenuItem<MedianFiltre>
 			, MenuItem<Filter_>
 			, MenuItem<PipeThicknes>
-			, MenuItem<AcfCutOffBorders>
+		//	, MenuItem<AcfCutOffBorders>
 			, Separator<0>
 			, MenuItem<MainCreateTypesize>
 			, MenuItem<MainDeleteTypeSize>

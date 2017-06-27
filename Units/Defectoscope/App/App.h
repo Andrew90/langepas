@@ -43,7 +43,8 @@ public:
 };
 
 extern App app;
-extern Device1730 device1730;
+extern Device1730 device1730_1;
+extern Device1730 device1730_2;
 extern Unit502 unit502;
 
 

@@ -42,9 +42,15 @@ void App::Init()
 
 	bool ok = true;
 
-	if(!device1730.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730_1>().value))
+	if(!device1730_1.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730_1>().value))
 	{
-		MessageBox(h, L"Не могу инициировать плату 1730", L"Ошибка !!!", MB_ICONERROR);
+		MessageBox(h, L"Не могу инициировать плату 1730 номер 1", L"Ошибка !!!", MB_ICONERROR);
+		ok = false;
+	}
+
+	if(!device1730_2.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730_2>().value))
+	{
+		MessageBox(h, L"Не могу инициировать плату 1730 номер 2", L"Ошибка !!!", MB_ICONERROR);
 		ok = false;
 	}
 
@@ -76,7 +82,8 @@ void App::Destroy()
 }
 
 App app;
-Device1730 device1730;
+Device1730 device1730_1;
+Device1730 device1730_2;
 Unit502 unit502;
 
 

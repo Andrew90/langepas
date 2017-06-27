@@ -19,7 +19,7 @@
 	template<class>struct Off{};
 	template<class>struct Inv{};
 	template<class>struct Proc{};
-	template<class>struct Once{};
+	//template<class>struct Once{};
 	template<class T>struct Ex;
 
 
@@ -181,14 +181,14 @@
 
 	template<class List>struct DefaultDo
 	{
-		void operator()(unsigned bits)
+		void operator()(unsigned bits0, unsigned bits1)
 		{
-			TL::foreach<List, __default_do__>()(bits);
+			TL::foreach<List, __default_do__>()(bits0, bits1);
 		}
 	};
 	template<>struct DefaultDo<NullType>
 	{
-		void operator()(unsigned){}
+		void operator()(unsigned bits0, unsigned bits1){}
 	};
 
 	template<class List>struct Test_OutBits
@@ -221,43 +221,80 @@
 		static const bool value = false;
 	};
 
+	template<class List, class SubList>struct SelectItem;
+	template<class List, class Head, class Tail>struct SelectItem<List, Tlst<Head, Tail>>
+	{
+		typedef typename SelectItem<List, Tail>::Result __next__;
+		typedef typename TL::_if<
+			TL::ItemInList<List, typename TL::Inner<Head>::Result>::value
+			, Tlst<Head, __next__> 
+			, __next__
+		>::Result Result;
+	};
+
 	template<class List>struct AND_Bits
 	{
-		unsigned operator()(unsigned delay = (unsigned)-1)
+		void operator()(unsigned delay = (unsigned)-1)
 		{
 			if((unsigned)-1 != delay) delay += Performance::Counter();
-			unsigned bitOn = 0, bitOff = 0, bitInv = 0;
-			typedef typename Filt<List, On>::Result list_on;
-			typedef typename Filt<List, Off>::Result list_off;
+			unsigned bitOn1 = 0, bitOff1 = 0, bitInv1 = 0;
+			unsigned bitOn2 = 0, bitOff2 = 0, bitInv2 = 0;
+
+			typedef SelectItem<OutputBit1Table::items_list, List>::Result List1
+			typedef SelectItem<OutputBit2Table::items_list, List>::Result List2
+
+			typedef typename Filt<List1, On>::Result list_on1;
+			typedef typename Filt<List1, Off>::Result list_off1;
+
+			typedef typename Filt<List2, On>::Result list_on2;
+			typedef typename Filt<List2, Off>::Result list_off2;
+
 			typedef typename Filt<List, Proc>::Result list_proc;
-			static const bool bitsNotEmpty = __all_lists_not_empty__<list_on, list_off>::value;
-			SelectBits<list_on>()(bitOn);
-			SelectBits<list_off>()(bitOff);
-			SelectBits<typename Filt<List, Inv>::Result>()(bitInv);
+
+			static const bool bitsNotEmpty1 = __all_lists_not_empty__<list_on1, list_off1>::value;
+			static const bool bitsNotEmpty2 = __all_lists_not_empty__<list_on2, list_off2>::value;
+
+			SelectBits<list_on1>()(bitOn1);
+			SelectBits<list_off1>()(bitOff1);
+			SelectBits<typename Filt<List1, Inv>::Result>()(bitInv1);
+
+			SelectBits<list_on2>()(bitOn2);
+			SelectBits<list_off2>()(bitOff2);
+			SelectBits<typename Filt<List2, Inv>::Result>()(bitInv2);
 
 			typedef TL::Append<typename Filt<List, Ex>::Result, ExceptionExit>::Result exeption_list;
 			ArrEvents<exeption_list> arrEvents;
 
-			GUARD{
-				dprint("return guard\n");
-			};
-
 			while(true)
 			{
 				unsigned ev = WaitForMultipleObjects(dimention_of(arrEvents.h), arrEvents.h, FALSE, 5);
-				unsigned res = 0;
-				if(bitsNotEmpty || __list_not_empty__<list_proc>::value)res = device1730.Read();
+				unsigned res1 = 0, res2 = 0;
+				if(__list_not_empty__<list_proc>::value)
+				{
+					if(bitsNotEmpty1)res1 = device1730_1.Read();
+					if(bitsNotEmpty2)res2 = device1730_2.Read();
+				}
 				if(WAIT_TIMEOUT == ev)
 				{
-					if(bitsNotEmpty &&(bitOn || bitOff))
+					if(bitsNotEmpty1 &&(bitOn1 || bitOff1))
 					{						
-						unsigned t = res ^ bitInv;
-						if(bitOn == (t & (bitOn | bitOff))) 
+						unsigned t = res1 ^ bitInv1;
+						if(bitOn1 == (t & (bitOn1 | bitOff1))) 
 						{
-								return res;
+								return;
 						}
 					}					
-					DefaultDo<list_proc>()(res);
+
+					if(bitsNotEmpty2 &&(bitOn2 || bitOff2))
+					{						
+						unsigned t = res2 ^ bitInv2;
+						if(bitOn2 == (t & (bitOn2 | bitOff2))) 
+						{
+								return;
+						}
+					}	
+
+					DefaultDo<list_proc>()(res1, res2);
 					if(Performance::Counter() >= delay)
 					{
 							throw ExceptionTimeOut();
@@ -270,7 +307,7 @@
 			}
 		}
 	};
-	template<class List>struct OUT_Bits
+	template<class List>struct NoUsed_OUT_Bits_1
 	{
 		void operator()()
 		{
@@ -279,25 +316,83 @@
 			BitsOut<typename Filt<List, On>::Result>()(bitOn);
 			BitsOut<typename Filt<List, Off>::Result>()(bitOff);
 
-			unsigned res = device1730.ReadOutput();
+			unsigned res = device1730_1.ReadOutput();
 
             res &= ~bitOff;
 			res |= bitOn;
 
-			device1730.Write(res);
+			device1730_1.Write(res);
 		}
 	};
-	template<class List>struct SET_Bits
+	template<>struct NoUsed_OUT_Bits_1<NullType>{void operator()(){}};
+	template<class List>struct NoUsed_OUT_Bits_2
+	{
+		void operator()()
+		{
+			unsigned bitOn, bitOff;
+			bitOn = bitOff = 0;
+			BitsOut<typename Filt<List, On>::Result>()(bitOn);
+			BitsOut<typename Filt<List, Off>::Result>()(bitOff);
+
+			unsigned res = device1730_2.ReadOutput();
+
+            res &= ~bitOff;
+			res |= bitOn;
+
+			device1730_2.Write(res);
+		}
+	};
+
+	template<>struct NoUsed_OUT_Bits_2<NullType>{void operator()(){}};
+
+	template<class List>struct OUT_Bits
+	{
+		void operator()()
+		{
+			NoUsed_OUT_Bits_1<SelectItem<OutputBit1Table::items_list, List>::Result>()();
+			NoUsed_OUT_Bits_2<SelectItem<OutputBit2Table::items_list, List>::Result>()();
+		}
+	};
+
+
+
+	template<class List>struct NoUsed_SET_Bits_1
 	{
 		void operator()()
 		{
 			unsigned res = 0;
 			BitsOut<typename Filt<List, On>::Result>()(res);
 
-			device1730.Write(res);
+			device1730_1.Write(res);
 		}
 	};
+	template<>struct NoUsed_SET_Bits_1<NullType>
+	{
+		void operator()(){}
+	};
+	template<class List>struct NoUsed_SET_Bits_2
+	{
+		void operator()()
+		{
+			unsigned res = 0;
+			BitsOut<typename Filt<List, On>::Result>()(res);
 
+			device1730_2.Write(res);
+		}
+	};
+	template<>struct NoUsed_SET_Bits_2<NullType>
+	{
+		void operator()(){}
+	};
+
+	template<class List>struct SET_Bits
+	{
+		void operator()()
+		{
+			NoUsed_SET_Bits_1<SelectItem<OutputBit1Table::items_list, List>::Result>()();
+			NoUsed_SET_Bits_2<SelectItem<OutputBit2Table::items_list, List>::Result>()();
+		}
+	};
 	//template<>struct Off<iÑontrolÑircuits>
 	//{
 	//	static unsigned &bit;

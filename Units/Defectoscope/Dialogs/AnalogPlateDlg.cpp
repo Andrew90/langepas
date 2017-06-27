@@ -220,3 +220,5 @@ void AmplificationChannelDlg::Do(HWND h)
 	{
 	}
 }
+
+//TODO написать настройку дискретных входов-выходов платы 502

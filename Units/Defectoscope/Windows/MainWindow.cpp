@@ -78,9 +78,9 @@ void MainWindow::operator()(TSize &m)
 	static const int width = toolBar.Width();
 	select.Size(width, 5, 400);
 	//
-	crossCheckBox	 .Size (width + 425, 5 , 400, 20);
-	longCheckBox	 .Size (width + 425, 25, 400, 20);
-	ThickCheckBox.Size (width + 425, 45, 400, 20);
+//	crossCheckBox	 .Size (width + 425, 5 , 400, 20);
+	longCheckBox	     .Size (width + 425,  5, 400, 20);
+	ThickCheckBox        .Size (width + 425, 25, 400, 20);
 	viewInterruptCheckBox.Size(width, 55, 400, 20);
 	//
 	static const int topLabelHeight = 28;
@@ -118,7 +118,7 @@ LRESULT MainWindow::operator()(TCreate &m)
 	int pParts[] = {200, 400, 600, 900};
 	SendMessage(hStatusWindow, SB_SETPARTS, dimention_of(pParts), (LPARAM)pParts);
 //
-	crossCheckBox	 .Init(toolBar.hWnd, L"Измерение поперечных дефектов стенки трубы");
+//	crossCheckBox	 .Init(toolBar.hWnd, L"Измерение поперечных дефектов стенки трубы");
 	longCheckBox	 .Init(toolBar.hWnd, L"Измерение продольных дефектов стенки трубы");
 	ThickCheckBox.Init(toolBar.hWnd, L"Измерение толщины стенки трубы");
 	viewInterruptCheckBox.Init(toolBar.hWnd, L"Прерывание на просмотр");

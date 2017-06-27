@@ -24,6 +24,8 @@ namespace
 	KEY(IDB_arrow_left , L"F7 Влево")
 	KEY(IDB_arrow_right, L"F8 Clear")
 	KEY(IDB_Continue, L"F11 Продолжить")
+	KEY(IDB_ExitTubeBtn, L"F9 Выгон")
+	KEY(IDB_SensorsUnit, L"F12 Возврат")
 #undef KEY
 #define BUTTON_KEY(ID)ButtonToolbar<ID, Key<ID> > 
 		typedef TL::MkTlst<
@@ -33,6 +35,9 @@ namespace
 		, BUTTON_KEY(IDB_Reset)
 		, BUTTON_KEY(IDB_QueryBtn) 		
 		, SeparatorToolbar<1>
+		, BUTTON_KEY(IDB_ExitTubeBtn)
+		, BUTTON_KEY(IDB_SensorsUnit)
+		, SeparatorToolbar<2>
 #ifdef DEBUG_ITEMS
 		, BUTTON_KEY(IDB_arrow_down) 
 		, BUTTON_KEY(IDB_arrow_up)
@@ -42,28 +47,28 @@ namespace
 #endif
 		>::Result tool_button_list;
 #undef BUTTON_KEY
-	namespace closed_window
-	{		
-		//typedef TL::MkTlst<
-		//	WindowClass<CrossWindow		>
-		//	, WindowClass<LongWindow		>
-		//	, WindowClass<ThickWindow	>
-		//	, WindowClass<ScanWindow		>
-		//>::Result window_list;
-		template<class O, class P>struct __close_window__
-		{
-			void operator()()
-			{
-				HWND hh = FindWindow(O()(), NULL);
-		    	if(NULL != hh) DestroyWindow(hh);
-			}
-		};
-
-		void close_window()
-		{
-			//TL::foreach<window_list, __close_window__>()();
-		}
-	}
+	//namespace closed_window
+	//{		
+	//	//typedef TL::MkTlst<
+	//	//	WindowClass<CrossWindow		>
+	//	//	, WindowClass<LongWindow		>
+	//	//	, WindowClass<ThickWindow	>
+	//	//	, WindowClass<ScanWindow		>
+	//	//>::Result window_list;
+	//	template<class O, class P>struct __close_window__
+	//	{
+	//		void operator()()
+	//		{
+	//			HWND hh = FindWindow(O()(), NULL);
+	//	    	if(NULL != hh) DestroyWindow(hh);
+	//		}
+	//	};
+	//
+	//	void close_window()
+	//	{
+	//		//TL::foreach<window_list, __close_window__>()();
+	//	}
+	//}
 //----------------------------------------------------------------------------------
 	static bool closed_packet_dialog = true;
 	static bool run_once_per_sycle = false;
@@ -133,6 +138,9 @@ namespace
 		//app.mainWindow.ClearCharts();
 	}
 //----------------------------------------------------------------------------
+	void Key<IDB_ExitTubeBtn>::Click(HWND h){dprint("void Key<IDB_ExitTubeBtn>::Click\n");}
+	void Key<IDB_SensorsUnit>::Click(HWND h){dprint("void Key<IDB_SensorsUnit>::Click(HWND h)\n");}
+
 	void Key<IDB_Reset>::Click(HWND h)
 	{
 		//run_once_per_sycle = false;

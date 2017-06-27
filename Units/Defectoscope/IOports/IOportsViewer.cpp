@@ -78,14 +78,20 @@ VOID CALLBACK __Update__(PVOID oo, BOOLEAN)
 		SetWindowText(o->hWnd, title);
 	}
 	HDCGraphics g(o->hWnd, o->backScreen);
-    unsigned input = device1730.Read();
-	unsigned output = device1730.ReadOutput(); 
-	__io_update_data__ input_data(40, g, 0xff0000ff, input);
+    unsigned input_1 = device1730_1.Read();
+	unsigned output_1 = device1730_1.ReadOutput(); 
+
+	unsigned input_2 = device1730_2.Read();
+	unsigned output_2 = device1730_2.ReadOutput(); 
+
+	__io_update_data__ input_data(40, g, 0xff0000ff, input_1);
 	TL::foreach<InputBit1Table::items_list, __update__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
+	input_data.value = input_2;
 	TL::foreach<InputBit2Table::items_list, __update__>()(&Singleton<InputBit2Table>::Instance().items, &input_data);
 
-	__io_update_data__ output_data(230, g, 0xffff0000, output);
+	__io_update_data__ output_data(230, g, 0xffff0000, output_1);
 	TL::foreach<OutputBit1Table::items_list, __update__>()(&Singleton<OutputBit1Table>::Instance().items, &output_data);
+	output_data.value = output_2;
 	TL::foreach<OutputBit2Table::items_list, __update__>()(&Singleton<OutputBit2Table>::Instance().items, &output_data);
 }
 }
@@ -100,14 +106,20 @@ IOportsViewer::IOportsViewer(HWND &h, Bitmap *&bs)
 void IOportsViewer::Size(Graphics &g, int width, int height)
 {
 	g.FillRectangle(&SolidBrush(Color(0xffaaaaaa)), 0, 0, width, height);
-	unsigned input = device1730.Read();
-	unsigned output = device1730.ReadOutput(); 
-	__draw_data__ input_data(40, g, 0xff0000ff, input);
+	unsigned input_1 = device1730_1.Read();
+	unsigned output_1 = device1730_1.ReadOutput(); 
+
+	unsigned input_2 = device1730_2.Read();
+	unsigned output_2 = device1730_2.ReadOutput();
+
+	__draw_data__ input_data(40, g, 0xff0000ff, input_1);
 	TL::foreach<InputBit1Table::items_list, __draw__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
+	input_data.value = input_2;
 	TL::foreach<InputBit2Table::items_list, __draw__>()(&Singleton<InputBit2Table>::Instance().items, &input_data);
 
-	__draw_data__ output_data(40, g, 0xff0000ff, input);
+	__draw_data__ output_data(40, g, 0xff0000ff, input_1);
 	TL::foreach<OutputBit1Table::items_list, __draw__>()(&Singleton<OutputBit1Table>::Instance().items, &output_data);
+	output_data.value = output_2;
 	TL::foreach<OutputBit2Table::items_list, __draw__>()(&Singleton<OutputBit2Table>::Instance().items, &output_data);
 }
 //---------------------------------------------------------------------------------------
@@ -129,7 +141,10 @@ struct __mouse_down_data__
 	int colorOn;
 	unsigned &value;
 	TLButtonDown &l;
-	__mouse_down_data__(int x, HDCGraphics &g, int colorOn, unsigned &value, TLButtonDown &l)  : x(x), dY(15), g(g), colorOn(colorOn), value(value), l(l) {}
+	Device1730 *device1730;
+	__mouse_down_data__(int x, HDCGraphics &g, int colorOn, unsigned &value, TLButtonDown &l, Device1730 *device1730)  
+		: x(x), dY(15), g(g), colorOn(colorOn), value(value), l(l), device1730(device1730) 
+	{}
 };
 template<class O, class P>struct __mouse_down__
 {
@@ -142,10 +157,10 @@ template<class O, class P>struct __mouse_down__
 		if(p->l.x > x0 && p->l.x < x1 && p->l.y > y0 && p->l.y < y1)
 		{
 			p->value ^= o->value;
-			device1730.WriteOutput(p->value);
+			p->device1730->WriteOutput(p->value);
 		}
 		int color = 0xffcccccc;
-		unsigned output = device1730.ReadOutput();
+		unsigned output = p->device1730->ReadOutput();
 		if(o->value & output) color = p->colorOn;
 		p->g.graphics.FillRectangle(&SolidBrush(Color(color)), x0, y0, 15, 15);
 		p->dY += 20;
@@ -156,14 +171,21 @@ void IOportsViewer::MouseLDown(TLButtonDown &l)
 {
 	if(App::measurementOfRunning) return;
 	HDCGraphics g(hWnd, backScreen);
-	unsigned input = device1730.Read();
-	unsigned output = device1730.ReadOutput();
-	__io_update_data__ input_data(40, g, 0xff0000ff, input);
+	unsigned input_1 = device1730_1.Read();
+	unsigned output_1 = device1730_1.ReadOutput();
+
+	unsigned input_2 = device1730_2.Read();
+	unsigned output_2 = device1730_2.ReadOutput();
+
+	__io_update_data__ input_data(40, g, 0xff0000ff, input_1);
 	TL::foreach<InputBit1Table::items_list, __update__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
+	input_data.value = input_2;
 	TL::foreach<InputBit1Table::items_list, __update__>()(&Singleton<InputBit1Table>::Instance().items, &input_data);
 
-	__mouse_down_data__ output_data(230, g, 0xffff0000, output, l);
+	__mouse_down_data__ output_data(230, g, 0xffff0000, output_1, l, &device1730_1);
 	TL::foreach<OutputBit1Table::items_list, __mouse_down__>()(&Singleton<OutputBit1Table>::Instance().items, &output_data);
+	output_data.value = output_2;
+	output_data.device1730 = &device1730_2;
 	TL::foreach<OutputBit2Table::items_list, __mouse_down__>()(&Singleton<OutputBit2Table>::Instance().items, &output_data);
 }
 

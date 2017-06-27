@@ -596,6 +596,20 @@ namespace TL
 		typedef NullType Result;
 	};
 //--------------------------------------------------------------------------------------------------
+	/// \brief если тип содержится в списке возвращает true, иначе false
+	template<class List, class T>struct ItemInList;
+	template<class Head, class Tail, class T>struct ItemInList<Tlst<Head, Tail>, T>
+	{
+		static const bool value =  false || ItemInList<Tail, T>::value;
+	};
+	template<class Tail, class T>struct ItemInList<Tlst<T, Tail>, T>
+	{
+		static const bool value =  true;
+	};
+	template<class T>struct ItemInList<NullType, T>
+	{
+		static const bool value =  false;
+	};
 }
 #define __UNIQUENAME(n, c) n##c
 #define _UNIQUENAME(n, c) __UNIQUENAME(n, c)

@@ -255,7 +255,8 @@ namespace AutomatN
 //----------------------------------------------------------------------
 	static DWORD WINAPI Do(LPVOID)
 	{		
-		device1730.Write(0);
+		device1730_1.Write(0);
+		device1730_2.Write(0);
 		AppKeyHandler::Init();
 		LogMessageToTopLabel logMessageToTopLabel;
 		Log::Mess<LogMess::ProgramOpen>(0);
@@ -367,7 +368,8 @@ namespace AutomatN
 			{
 				ResetEvent(Ex<ExceptionRun>::handle);
 				Log::Mess<LogMess::InfoUserStop>();	
-				device1730.Write(0);
+				device1730_1.Write(0);
+				device1730_2.Write(0);
 				AppKeyHandler::Stop();
 				packet = true;
 			}
@@ -375,24 +377,29 @@ namespace AutomatN
 			{
 				ResetEvent(Ex<ExceptionRun>::handle);
 				Log::Mess<LogMess::TimeoutPipe>();	
-				device1730.Write(0);
+				device1730_1.Write(0);
+				device1730_2.Write(0);
 				AppKeyHandler::Stop();
 				packet = true;
 			}
 			catch(ExceptionAlarm)
 			{
 				ResetEvent(Ex<ExceptionRun>::handle);
-				device1730.Write(0);
+				device1730_1.Write(0);
+				device1730_2.Write(0);
 				AppKeyHandler::Stop();
 				packet = true;
 			}
 			catch(ExceptionExit)
 			{			
 				Log::Mess<LogMess::ProgramClosed>();	
-				device1730.Write(0);
+				device1730_1.Write(0);
+				device1730_2.Write(0);
 				return 0;
 			}
 		}
+		device1730_1.Write(0);
+		device1730_2.Write(0);
 		return 0;
 	}
 }
