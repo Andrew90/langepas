@@ -100,6 +100,16 @@ namespace AppKeyHandler
 		Init();
 	}
 
+	void ExitTubeMode()
+	{
+		Run();
+	}
+
+	void ReturnTubeMode()
+	{
+		Run();
+	}
+
 	void VK_(unsigned id)
 	{
 		TCommand c(app.mainWindow.hWnd, id, 0, app.mainWindow.toolBar.hWnd);
@@ -110,11 +120,14 @@ namespace AppKeyHandler
 
 	template<>struct __is_key__<IDB_CycleBtn   >{static const unsigned value = VK_F4;};
 	template<>struct __is_key__<IDB_Continue   >{static const unsigned value = VK_F11;};
-	template<>struct __is_key__<IDB_Reset      >{static const unsigned value = VK_F9;};
+	template<>struct __is_key__<IDB_Reset      >{static const unsigned value = VK_ESCAPE;};
 	template<>struct __is_key__<IDB_arrow_down >{static const unsigned value = VK_F5;};
 	template<>struct __is_key__<IDB_arrow_up   >{static const unsigned value = VK_F6;};
 	template<>struct __is_key__<IDB_arrow_left >{static const unsigned value = VK_F7;};
 	template<>struct __is_key__<IDB_arrow_right>{static const unsigned value = VK_F8;};
+
+	template<>struct __is_key__<IDB_ExitTubeBtn >{static const unsigned value = VK_F9;};
+	template<>struct __is_key__<IDB_SensorsUnit>{static const unsigned value = VK_F10;};
 
 	template<unsigned id, unsigned key>struct __sub_test_key__
 	{

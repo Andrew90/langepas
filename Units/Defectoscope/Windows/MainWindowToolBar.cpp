@@ -6,6 +6,7 @@
 #include "window_tool/InitToolBar.hpp"
 #include "Compute/Automat.h"
 #include "StoredData\StoredBase.h"
+//#include "Compute\AppKeyHandler.h"
 using namespace Gdiplus;
 namespace 
 {
@@ -17,7 +18,7 @@ namespace
 	static wchar_t *Text(){return text;}\
 	};
 	KEY(IDB_CycleBtn   , L"F4 Цикл")
-	KEY(IDB_Reset      , L"F9 Стоп")
+	KEY(IDB_Reset      , L"Esc Стоп")
 	KEY(IDB_QueryBtn   , L"Тест")
 	KEY(IDB_arrow_down , L"F5 Вниз")
 	KEY(IDB_arrow_up   , L"F6 БАЗА")
@@ -25,7 +26,7 @@ namespace
 	KEY(IDB_arrow_right, L"F8 Clear")
 	KEY(IDB_Continue, L"F11 Продолжить")
 	KEY(IDB_ExitTubeBtn, L"F9 Выгон")
-	KEY(IDB_SensorsUnit, L"F12 Возврат")
+	KEY(IDB_SensorsUnit, L"F10 Возврат")
 #undef KEY
 #define BUTTON_KEY(ID)ButtonToolbar<ID, Key<ID> > 
 		typedef TL::MkTlst<
@@ -138,8 +139,14 @@ namespace
 		//app.mainWindow.ClearCharts();
 	}
 //----------------------------------------------------------------------------
-	void Key<IDB_ExitTubeBtn>::Click(HWND h){dprint("void Key<IDB_ExitTubeBtn>::Click\n");}
-	void Key<IDB_SensorsUnit>::Click(HWND h){dprint("void Key<IDB_SensorsUnit>::Click(HWND h)\n");}
+	void Key<IDB_ExitTubeBtn>::Click(HWND h)
+	{
+		Automat::ExitTube();
+	}
+	void Key<IDB_SensorsUnit>::Click(HWND h)
+	{
+		Automat::ReturnTube();
+	}
 
 	void Key<IDB_Reset>::Click(HWND h)
 	{

@@ -3,6 +3,7 @@
 #include "App\AppBase.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "tools_debug\DebugMess.h"
+#include "ControlMode.h"
 
  namespace AutomatN
  {
@@ -14,6 +15,8 @@
 	struct Exception—ontrol—ircuitsOff{};
 	struct Exception—ycleOff{};
 	struct ExceptionAlarm{};
+	struct ExceptionReturnTube{};
+	struct ExceptionExitTube{};
 
 	template<class>struct On{};
 	template<class>struct Off{};
@@ -22,7 +25,7 @@
 	//template<class>struct Once{};
 	template<class T>struct Ex;
 
-
+	extern void(*ptrProc)(Mode::Data &);
 
 	template<class list>struct ArrEvents
 	{
@@ -44,12 +47,43 @@
 		};
 		template<class P>struct ev<ExceptionRun, P>
 		{
-			typedef ExceptionRun O;
 			bool operator()(P *p)
 			{
-				return TL::IndexOf<list, O>::value != *p;
+				if(TL::IndexOf<list, ExceptionRun>::value == *p)
+				{
+					ptrProc = &Mode::ControlTube;
+					return false;
+				}
+				return true;
 			}
 		};
+
+		template<class P>struct ev<ExceptionReturnTube, P>
+		{
+			bool operator()(P *p)
+			{
+				if(TL::IndexOf<list, ExceptionReturnTube>::value == *p)
+				{
+					ptrProc = &Mode::ReturnTube;
+					return false;
+				}
+				return true;
+			}
+		};
+
+		template<class P>struct ev<ExceptionExitTube, P>
+		{
+			bool operator()(P *p)
+			{
+				if(TL::IndexOf<list, ExceptionExitTube>::value == *p)
+				{
+					ptrProc = &Mode::ExitTube;
+					return false;
+				}
+				return true;
+			}
+		};
+
 		template<class P>struct ev<ExceptionContinue, P>
 		{
 			typedef ExceptionContinue O;
@@ -155,16 +189,16 @@
 		}
 	};
 
-	template<class List>struct BitsOut
+	template<class List, class Sub>struct BitsOut
 	{
 		void operator()(unsigned &bits)
 		{
 			bits = 0;
-			__sel_bits__<typename __filtr__<List, OutputBitTable::items_list>::Result, __bits_0__>()
+			__sel_bits__<typename __filtr__<Sub, List>::Result, __bits_0__>()
 				(&Singleton<OutputBitTable>::Instance().items, &bits);
 		}
 	};
-	template<>struct BitsOut<NullType>
+	template<class List>struct BitsOut<List, NullType>
 	{
 		void operator()(unsigned &bits)
 		{
@@ -231,6 +265,10 @@
 			, __next__
 		>::Result Result;
 	};
+	template<class List>struct SelectItem<List, NullType>
+	{
+		typedef NullType Result;
+	};
 
 	template<class List>struct AND_Bits
 	{
@@ -240,8 +278,8 @@
 			unsigned bitOn1 = 0, bitOff1 = 0, bitInv1 = 0;
 			unsigned bitOn2 = 0, bitOff2 = 0, bitInv2 = 0;
 
-			typedef SelectItem<OutputBit1Table::items_list, List>::Result List1
-			typedef SelectItem<OutputBit2Table::items_list, List>::Result List2
+			typedef typename SelectItem<OutputBit1Table::items_list, List>::Result List1;
+			typedef typename SelectItem<OutputBit2Table::items_list, List>::Result List2;
 
 			typedef typename Filt<List1, On>::Result list_on1;
 			typedef typename Filt<List1, Off>::Result list_off1;
@@ -302,7 +340,8 @@
 				}
 				else
 				{
-					return arrEvents.Throw(ev - WAIT_OBJECT_0);
+					arrEvents.Throw(ev - WAIT_OBJECT_0);
+					return;
 				}
 			}
 		}
@@ -370,17 +409,17 @@
 	{
 		void operator()(){}
 	};
-	template<class List>struct NoUsed_SET_Bits_2
+	template<class List, class Sub>struct NoUsed_SET_Bits_2
 	{
 		void operator()()
 		{
 			unsigned res = 0;
-			BitsOut<typename Filt<List, On>::Result>()(res);
+			BitsOut<List, typename Filt<Sub, On>::Result>()(res);
 
 			device1730_2.Write(res);
 		}
 	};
-	template<>struct NoUsed_SET_Bits_2<NullType>
+	template<class List>struct NoUsed_SET_Bits_2<List, NullType>
 	{
 		void operator()(){}
 	};
@@ -389,8 +428,8 @@
 	{
 		void operator()()
 		{
-			NoUsed_SET_Bits_1<SelectItem<OutputBit1Table::items_list, List>::Result>()();
-			NoUsed_SET_Bits_2<SelectItem<OutputBit2Table::items_list, List>::Result>()();
+			NoUsed_SET_Bits_1<OutputBit1Table::items_list, SelectItem<OutputBit1Table::items_list, List>::Result>()();
+			NoUsed_SET_Bits_2<OutputBit2Table::items_list, SelectItem<OutputBit2Table::items_list, List>::Result>()();
 		}
 	};
 	//template<>struct Off<i—ontrol—ircuits>

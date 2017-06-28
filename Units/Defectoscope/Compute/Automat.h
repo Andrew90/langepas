@@ -13,4 +13,7 @@ public:
 	static void Start();
 	static void Continue();
     static void Exit();
+
+	static void ReturnTube();
+	static void ExitTube();
 };

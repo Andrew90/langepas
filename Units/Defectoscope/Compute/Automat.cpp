@@ -11,9 +11,11 @@
 #include "Windows\MainWindow.h"
 #include "Dates\ComputeSolid.h"
 #include "Dialogs/PacketDlg.h"
+#include "ControlMode.h"
 
 namespace AutomatN
 {
+	void(*ptrProc)(Mode::Data &) = NULL;
 #define EX(n, init_state)template<>struct Ex<Exception##n>{static HANDLE handle;};\
 	HANDLE Ex<Exception##n>::handle = CreateEvent(NULL, init_state, FALSE, NULL);
 
@@ -22,6 +24,9 @@ namespace AutomatN
 	EX(Continue, TRUE)
 	EX(Run, TRUE)
 	//EX(Alarm, FALSE)
+
+	EX(ReturnTube, FALSE)
+	EX(ExitTube, FALSE)
 
 #undef EX
 
@@ -258,13 +263,14 @@ namespace AutomatN
 		device1730_1.Write(0);
 		device1730_2.Write(0);
 		AppKeyHandler::Init();
-		LogMessageToTopLabel logMessageToTopLabel;
+		//LogMessageToTopLabel logMessageToTopLabel;
 		Log::Mess<LogMess::ProgramOpen>(0);
 
-		bool &onTheJobCross = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Cross>>().value;
-		bool &onTheJobLong = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value;
-		bool &onTheJobThick = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value;
-		bool packet = true;
+		//bool &onTheJobCross = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Cross>>().value;
+		//bool &onTheJobLong = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value;
+		//bool &onTheJobThick = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value;
+		Mode::Data data;
+		data.packet = true;
 		while(true)
 		{
 			try
@@ -361,6 +367,14 @@ namespace AutomatN
 				//расчёт группы прочности конец
 
 				zprint("  collection stop\n");
+#else
+				AND_BITS(
+					Ex<ExceptionRun>
+					, Ex<ExceptionReturnTube>
+					, Ex<ExceptionExitTube>
+					, Ex<ExceptionStop>
+				)(); //кнопка начала измерений
+				(*ptrProc)(data);
 #endif
 				
 			}
@@ -371,7 +385,7 @@ namespace AutomatN
 				device1730_1.Write(0);
 				device1730_2.Write(0);
 				AppKeyHandler::Stop();
-				packet = true;
+				data.packet = true;
 			}
 			catch(ExceptionTimeOut)
 			{
@@ -380,7 +394,7 @@ namespace AutomatN
 				device1730_1.Write(0);
 				device1730_2.Write(0);
 				AppKeyHandler::Stop();
-				packet = true;
+				data.packet = true;
 			}
 			catch(ExceptionAlarm)
 			{
@@ -388,7 +402,7 @@ namespace AutomatN
 				device1730_1.Write(0);
 				device1730_2.Write(0);
 				AppKeyHandler::Stop();
-				packet = true;
+				data.packet = true;
 			}
 			catch(ExceptionExit)
 			{			
@@ -416,6 +430,7 @@ void Automat::Stop()
 
 void Automat::Start()
 {
+	AppKeyHandler::Run();
 	 SetEvent(AutomatN::Ex<AutomatN::ExceptionRun>::handle);	
 }
 
@@ -425,4 +440,17 @@ void Automat::Exit()
 	 SetEvent(AutomatN::Ex<AutomatN::ExceptionExit>::handle);
 	 WaitForSingleObject(AutomatN::hThread, 5000);
 	 dprint("Exit from automat loop\n");
+}
+
+void Automat::ReturnTube()
+{
+	AppKeyHandler::ReturnTubeMode();
+	SetEvent(AutomatN::Ex<AutomatN::ExceptionReturnTube>::handle);
+}
+
+
+void Automat::ExitTube()
+{
+	AppKeyHandler::ExitTubeMode();
+	SetEvent(AutomatN::Ex<AutomatN::ExceptionExitTube>::handle);
 }

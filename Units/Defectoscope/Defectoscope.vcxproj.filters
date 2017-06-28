@@ -483,6 +483,15 @@
     <ClCompile Include="MessageText\StatusMessages.cpp">
       <Filter>MessageText</Filter>
     </ClCompile>
+    <ClCompile Include="Compute\ControlTubeMode.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\ExitTubeMode.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\ReturnTubeMode.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -961,6 +970,9 @@
     </ClInclude>
     <ClInclude Include="MessageText\ListMess.hpp">
       <Filter>MessageText</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\ControlMode.h">
+      <Filter>Compute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

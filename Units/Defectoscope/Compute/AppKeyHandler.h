@@ -9,6 +9,9 @@ namespace AppKeyHandler
 	void Continue();
 	void Stop();
 
+	void ExitTubeMode();
+	void ReturnTubeMode();
+
 	void KeyPressed(unsigned );
 
 	typedef TL::MkTlst<
@@ -20,5 +23,7 @@ namespace AppKeyHandler
 		, TL::IntToType<IDB_arrow_up>
 		, TL::IntToType<IDB_arrow_left>
 		, TL::IntToType<IDB_arrow_right>
+		, TL::IntToType<IDB_ExitTubeBtn>
+		, TL::IntToType<IDB_SensorsUnit>
 	>::Result button_list;
 }

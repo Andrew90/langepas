@@ -137,6 +137,9 @@
     <ClCompile Include="Compute\AppKeyHandler.cpp" />
     <ClCompile Include="Compute\Automat.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
+    <ClCompile Include="Compute\ControlTubeMode.cpp" />
+    <ClCompile Include="Compute\ExitTubeMode.cpp" />
+    <ClCompile Include="Compute\ReturnTubeMode.cpp" />
     <ClCompile Include="Compute\Unit502.cpp" />
     <ClCompile Include="DataItem\ConstData.cpp" />
     <ClCompile Include="DataItem\DataItem.cpp" />
@@ -300,6 +303,7 @@
     <ClInclude Include="Compute\Automat.hpp" />
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Compute\ComputeZone.h" />
+    <ClInclude Include="Compute\ControlMode.h" />
     <ClInclude Include="Compute\Unit502.h" />
     <ClInclude Include="DataItem\ConstData.h" />
     <ClInclude Include="DataItem\DataItem.h" />
