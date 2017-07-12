@@ -8,6 +8,7 @@ template<class T>struct BorderKlass3;
 	struct Thick{};
 	struct Cross{};
 	struct Long {};
+	struct Magn{};
 
 	struct Undefined{};
 	struct DeathZone{};

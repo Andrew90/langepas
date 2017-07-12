@@ -72,4 +72,6 @@ DLG(RotationSpeedDlg)
 
 DLG(ComPortDlg)
 
+DLG(OffsetSensorDlg)
+
 #undef DLG

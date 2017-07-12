@@ -519,6 +519,9 @@
     <ClCompile Include="Dialogs\RotationalSpeedDlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="Dialogs\OffsetSensorDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

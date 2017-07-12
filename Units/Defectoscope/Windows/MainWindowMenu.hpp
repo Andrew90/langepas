@@ -129,6 +129,7 @@ namespace MainWindowMenu
 	struct OffsetChannels         : OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};//: OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};
 	struct AmplificationChannels  : AmplificationChannelDlg{};
 	struct ComPort__  : ComPortDlg{};
+	struct OffsetsSens : OffsetSensorDlg{};
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
 	MENU_ITEM(L"Входные порты плата 1", DiscretePlateInputs)
@@ -148,6 +149,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Границы АЧХ", ACFBorder)
 	MENU_ITEM(L"Цвета", ColorItems)
 	MENU_ITEM(L"Ком-порт", ComPort__)
+	MENU_ITEM(L"Смещение датчиков наличия трубы в модуле", OffsetsSens)
 	
 	template<>struct SubMenu<AnalogPlate__>
 	{
@@ -187,6 +189,7 @@ namespace MainWindowMenu
 			// , SubMenu<Lir__>
 			, MenuItem<ComPort__>
 			, MenuItem<ColorItems>
+			, MenuItem<OffsetsSens>
 		>::Result list;		
 	};
 	// ----------------------------------------------------------------------------------------------------

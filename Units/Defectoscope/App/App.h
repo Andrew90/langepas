@@ -31,7 +31,7 @@ public:
 	static const int count_cross_sensors = 12;
 	static const int count_long_sensors = 4;
 	static const int count_Thick_sensors = 3;
-	static const int zone_length = 50;
+	static const int zone_length = 200;
 	static const int count_frames = frequency_rate * duration_collections;
 	static const int count_time_count_down = 60 * 100;
 	static const int zone_filter_offset = 100;

@@ -793,6 +793,39 @@ struct ComPortTable
 	TItems items;
 	const wchar_t *name(){return L"ComPortTable";}
 };
+//--------------------------------------------------------------------
+
+
+template<class T, int N>struct OffsSQ;
+
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 1, int, 0)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 2, int, 600)
+
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 1, int, 800)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 2, int, 1400)
+
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 1, int, 1600)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 2, int, 2200)
+
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 1, int, 2400)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 2, int, 3000)
+
+struct OffsetSensorsTable
+{
+	typedef TL::MkTlst<
+		 OffsSQ<Cross, 1>
+		, OffsSQ<Cross, 2>
+		, OffsSQ  <Thick, 1>
+		, OffsSQ  <Thick, 2>
+		, OffsSQ<Long, 1>
+		, OffsSQ<Long, 2>		
+		, OffsSQ<Magn, 1>
+		, OffsSQ<Magn, 2>
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"OffsetSensorsTable";}
+};
 //-----------------------------------------------------------------
  struct ParametersBase
  {
@@ -807,14 +840,12 @@ struct ComPortTable
 		 , InputBit2Table
 		 , OutputBit2Table		
 		 , OnTheJobTable
-	//	 , LanParametersTable
 		 , GraphAxesTable	
 		 , L502RangeTable
 		 , L502OffsetsTable
 		 , L502OffsetsDigitTable
-	//	 , L502RangeTable2
-	//	 , L502OffsetsTable2
 		 , ComPortTable
+		 , OffsetSensorsTable
 	 >::Result one_row_table_list;
 
 	 typedef TL::MkTlst<
@@ -825,7 +856,6 @@ struct ComPortTable
 		 , MedianFiltreTable
 		 , AxesTable
 		 , RecalculationFactorTable
-		// , BorderACFCutOffTable
 		 , MinMaxThresholdsTable
 		 , AnalogFilterTable
 		 , CountSubZonesTable

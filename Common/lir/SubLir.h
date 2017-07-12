@@ -2,42 +2,9 @@
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "templates/typelist.hpp"
 #include "Base\TablesDefine.h"
+#include "App/App.h"
 
-class Cross{};
-class Long{};
-class Thick{};
-class Magn{};
 
-template<class T, int N>struct OffsSQ;
-
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 1, int, 0)
-	DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 2, int, 600)
-
-	DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 1, int, 800)
-	DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 2, int, 1400)
-
-	DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 1, int, 1600)
-	DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 2, int, 2200)
-
-	DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 1, int, 2400)
-	DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 2, int, 3000)
-
-struct OffsetSensorsTable
-{
-	typedef TL::MkTlst<
-		OffsSQ<Long, 1>
-		, OffsSQ<Long, 2>
-		, OffsSQ<Cross, 1>
-		, OffsSQ<Cross, 2>
-		, OffsSQ  <Thick, 1>
-		, OffsSQ  <Thick, 2>
-		, OffsSQ<Magn, 1>
-		, OffsSQ<Magn, 2>
-	>::Result items_list;
-	typedef TL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name(){return L"OffsetSensorsTable";}
-};
 
 template<class, int>class On;
 template<class, int>class Off;
@@ -63,7 +30,7 @@ public:
 	int framesOffs;
 	int zonesOffs;
 	double rem;
-	unsigned zones[61];
+	unsigned zones[1 + App::count_zones];
 	Module(SubLir &lir);
 	void Start();
 };
@@ -213,20 +180,12 @@ struct Zones
 			{
 				break;
 			}
-			if(module_rem > 200.0)
+			if(module_rem > App::zone_length)
 			{
-				module_rem -= 200.0;
-				double d = module_rem / 200.0;
+				module_rem -= App::zone_length;
+				double d = module_rem / App::zone_length;
 				module_zones[module_zonesOffs] = samples[module_framesOffs - 1] + unsigned(d * (samples[module_framesOffs] - samples[module_framesOffs - 1]));
-				if(module_zonesOffs < 60)
-				{
-					++module_zonesOffs;
-					//	printf("%02d ", module_zonesOffs);
-				}
-				//else
-				//{
-				//	printf("x");
-				//}
+				if(module_zonesOffs < 1 + App::count_zones)	++module_zonesOffs;
 			}
 			module_rem += (tick[module_framesOffs] - tick[module_framesOffs - 1]) * sq_perSamples;
 		}
