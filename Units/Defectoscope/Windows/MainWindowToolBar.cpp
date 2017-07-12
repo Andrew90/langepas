@@ -104,6 +104,7 @@ namespace
 	{
 	//	SetEvent(App::ProgrammContinueEvent);
 	//	AppKeyHandler::Run();
+	   Automat::Continue();
 	}
 //-------------------------------------------------------------------------------
 	void Key<IDB_QueryBtn>::Click(HWND h)

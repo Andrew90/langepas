@@ -50,6 +50,7 @@ namespace MainWindowMenu
 	struct ThickThresholdWindow__: ThresholdThickDlg{};
 	struct MedianFiltre              : MedianFiltreDlg{};
 	struct PipeThicknes  : PipeThicknessDlg{};
+	struct RotationSpeed: RotationSpeedDlg{};
 //	struct AcfCutOffBorders  : AcfCutOffBordersDlg{};
 	struct Filter_: FilderDlg{}; 
 
@@ -64,6 +65,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Минимальная и максимальная стенки трубы", PipeThicknes)
 //	MENU_ITEM(L"Границы отсечения в частотной области", AcfCutOffBorders)
 	MENU_ITEM(L"Настройки аналогового фильтра", Filter_)
+	MENU_ITEM(L"Скорость вращения", RotationSpeed)
 
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
@@ -77,6 +79,7 @@ namespace MainWindowMenu
 			, MenuItem<Filter_>
 			, MenuItem<PipeThicknes>
 		//	, MenuItem<AcfCutOffBorders>
+			, MenuItem<RotationSpeed>
 			, Separator<0>
 			, MenuItem<MainCreateTypesize>
 			, MenuItem<MainDeleteTypeSize>
@@ -124,7 +127,8 @@ namespace MainWindowMenu
 	struct ACFBorder              {static void Do(HWND h){zprint("");}};//{static void Do(HWND h){zprint("");}};
 
 	struct OffsetChannels         : OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};//: OffsetsChannelDlg{};//{static void Do(HWND h){zprint("");}};
-	struct AmplificationChannels  : AmplificationChannelDlg{};//{static void Do(HWND h){zprint("");}};
+	struct AmplificationChannels  : AmplificationChannelDlg{};
+	struct ComPort__  : ComPortDlg{};
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
 	MENU_ITEM(L"Входные порты плата 1", DiscretePlateInputs)
@@ -143,6 +147,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Параметры сигнала", Signal)
 	MENU_ITEM(L"Границы АЧХ", ACFBorder)
 	MENU_ITEM(L"Цвета", ColorItems)
+	MENU_ITEM(L"Ком-порт", ComPort__)
 	
 	template<>struct SubMenu<AnalogPlate__>
 	{
@@ -180,6 +185,7 @@ namespace MainWindowMenu
 			 SubMenu<DiscretePlate>	
 			 , SubMenu<AnalogPlate__>
 			// , SubMenu<Lir__>
+			, MenuItem<ComPort__>
 			, MenuItem<ColorItems>
 		>::Result list;		
 	};

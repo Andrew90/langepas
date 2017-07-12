@@ -66,6 +66,6 @@ bool CrossViewer::Draw(TMouseMove &l, VGraphics &g)
 CONTEXT_MENU(CrossWindow)
 void CrossViewer::operator()(TRButtonDown &l)
 {
-	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Cross>>().value)
+//	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Cross>>().value)
 	PopupMenu<ContextMenuCrossWindow::items_list>::Do(l.hwnd, l.hwnd);
 }

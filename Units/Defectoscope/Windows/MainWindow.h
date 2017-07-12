@@ -33,7 +33,7 @@ public:
 	HWND hWnd;
 	HWND hStatusWindow;
 	MainWindowToolBar toolBar;
-//	CheckBoxWidget<OnTheJobCheckBox<Cross    , MainWindow> > crossCheckBox;
+	CheckBoxWidget<OnTheJobCheckBox<ACS    , MainWindow> > acsCheckBox;
 	CheckBoxWidget<OnTheJobCheckBox<Long     , MainWindow> > longCheckBox;
 	CheckBoxWidget<OnTheJobCheckBox<Thick, MainWindow> > ThickCheckBox;
 	CheckBoxWidget<OnTheJobCheckBox<ViewInterrupt, MainWindow> > viewInterruptCheckBox;

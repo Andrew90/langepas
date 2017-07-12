@@ -5,8 +5,8 @@ namespace Communication
 {
 	static const int ok = 0;					 /// \brief  ошибок нет
 	static const int time_overflow = 100;		 /// \brief	 превышено время ожидания
-	static const int error_crc = 110;			 /// \brief	 ошибка CRC
-	static const int error_count = 120;			 /// \brief	 ошибка CRC
+	static const int error_crc     = 110;			 /// \brief	 ошибка CRC
+	static const int error_count   = 120;			 /// \brief	 ошибка CRC
 class Asu
 {
 public:
@@ -16,14 +16,13 @@ public:
 
 	/// \brief возвращает номер трубы
 	/// \param ComPort 
-	/// \param возвращает номер трубы
-	/// \param возвращает признак (0-транзит, 1-контроль)
+	/// \param возвращает номер трубы	
 	/// \return возвращает 0 - если нет ошибок
-	static int RequestInformationAboutPipe(ComPort &, char (&numberTube)[8], int &mark);
+	static int RequestInformationAboutPipe(ComPort &, char (&numberTube)[9]);//, int &mark);
 
 	/// \brief посылает в АСУ результат измерений
 	/// \return возвращает 0 - если нет ошибок
-	static int SendData(ComPort &comPort, char (&numberTube)[8]
+	static int SendData(ComPort &comPort, char (&numberTube)[9]
 		, int crossBrak, int crossClass2
 		, int longBrak, int longClass2
 		, int thickBrak, int thickClass2

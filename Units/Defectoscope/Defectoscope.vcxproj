@@ -79,10 +79,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\CommonApp\ASU\Asu.cpp" />
     <ClCompile Include="..\..\CommonApp\Log\LogBuffer.cpp" />
     <ClCompile Include="..\..\CommonApp\Log\LogMessages.cpp" />
     <ClCompile Include="..\..\CommonApp\Log\LogMessageToTopLabel.cpp" />
     <ClCompile Include="..\..\Common\1730\Device1730.cpp" />
+    <ClCompile Include="..\..\Common\ComPort\ComPort.cpp" />
+    <ClCompile Include="..\..\Common\ComPort\crc.cpp" />
     <ClCompile Include="..\..\Common\DlgTemplates\DlgItems.cpp" />
     <ClCompile Include="..\..\Common\DlgTemplates\EditDlg.cpp" />
     <ClCompile Include="..\..\Common\DlgTemplates\GridWindow.cpp" />
@@ -138,6 +141,7 @@
     <ClCompile Include="Compute\Automat.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Compute\ControlTubeMode.cpp" />
+    <ClCompile Include="Compute\ControlTubeSubModules.cpp" />
     <ClCompile Include="Compute\ExitTubeMode.cpp" />
     <ClCompile Include="Compute\ReturnTubeMode.cpp" />
     <ClCompile Include="Compute\Unit502.cpp" />
@@ -149,6 +153,7 @@
     <ClCompile Include="Dialogs\AcfCutOffBordersDlg.cpp" />
     <ClCompile Include="Dialogs\AnalogPlateDlg.cpp" />
     <ClCompile Include="Dialogs\ColorItemsDlg.cpp" />
+    <ClCompile Include="Dialogs\ComPortDlg.cpp" />
     <ClCompile Include="Dialogs\DeadZonesDlg.cpp" />
     <ClCompile Include="Dialogs\FilterDlg.cpp" />
     <ClCompile Include="Dialogs\FrameWindowDlg.cpp" />
@@ -156,6 +161,7 @@
     <ClCompile Include="Dialogs\MedianFiltreDlg.cpp" />
     <ClCompile Include="Dialogs\PacketDlg.cpp" />
     <ClCompile Include="Dialogs\PipeThicknessDlg.cpp" />
+    <ClCompile Include="Dialogs\RotationalSpeedDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdsDlg.cpp" />
     <ClCompile Include="Dialogs\TypeSizeDlg.cpp" />
@@ -203,6 +209,7 @@
     <ClCompile Include="Windows\TopLabelViewer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\CommonApp\ASU\Asu.h" />
     <ClInclude Include="..\..\CommonApp\Log\LogBuffer.h" />
     <ClInclude Include="..\..\CommonApp\Log\LogMessages.h" />
     <ClInclude Include="..\..\CommonApp\Log\LogMessageToTopLabel.h" />
@@ -211,6 +218,8 @@
     <ClInclude Include="..\..\Common\Base\ExpressBase.hpp" />
     <ClInclude Include="..\..\Common\Base\tables.hpp" />
     <ClInclude Include="..\..\Common\Base\TablesDefine.h" />
+    <ClInclude Include="..\..\Common\ComPort\ComPort.h" />
+    <ClInclude Include="..\..\Common\ComPort\crc.h" />
     <ClInclude Include="..\..\Common\DlgTemplates\dlg.hpp" />
     <ClInclude Include="..\..\Common\DlgTemplates\DlgItems.h" />
     <ClInclude Include="..\..\Common\DlgTemplates\DlgTemplate.hpp" />
@@ -259,6 +268,7 @@
     <ClInclude Include="..\..\Common\L502\lpcie.h" />
     <ClInclude Include="..\..\Common\L502\pstdint.h" />
     <ClInclude Include="..\..\Common\L502\x502api.h" />
+    <ClInclude Include="..\..\Common\lir\SubLir.h" />
     <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h" />
     <ClInclude Include="..\..\Common\templates\Hash.h" />
     <ClInclude Include="..\..\Common\templates\HexColor.h" />
@@ -304,6 +314,7 @@
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Compute\ComputeZone.h" />
     <ClInclude Include="Compute\ControlMode.h" />
+    <ClInclude Include="Compute\ControlTubeSubModules.h" />
     <ClInclude Include="Compute\Unit502.h" />
     <ClInclude Include="DataItem\ConstData.h" />
     <ClInclude Include="DataItem\DataItem.h" />

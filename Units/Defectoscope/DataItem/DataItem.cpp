@@ -10,7 +10,7 @@ struct test_test
 		 int z = 0;
 		 {
 			 ItemData<Cross> &d = Singleton<ItemData<Cross>>::Instance();
-			 static const int zones = 150;
+			 static const int zones = 50;
 			 d.currentOffsetZones = zones;
 
 			 for(int i = 0; i < zones; ++i)
@@ -24,7 +24,7 @@ struct test_test
 		 }
 		 {
 			 ItemData<Long> &d = Singleton<ItemData<Long>>::Instance();
-			 static const int zones = 150;
+			 static const int zones = 50;
 			 d.currentOffsetZones = zones;
 
 			 for(int i = 0; i < zones; ++i)
@@ -39,7 +39,7 @@ struct test_test
 
 		 {
 			 ItemData<Thick> &d = Singleton<ItemData<Thick>>::Instance();
-			 static const int zones = 150;
+			 static const int zones = 50;
 			 d.currentOffsetZones = zones;
 			 double x = 1;
 			 for(int i = 0; i < zones; ++i)
@@ -64,7 +64,7 @@ struct test_test
 
 		  {
 			 ResultData &d = Singleton<ResultData>::Instance();
-			 static const int zones = 150;
+			 static const int zones = 50;
 			 d.currentOffsetZones = zones;
 			 double x = 0;
 			 for(int i = 0; i < zones; ++i)

@@ -68,6 +68,8 @@ DLG(OffsetsChannelDlg)
 DLG(AmplificationChannelDlg)
 
 DLG(LirDlg)
-//DLG(LirDescriptorDlg)
+DLG(RotationSpeedDlg)
+
+DLG(ComPortDlg)
 
 #undef DLG

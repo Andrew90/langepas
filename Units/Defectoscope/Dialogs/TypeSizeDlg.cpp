@@ -8,6 +8,8 @@
 
 namespace
 {
+	int diameterTubes[] = {60, 73, 89};
+	int countSens[] = {10, 12, 12};
 	struct AddOkBtn
 	{
 		static const int width = 120;
@@ -20,8 +22,16 @@ namespace
 			{
 				wchar_t buf[128];
 
-				GetWindowText(owner.items.get<DlgItem<CrossCountSensors> >().hWnd, buf, dimention_of(buf));
-				owner.table.items.get<CrossCountSensors>().value = _wtoi(buf);
+				GetWindowText(owner.items.get<DlgItem<DiametrTube> >().hWnd, buf, dimention_of(buf));
+				int t = owner.table.items.get<DiametrTube>().value = _wtoi(buf);
+				for(int i = 0; i < dimention_of(diameterTubes); ++i)
+				{
+					if(diameterTubes[i] == t)
+					{
+						owner.table.items.get<CrossCountSensors>().value = countSens[i];
+						break;
+					}
+				}
 
 				GetWindowText(owner.items.get<DlgItem<NameParam> >().hWnd, buf, dimention_of(buf));
 				if(0 == buf[0] || 0 == wcscmp(L"NONAME", buf))
@@ -125,18 +135,22 @@ namespace
 }
 
 DO_NOT_CHECK(NameParam)
-PARAM_TITLE(NameParam, L"")
-template<int N>struct DlgSubItems<NameParam, Holder<N> >: EditItems<NameParam, 420>{};
+	PARAM_TITLE(NameParam, L"")
+	template<int N>struct DlgSubItems<NameParam, Holder<N> >: EditItems<NameParam, 420>{};
 
-PARAM_TITLE(CrossCountSensors, L"Количество поперечных датчиков");
-template<>struct DlgSubItems<CrossCountSensors, int>: ComboBoxSubItem<CrossCountSensors>{};
+PARAM_TITLE(DiametrTube, L"Диаметр трубы");
+template<>struct DlgSubItems<DiametrTube, int>: ComboBoxSubItem<DiametrTube>{};
 
-template<>struct FillComboboxList<CrossCountSensors>
+template<>struct FillComboboxList<DiametrTube>
 {
-	void operator()(HWND h, CrossCountSensors &t)
+	void operator()(HWND h, DiametrTube &t)
 	{
-		ComboBox_AddString(h, L"10");
-		ComboBox_AddString(h, L"12");
+		wchar_t buf[16];
+		for(int i = 0; i < dimention_of(diameterTubes); ++i)
+		{
+			_itow(diameterTubes[i], buf, 10);
+			ComboBox_AddString(h, buf);
+		}
 	}
 };
 
@@ -146,10 +160,10 @@ void AddTypeSizeDlg::Do(HWND h)
 	if(TemplDialogList<
 		ParametersBase
 		, ParametersTable
-		, TL::MkTlst<NameParam, CrossCountSensors>::Result
+		, TL::MkTlst<NameParam, DiametrTube>::Result
 		, TL::MkTlst<AddOkBtn, CancelBtn>::Result
-	   >(t).Do(h, L"Добавить типоразмер")
-	   )
+	>(t).Do(h, L"Добавить типоразмер")
+	)
 	{}
 }
 
@@ -162,8 +176,8 @@ void DelTypeSizeDlg::Do(HWND h)
 		, ParametersTable
 		, TL::MkTlst<NameParam>::Result
 		, TL::MkTlst<DelOkBtn, CancelBtn>::Result
-	   >(t).Do(h, L"Удалить типоразмер")
-	   )
+	>(t).Do(h, L"Удалить типоразмер")
+	)
 	{}
 }
 

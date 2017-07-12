@@ -124,6 +124,15 @@
     <Filter Include="GridData">
       <UniqueIdentifier>{a159de4a-4d53-4f57-9b98-6929b8627ef7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Devices\ComPort">
+      <UniqueIdentifier>{c3282ce5-f14f-425c-8d4c-6c5ad79ea84c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\ASU">
+      <UniqueIdentifier>{330abeeb-175e-4173-a87d-aa9f161f4a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Devices\lir">
+      <UniqueIdentifier>{f7565ba3-bc9d-4911-a052-0d180743e234}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Defectoscope.cpp">
@@ -491,6 +500,24 @@
     </ClCompile>
     <ClCompile Include="Compute\ReturnTubeMode.cpp">
       <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\ControlTubeSubModules.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ComPort\ComPort.cpp">
+      <Filter>Common\Devices\ComPort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\ComPort\crc.cpp">
+      <Filter>Common\Devices\ComPort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CommonApp\ASU\Asu.cpp">
+      <Filter>Common\ASU</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\ComPortDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\RotationalSpeedDlg.cpp">
+      <Filter>Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -973,6 +1000,21 @@
     </ClInclude>
     <ClInclude Include="Compute\ControlMode.h">
       <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\ControlTubeSubModules.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ComPort\ComPort.h">
+      <Filter>Common\Devices\ComPort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\ComPort\crc.h">
+      <Filter>Common\Devices\ComPort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonApp\ASU\Asu.h">
+      <Filter>Common\ASU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\lir\SubLir.h">
+      <Filter>Common\Devices\lir</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -128,6 +128,29 @@ int L502::Read(unsigned &startChannel, double *data, unsigned &count)
 	}
 	return cnt;
 }
+bool L502::ReadAsync(unsigned ch, int range, double &value)
+{
+	/* устанавливаем 1 логический канал в управл€ющей таблице */
+	int32_t err = X502_SetLChannelCount(hnd, 1);
+	if (err == X502_ERR_OK) {
+		/* логический канал соответствует измерению 7 канала
+		в диф. режиме */
+		err = X502_SetLChannel(hnd,0 ,ch,X502_LCH_MODE_COMM,range,0);
+	}
+	if (err == X502_ERR_OK) {
+		/* передаем настройки в модуль */
+		err = X502_Configure(hnd,0);
+	}
+	if (err == X502_ERR_OK) {
+		/* —читываем кадр данных ј÷ѕ из одного отсчета */
+		err = X502_AsyncGetAdcFrame((t_l502_hnd)hnd, X502_PROC_FLAGS_VOLT, 1000, &value);
+		if (err == X502_ERR_OK) {
+			/* верно считали значение val */
+			return true;
+		}
+	}
+	return false;
+}
 #else
 #include "Emulator\Emulator.h"
 L502::L502(){}
@@ -140,5 +163,10 @@ int L502::Read(unsigned &startChennel, double *data, unsigned &count)
 {
 	Singleton<Emulator>::Instance().Read(startChennel, data, count, 50);
 	return 1;
+}
+bool L502::ReadAsync(unsigned ch, int, double &value)
+{
+	value = ch;
+	return true;
 }
 #endif

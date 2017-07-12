@@ -60,11 +60,19 @@ void App::Init()
 		ok = false;
 	}
 
-	if(ok && unit502.SetupParams())
+	if(ok && !unit502.SetupParams())
 	{
 		MessageBox(h, L"Не могу загрузить параметры в плату 502", L"Ошибка !!!", MB_ICONERROR);
 		ok = false;
 	}
+
+	ComPortTable::TItems & comPortParam = Singleton<ComPortTable>::Instance().items;
+	if(ok && !comPort.Open(comPortParam.get<NumberComPort>().value, comPortParam.get<Speed>().value))
+	{
+		MessageBox(h, L"Не могу инициировать ком-порт", L"Ошибка !!!", MB_ICONERROR);
+		ok = false;
+	}
+
 #ifdef DEBUG_ITEMS
 	ok = true;
 #endif
@@ -81,10 +89,16 @@ void App::Destroy()
 	Compute::Destroy();
 }
 
+void App::StatusBar(int n, wchar_t *txt)
+{
+	SendMessage(mainWindow.hStatusWindow, SB_SETTEXT, n, (LONG)txt);
+}
+
 App app;
 Device1730 device1730_1;
 Device1730 device1730_2;
 Unit502 unit502;
+ComPort comPort;
 
 
 

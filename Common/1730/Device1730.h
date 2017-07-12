@@ -17,6 +17,8 @@ public:
 	unsigned ReadOutput();
 
 	void WriteOutput(unsigned, unsigned = (unsigned)-1);
+
+	void AddBits(unsigned);
 };
 
 

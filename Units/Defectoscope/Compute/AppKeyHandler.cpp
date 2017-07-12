@@ -91,7 +91,7 @@ namespace AppKeyHandler
 	void Continue()
 	{
 		typedef TL::MkTlst<
-			On<IDB_Continue>, On<IDB_CycleBtn>
+			On<IDB_Continue>//, On<IDB_CycleBtn>
 		>::Result list;
 		__btn__<list>()();
 	}

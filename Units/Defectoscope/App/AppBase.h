@@ -128,28 +128,14 @@ template<template<class, class, class, class, class,class>class W, class _0, cla
 	typedef typename TL::MkTlst<_0, _1, _2, _3, _4, _5>::Result Result;
 };
 
-//struct Undefined{};
-//struct Nominal{};
-//struct DeathZone{typedef NullType items_list;};
-//template<class>struct Cancel;
-//struct Projectionist{};
-
-//struct LessMinimumEnergy	{};  
-//struct GreaterMaximumEnergy	{};
-//struct ValueLessThreshold  	{};
-
 #define	JOIN2(a, b) a##,##b
 DEFINE_WAPPER(Clr<Undefined>, int, 0xff555555)
-
-//DEFINE_WAPPER(Clr<LessMinimumEnergy>, int, 0xff555555)
-//DEFINE_WAPPER(Clr<GreaterMaximumEnergy>, int, 0xff555555)
-//DEFINE_WAPPER(Clr<ValueLessThreshold>, int, 0xff555555)
 
 DEFINE_WAPPER(Clr<Nominal  >, int, 0xff00ff00)
 DEFINE_WAPPER(Clr<DeathZone>, int, 0xff333333) 
 
 DEFINE_WAPPER(Clr<BorderKlass2<Thick>  >, int, 0xff0000ff)
-DEFINE_WAPPER(Clr<BorderKlass3<Thick>  >, int, 0xffff0000)
+DEFINE_WAPPER(Clr<BorderKlass3<Thick>  >, int, 0xffff00ff)
 DEFINE_WAPPER(Clr<BorderDefect<Thick>  >, int, 0xffff0000)
 
 DEFINE_WAPPER(Clr<BorderKlass2<Long>      >, int, 0xffffff00)
@@ -269,17 +255,20 @@ STR_PARAM(NamePlate1730_2, 64, L"PCIE-1730,BID#1")
 struct AxesTable;
 struct AnalogFilterTable;
 struct CalculationAlgorithmTable;
+struct RotationalSpeedTable;
 DEFINE_PARAM_ID(ThresholdsTable            , int, 1)
 DEFINE_PARAM_ID(DeadAreaTable			   , int, 1)
 DEFINE_PARAM_ID(AxesTable	   , int, 1)
 DEFINE_PARAM_ID(MedianFiltreTable, int, 1)
 STR_PARAM(NameParam, 128, L"NONAME")
-DEFINE_PARAM(CrossCountSensors, int, 10)
+DEFINE_PARAM(CrossCountSensors, int, 12)
 DEFINE_PARAM_ID(RecalculationFactorTable, int, 1)
 DEFINE_PARAM_ID(MinMaxThresholdsTable, int, 1)
 DEFINE_PARAM_ID(AnalogFilterTable, int, 1)
 DEFINE_PARAM_ID(CalculationAlgorithmTable, int, 1)
-DEFINE_PARAM(TubeMinLength            , int, 140)
+DEFINE_PARAM_ID(RotationalSpeedTable, int, 1)
+DEFINE_PARAM(TubeMinLength            , int, 38)
+DEFINE_PARAM(DiametrTube            , int, 73)
 
  struct ParametersTable
  {
@@ -292,9 +281,11 @@ DEFINE_PARAM(TubeMinLength            , int, 140)
 		, ID<MinMaxThresholdsTable>
 		, ID<AnalogFilterTable>
 		, ID<CalculationAlgorithmTable>
+		, ID<RotationalSpeedTable>
 		, CrossCountSensors
 		, NameParam
 		, TubeMinLength
+		, DiametrTube
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
@@ -312,7 +303,7 @@ DEFINE_PARAM(iOPpo    , unsigned, 1 << 7)
 DEFINE_PARAM(iSQ1t    , unsigned, 1 << 8)
 DEFINE_PARAM(iSQ2t    , unsigned, 1 << 9)
 DEFINE_PARAM(iRPt     , unsigned, 1 << 10)
-DEFINE_PARAM(iOpt     , unsigned, 1 << 11)
+DEFINE_PARAM(iOPt     , unsigned, 1 << 11)
 DEFINE_PARAM(iReadyT  , unsigned, 1 << 12)
 DEFINE_PARAM(iControlT, unsigned, 1 << 13)
 DEFINE_PARAM(iResultT , unsigned, 1 << 14)
@@ -332,7 +323,7 @@ struct InputBit1Table
 		, iSQ1t    
 		, iSQ2t    
 		, iRPt     
-		, iOpt     
+		, iOPt     
 		, iReadyT  
 		, iControlT
 		, iResultT 
@@ -493,19 +484,21 @@ struct AxesTable
 	const wchar_t *name(){return L"AxesTable";}
 };
 //-----------------------------------------------------------------------------------------------------------
+struct ACS{};
 template<class T>struct OnTheJob;
 DEFINE_PARAM_WAPPER(OnTheJob, Cross    , bool, true)
 DEFINE_PARAM_WAPPER(OnTheJob, Long     , bool, true)
 DEFINE_PARAM_WAPPER(OnTheJob, Thick, bool, true)
 DEFINE_PARAM_WAPPER(OnTheJob, ViewInterrupt, bool, true)
+DEFINE_PARAM_WAPPER(OnTheJob, ACS, bool, false)
 
 struct OnTheJobTable
 {
 	typedef TL::MkTlst<
-		OnTheJob<Cross    >
-		, OnTheJob<Long     >
+		OnTheJob<Long     >
 		, OnTheJob<Thick>
 		, OnTheJob<ViewInterrupt>
+		, OnTheJob<ACS>
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
@@ -758,6 +751,49 @@ struct GraphAxesTable
 	const wchar_t *name(){return L"GraphAxesTable";}
  };
 //---------------------------------------------------------------
+template<class T>struct SpeedBit;
+DEFINE_PARAM_WAPPER(SpeedBit, oRL, bool, false)
+DEFINE_PARAM_WAPPER(SpeedBit, oRM, bool, true)
+DEFINE_PARAM_WAPPER(SpeedBit, oRH, bool, false)
+struct RotationalSpeedTable
+{
+	typedef TL::MkTlst<
+		  SpeedBit<oRL>
+		, SpeedBit<oRM>
+		, SpeedBit<oRH>
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"RotationalSpeedTable";}
+};
+//-----------------------------------------------------------------
+template<class, int>struct Tresh;
+DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 0, double, 10)
+DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 1, double, 10)
+struct TemperatureTresholdsable
+{
+	typedef TL::MkTlst<
+		  Tresh<Temperature, 0>
+		, Tresh<Temperature, 1>
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"TemperatureTresholdsable";}
+};
+//-----------------------------------------------------------------
+DEFINE_PARAM(NumberComPort, int, 3)
+DEFINE_PARAM(Speed, int, 9600)
+struct ComPortTable
+{
+	typedef TL::MkTlst<
+		  NumberComPort
+		, Speed
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"ComPortTable";}
+};
+//-----------------------------------------------------------------
  struct ParametersBase
  {
 	 typedef TL::MkTlst<
@@ -778,6 +814,7 @@ struct GraphAxesTable
 		 , L502OffsetsDigitTable
 	//	 , L502RangeTable2
 	//	 , L502OffsetsTable2
+		 , ComPortTable
 	 >::Result one_row_table_list;
 
 	 typedef TL::MkTlst<
@@ -792,6 +829,7 @@ struct GraphAxesTable
 		 , MinMaxThresholdsTable
 		 , AnalogFilterTable
 		 , CountSubZonesTable
+		 , RotationalSpeedTable
 	 >::Result multy_row_table_list;
 
 	 typedef TL::MkTlst<

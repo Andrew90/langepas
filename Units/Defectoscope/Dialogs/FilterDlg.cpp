@@ -23,12 +23,6 @@ MAX_EQUAL_VALUE(CutoffFrequency<Voltage>, 4000)
 PARAM_TITLE(    CutoffFrequency<Voltage>, L"Частота отсечения фильтра нижних частот сигнала модуля группы прочности")
 PARAM_TITLE(    CutoffFrequencyOn<Voltage>, L"Включение фильтра нижних частот сигнала модуля группы прочности")
 
-//MIN_EQUAL_VALUE(CutoffFrequency<ReferenceSignal>, 10)
-//MAX_EQUAL_VALUE(CutoffFrequency<ReferenceSignal>, 4000)
-//PARAM_TITLE(    CutoffFrequency<ReferenceSignal>, L"Частота отсечения фильтра нижних частот опорного сигнала модуля группы прочности")
-//PARAM_TITLE(    CutoffFrequencyOn<ReferenceSignal>, L"Включение фильтра нижних частот опорного сигнала модуля группы прочности")
-
-
 void FilderDlg::Do(HWND h)
 {
 	if(TemplDialogList<ParametersBase, AnalogFilterTable

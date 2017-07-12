@@ -281,7 +281,7 @@ DEFINE_PARAM_NUM(IDThickMax, n, int, 0)
 	};
 	template<template<int>class W>struct __set_data__
 	{
-		void operator()(StoredTable &st, double(&data)[300], CBase &base)
+		void operator()(StoredTable &st, double(&data)[60], CBase &base)
 		{
 			typedef TL::CreateNumList<W, 0, 7>::Result list;
 			try

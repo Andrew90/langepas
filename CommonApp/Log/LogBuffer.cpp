@@ -101,3 +101,8 @@ bool Log::LastMessage(TData *&d)
 	inner.Get(t, d);
 	return true;
 }
+
+ void Log::TailMessage(TData *&d)
+ {
+	 inner.Get(lastMessage, d);
+ }

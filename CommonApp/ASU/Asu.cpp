@@ -13,6 +13,7 @@ namespace Communication
 
 		unsigned char numberTube[8] ;
 		unsigned short mark	   ;
+		unsigned short noused; 
 		unsigned short crc	   ;
 	};
 	struct Func5 
@@ -44,6 +45,7 @@ namespace Communication
 		unsigned char zones[65 * 2];
 		unsigned short crc;
 	};
+#pragma pack(pop)
 
 	struct HandleComPort
 	{		
@@ -80,7 +82,7 @@ namespace Communication
 	};
 
 	int Asu::SendData(ComPort &comPort
-		, char (&numberTube)[8]
+		, char (&numberTube)[9]
 	, int crossBrak, int crossClass2
 		, int longBrak, int longClass2
 		, int thickBrak, int thickClass2
@@ -153,7 +155,7 @@ namespace Communication
 		return ret;
 	}
 
-	int Asu::RequestInformationAboutPipe(ComPort &comPort, char (&numberTube)[8], int &mark)
+	int Asu::RequestInformationAboutPipe(ComPort &comPort, char (&numberTube)[9])
 	{
 		unsigned char buf[] = {5, 2, 1, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
@@ -169,8 +171,7 @@ namespace Communication
 			if(ok == ret)
 			{
 				Func2 *b = (Func2 *)handleComPort.receiveBuffer;
-				memmove(numberTube, b->numberTube, sizeof(numberTube));
-				mark = b->mark;
+				memmove(numberTube, b->numberTube, sizeof(numberTube) - 1);
 				break;
 			}
 			Sleep(1000);
@@ -200,7 +201,7 @@ namespace Communication
 
 		return ret;
 	}
-
+#pragma pack(push, 1)
 	struct Func2_1
 	{
 		unsigned char size;
@@ -214,7 +215,7 @@ namespace Communication
 		unsigned short zones[65];
 		unsigned short crc	   ;
 	};
-
+#pragma pack(pop)
 	/// \brief возвращает результат контроля
 	/// \param ComPort 
 	/// \param возвращает порог брака
@@ -255,7 +256,7 @@ namespace Communication
 
 		return ret;
 	}
-
+#pragma pack(push, 1)
 	struct Func4_1
 	{
 		unsigned char size;
@@ -268,7 +269,7 @@ namespace Communication
 		char reserve[10];
 		unsigned short crc	   ;
 	};
-
+#pragma pack(pop)
 	/// \brief передача параметров контроля
 	/// \param типоразмер трубы
 	/// \param порог брака
@@ -312,5 +313,4 @@ namespace Communication
 
 		return ret;
 	}
-#pragma pack(pop)
 }

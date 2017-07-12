@@ -1,16 +1,14 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "MainWindow.h"
 #include "window_tool/MenuApi.h"
 #include "MainWindowMenu.hpp"
 #include "window_tool\EmptyWindow.h"
 #include <CommCtrl.h>
 #include "Windows/Common.h"
-//#include "Automat/AppKeyHandler.h"
 
 #include "tools_debug\DebugMess.h"
 
 namespace {
-//	static const int resultViewerHeight = 100;
 	struct __move_window_data__
 	{
 		int y, width, height;
@@ -49,17 +47,6 @@ namespace {
 			p->y += p->height;
 		}
 	};
-	
-	//template<class P>struct __move_window__<ResultViewer, P>
-	//{
-	//	typedef ResultViewer O;
-	//	void operator()(O *o, P *p)
-	//	{
-	//		TSize size = {o->hWnd, WM_SIZE, 0, p->width, resultViewerHeight};
-	//		SendMessage(MESSAGE(size));
-	//		MoveWindow(o->hWnd , 0, p->y, p->width, resultViewerHeight, true);
-	//	}
-	//};
 }
 //------------------------------------------------------------------------
 void MainWindow::operator()(TSize &m)
@@ -78,14 +65,14 @@ void MainWindow::operator()(TSize &m)
 	static const int width = toolBar.Width();
 	select.Size(width, 5, 400);
 	//
-//	crossCheckBox	 .Size (width + 425, 5 , 400, 20);
+	acsCheckBox	 .Size (width + 425, 55, 400, 20);
 	longCheckBox	     .Size (width + 425,  5, 400, 20);
 	ThickCheckBox        .Size (width + 425, 25, 400, 20);
 	viewInterruptCheckBox.Size(width, 55, 400, 20);
 	//
 	static const int topLabelHeight = 28;
 	int y = rt.bottom - rt.top - 1;
-	int t = r.bottom - rs.bottom - rt.bottom + rt.top + 2 - topLabelHeight;// - resultViewerHeight;
+	int t = r.bottom - rs.bottom - rt.bottom + rt.top + 2 - topLabelHeight;
 	MoveWindow(topLabelViewer.hWnd , 0, y, r.right, topLabelHeight, true);
 	y += topLabelHeight;
 	t = int((double)t / 6);
@@ -118,10 +105,10 @@ LRESULT MainWindow::operator()(TCreate &m)
 	int pParts[] = {200, 400, 600, 900};
 	SendMessage(hStatusWindow, SB_SETPARTS, dimention_of(pParts), (LPARAM)pParts);
 //
-//	crossCheckBox	 .Init(toolBar.hWnd, L"Измерение поперечных дефектов стенки трубы");
-	longCheckBox	 .Init(toolBar.hWnd, L"Измерение продольных дефектов стенки трубы");
-	ThickCheckBox.Init(toolBar.hWnd, L"Измерение толщины стенки трубы");
-	viewInterruptCheckBox.Init(toolBar.hWnd, L"Прерывание на просмотр");
+	acsCheckBox	 .Init(toolBar.hWnd, L"Р РµР¶РёРј СЃ РђРЎРЈ");
+	longCheckBox	 .Init(toolBar.hWnd, L"РР·РјРµСЂРµРЅРёРµ РїСЂРѕРґРѕР»СЊРЅС‹С… РґРµС„РµРєС‚РѕРІ СЃС‚РµРЅРєРё С‚СЂСѓР±С‹");
+	ThickCheckBox.Init(toolBar.hWnd, L"РР·РјРµСЂРµРЅРёРµ С‚РѕР»С‰РёРЅС‹ СЃС‚РµРЅРєРё С‚СЂСѓР±С‹");
+	viewInterruptCheckBox.Init(toolBar.hWnd, L"РџСЂРµСЂС‹РІР°РЅРёРµ РЅР° РїСЂРѕСЃРјРѕС‚СЂ");
 //
 	topLabelViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<TopLabelViewer>::Proc, L"TopLabelWindow", &topLabelViewer);
 	topLabelViewer.label.fontHeight = 16;
@@ -137,7 +124,7 @@ void MainWindow::operator()(TDestroy &l)
 }
 void MainWindow::operator()(TClose &l)
 {
-	if(IDYES == MessageBox(l.hwnd, L"Выйти из программы?", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
+	if(IDYES == MessageBox(l.hwnd, L"Р’С‹Р№С‚Рё РёР· РїСЂРѕРіСЂР°РјРјС‹?", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONQUESTION | MB_YESNO))
 	{
 		DestroyWindow(l.hwnd);
 	}

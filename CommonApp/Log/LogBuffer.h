@@ -25,6 +25,7 @@ public:
 	static bool IsRow(int , TData *&);
 	static int LastMessageIndex();
 	static bool LastMessage(TData *&d);
+	static void TailMessage(TData *&d);
 };
 
 #define DROP_MESSAGE(N)template<>struct Log::Filter<N>{static const bool value = false;};

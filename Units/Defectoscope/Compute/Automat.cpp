@@ -12,6 +12,7 @@
 #include "Dates\ComputeSolid.h"
 #include "Dialogs/PacketDlg.h"
 #include "ControlMode.h"
+#include "Compute\ControlTubeSubModules.h"
 
 namespace AutomatN
 {
@@ -19,9 +20,9 @@ namespace AutomatN
 #define EX(n, init_state)template<>struct Ex<Exception##n>{static HANDLE handle;};\
 	HANDLE Ex<Exception##n>::handle = CreateEvent(NULL, init_state, FALSE, NULL);
 
-	EX(Exit, TRUE)
-	EX(Stop, FALSE)
-	EX(Continue, TRUE)
+	//EX(Exit, TRUE)
+	//EX(Stop, FALSE)
+	//EX(Continue, TRUE)
 	EX(Run, TRUE)
 	//EX(Alarm, FALSE)
 
@@ -29,6 +30,10 @@ namespace AutomatN
 	EX(ExitTube, FALSE)
 
 #undef EX
+
+	HANDLE Ex<ExceptionStop>::handle = CreateEvent(NULL, FALSE, FALSE, NULL);
+	HANDLE Ex<ExceptionExit>::handle = CreateEvent(NULL, TRUE, FALSE, NULL);
+	HANDLE Ex<ExceptionContinue>::handle = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 //	unsigned &Off<i—ontrol—ircuits>::bit = Singleton<InputBitTable>::Instance().items.get<i—ontrol—ircuits>().value;
 //	unsigned &Off<iCycle>::bit =	Singleton<InputBitTable>::Instance().items.get<iCycle>().value;
@@ -40,49 +45,6 @@ namespace AutomatN
 	{
 		void operator()(){}
 	};
-	//template<>struct collections_data_unit502<On<iCross0>>
-	//{
-	//	void operator()()
-	//	{
-	//		unit502.crossOn = true;
-	//	}
-	//};
-	//template<>struct collections_data_unit502<On<iLong0>>
-	//{
-	//	void operator()()
-	//	{
-	//		unit502.longOn = true;
-	//	}
-	//};
-	//template<>struct collections_data_unit502<On<iSolid>>
-	//{
-	//	void operator()()
-	//	{
-	//		unit502.solidOn = true;
-	//	}
-	//};
-	//
-	//template<>struct collections_data_unit502<Off<iCross1>>
-	//{
-	//	void operator()()
-	//	{
-	//		unit502.crossOn = false;
-	//	}
-	//};
-	//template<>struct collections_data_unit502<Off<iLong1>>
-	//{
-	//	void operator()()
-	//	{
-	//		unit502.longOn = false;
-	//	}
-	//};
-	//template<>struct collections_data_unit502<Off<iSolid>>
-	//{
-	//	void operator()()
-	//	{
-	//		unit502.solidOn = false;
-	//	}
-	//};
 
 	template<class T>struct UnitBit;
 	template<class T>struct UnitBit<On<T>>
@@ -103,7 +65,7 @@ namespace AutomatN
 		}
 	};
 	
-	template<class T>struct __mess__{void operator()(){}};
+	//template<class T>struct __mess__{void operator()(){}};
 	//template<>struct __mess__<iCross1>
 	//{
 	//	void operator()()
@@ -219,6 +181,7 @@ namespace AutomatN
 			o(p);
 		}
 	};
+	/*
 	struct Collection
 	{
 		static void Do(unsigned bits)
@@ -229,7 +192,7 @@ namespace AutomatN
 		//		unit502.Read();   //‚˚Á˚‚‡Ú¸Òˇ ·Û‰ÂÚ ˜ÂÂÁ ~100 Ï.ÒÂÍ.
 		}
 	};
-
+	 */
 	struct ComputeData
 	{
 		static void Do(unsigned bits)
@@ -258,12 +221,22 @@ namespace AutomatN
 	//	}
 	//};
 //----------------------------------------------------------------------
+	ExceptionAlarm::ExceptionAlarm()
+	{
+		Log::TData *d;
+		Log::TailMessage(d);
+		LogMess::FactoryMessages &f = LogMess::FactoryMessages::Instance();
+		char c[128];
+		f.Text(d->id, c, d->value);
+		MessageBoxA(app.mainWindow.hWnd, c, "—ÓÓ·˘ÂÌËÂ!!!", MB_ICONINFORMATION);
+	}
+	//----------------------------------------------------------------------------
 	static DWORD WINAPI Do(LPVOID)
 	{		
 		device1730_1.Write(0);
 		device1730_2.Write(0);
 		AppKeyHandler::Init();
-		//LogMessageToTopLabel logMessageToTopLabel;
+		LogMessageToTopLabel logMessageToTopLabel;
 		Log::Mess<LogMess::ProgramOpen>(0);
 
 		//bool &onTheJobCross = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Cross>>().value;
@@ -384,6 +357,7 @@ namespace AutomatN
 				Log::Mess<LogMess::InfoUserStop>();	
 				device1730_1.Write(0);
 				device1730_2.Write(0);
+				DisableDemagnetization();
 				AppKeyHandler::Stop();
 				data.packet = true;
 			}
@@ -393,7 +367,8 @@ namespace AutomatN
 				Log::Mess<LogMess::TimeoutPipe>();	
 				device1730_1.Write(0);
 				device1730_2.Write(0);
-				AppKeyHandler::Stop();
+				DisableDemagnetization();
+			//	AppKeyHandler::Stop();
 				data.packet = true;
 			}
 			catch(ExceptionAlarm)
@@ -401,7 +376,8 @@ namespace AutomatN
 				ResetEvent(Ex<ExceptionRun>::handle);
 				device1730_1.Write(0);
 				device1730_2.Write(0);
-				AppKeyHandler::Stop();
+				DisableDemagnetization();
+			//	AppKeyHandler::Stop();
 				data.packet = true;
 			}
 			catch(ExceptionExit)
@@ -409,11 +385,13 @@ namespace AutomatN
 				Log::Mess<LogMess::ProgramClosed>();	
 				device1730_1.Write(0);
 				device1730_2.Write(0);
+				DisableDemagnetization();
 				return 0;
 			}
 		}
 		device1730_1.Write(0);
 		device1730_2.Write(0);
+		DisableDemagnetization();
 		return 0;
 	}
 }
@@ -434,11 +412,15 @@ void Automat::Start()
 	 SetEvent(AutomatN::Ex<AutomatN::ExceptionRun>::handle);	
 }
 
-void Automat::Continue(){}
+void Automat::Continue()
+{
+	AppKeyHandler::Run();
+	SetEvent(AutomatN::Ex<AutomatN::ExceptionContinue>::handle);	
+}
 void Automat::Exit()
 {
 	 SetEvent(AutomatN::Ex<AutomatN::ExceptionExit>::handle);
-	 WaitForSingleObject(AutomatN::hThread, 5000);
+	 WaitForSingleObject(AutomatN::hThread, 50000);
 	 dprint("Exit from automat loop\n");
 }
 

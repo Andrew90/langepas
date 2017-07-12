@@ -3,8 +3,9 @@
 #include "L502\L502.h"
 #include "DataItem\DataItem.h"
 #include "tools_debug\DebugMess.h"
-//#include "Lir/Lir.h"
+
 #include "PerformanceCounter\PerformanceCounter.h"
+#include "App/App.h"
 
 namespace Unit502N
 {
@@ -148,6 +149,11 @@ int Unit502::Start()
 int Unit502::Stop()
 {
 	return Unit502N::l502.Stop();
+}
+
+bool Unit502::ReadAsync(unsigned ch, int range, double &value)
+{
+	return Unit502N::l502.ReadAsync(ch, range, value);
 }
 
 

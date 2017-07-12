@@ -10,6 +10,7 @@ public:
 	bool SetupParams();
 	int Start();
 	int Stop();
+	bool ReadAsync(unsigned ch, int range, double &value);
 };
 
 
