@@ -53,8 +53,6 @@ template<class T>struct ComputeZone
 			zprint(" Allarm memory %d\n", samplesZone);
 			return false;
 		}
-		//#pragma message("обработка зоны (фильтрация, ...) дописать")
-
 		AnalogFiltre<T>()(startZone, stopZone);
 
 		char &statusResult =  item.status[sensor][zone - 1];
@@ -210,4 +208,6 @@ template<class T>struct ComputeZoneEnd
 		return true;
 	}
 };
+
+
 

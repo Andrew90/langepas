@@ -10,7 +10,6 @@
 #include "Windows\MainWindow.h"
 #include "window_tool\Emptywindow.h"
 #include "Compute\ComputeZone.h"
-//#include "DataItem\ThicknessData.h"
 #include "window_tool\AnimationControl.h"
 #include "Filtre\MedianFiltre.h"
 #include "MessageText\StatusMessages.h"
@@ -22,15 +21,6 @@ namespace Compute
 
 	template<class T, int N>struct TimeX;
 
-//#define TIMEX(name, num) template<>struct TimeX<name, num>{typedef i##name##num Result;};
-//	TIMEX(Cross, 0)
-//	TIMEX(Cross, 1)
-//	TIMEX(Long, 0)
-//	TIMEX(Long, 1)
-//	TIMEX(Thick, 0)
-//	TIMEX(Thick, 1)
-//#undef TIMEX
-
 	struct __data__
 	{
 		int currentOffsetZones;
@@ -38,7 +28,6 @@ namespace Compute
 		int stopUnits;
 		__data__()
 			: currentOffsetZones(0)
-		//	, countUnits(App::count_Thick_sensors)
 		{}
 	};
 
@@ -343,12 +332,10 @@ BREAK:
 		
 		void Stop(__data__ &d){}
 	};
-
-	
 	
 	typedef TL::MkTlst<
-		Unit<Cross>, Unit<Long>, 
-		Unit<Thick>
+		Unit<Cross>, Unit<Long>
+	//	Unit<Thick>
 		, Unit<ResultData>
 	>::Result units_list;
 	TL::Factory<units_list> units;
@@ -401,32 +388,6 @@ BREAK:
 			(o.*o.ptrProc)(p);
 		}
 	};
-
-	static DWORD WINAPI __Do__(LPVOID)
-	{
-		//HANDLE h[] = {hExit, hEvent, hFrameReady};
-		//ThickData &thickData = Singleton<ThickData>::Instance();
-		//__data__ &data = Singleton<__data__>::Instance();
-		//while(true)
-		//{
-		//	switch(WaitForMultipleObjects(dimention_of(h), h, FALSE, INFINITE))
-		//	{
-		//	case 0 + WAIT_OBJECT_0: return 0;
-		//	case 1 + WAIT_OBJECT_0:
-		//		{
-		//			TL::foreach<units_list, __do__>()(units, data);
-		//			RepaintWindow(Singleton<MainWindow>::Instance().hWnd);
-		//		}
-		//		break;
-		//	case 2 + WAIT_OBJECT_0:
-		//		{
-		//			thickData.Compute();
-		//		}
-		//		break;
-		//	}
-		//}
-		return 0;
-	}
 
 	void Init()
 	{
