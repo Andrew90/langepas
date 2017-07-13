@@ -108,36 +108,35 @@ namespace Mode
 		{
 			//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
 			static unsigned counter = 0;
-			if((++counter % 20) == 0) 
+			if((++counter % 20) == 0)
+			{
 				unit502.Read();   //вызываться будет через ~100 м.сек.
+			}
 		}
 	};
+
+	SubLir &lir = Singleton<SubLir>::Instance();
+
+	struct ComputeZones
+	{
+		static void Do(unsigned, unsigned)
+		{
+			//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
+			static unsigned counter = 0;
+			if((++counter % 20) == 0) 
+			{
+				lir.Do();   //вызываться будет через ~100 м.сек.
+			}
+		}
+	};
+
 #define ZZZ(sb, n, c) lir.sqItems.get<SQ<sb<n, c>>>().Do();
- /*
-
-	AND_BITS(
-				On<iSQ1t>
-				, Proc<AllarmBits>
-				, Proc<Collection>
-				, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				)(60000); 
-			ZZZ(on, Thick, 1)
-			AND_BITS(
-				On<iSQ2t>
-				, Proc<AllarmBits>	
-				, Proc<Collection>
-				, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				)(60000); 
-			ZZZ(on, Thick, 2)
-   */
-
+ 
 #define WAIT(inp, on, sen, num) AND_BITS(inp, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);\
 	lir.sqItems.get<SQ<on<sen, num>>>().Do();
 
 	void ControlTube(Data &)
 	{
-		SubLir &lir = Singleton<SubLir>::Instance();
-		//lir.
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 		//TODO Проверка модуля размагничивания
@@ -234,115 +233,48 @@ namespace Mode
 
 		AND_BITS(
 			On<iSQ1po>
-			, Proc<AllarmBits>	 
+			, Proc<AllarmBits>
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 			)(60000); 
 		unit502.Start();
 		GUARD{unit502.Stop();};
 		ZZZ(on, Cross, 1)
 
-		//AND_BITS(
-		//	On<iSQ2po>
-		//	, Proc<AllarmBits>	 
-		//	, Proc<Collection>
-		//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		//	)(60000); 
-		//ZZZ(on, Cross, 2)
 		WAIT(On<iSQ2po>, on, Cross, 2)
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOn>();
-			//AND_BITS(
-			//	On<iSQ1t>
-			//	, Proc<AllarmBits>
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000); 
-			//ZZZ(on, Thick, 1)
-			//AND_BITS(
-			//	On<iSQ2t>
-			//	, Proc<AllarmBits>	
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000); 
-			//ZZZ(on, Thick, 2)
 			WAIT(On<iSQ1t>, on, Thick, 1)
 			WAIT(On<iSQ2t>, on, Thick, 2)
 		}
 		if(job.get<OnTheJob<Long>>().value)
 		{
 			Log::Mess<LogMess::WaitLongOn>();
-			//AND_BITS(
-			//	On<iSQ1pr>
-			//	, Proc<AllarmBits>
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000); 
-			//prOnSQ1 = Performance::Counter();
-			//AND_BITS(
-			//	On<iSQ2pr>
-			//	, Proc<AllarmBits>	
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000); 
-			//prOnSQ2 = Performance::Counter();
 			WAIT(On<iSQ1pr>, on, Long, 1)
 			WAIT(On<iSQ2pr>, on, Long, 2)
 		}
 		Log::Mess<LogMess::WaitMagneticOn>();
-		//AND_BITS(
-		//	On<iSQ1DM>
-		//	, Proc<AllarmBits>
-		//	, Proc<Collection>
-		//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		//	)(60000); 
-		//mOnSQ1 = Performance::Counter();
-		//AND_BITS(
-		//	On<iSQ2DM>
-		//	, Proc<AllarmBits>
-		//	, Proc<Collection>
-		//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		//	)(60000); 
-		//OUT_BITS(On<oT_Base>);
-		//mOnSQ2 = Performance::Counter();
 		WAIT(On<iSQ1DM>, on, Magn, 1)
 		WAIT(On<iSQ2DM>, on, Magn, 2)
 		OUT_BITS(On<oT_Base>);
 //.................................................................
 		Log::Mess<LogMess::WaitCrossOff>();
-		//AND_BITS(
-		//	Off<iSQ1po>
-		//	, Proc<AllarmBits>	 
-		//	, Proc<Collection>
-		//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		//	)(60000); 
-		//poOffSQ1 = Performance::Counter();
-		//AND_BITS(
-		//	Off<iSQ2po>
-		//	, Proc<AllarmBits>	 
-		//	, Proc<Collection>
-		//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		//	)(60000); 
-		//poOffSQ2 = Performance::Counter();
-		WAIT(Off<iSQ1po>, off, Cross, 1)
+		//WAIT(Off<iSQ1po>, off, Cross, 1)
+
+		AND_BITS(
+			Off<iSQ1po>
+			, Proc<AllarmBits>	 
+			, Proc<Collection>
+			, Proc<ComputeZones>
+			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			)(60000); 
+
+		ZZZ(off, Cross, 1)
+
 		WAIT(Off<iSQ2po>, off, Cross, 2)
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOff>();
-			//AND_BITS(
-			//	Off<iSQ1t>
-			//	, Proc<AllarmBits>
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000); 
-			//tOffSQ1 = Performance::Counter();
-			//AND_BITS(
-			//	Off<iSQ2t>
-			//	, Proc<AllarmBits>	
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000); 
-			//tOffSQ2 = Performance::Counter();
 			WAIT(Off<iSQ1t>, off, Thick, 1)
 			WAIT(Off<iSQ2t>, off, Thick, 2)
 
@@ -350,38 +282,10 @@ namespace Mode
 		if(job.get<OnTheJob<Long>>().value)
 		{
 			Log::Mess<LogMess::WaitLongOff>();
-			//AND_BITS(
-			//	Off<iSQ1pr>
-			//	, Proc<AllarmBits>
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000); 
-			//prOffSQ1 = Performance::Counter();
-			//AND_BITS(
-			//	Off<iSQ2pr>
-			//	, Proc<AllarmBits>	
-			//	, Proc<Collection>
-			//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			//	)(60000);
-			//prOffSQ2 = Performance::Counter();
 			WAIT(Off<iSQ1pr>, off, Long, 1)
 			WAIT(Off<iSQ2pr>, off, Long, 2)
 		}
 		Log::Mess<LogMess::WaitMagneticOff>();
-		//AND_BITS(
-		//	Off<iSQ1DM>
-		//	, Proc<AllarmBits>
-		//	, Proc<Collection>
-		//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		//	)(60000); 
-		//mOffSQ1 = Performance::Counter();
-		//AND_BITS(
-		//	Off<iSQ2DM>
-		//	, Proc<AllarmBits>
-		//	, Proc<Collection>
-		//	, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		//	)(60000);
-		//mOffSQ2 = Performance::Counter();
 		WAIT(Off<iSQ1DM>, off, Magn, 1)
 		WAIT(Off<iSQ2DM>, off, Magn, 2)
 		unit502.Stop();
