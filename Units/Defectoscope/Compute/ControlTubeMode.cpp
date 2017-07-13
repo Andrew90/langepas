@@ -7,6 +7,7 @@
 #include "Log\LogBuffer.h"
 #include "ASU\Asu.h"
 #include "PerformanceCounter\PerformanceCounter.h"
+#include "lir\SubLir.h"
 
 namespace Mode
 {
@@ -24,18 +25,18 @@ namespace Mode
 #define MSG(n)template<>struct msg<n>{static const LogMess::ID value = LogMess::n;};
 
 	MSG(iRPpr    	   )
-		MSG(iOPpr     	   )
-		MSG(iRPpo    	   )
-		MSG(iOPpo    	   )
-		MSG(iRPt     	   )
-		MSG(iOPt  		   )
-		MSG(iZU            )
-		MSG(iPCH_B         )
-		MSG(iPCH_RUN       )
-		MSG(iPCH_A         )
-		MSG(iWork_pnevmo   )
-		MSG(iRevers_pnevmo )
-		MSG(iError_pnevmo  )
+	MSG(iOPpr     	   )
+	MSG(iRPpo    	   )
+	MSG(iOPpo    	   )
+	MSG(iRPt     	   )
+	MSG(iOPt  		   )
+	MSG(iZU            )
+	MSG(iPCH_B         )
+	MSG(iPCH_RUN       )
+	MSG(iPCH_A         )
+	MSG(iWork_pnevmo   )
+	MSG(iRevers_pnevmo )
+	MSG(iError_pnevmo  )
 
 #undef MSG
 	struct __send_mess_data__
@@ -114,6 +115,8 @@ namespace Mode
 
 	void ControlTube(Data &)
 	{
+		SubLir &lir = Singleton<SubLir>::Instance();
+		//lir.
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 		//TODO Проверка модуля размагничивания
@@ -157,7 +160,7 @@ namespace Mode
 
 		OUT_BITS(Off<oReloc1>, Off<oReloc2>, Off<oDefect>);
 
-		CleaningScreen();
+		CleaningScreen();	///Очистка экрана
 
 		OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
 

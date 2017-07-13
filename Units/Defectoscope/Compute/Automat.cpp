@@ -20,11 +20,7 @@ namespace AutomatN
 #define EX(n, init_state)template<>struct Ex<Exception##n>{static HANDLE handle;};\
 	HANDLE Ex<Exception##n>::handle = CreateEvent(NULL, init_state, FALSE, NULL);
 
-	//EX(Exit, TRUE)
-	//EX(Stop, FALSE)
-	//EX(Continue, TRUE)
 	EX(Run, TRUE)
-	//EX(Alarm, FALSE)
 
 	EX(ReturnTube, FALSE)
 	EX(ExitTube, FALSE)
@@ -35,12 +31,8 @@ namespace AutomatN
 	HANDLE Ex<ExceptionExit>::handle = CreateEvent(NULL, TRUE, FALSE, NULL);
 	HANDLE Ex<ExceptionContinue>::handle = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-//	unsigned &Off<iÑontrolÑircuits>::bit = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
-//	unsigned &Off<iCycle>::bit =	Singleton<InputBitTable>::Instance().items.get<iCycle>().value;
-
 	HANDLE hThread;
 //----------------------------------------------------------------------
-	//Unit502 &unit502 = Singleton<Unit502>::Instance();
 	template<class T>struct collections_data_unit502
 	{
 		void operator()(){}
@@ -65,28 +57,6 @@ namespace AutomatN
 		}
 	};
 	
-	//template<class T>struct __mess__{void operator()(){}};
-	//template<>struct __mess__<iCross1>
-	//{
-	//	void operator()()
-	//	{
-	//	   Log::Mess<LogMess::OffiCross>();
-	//	}
-	//};
-	//template<>struct __mess__<iLong1>
-	//{
-	//	void operator()()
-	//	{
-	//	   Log::Mess<LogMess::OffiLong>();
-	//	}
-	//};
-	//template<>struct __mess__<iThick1>
-	//{
-	//	void operator()()
-	//	{
-	//	   Log::Mess<LogMess::OffiThick>();
-	//	}
-	//};
 	template<class T>struct UnitBit<Off<T>>		  
 	{
 		typedef T type;
@@ -106,48 +76,8 @@ namespace AutomatN
 		}
 	};
 
-	//template<>struct UnitBit<Off<iSolid>>
-	//{
-	//	typedef iSolid type;
-	//	unsigned &time;
-	//	UnitBit()
-	//		: time(Singleton<Time<Off<iSolid>>>::Instance().value)
-	//	{}
-	//	void operator()()
-	//	{
-	//		if(0 == time)
-	//		{
-	//			collections_data_unit502<Off<iSolid>>()();
-	//			time = Performance::Counter();
-	//		}
-	//	}
-	//};
-
-
-	//typedef TL::MkTlst<
-	//	UnitBit<Off<iCross0>>
-	//	, UnitBit<Off<iCross1>>
-	//	, UnitBit<Off<iLong0 >>
-	//	, UnitBit<Off<iLong1 >>
-	//	, UnitBit<Off<iThick0>>
-	//	, UnitBit<Off<iThick1>>
-	//>::Result unit_bit_off_list;
-	//
-	//typedef TL::MkTlst<
-	//	  UnitBit<On<iCross0>>
-	//	, UnitBit<On<iCross1>>
-	//	, UnitBit<On<iLong0 >>
-	//	, UnitBit<On<iLong1 >>
-	//	, UnitBit<On<iThick0>>
-	//	, UnitBit<On<iThick1>>
-	//	, UnitBit<On<iSolid>>
-	//	, UnitBit<Off<iSolid>>
-	//>::Result unit_bit_on_list;
-
 #define UNIT_BIT_ON(n) unit_bit_on.get<UnitBit<On<n>>>()() 
 
-//	TL::Factory<unit_bit_off_list>  unit_bit_off;
-//	TL::Factory<unit_bit_on_list>  unit_bit_on;
 	template<class O, class P>struct unit_bit_off_init
 	{
 		void operator()(O &o, P &p)
@@ -163,36 +93,13 @@ namespace AutomatN
 			o.time = 0;
 		}
 	};
-//	void UnitBitInit()
-//	{
-//		TL::foreach<unit_bit_off_list, unit_bit_off_init>()(
-//			unit_bit_off
-//			, Singleton<InputBitTable>::Instance().items
-//			);
-//		TL::foreach<unit_bit_on_list, unit_bit_on_init>()(
-//			unit_bit_on
-//			, Singleton<InputBitTable>::Instance().items
-//			);
-//	};
 	template<class O, class P>struct __test_bit_off__
 	{
 		void operator()(O &o, P &p)
 		{
 			o(p);
 		}
-	};
-	/*
-	struct Collection
-	{
-		static void Do(unsigned bits)
-		{
-		//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
-		//	static unsigned counter = 0;
-		//	if((++counter % 20) == 0) 
-		//		unit502.Read();   //âûçûâàòüñÿ áóäåò ÷åðåç ~100 ì.ñåê.
-		}
-	};
-	 */
+	};	
 	struct ComputeData
 	{
 		static void Do(unsigned bits)
@@ -206,20 +113,6 @@ namespace AutomatN
 			}
 		}
 	};
-
-	//unsigned &iÑontrolÑircuitsBit = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
-
-	//struct Alarm
-	//{
-	//	static void Do(unsigned bits)
-	//	{
-	//		if(0 == (bits & iÑontrolÑircuitsBit))
-	//		{
-	//			Log::Mess<LogMess::AlarmExitControlCircuitBitIn>();
-	//			throw ExceptionAlarm();
-	//		}
-	//	}
-	//};
 //----------------------------------------------------------------------
 	ExceptionAlarm::ExceptionAlarm()
 	{
@@ -239,9 +132,6 @@ namespace AutomatN
 		LogMessageToTopLabel logMessageToTopLabel;
 		Log::Mess<LogMess::ProgramOpen>(0);
 
-		//bool &onTheJobCross = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Cross>>().value;
-		//bool &onTheJobLong = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value;
-		//bool &onTheJobThick = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value;
 		Mode::Data data;
 		data.packet = true;
 		while(true)

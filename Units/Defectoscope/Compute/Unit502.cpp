@@ -6,6 +6,7 @@
 
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "App/App.h"
+#include "lir\SubLir.h"
 
 namespace Unit502N
 {
@@ -14,6 +15,32 @@ namespace Unit502N
 	ItemData<Long> &longData = Singleton<ItemData<Long>>::Instance();
 	ItemData<Solid> &solidData = Singleton<ItemData<Solid>>::Instance();
 	TimeLir &timeFrames = Singleton<TimeLir>::Instance();
+	SubLir &lir = Singleton<SubLir>::Instance();
+
+	static const int length = App::count_cross_sensors + App::count_long_sensors + SolidGroupData::count_sensors;
+
+	double *arr[length];
+
+	struct InitArr
+	{
+		InitArr()
+		{
+			int k = 0;
+			for(int i = 0; i < dimention_of(crossData.ascan); ++i)
+			{
+				arr[k++] = crossData.ascan[i];
+			}
+			for(int i = 0; i < dimention_of(longData.ascan); ++i)
+			{
+				arr[k++] = longData.ascan[i];
+			}
+			for(int i = 0; i < dimention_of(solidData.ascan); ++i)
+			{
+				arr[k++] = solidData.ascan[i];
+			}
+		}
+	} initArr;
+
 }
 
 void Unit502::Read()
@@ -24,91 +51,23 @@ void Unit502::Read()
 
 	if(0 < Unit502N::l502.Read(startChannel, data, count))
 	{
-		bool crossBool = false;
-		bool longBool = false;
-		unsigned currentTime = Performance::Counter();
+		//bool crossBool = false;
+		//bool longBool = false;
+		//unsigned currentTime = Performance::Counter();
+		//Unit502N::lir.currentSamples += count / Unit502N::length;
+		//Unit502N::lir.samples[index] = Unit502N::lir.currentSamples;
+		int offs = Unit502N::lir.currentSamples;
 		for(int i = 0; i < (int)count; ++i)
 		{
 			int sens = startChannel + i;
-			sens %= 18;
-			if(sens < 11)
-			{
-				Unit502N::crossData.ascan[sens][Unit502N::crossData.currentOffset] = data[i];
-			}
-			else if(sens == 11)
-			{
-				Unit502N::crossData.ascan[sens][Unit502N::crossData.currentOffset] = data[i];
-				if(crossOn && Unit502N::crossData.currentOffset < App::count_frames)
-				{
-					++Unit502N::crossData.currentOffset;
-					crossBool = true;
-				}
-			}
-			else if(sens < 15)
-			{
-				Unit502N::longData.ascan[sens - 12][Unit502N::longData.currentOffset] = data[i];
-			}
-			else if(sens == 15)
-			{
-				Unit502N::longData.ascan[sens - 12][Unit502N::longData.currentOffset] = data[i];
-				if(longOn && Unit502N::longData.currentOffset < App::count_frames)
-				{
-					++Unit502N::longData.currentOffset;
-					longBool = true;
-				}
-			}
-			else if(sens < 17)
-			{
-				Unit502N::solidData.ascan[sens - 16][Unit502N::solidData.currentOffset] = data[i];				
-			}
-			else if(sens == 17)
-			{
-				Unit502N::solidData.ascan[sens - 16][Unit502N::solidData.currentOffset] = data[i];
-				if(solidOn  && Unit502N::solidData.currentOffset < App::count_frames)
-				{
-						++Unit502N::solidData.currentOffset;
-				}
-			}
+			//sens %= Unit502N::length;
+			Unit502N::arr[sens % Unit502N::length][offs / Unit502N::length] = data[i];
+			++offs;
 		}
-
-		if(crossBool)
-		{
-			Unit502N::crossData.time[Unit502N::crossData.currentTimeOffset] = currentTime;
-			Unit502N::crossData.frame[Unit502N::crossData.currentTimeOffset] = Unit502N::crossData.currentOffset;
-			if(Unit502N::crossData.currentTimeOffset < dimention_of(Unit502N::crossData.time))
-			{
-				++Unit502N::crossData.currentTimeOffset;
-			}
-			else
-			{
-				dprint("err crossData.currentTimeOffset\n");
-			}
-		}
-
-		if(longBool)
-		{
-			Unit502N::longData.time[Unit502N::longData.currentTimeOffset] = currentTime;
-			Unit502N::longData.frame[Unit502N::longData.currentTimeOffset] = Unit502N::longData.currentOffset;
-			if(Unit502N::longData.currentTimeOffset < dimention_of(Unit502N::longData.time))
-			{
-				++Unit502N::longData.currentTimeOffset;
-			}
-			else
-			{
-				dprint("err longData.currentTimeOffset\n");
-			}
-		}
-
-		Unit502N::timeFrames.time[Unit502N::timeFrames.currentTimeOffset] = currentTime;
-		//Unit502N::timeFrames.lir[Unit502N::timeFrames.currentTimeOffset] = Lir::Do();
-		if(Unit502N::timeFrames.currentTimeOffset < dimention_of(Unit502N::timeFrames.lir))
-		{
-			++Unit502N::timeFrames.currentTimeOffset;
-		}
-		else
-		{
-			dprint("err timeFrames.currentTimeOffset\n");
-		}
+		Unit502N::lir.samples[Unit502N::lir.index] = offs / Unit502N::length;
+		Unit502N::lir.tick[Unit502N::lir.index] = Performance::Counter();
+		++Unit502N::lir.index;
+		Unit502N::lir.currentSamples = offs;
 	}
 }
 
@@ -133,16 +92,16 @@ int Unit502::Start()
 	//Unit502N::crossData.currentOffset = 0;
 	//
 	//Unit502N::longData.currentOffset = 0;
-	Unit502N::longData.currentTimeOffset = 0;
+	//Unit502N::longData.currentTimeOffset = 0;
 	//
 	//Unit502N::crossData.currentOffset = 0;
-	Unit502N::crossData.currentTimeOffset = 0;
+	//Unit502N::crossData.currentTimeOffset = 0;
 
-	Unit502N::solidData.currentOffset = 0;
+	//Unit502N::solidData.currentOffset = 0;
 	//
 	//
 	//Unit502N::timeFrames.currentTimeOffset = 0;
-	solidOn = crossOn = longOn = false;
+	//solidOn = crossOn = longOn = false;
 	return Unit502N::l502.Start();
 }
 

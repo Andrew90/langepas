@@ -21,10 +21,10 @@ template<int SENS>struct PrimaryData
 	static const int count_sensors = SENS;
 	int currentOffset;	  //счётчик кадров
 	int currentOffsetZones;	 //счётчик собранных зон
-	int currentTimeOffset;	//счётчик считанных кадров с ацп
+	//int currentTimeOffset;	//счётчик считанных кадров с ацп
 	int deadSamplesBegin, deadSamplesEnd;
 	double ascan[SENS][App::count_frames];	 //кадры с ацп
-	int offsets[1 + App::count_zones];		  //смещение кадров по зонам
+	unsigned offsets[1 + App::count_zones];		  //смещение кадров по зонам
 	double buffer[SENS][App::count_zones];	 //значение в зоне
 	char status[SENS][App::count_zones];	 //статус в зоне
 	unsigned time[3000];	//				 // время принятого кадра(для рсчёта смещения по зонам)
@@ -36,11 +36,11 @@ struct PrimaryThickData
 	static const int count_sensors = App::count_Thick_sensors;
 	int currentOffset;	  //счётчик кадров
 	int currentOffsetZones;	 //счётчик собранных зон
-	int currentTimeOffset;	//счётчик считанных кадров с ацп
+	//int currentTimeOffset;	//счётчик считанных кадров с ацп
 	int deadSamplesBegin, deadSamplesEnd; 
 	double ascan[count_sensors][App::count_frames];	 //кадры с ацп
 	char ascanStatus[count_sensors][App::count_frames];	 //кадры с ацп
-	int offsets[1 + App::count_zones];		  //смещение кадров по зонам
+	unsigned offsets[1 + App::count_zones];		  //смещение кадров по зонам
 	double bufferMin[count_sensors][App::count_zones];	 //значение в зоне
 	double bufferMax[count_sensors][App::count_zones];	 //значение в зоне
 	char status[count_sensors][App::count_zones];	 //статус в зоне

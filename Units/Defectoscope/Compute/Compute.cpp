@@ -137,6 +137,7 @@ namespace Compute
 
 		void Next(__data__ &d)
 		{
+#if 0
 			for(int i = lirIndex; i < timeLir.currentTimeOffset; ++i)
 			{
 				int t = timeLir.lir[i] - lir;
@@ -231,6 +232,7 @@ BREAK:
 					}
 				}
 			}
+#endif
 		}
 		void Stop(__data__ &)
 		{

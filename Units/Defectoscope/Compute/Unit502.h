@@ -3,7 +3,7 @@
 class Unit502
 {
 public:
-	bool crossOn, longOn, solidOn;
+	//bool crossOn, longOn, solidOn;
 	void Read();
 	bool Init();
 	void Destroy();
