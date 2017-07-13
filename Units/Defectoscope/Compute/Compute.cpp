@@ -430,11 +430,9 @@ BREAK:
 
 	void Init()
 	{
-	//	Singleton<ThickData>::Instance().Init();
 		hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		hExit = CreateEvent(NULL, TRUE, FALSE, NULL);
 		hFrameReady = CreateEvent(NULL, FALSE, FALSE, L"LanDeviceFrameReady");
-	//	hThread = CreateThread(NULL, 0, __Do__, NULL, 0, NULL);
 	}
 
 	void Destroy()

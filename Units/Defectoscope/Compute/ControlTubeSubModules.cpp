@@ -9,6 +9,8 @@
 #include "Automat.hpp"
 #include "ASU\Asu.h"
 #include "Compute\AppKeyHandler.h"
+#include "Windows\MainWindow.h"
+#include "Compute\Compute.h"
 
 #define TEST_MESS(n) if(TEST_IN_BITS(On<n>)){Log::Mess<LogMess::n##Mess>(); /*throw ExceptionAlarm();*/return;}
 
@@ -184,6 +186,8 @@ void SettingOperatingModeAirConditioningController()
 ///TODO Очистка экрана
 void CleaningScreen()
 {
+	Compute::Clear();
+	app.mainWindow.ClearCharts();
 }
 
 ///TODO Запрос номера трубы
