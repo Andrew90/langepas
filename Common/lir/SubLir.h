@@ -280,6 +280,12 @@ template<>struct __start__<on<Magn, 2>>
 	{
 	}
 };
+template<>struct __start__<on<Thick, 2>>
+{
+	void operator()(SubLir &lir)
+	{
+	}
+};
 
 template<class T>struct __start__<on<T, 2>>
 {
