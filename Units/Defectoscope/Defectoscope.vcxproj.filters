@@ -348,9 +348,6 @@
     <ClCompile Include="..\..\Common\PerformanceCounter\PerformanceCounter.cpp">
       <Filter>Common\Devices\PerformanceCounter</Filter>
     </ClCompile>
-    <ClCompile Include="Compute\Compute.cpp">
-      <Filter>Compute</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\FFT\FFT.cpp">
       <Filter>Common\FFT</Filter>
     </ClCompile>
@@ -824,9 +821,6 @@
     <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h">
       <Filter>Common\Devices\PerformanceCounter</Filter>
     </ClInclude>
-    <ClInclude Include="Compute\Compute.h">
-      <Filter>Compute</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\FFT\FFT.h">
       <Filter>Common\FFT</Filter>
     </ClInclude>
@@ -1018,6 +1012,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Common\lir\SubLir.h">
       <Filter>Common\Devices\lir</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\Compute.hpp">
+      <Filter>Compute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

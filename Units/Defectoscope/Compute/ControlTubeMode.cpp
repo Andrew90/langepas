@@ -8,6 +8,10 @@
 #include "ASU\Asu.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "lir\SubLir.h"
+#include "Compute\Compute.hpp"
+#include "App/App.h"
+#include "Windows\MainWindow.h"
+#include "window_tool\Emptywindow.h"
 
 namespace Mode
 {
@@ -126,14 +130,35 @@ namespace Mode
 			if((++counter % 20) == 0) 
 			{
 				lir.Do();   //вызываться будет через ~100 м.сек.
+				bool crossB = ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs);
+				bool longB = ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
+				if(crossB || longB)
+				{
+					RepaintWindow(app.mainWindow.hWnd);
+				}
 			}
 		}
 	};
 
+	template<class T>struct __compute_unit__
+	{
+		void operator()(SubLir &lir)
+		{
+			if(ComputeUnit<T>().Zones(lir.moduleItems.get<Module<T>>().zonesOffs))
+			{
+				RepaintWindow(app.mainWindow.hWnd);
+			}
+		}
+	};
+	template<>struct __compute_unit__<Thick>{void operator()(SubLir &){}};
+	template<>struct __compute_unit__<Magn>{void operator()(SubLir &){}};
+
+
 #define ZZZ(sb, n, c) lir.sqItems.get<SQ<sb<n, c>>>().Do();
  
 #define WAIT(inp, on, sen, num) AND_BITS(inp, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);\
-	lir.sqItems.get<SQ<on<sen, num>>>().Do();
+	lir.sqItems.get<SQ<on<sen, num>>>().Do();\
+	__compute_unit__<sen>()(lir);
 
 	void ControlTube(Data &)
 	{
@@ -180,6 +205,8 @@ namespace Mode
 
 		OUT_BITS(Off<oReloc1>, Off<oReloc2>, Off<oDefect>);
 
+		ComputeUnit<Cross>().Clear();
+		ComputeUnit<Long>().Clear();
 		CleaningScreen();	///Очистка экрана
 
 		OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
@@ -221,6 +248,7 @@ namespace Mode
 		Log::Mess<LogMess::PIPE_CONTROL_IMPLEMENTED>();
 
 		EnableDemagnetization();
+		
 
 		///отслеживаемые биты для аварийного завершения программы
 		AllarmBits::msk1 = 0;
@@ -253,14 +281,17 @@ namespace Mode
 			WAIT(On<iSQ1pr>, on, Long, 1)
 			WAIT(On<iSQ2pr>, on, Long, 2)
 		}
+
+		///Расчёт мёртвой зоны начало
+		ComputeUnit<Cross>().DeathZonesBegin();
+		ComputeUnit<Long>().DeathZonesBegin();
+
 		Log::Mess<LogMess::WaitMagneticOn>();
 		WAIT(On<iSQ1DM>, on, Magn, 1)
 		WAIT(On<iSQ2DM>, on, Magn, 2)
 		OUT_BITS(On<oT_Base>);
-//.................................................................
+//.................................................................		
 		Log::Mess<LogMess::WaitCrossOff>();
-		//WAIT(Off<iSQ1po>, off, Cross, 1)
-
 		AND_BITS(
 			Off<iSQ1po>
 			, Proc<AllarmBits>	 
@@ -285,12 +316,16 @@ namespace Mode
 			WAIT(Off<iSQ1pr>, off, Long, 1)
 			WAIT(Off<iSQ2pr>, off, Long, 2)
 		}
+
+		///Расчёт мёртвой зоны конец
+		ComputeUnit<Cross>().DeathZonesEnd(lir.moduleItems.get<Module<Cross>>().zonesOffs);
+		ComputeUnit<Long>().DeathZonesEnd(lir.moduleItems.get<Module<Long>>().zonesOffs);
+
 		Log::Mess<LogMess::WaitMagneticOff>();
 		WAIT(Off<iSQ1DM>, off, Magn, 1)
 		WAIT(Off<iSQ2DM>, off, Magn, 2)
 		unit502.Stop();
 //---------------------------------------------------------------
-
 	}
 }
 #undef ZZZ

@@ -139,7 +139,6 @@
     <ClCompile Include="App\VersionDiff.cpp" />
     <ClCompile Include="Compute\AppKeyHandler.cpp" />
     <ClCompile Include="Compute\Automat.cpp" />
-    <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Compute\ControlTubeMode.cpp" />
     <ClCompile Include="Compute\ControlTubeSubModules.cpp" />
     <ClCompile Include="Compute\ExitTubeMode.cpp" />
@@ -312,7 +311,7 @@
     <ClInclude Include="Compute\AppKeyHandler.h" />
     <ClInclude Include="Compute\Automat.h" />
     <ClInclude Include="Compute\Automat.hpp" />
-    <ClInclude Include="Compute\Compute.h" />
+    <ClInclude Include="Compute\Compute.hpp" />
     <ClInclude Include="Compute\ComputeZone.h" />
     <ClInclude Include="Compute\ControlMode.h" />
     <ClInclude Include="Compute\ControlTubeSubModules.h" />
