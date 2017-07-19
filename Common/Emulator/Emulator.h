@@ -31,9 +31,9 @@ public:
 
 	void Do();
 
-	unsigned Inputs();
-	void Outputs(unsigned);
-	unsigned Outputs();
+	unsigned Inputs(int);
+	void Outputs(int, unsigned);
+	unsigned Outputs(int);
 
 	void StartLan();
 	void StopLan();

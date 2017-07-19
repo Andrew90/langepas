@@ -13,14 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="tools_debug">
-      <UniqueIdentifier>{7010c8e3-de3c-4df0-9c80-c3b15fadd1e7}</UniqueIdentifier>
+    <Filter Include="Emulator">
+      <UniqueIdentifier>{845b943e-14e0-4dff-a00c-4ff72a52db3a}</UniqueIdentifier>
     </Filter>
     <Filter Include="PerformanceCounter">
-      <UniqueIdentifier>{ccbe55a3-3f2c-4000-bf62-75ca1573ee2e}</UniqueIdentifier>
+      <UniqueIdentifier>{fd3d8a55-8425-4276-8b2b-bafc25b8f59c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Emulator">
-      <UniqueIdentifier>{ee475b27-dff3-48b5-8f3e-579f5b828443}</UniqueIdentifier>
+    <Filter Include="tools_debug">
+      <UniqueIdentifier>{ce355793-c51e-4d82-aca5-a1ee67594871}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,43 +33,40 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Defectoscope\App\AppBase.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\tools_debug\DebugMess.h">
-      <Filter>tools_debug</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h">
-      <Filter>PerformanceCounter</Filter>
-    </ClInclude>
-    <ClInclude Include="App\Config.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Defectoscope\App\AppBase.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\Emulator\Emulator.h">
       <Filter>Emulator</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\Emulator\EmulatorBits.hpp">
       <Filter>Emulator</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h">
+      <Filter>PerformanceCounter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Defectoscope\App\AppBase.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\tools_debug\DebugMess.h">
+      <Filter>tools_debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DebugMess.cpp">
-      <Filter>tools_debug</Filter>
-    </ClCompile>
-    <ClCompile Include="EmultorX.cpp">
+    <ClCompile Include="Emu.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Emulator\Emulator.cpp">
+      <Filter>Emulator</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\PerformanceCounter\PerformanceCounter.cpp">
       <Filter>PerformanceCounter</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\Emulator\Emulator.cpp">
-      <Filter>Emulator</Filter>
+    <ClCompile Include="..\Defectoscope\App\AppBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Emultor\DebugMess.cpp">
+      <Filter>tools_debug</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

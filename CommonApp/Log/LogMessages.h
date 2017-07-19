@@ -175,10 +175,14 @@ namespace LogMess
 
 		, AnalogBoardFailure 
 		, ModulesInNon_OperatingPosition
+		, SettingOperatingPositionControl
 
 		, time_overflow
 		, error_crc    
 		, error_count  
+		, transferControlParametersThicknessGauge
+		, waitingThicknessGauge
+		, waitingThicknessResult
 		
 		, iWork_pnevmoWait
 
@@ -204,6 +208,7 @@ namespace LogMess
 		, iWork_pnevmo  
 		, iRevers_pnevmo
 		, iError_pnevmo 
+		, iWork_pnevmAlarm
 
 		, WaitLongOn
 		, WaitThickOn
@@ -212,6 +217,11 @@ namespace LogMess
 		, WaitCrossOff
 		, WaitThickOff
 		, WaitMagneticOff
+		, waitingPipeEntranceRollerTable
+		, interruptView
+		, transferResultControlAutomatedControlSystem
+		, contineRun
+		, storedDataBase
 		    
 		, max_row
 	};
@@ -238,7 +248,6 @@ namespace LogMess
 	MESS(ProgramOpen		          , void  , "Программа открыта"              , black, white)
 							          
 	MESS(TimeoutPipe		          , void  , "Превышенно время ожидания", red  , yellow)
-	//MESS(AlarmUSPC                    , void  , "Авария!!! Плата ультрозвукового контроля не исправна", red, yellow)
 	MESSX(AlarmUSPC                    , void  , "Авария!!! Платы ультразвукового контроля", red, yellow)
 	MESSX(AlarmSensorReadError         , void  , "Авария!!! Чтения данных с платы ультразвукового контроля", red, yellow)
 
@@ -274,9 +283,6 @@ namespace LogMess
 	MESS(AlarmBase,           void, "Авария!!! Нет сигнала \"БАЗА\"", red, yellow)
 	MESS(AlarmCycle			, void, "Авария!!! Снят сигнал \"Цикл\"", red, yellow)
 
-	//MESSX(ContineCycleOk, double, "Результат контроля \"ГОДНО\". Длина трубы %.1f м. Для продолжения нажмите кнопку \"Повтор\"", blue, white)
-	//MESSX(ContineCycleBrak, double, "Результат контроля \"БРАК\". Длина трубы %.1f м. Для продолжения нажмите кнопку \"Повтор\"", red, yellow)
-		
 	MESSX(CycleOk  , double, "Результат контроля \"ГОДНО\". Длина трубы  %.2f м.", blue, white)
 	MESSX(CycleBrak, double, "Результат контроля \"БРАК\". Длина трубы  %.2f м.", red, yellow)
 
@@ -367,8 +373,6 @@ namespace LogMess
 
 	MESS(CheckStatusFrequencyConverter, void, "Проверка состояния частотного преобразователя", blue , white)
 
-	//MESS(PCH_BandPCH_RUN, void , "XXXXX", red, yellow)
-
 	MESS(TransportUnlocked, void, "ТРАНСПОРТ РАЗБЛОКИРОВАН. ВЫПОЛНИТЕ ВЫГОН", blue, white)
 	MESS(ThicknessGaugeTookOffSignal, void, "Tолщиномер снял сигнал", red, yellow)
 	MESS(CompletionChangeInPositionModule, void, "Завершение по изменению положения какого-либо модуля", red, yellow)
@@ -380,14 +384,15 @@ namespace LogMess
 
 	MESS(AnalogBoardFailure, void, "Авария аналоговой платы", red, yellow)
 
-	//MESS(AnalogBoardFailure, void, "Авария аналоговой платы", red, yellow)
+	MESS(SettingOperatingPositionControl, void , "Установка рабочего положения модулей контроля", blue, white)
 	MESS(ModulesInNon_OperatingPosition, void, "Модули в нерабочем положении", red, yellow)
 
-	MESS(time_overflow, void, "Ошибка КОМ-порта: превышено время ожидания", red, yellow)
-	MESS(error_crc    , void, "Ошибка КОМ-порта: ошибка CRC", red, yellow)
-	MESS(error_count  , void, "Ошибка КОМ-порта: принято 0 байт", red, yellow)
+	MESS(time_overflow, int, "Ошибка КОМ-порта: превышено время ожидания", red, yellow)
+	MESS(error_crc    , int, "Ошибка КОМ-порта: ошибка CRC", red, yellow)
+	MESS(error_count  , int, "Ошибка КОМ-порта: принято 0 байт", red, yellow)
 
 	MESS(iWork_pnevmoWait, void, "Ожидание готовности контроллера пневмооборудования", blue , white)
+	MESS(iWork_pnevmAlarm, void, "Авария контроллера пневмооборудования", red, yellow)
 
 	MESS(SOP_MODE, void, "Режим \"СОП\" ожидание трубы", blue , white) 
 	MESS(TUBE_MODE, void, "Режим \"ТРУБА\" ожидание трубы", blue, white)
@@ -418,6 +423,17 @@ namespace LogMess
 	MESS(WaitCrossOff	, void, "Ожидание съезда трубы из поперечного модуля", blue, white)
 	MESS(WaitThickOff	, void, "Ожидание съезда трубы из модуля толщиномера", blue, white)
 	MESS(WaitMagneticOff, void, "Ожидание съезда трубы из модуля размагничивания", blue, white)
+
+	MESS(transferControlParametersThicknessGauge, void, "Передача параметров контроля в толщиномер", blue, white)
+	MESS(waitingThicknessGauge, void, "Oжидание готовности толщиномера", blue, white)
+	MESS(waitingPipeEntranceRollerTable, void, "Ожидание трубы на входном рольганге", blue, white)
+	MESS(waitingThicknessResult, void, "Oжидание результанов измерений", blue, white)
+
+	MESS(interruptView, void, "Прерывание на просмотр", blue, white)
+
+	MESS(transferResultControlAutomatedControlSystem, void, "передача результата контроля в АСУ", blue, white)
+	MESS(contineRun, void, "\"F4 ЦИКЛ\"далее \"F11 Продол...\"повторить запрос к АСУ \"Esc Стоп\"выход из цикла", red, white)
+	MESS(storedDataBase, void, "Сохранение в базе данных", blue, white)
 
 	class FactoryMessages
 	{

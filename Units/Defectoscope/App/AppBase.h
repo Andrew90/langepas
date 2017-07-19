@@ -24,9 +24,9 @@ DEFINE_PARAM_WAPPER(BorderDefect, Long, double, 45)
 DEFINE_PARAM_WAPPER(BorderKlass2, Cross, double, 106)
 DEFINE_PARAM_WAPPER(BorderDefect, Cross, double, 70)
 
-DEFINE_PARAM_WAPPER(BorderKlass2, Thick, double, 3.0)
-DEFINE_PARAM_WAPPER(BorderKlass3, Thick, double, 2.0)
-DEFINE_PARAM_WAPPER(BorderDefect, Thick, double, 12.0)
+DEFINE_PARAM_WAPPER(BorderKlass2, Thick, double, 5.7)
+DEFINE_PARAM_WAPPER(BorderKlass3, Thick, double, 5.3)
+DEFINE_PARAM_WAPPER(BorderDefect, Thick, double, 4.8)
 
 struct ThresholdsTable
 {
@@ -210,6 +210,17 @@ struct AdditionalSettingsTable
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"DeadAreaTable";}
+ };
+ //--------------------------------------------------------------------------------------------------
+ DEFINE_PARAM(MinimumLengthPipe, int, 33)
+ struct MinimumLengthPipeTable
+ {
+	typedef TL::MkTlst<
+		MinimumLengthPipe
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"MinimumLengthPipeTable";}
  };
 //----------------------------------------------------------------------------------------------------
  template<class>struct MedianFiltreWidth;
@@ -860,6 +871,7 @@ struct OffsetSensorsTable
 		 , AnalogFilterTable
 		 , CountSubZonesTable
 		 , RotationalSpeedTable
+		 , MinimumLengthPipeTable
 	 >::Result multy_row_table_list;
 
 	 typedef TL::MkTlst<

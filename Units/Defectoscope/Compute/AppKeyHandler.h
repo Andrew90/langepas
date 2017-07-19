@@ -8,6 +8,7 @@ namespace AppKeyHandler
 	void Run();
 	void Continue();
 	void Stop();
+	void RunContine();
 
 	void ExitTubeMode();
 	void ReturnTubeMode();

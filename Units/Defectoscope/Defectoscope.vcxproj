@@ -139,6 +139,7 @@
     <ClCompile Include="App\VersionDiff.cpp" />
     <ClCompile Include="Compute\AppKeyHandler.cpp" />
     <ClCompile Include="Compute\Automat.cpp" />
+    <ClCompile Include="Compute\ComputeResult.cpp" />
     <ClCompile Include="Compute\ControlTubeMode.cpp" />
     <ClCompile Include="Compute\ControlTubeSubModules.cpp" />
     <ClCompile Include="Compute\ExitTubeMode.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\State.h" />
     <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Types.h" />
     <ClInclude Include="..\..\Common\Emulator\Emulator.h" />
+    <ClInclude Include="..\..\Common\Emulator\EmulatorBits.hpp" />
     <ClInclude Include="..\..\Common\FFT\FFT.h" />
     <ClInclude Include="..\..\Common\Filtre\MedianFiltre.h" />
     <ClInclude Include="..\..\Common\Graphics\BarSeries.h" />
@@ -312,6 +314,7 @@
     <ClInclude Include="Compute\Automat.h" />
     <ClInclude Include="Compute\Automat.hpp" />
     <ClInclude Include="Compute\Compute.hpp" />
+    <ClInclude Include="Compute\ComputeResult.h" />
     <ClInclude Include="Compute\ComputeZone.h" />
     <ClInclude Include="Compute\ControlMode.h" />
     <ClInclude Include="Compute\ControlTubeSubModules.h" />

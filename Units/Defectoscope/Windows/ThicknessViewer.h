@@ -14,7 +14,8 @@ public:
 	typedef ChartDraw<Chart, TL::MkTlst<
 		NoOffsetLeftAxes
 		, BottomAxesGrid
-		, BarSeriesDouble
+		//, BarSeriesDouble
+		, BarSeries
 		, FixedGrid		
 	>::Result> TChart;
 	TChart tchart;
@@ -23,7 +24,7 @@ public:
 
 	ThickViewer();
 
-	bool GetColorBar(int zone, double &data_, unsigned &color, double &data_1, unsigned &color1);
+	bool GetColorBar(int zone, double &data_, unsigned &color);//, double &data_1, unsigned &color1);
 	bool Draw(TMouseMove &l, VGraphics &g);
 
 	void operator()(TRButtonDown &);

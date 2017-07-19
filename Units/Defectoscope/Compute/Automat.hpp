@@ -5,26 +5,21 @@
 #include "tools_debug\DebugMess.h"
 #include "ControlMode.h"
 #include "Automat.h"
+#include "Log\LogMessages.h"
 
 namespace AutomatN
 {
-	//	struct ExceptionExit{};
-	//struct ExceptionStop{};
 	struct ExceptionTimeOut{};
-	//	struct ExceptionContinue{};
-	struct ExceptionRun{};
+	//struct ExceptionRun{};
 	struct Exception—ontrol—ircuitsOff{};
 	struct Exception—ycleOff{};
 
 	struct ExceptionReturnTube{};
 	struct ExceptionExitTube{};
 
-	//	template<class>struct On{};
 	template<class>struct Off{};
 	template<class>struct Inv{};
 	template<class>struct Proc{};
-	//template<class>struct Once{};
-	//template<class T>struct Ex;
 
 	extern void(*ptrProc)(Mode::Data &);
 
@@ -208,27 +203,27 @@ namespace AutomatN
 
 	struct __default_do_data__
 	{
-		unsigned val1, val2;
+		unsigned val1, val2, delay;
 	};
 	template<class O, class P>struct __default_do__
 	{
 		void operator()(P &p)
 		{
-			O::Do(p.val1, p.val2);
+			O::Do(p);//p.val1, p.val2);
 		}
 	};
 
 	template<class List>struct DefaultDo
 	{
-		void operator()(unsigned bits0, unsigned bits1)
+		void operator()(unsigned bits0, unsigned bits1, unsigned delay)
 		{
-			__default_do_data__ data = {bits0, bits1};
+			__default_do_data__ data = {bits0, bits1, delay};
 			TL::foreach<List, __default_do__>()(data);
 		}
 	};
 	template<>struct DefaultDo<NullType>
 	{
-		void operator()(unsigned bits0, unsigned bits1){}
+		void operator()(unsigned bits0, unsigned bits1, unsigned delay){}
 	};
 
 	template<class List>struct Test_OutBits
@@ -324,7 +319,7 @@ namespace AutomatN
 
 	template<class List>struct AND_Bits
 	{
-		void operator()(unsigned delay = (unsigned)-1)
+		int operator()(unsigned delay = (unsigned)-1)
 		{
 			if((unsigned)-1 != delay) delay += Performance::Counter();
 			unsigned bitOn1 = 0, bitOff1 = 0, bitInv1 = 0;
@@ -381,10 +376,10 @@ namespace AutomatN
 
 					if((bits1 || !bitsNotEmpty1)&&(bits2 || !bitsNotEmpty2)&&(bitsNotEmpty1 || bitsNotEmpty2))
 					{
-						return;
+						return -1;
 					}
 
-					DefaultDo<list_proc>()(res1, res2);
+					DefaultDo<list_proc>()(res1, res2, delay);
 					if(Performance::Counter() >= delay)
 					{
 						throw ExceptionTimeOut();
@@ -393,7 +388,7 @@ namespace AutomatN
 				else
 				{
 					arrEvents.Throw(ev - WAIT_OBJECT_0);
-					return;
+					return ev - WAIT_OBJECT_0;
 				}
 			}
 		}
@@ -407,12 +402,15 @@ namespace AutomatN
 			BitsOut<List, typename Filt<Sub, On>::Result>()(bitOn);
 			BitsOut<List, typename Filt<Sub, Off>::Result>()(bitOff);
 
-			unsigned res = device1730_1.ReadOutput();
+			if(0 != bitOff || 0 != bitOn)
+			{
+				unsigned res = device1730_1.ReadOutput();
 
-			res &= ~bitOff;
-			res |= bitOn;
+				res &= ~bitOff;
+				res |= bitOn;
 
-			device1730_1.Write(res);
+				device1730_1.Write(res);
+			}
 		}
 	};
 	template<class Table>struct NoUsed_OUT_Bits_1<Table, NullType>{void operator()(){}};
@@ -425,12 +423,15 @@ namespace AutomatN
 			BitsOut<Table, typename Filt<List, On>::Result>()(bitOn);
 			BitsOut<Table, typename Filt<List, Off>::Result>()(bitOff);
 
-			unsigned res = device1730_2.ReadOutput();
+			if(0 != bitOff || 0 != bitOn)
+			{
+				unsigned res = device1730_2.ReadOutput();
 
-			res &= ~bitOff;
-			res |= bitOn;
+				res &= ~bitOff;
+				res |= bitOn;
 
-			device1730_2.Write(res);
+				device1730_2.Write(res);
+			}
 		}
 	};
 
@@ -491,5 +492,18 @@ namespace AutomatN
 #define TEST_OUT_BITS(...)Test_OutBits<TL::MkTlst<__VA_ARGS__>::Result>()()
 
 #define TEST_IN_BITS(...) TEST_Bits<TL::MkTlst<__VA_ARGS__>::Result>()()
+
+
+	template<const LogMess::ID N>struct ExceptionAl
+	{
+		template<class T>static void Do(T &t)
+		{
+			if(Performance::Counter() >= t.delay)
+			{
+				Log::Mess<N>();
+				throw AutomatN::ExceptionAlarm();
+			}
+		}
+	};
 
 }

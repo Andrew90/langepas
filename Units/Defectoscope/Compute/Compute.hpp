@@ -36,7 +36,6 @@ public:
 	{
 		for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 		{
-			//ComputeZone<T>()(j);
 			ComputeZoneEnd<T>()(currentZone, j);
 		}
 	}

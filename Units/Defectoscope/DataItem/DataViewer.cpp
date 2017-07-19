@@ -157,13 +157,13 @@ DataViewer<Thick>::DataViewer()
 
 void DataViewer<Thick>::Do(int zone, int channel)
 {
-	ItemData<T> &d = Singleton<ItemData<T> >::Instance();
-	int stop = d.offsets[1 + zone];
-	if(stop > d.currentOffset) stop = d.currentOffset;
-	int widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T>>().value;
-	if(0 != widthFiltre)
-	{
-		widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T>>().value;
-	}
+	//ItemData<T> &d = Singleton<ItemData<T> >::Instance();
+	//int stop = d.offsets[1 + zone];
+	//if(stop > d.currentOffset) stop = d.currentOffset;
+	//int widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T>>().value;
+	//if(0 != widthFiltre)
+	//{
+	//	widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T>>().value;
+	//}
 //	Set(d.offsets[zone], stop, channel, d.ascan[channel], d.ascanStatus[channel], StatusId<Clr<BorderLower<T>>>(), StatusId<Clr<BorderAbove<T>>>(), widthFiltre);
 }

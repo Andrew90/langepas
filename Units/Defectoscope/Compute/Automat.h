@@ -12,6 +12,7 @@ namespace AutomatN
 
 	struct ExceptionStop{};
 	struct ExceptionExit{};
+	struct ExceptionRun{};
 	struct ExceptionAlarm
 	{
 		ExceptionAlarm();
@@ -21,6 +22,7 @@ namespace AutomatN
 	template<>struct Ex<ExceptionStop>{static HANDLE handle;};
 	template<>struct Ex<ExceptionExit>{static HANDLE handle;};
 	template<>struct Ex<ExceptionContinue>{static HANDLE handle;};
+	template<>struct Ex<ExceptionRun>{static HANDLE handle;};
 }
 
 class Automat

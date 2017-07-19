@@ -519,6 +519,9 @@
     <ClCompile Include="Dialogs\OffsetSensorDlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="Compute\ComputeResult.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1014,6 +1017,12 @@
       <Filter>Common\Devices\lir</Filter>
     </ClInclude>
     <ClInclude Include="Compute\Compute.hpp">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Emulator\EmulatorBits.hpp">
+      <Filter>Common\Devices\Emulator</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\ComputeResult.h">
       <Filter>Compute</Filter>
     </ClInclude>
   </ItemGroup>

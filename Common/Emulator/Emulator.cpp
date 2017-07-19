@@ -6,6 +6,7 @@
 #include "App/AppBase.h"
 #include <math.h>
 #include "App/Config.h"
+#include "EmulatorBits.hpp"
 namespace {
 	wchar_t name[] = L"Parallel hatch in input data";
 	wchar_t eventName[] = L"Event input data";
@@ -15,12 +16,14 @@ namespace {
 
 	HANDLE h;
 	struct EMapData
-	{
-		bool isStart;
+	{		
 		unsigned start;
 		unsigned count;
-		unsigned bits;
-		unsigned outs;
+		unsigned bits0;
+		unsigned bits1;
+		unsigned outs0;
+		unsigned outs1;
+		bool isStart;
 		double data[4 * 20 * 1024];
 		char scan[100 * App::count_Thick_sensors * 474];
 	};
@@ -30,35 +33,68 @@ namespace {
 
 int start_time;
 
-//unsigned &inControlCircuts = Singleton<InputBitTable>::Instance().items.get<iÑontrolÑircuits>().value;
-//unsigned &inCross0 = Singleton<InputBitTable>::Instance().items.get<iCross0>().value;
-//unsigned &inCross1 = Singleton<InputBitTable>::Instance().items.get<iCross1>().value;
-//
-//unsigned &inLong0 = Singleton<InputBitTable>::Instance().items.get<iLong0>().value;
-//unsigned &inLong1 = Singleton<InputBitTable>::Instance().items.get<iLong1>().value;
-//
-//unsigned &inThick0 = Singleton<InputBitTable>::Instance().items.get<iThick0>().value;
-//unsigned &inThick1 = Singleton<InputBitTable>::Instance().items.get<iThick1>().value;
-//
-//unsigned &inSolid = Singleton<InputBitTable>::Instance().items.get<iSolid>().value;
-//unsigned &inReady= Singleton<InputBitTable>::Instance().items.get<iReady>().value;
 
 static const int dl = 25000;
 static const int xl = 2000;
 
-unsigned last;
+unsigned last0;
+unsigned last1;
 bool tst()
 {
-	if(map->bits != last)
+	if(map->bits0 != last0 || map->bits1 != last1)
 	{
-		last = map->bits;
+		last0 = map->bits0;
+		last1 = map->bits1;
 		return true;
 	}
 	return false;
 }
 
+#define BITS(...) TL::foreach<TL::MkTlst<__VA_ARGS__>::Result, __bits__>()(&map->bits0);\
+	printf(#__VA_ARGS__##"\n");
+
 void Bits()
 {
+	BITS(On<iPCH_B>);
+	BITS(On<iReadyR1>);
+	BITS(On<iReadyT>, On<iControlT>, Off<iResultT>);
+	Sleep(3000);
+	BITS(On<iSQ1po>);
+	Sleep(600);
+	BITS(On<iSQ2po>);
+	Sleep(200);
+	BITS(On<iSQ1t>);
+	Sleep(600);
+	BITS(On<iSQ2t>);
+	Sleep(200);
+	BITS(On<iSQ1pr>);
+	Sleep(600);
+	BITS(On<iSQ2pr>);
+	Sleep(200);
+	BITS(On<iSQ1DM>);
+	Sleep(600);
+	BITS(On<iSQ2DM>);
+
+	Sleep(10000);
+
+	BITS(Off<iSQ1po>);
+	Sleep(600);
+	BITS(Off<iSQ2po>);
+	Sleep(200);
+	BITS(Off<iSQ1t>);
+	Sleep(600);
+	BITS(Off<iSQ2t>);
+	Sleep(200);
+	BITS(Off<iSQ1pr>);
+	Sleep(600);
+	BITS(Off<iSQ2pr>);
+	Sleep(200);
+	BITS(Off<iSQ1DM>);
+	Sleep(600);
+	BITS(Off<iSQ2DM>);
+
+	printf("Stop\n");
+	Sleep(20000);
 	/*
 	unsigned t = Performance::Counter() - start_time;
 	if(dl + 20000 < t)
@@ -309,7 +345,8 @@ void Emulator::Start()
 {
 	if(!map->isStart)
 	{
-		last = 0x0badc0de;
+		last0 = 0x0badc0de;
+		last1 = 0x0badc0de;
 		start_time = Performance::Counter();
 		map->isStart = true;
 		CloseHandle(CreateThread(NULL, 0, Proc, this, 0, NULL));
@@ -318,23 +355,23 @@ void Emulator::Start()
 
 void Emulator::Stop()
 {
-//	map->bits &= ~inControlCircuts;
 	map->isStart = false;
 }
 
-unsigned Emulator::Inputs()
+unsigned Emulator::Inputs(int x)
 {
-	return map->bits;
+	return (0 == x) ? map->bits0: map->bits1;
 }
 
-void Emulator::Outputs(unsigned o)
+void Emulator::Outputs(int x, unsigned o)
 {
-	map->outs = o;
+	if(0 == x)  map->outs0 = o;
+	else map->outs1 = o;
 }
 
-unsigned Emulator::Outputs()
+unsigned Emulator::Outputs(int x)
 {
-	return map->outs;
+	return (0 == x) ? map->outs0: map->outs1;
 }
 
 DWORD WINAPI LAN_DO(PVOID d)
@@ -379,9 +416,6 @@ void Emulator::LanDo()
 
 		SetEvent(hEv);
 		Sleep(100);
-		//	unsigned t = GetTickCount();
-		//	printf("%d %d %d\n", map->scan[0], t - x, ++zzz);
-		//	x = t;
 	}
 
 }

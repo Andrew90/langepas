@@ -12,6 +12,8 @@
 #include "App/App.h"
 #include "Windows\MainWindow.h"
 #include "window_tool\Emptywindow.h"
+#include "Compute\ComputeResult.h"
+#include "Compute\AppKeyHandler.h"
 
 namespace Mode
 {
@@ -91,12 +93,12 @@ namespace Mode
 		static unsigned bits2;
 		static unsigned msk1;
 		static unsigned msk2;
-		static void Do(unsigned inp1, unsigned inp2)
+		template<class T>static void Do(T &t)//unsigned inp1, unsigned inp2)
 		{
-			if(bits1 != (inp1 & msk1) || bits2 != (inp2 & msk2))
+			if(bits1 != (t.val1 & msk1) || bits2 != (t.val2 & msk2))
 			{
-				TL::foreach<list1, __send_mess__>()(Singleton<InputBit1Table>::Instance().items, __send_mess_data__(inp1 ^ bits1, inp1));
-				TL::foreach<list2, __send_mess__>()(Singleton<InputBit2Table>::Instance().items, __send_mess_data__(inp2 ^ bits2, inp2));
+				TL::foreach<list1, __send_mess__>()(Singleton<InputBit1Table>::Instance().items, __send_mess_data__(t.val1 ^ bits1, t.val1));
+				TL::foreach<list2, __send_mess__>()(Singleton<InputBit2Table>::Instance().items, __send_mess_data__(t.val2 ^ bits2, t.val2));
 				throw ExceptionAlarm();
 			}
 		}
@@ -108,7 +110,7 @@ namespace Mode
 
 	struct Collection
 	{
-		static void Do(unsigned, unsigned)
+		template<class T>static void Do(T &t)//unsigned, unsigned)
 		{
 			//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
 			static unsigned counter = 0;
@@ -123,7 +125,7 @@ namespace Mode
 
 	struct ComputeZones
 	{
-		static void Do(unsigned, unsigned)
+		template<class T>static void Do(T &)//unsigned, unsigned)
 		{
 			//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
 			static unsigned counter = 0;
@@ -194,10 +196,10 @@ namespace Mode
 		else
 		{
 			Log::Mess<LogMess::TUBE_MODE>();
+			OUT_BITS(On<oReloc1>, On<oReloc2>); ///разрешение перекладки в транспортную систему
 		}
 
-		if(!sop) OUT_BITS(On<oReloc1>, On<oReloc2>); ///разрешение перекладки в транспортную систему
-
+		Log::Mess<LogMess::waitingPipeEntranceRollerTable>();
 		AND_BITS(
 			On<iReadyR1>	  /// \brief ожидание цикла
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
@@ -217,23 +219,25 @@ namespace Mode
 			///TODO Запрос номера трубы, если "00000000" то повтор
 			RequestPipeNumber(numberTube);
 		}
-
+		OUT_BITS(Off<oReloc1>); /// 6.10
 		if(job.get<OnTheJob<Thick>>().value)	 /// если работа с толщиномером
 		{
-			OUT_BITS(On<oT_Cycle>);
+			OUT_BITS(On<oT_Cycle>);	 //6.11
 		}
 		if(job.get<OnTheJob<Long>>().value)	 /// если работа с продольным
 		{
 			Log::Mess<LogMess::WAITING_LONGITUDINAL_MODULE>();
 			OUT_BITS(Off<oPowerSU>);
 			FrequencyInverterRun();
-			Sleep(4000);
-			if(TEST_IN_BITS(Off<iPCH_B>))
-			{
-				Log::Mess<LogMess::iPCH_B_OFF>();
-				throw ExceptionAlarm();
-			}
-		}
+
+			AND_BITS(
+				  On<iPCH_B  >
+				, Off<iPCH_RUN>
+				, Off<iPCH_A  >
+				, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+				, Proc<ExceptionAl<LogMess::iPCH_B_OFF>>	/// если нет готовности - выход
+				)(4000);  /// \brief ожидание 4 сек
+		}		
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE>();
@@ -249,7 +253,6 @@ namespace Mode
 
 		EnableDemagnetization();
 		
-
 		///отслеживаемые биты для аварийного завершения программы
 		AllarmBits::msk1 = 0;
 		TL::foreach<AllarmBits::list1, __set_msk__>()(Singleton<InputBit1Table>::Instance().items, AllarmBits::msk1);
@@ -260,13 +263,13 @@ namespace Mode
 		AllarmBits::bits2 = device1730_2.Read() & AllarmBits::msk2;
 
 		AND_BITS(
-			On<iSQ1po>
+			On<iSQ1po>							  ///ожидание наезда трубы на датчик
 			, Proc<AllarmBits>
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 			)(60000); 
 		unit502.Start();
-		GUARD{unit502.Stop();};
-		ZZZ(on, Cross, 1)
+		GUARD{unit502.Stop();};	  /// \brief выключает 502 при досрочном выходе из цикла 
+		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
 
 		WAIT(On<iSQ2po>, on, Cross, 2)
 		if(job.get<OnTheJob<Thick>>().value)
@@ -324,8 +327,27 @@ namespace Mode
 		Log::Mess<LogMess::WaitMagneticOff>();
 		WAIT(Off<iSQ1DM>, off, Magn, 1)
 		WAIT(Off<iSQ2DM>, off, Magn, 2)
+		OUT_BITS(Off<oT_Base>, Off<oSTF>, Off<oPowerSU>, Off<oMagnet>, Off<oRP>);
+		DisableDemagnetization();
 		unit502.Stop();
+//---------------------------------------------------------------	
+		GetDataFromThicknessModule();
+		ComputeResult();
+		if(job.get<OnTheJob<ViewInterrupt>>().value)
+		{
+			Log::Mess<LogMess::interruptView>();
+			AppKeyHandler::Continue();	/// включили кнопку продолжить
+			AND_BITS(
+				Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+				, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
+				)(); 
+		}
+		
+		WorkACS(numberTube);
+		StoredData(!sop);
 //---------------------------------------------------------------
+		//TODO Проверка температуры обмоток соленоида
+		TestCoilTemperature(); 
 	}
 }
 #undef ZZZ

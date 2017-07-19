@@ -293,6 +293,7 @@ DEFINE_PARAM_NUM(IDThickMax, n, int, 0)
 
 	void Do(int tubeLength, wchar_t *solidGroup)
 	{
+#if 0
 		__StoredBase parameters;
 		CBase base(
 			parameters.name()
@@ -413,5 +414,6 @@ DEFINE_PARAM_NUM(IDThickMax, n, int, 0)
 			//........................................
 			Insert_Into<StoredTable>(st, base).Execute();
 		}
+#endif
 	}
 }

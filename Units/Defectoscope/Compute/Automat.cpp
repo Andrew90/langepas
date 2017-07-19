@@ -20,7 +20,7 @@ namespace AutomatN
 #define EX(n, init_state)template<>struct Ex<Exception##n>{static HANDLE handle;};\
 	HANDLE Ex<Exception##n>::handle = CreateEvent(NULL, init_state, FALSE, NULL);
 
-	EX(Run, TRUE)
+	//EX(Run, TRUE)
 
 	EX(ReturnTube, FALSE)
 	EX(ExitTube, FALSE)
@@ -30,6 +30,7 @@ namespace AutomatN
 	HANDLE Ex<ExceptionStop>::handle = CreateEvent(NULL, FALSE, FALSE, NULL);
 	HANDLE Ex<ExceptionExit>::handle = CreateEvent(NULL, TRUE, FALSE, NULL);
 	HANDLE Ex<ExceptionContinue>::handle = CreateEvent(NULL, FALSE, FALSE, NULL);
+	HANDLE Ex<ExceptionRun>::handle = CreateEvent(NULL, TRUE, FALSE, NULL);
 
 	HANDLE hThread;
 //----------------------------------------------------------------------

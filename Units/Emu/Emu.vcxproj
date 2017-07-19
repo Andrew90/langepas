@@ -11,10 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{11C00266-C3A9-446E-8028-84F96F913274}</ProjectGuid>
+    <ProjectGuid>{7617C25B-00CD-4D70-B0D8-6A538256D9F0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Emultor</RootNamespace>
-    <ProjectName>EmultorX</ProjectName>
+    <RootNamespace>Emu</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -50,9 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)../../Units/Defectoscope;$(ProjectDir)../../CommonApp;$(ProjectDir)../../Common</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>$(ProjectDir)../../Units\Defectoscope;$(ProjectDir);$(ProjectDir)../../CommonApp;$(ProjectDir)../../Common</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -84,15 +81,15 @@
     <ClInclude Include="..\..\Common\PerformanceCounter\PerformanceCounter.h" />
     <ClInclude Include="..\..\Common\tools_debug\DebugMess.h" />
     <ClInclude Include="..\Defectoscope\App\AppBase.h" />
-    <ClInclude Include="App\Config.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\Emulator\Emulator.cpp" />
     <ClCompile Include="..\..\Common\PerformanceCounter\PerformanceCounter.cpp" />
-    <ClCompile Include="DebugMess.cpp" />
-    <ClCompile Include="EmultorX.cpp" />
+    <ClCompile Include="..\Defectoscope\App\AppBase.cpp" />
+    <ClCompile Include="..\Emultor\DebugMess.cpp" />
+    <ClCompile Include="Emu.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

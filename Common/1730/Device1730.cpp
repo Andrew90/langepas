@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Device1730.h"
-#include "App/Config.h"
 #include "tools_debug\DebugMess.h"
 
 using namespace Automation::BDaq;
@@ -56,8 +55,9 @@ void Device1730::Destroy()
 	}
 }
 #else
-bool Device1730::Init(wchar_t *)
+bool Device1730::Init(wchar_t *txt)
 {
+	num = txt[wcslen(txt) - 1] - '0';
 	return true;
 }
 //-------------------------------------------------------------------------
@@ -109,7 +109,7 @@ Emulator &emulator = Singleton<Emulator>::Instance();
 }
 unsigned Device1730::Read()
 {
-	return emulator.Inputs();
+	return emulator.Inputs(num);
 }
 //--------------------------------------------------------------------------
 void Device1730::Write(unsigned output)
@@ -119,12 +119,12 @@ void Device1730::Write(unsigned output)
 //--------------------------------------------------------------------------
 unsigned Device1730::ReadOutput()
 {	
-	return emulator.Outputs();
+	return emulator.Outputs(num);
 }
 //----------------------------------------------------------------------------
 void Device1730::WriteOutput(unsigned output, unsigned maska)
 {	
-	 unsigned t = emulator.Outputs();
+	 unsigned t = emulator.Outputs(num);
 	 t &= ~maska;
 	 t |= output;
 	 Write(t);

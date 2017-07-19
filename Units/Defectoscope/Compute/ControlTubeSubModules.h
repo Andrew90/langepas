@@ -15,6 +15,8 @@ void CheckDemagnetizeModule();
 void SettingWorkingPositionControlModules();
 /// \breaf передача параметров в толщиномер
 void TransferParametersThicknessModule();
+/// \brief запрос результатов измерения из толщиномера
+void GetDataFromThicknessModule();
 /// \brief подготовка частотного преобразователя
 void FrequencyInverterPreparation();
 /// \brief запуск частотного преобразователя
@@ -29,3 +31,9 @@ void RequestPipeNumber(char (&)[9]);
 void EnableDemagnetization();
 ///TODO включить размагничивание
 void DisableDemagnetization();
+/// работа с АСУ
+void WorkACS(char (&numberTube)[9]);
+/// сохранение данных в базе
+void StoredData(bool);
+
+

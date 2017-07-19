@@ -1,5 +1,6 @@
 #pragma once
 #include "Inc/bdaqctrl.h" 
+#include "App/Config.h"
 class Device1730
 {
 	static const int startPoint = 0;
@@ -7,6 +8,9 @@ class Device1730
 	Automation::BDaq::InstantDiCtrl *instantDiCtrl;
 	CRITICAL_SECTION cs;
 	bool isOpen;	
+#ifdef DEBUG_ITEMS
+	int num;
+#endif
 public:	
 	Device1730();
 	bool Init(wchar_t *deviceDescription);

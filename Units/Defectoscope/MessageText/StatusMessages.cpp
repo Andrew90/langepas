@@ -214,23 +214,18 @@ template<class O, class P>struct __skip__
 
 int ResultMessageId(unsigned *x)
 {
-	dprint(" ResultMessageId\n");
-	//throw "Overwritte procedure";
 	unsigned res = 0;
 	while(-1 != *x)
 	{
 		if(*x < dimention_of(StatusMessages::bits)) res |= StatusMessages::bits[*x].bits;
 		x = &x[1];
 	}
-	//TL::foreach<status_list, __skip__>()(res);
 	TL::foreach<StatusMessages::lst_lst::skip_list, __skip__>()(res);
 	return StatusMessages::idBits(res);
 }
 
 void ColorBar::operator()(double &data, unsigned &color, int id, double defData)
 {
-	dprint("ColorBar::operator()\n");
-  //throw "Overwritte procedure";
    if(id < dimention_of(StatusMessages::bits))StatusMessages::ptrMess[id](NULL, color);
    if(TL::IndexOf<StatusMessages::lst_lst::lst_list, TL::MkTlst<Undefined>::Result>::value == id 
 	   || TL::IndexOf<StatusMessages::lst_lst::lst_list, TL::MkTlst<DeathZone>::Result>::value == id)
@@ -240,7 +235,6 @@ void ColorBar::operator()(double &data, unsigned &color, int id, double defData)
 void StatusText::FromSensors(unsigned *sens, unsigned &color, bool &visible, wchar_t *buf)
 	{
 		
-		// throw "Overwritte procedure";
 		buf[0] = 0;
 		unsigned id = ResultMessageId(sens);
 
@@ -256,8 +250,6 @@ void StatusText::FromSensors(unsigned *sens, unsigned &color, bool &visible, wch
 
 unsigned StatusColor::operator()(unsigned id)
 	{
-		dprint("StatusColor::operator()\n");
-		// throw "Overwritte procedure";
 		 unsigned color = 0;
 		if(id < dimention_of(StatusMessages::bits))StatusMessages::ptrMess[id](NULL, color);
 		return color;
@@ -265,7 +257,6 @@ unsigned StatusColor::operator()(unsigned id)
 
 void StatusText::operator()(int id, unsigned &color, bool &visible, wchar_t *buf)
 	{
-		 dprint("StatusText::operator()\n");
 		buf[0] = 0;
 
 		if(id < dimention_of(StatusMessages::ptrMess))

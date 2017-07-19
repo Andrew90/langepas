@@ -19,7 +19,8 @@ ThickViewer::ThickViewer()
 {
 	chart = &tchart;
 
-	tchart.items.get<BarSeriesDouble>().SetColorBarHandler(this, &ThickViewer::GetColorBar);
+	//tchart.items.get<BarSeriesDouble>().SetColorBarHandler(this, &ThickViewer::GetColorBar);
+	tchart.items.get<BarSeries>().SetColorBarHandler(this, &ThickViewer::GetColorBar);
 	cursor.SetMouseMoveHandler(this, &ThickViewer::Draw);	
 	cursor.horizontalLine = false;
 }
@@ -64,33 +65,39 @@ void ThickViewer::operator()(TSize &l)
 #define xmax(a, b) ((a) > (b) ? (a) : (b))
 #define max3(a,b,c) xmax(xmax(a, b), c)
 
-bool ThickViewer::GetColorBar(int zone, double &data_, unsigned &color, double &data_1, unsigned &color1)
+//bool ThickViewer::GetColorBar(int zone, double &data, unsigned &color)//, double &data_1, unsigned &color1)
+//{
+//	data_1 = min3(viewerData.buffer[zone], viewerData.bufferMin[1][zone], viewerData.bufferMin[2][zone]);
+//	data_ =  max3(viewerData.bufferMax[0][zone], viewerData.bufferMax[1][zone], viewerData.bufferMax[2][zone]);
+//
+//	unsigned st[1 + App::count_Thick_sensors] = {
+//	   viewerData.status[0][zone]
+//	   , viewerData.status[1][zone]
+//	   , viewerData.status[2][zone]
+//	   , -1
+//	};
+//
+//	int status = ResultMessageId(st);
+//
+//#pragma message("Дописать цвет")
+//	ColorBar()(
+//		data_1
+//		, color1
+//		, status
+//	    , Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<Thick>>().value
+//		);
+//	color = color1;
+//	unsigned char *x = (unsigned char *) &color;
+//	x[0] = unsigned char(2.5 * x[0] / 4);
+//	x[1] = unsigned char(2.5 * x[1] / 4);
+//	x[2] = unsigned char(2.5 * x[2] / 4);
+//	return zone < viewerData.currentOffsetZones - 1;	  
+//}
+bool ThickViewer::GetColorBar(int zone, double &data, unsigned &color)
 {
-	data_1 = min3(viewerData.bufferMin[0][zone], viewerData.bufferMin[1][zone], viewerData.bufferMin[2][zone]);
-	data_ =  max3(viewerData.bufferMax[0][zone], viewerData.bufferMax[1][zone], viewerData.bufferMax[2][zone]);
-
-	unsigned st[1 + App::count_Thick_sensors] = {
-	   viewerData.status[0][zone]
-	   , viewerData.status[1][zone]
-	   , viewerData.status[2][zone]
-	   , -1
-	};
-
-	int status = ResultMessageId(st);
-
-#pragma message("Дописать цвет")
-	ColorBar()(
-		data_1
-		, color1
-		, status
-	    , Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<Thick>>().value
-		);
-	color = color1;
-	unsigned char *x = (unsigned char *) &color;
-	x[0] = unsigned char(2.5 * x[0] / 4);
-	x[1] = unsigned char(2.5 * x[1] / 4);
-	x[2] = unsigned char(2.5 * x[2] / 4);
-	return zone < viewerData.currentOffsetZones - 1;	  
+	data = viewerData.buffer[zone];
+	color = ConstData::ZoneColor(viewerData.status[zone]);
+	return zone < viewerData.currentOffsetZones - 1;
 }
 
 
@@ -112,14 +119,10 @@ bool ThickViewer::Draw(TMouseMove &l, VGraphics &g)
 		unsigned color;
 		bool b;
 
-		double dataMin = min3(viewerData.bufferMin[0][x], viewerData.bufferMin[1][x], viewerData.bufferMin[2][x]);
-	    double dataMax =  max3(viewerData.bufferMax[0][x], viewerData.bufferMax[1][x], viewerData.bufferMax[2][x]);
+		double dataMin = viewerData.buffer[x];
 
-		//char *s = StatusText()(viewerData.status[x], color, b);
-		unsigned mess[1 + App::count_Thick_sensors] = {
-		  viewerData.status[0][x]
-		  , viewerData.status[1][x]
-		  , viewerData.status[2][x]
+		unsigned mess[] = {
+		  viewerData.status[x]
 		  , -1
 		};
 		wchar_t s[128];
@@ -127,9 +130,8 @@ bool ThickViewer::Draw(TMouseMove &l, VGraphics &g)
 		wchar_t buf[512];
 		if(b)
 		{
-			wsprintf(buf, L"<ff>Минимальное значение <ff0000>%s <ff>максимальное значение <ff0000>%s"
+			wsprintf(buf, L"<ff>значение <ff0000>%s "
 				, Wchar_from<double, 1>(dataMin)()
-				, Wchar_from<double, 1>(dataMax)()
 				);
 		}
 		else
@@ -144,7 +146,6 @@ bool ThickViewer::Draw(TMouseMove &l, VGraphics &g)
 			);
 		label.Draw(g());
 	}
-	//*/
 	return drawZones;
 }
 

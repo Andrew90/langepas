@@ -95,6 +95,13 @@ namespace AppKeyHandler
 		>::Result list;
 		__btn__<list>()();
 	}
+	void RunContine()
+	{
+		typedef TL::MkTlst<
+			On<IDB_Continue>, On<IDB_CycleBtn>
+		>::Result list;
+		__btn__<list>()();
+	}
 	void Stop()
 	{
 		Init();
