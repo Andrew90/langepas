@@ -20,6 +20,7 @@ struct StatusText
 
 struct StatusColor
 {
-unsigned operator()(unsigned id) ;
-	
+	unsigned operator()(unsigned id) ;
 };
+
+bool IsDefect(unsigned);

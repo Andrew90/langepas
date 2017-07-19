@@ -8,6 +8,7 @@
 namespace
 {
 	struct CutingZone{int cut0, cut1;};
+}
 void CuttingZones()
 {
 	int minimumLengthPipe = Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value;
@@ -15,14 +16,49 @@ void CuttingZones()
 	char (&status)[App::count_zones] = resultData.status;
 	CutingZone cutingZone[10] = {};
 	int current = 0;
-	for(int i =0; i < dimention_of(cutingZone); ++i)
+	int currentStop = 0;
+	bool start = true;
+	for(int j = 0; j <  resultData.currentOffsetZones; ++j)
 	{
-		for(int j = 0; j <  dimention_of(status); ++j)
+		if(IsDefect(status[j]))
 		{
+			if((j - 1) - currentStop > minimumLengthPipe)
+			{
+				cutingZone[current].cut1 = j - 1;
+				++current;
+
+			}
+			for(;j <  resultData.currentOffsetZones; ++j)
+			{
+				if(!IsDefect(status[j]))
+				{
+					currentStop = j;
+					cutingZone[current].cut0 = j;
+					break;
+				}
+			}
+		}
+		else
+		{
+			cutingZone[current].cut1 = j;
 		}
 	}
+	int len = cutingZone[0].cut1 - cutingZone[0].cut0;
+	int offs = 0;
+	for(int i = 1; i <= current; ++i)
+	{
+		int t = cutingZone[i].cut1 - cutingZone[i].cut0;
+		if(t > len)
+		{
+			len = t;
+			offs = i;
+		}
+	}
+
+	resultData.cutZone0 = cutingZone[offs].cut0;
+	resultData.cutZone1 = cutingZone[offs].cut1;
 }
-}
+
 
 void ComputeResult()
 {

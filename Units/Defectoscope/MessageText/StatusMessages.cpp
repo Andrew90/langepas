@@ -199,6 +199,22 @@ namespace StatusMessages
 		}
 		return false;
 	}
+
+	template<class List = status_list>struct BrakBits;
+	template<class Head, class Tail>struct BrakBits<Tlst<Head, Tail>>
+	{
+		static const unsigned value = BrakBits<Tail>::value;
+	};
+	template<class Head, class Tail>struct BrakBits<Tlst<BorderDefect<Head>, Tail>>
+	{
+		static const unsigned value = (1 << TL::IndexOf<status_list, BorderDefect<Head>>::value) | BrakBits<Tail>::value;
+	};
+	template<>struct BrakBits<NullType>
+	{
+		static const unsigned value = 0;
+	};
+
+	static const int brak_bits = BrakBits<>::value;
 }
 
 template<class O, class P>struct __skip__
@@ -267,6 +283,16 @@ void StatusText::operator()(int id, unsigned &color, bool &visible, wchar_t *buf
 		  visible = !(TL::IndexOf<StatusMessages::lst_lst::lst_list, TL::MkTlst<Undefined>::Result>::value == id 
 			 || TL::IndexOf<StatusMessages::lst_lst::lst_list, TL::MkTlst<DeathZone>::Result>::value == id);
 	}
+
+
+bool IsDefect(unsigned id)
+{
+	if(id < dimention_of(StatusMessages::bits))
+	{
+	   return 0 != (StatusMessages::brak_bits & StatusMessages::bits[id].bits);
+	}
+	return false;
+}
 
 
 
