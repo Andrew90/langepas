@@ -172,6 +172,16 @@ namespace
 			o.viewerData.currentOffsetZones = 0;
 		}
 	};
+	template<class P>struct __clear__<ResultViewer, P>
+	{
+		typedef ResultViewer O;
+		void operator()(O &o)
+		{
+			o.viewerData.currentOffsetZones = 0;
+			o.viewerData.cutZone0 = 1;
+			o.viewerData.cutZone1 = 1;
+		}
+	};
 }
 void MainWindow::ClearCharts()
 {
