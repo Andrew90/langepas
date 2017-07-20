@@ -102,5 +102,6 @@ void ComputeResult()
 	if(isTick) if(len < thickData.currentOffsetZones) len = thickData.currentOffsetZones;
 	if(isLong) if(len < longData.currentOffsetZones) len = longData.currentOffsetZones;
 	resultData.currentOffsetZones = len;
+	CuttingZones(); /// зоны реза
 }
 

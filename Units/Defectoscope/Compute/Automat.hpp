@@ -152,33 +152,33 @@ namespace AutomatN
 		}
 	};
 
-	template<class List>struct SelectBits
+	template<class InputBitTable, class List>struct SelectBits
 	{
 		void operator()(unsigned &bits)
 		{
 			bits = 0;
-			__sel_bits__<typename __filtr__<List, InputBitTable::items_list>::Result, __bits_0__>()
+			__sel_bits__<typename __filtr__<List, typename InputBitTable::items_list>::Result, __bits_0__>()
 				(&Singleton<InputBitTable>::Instance().items, &bits);
 		}
 	};
-	template<>struct SelectBits<NullType>
+	template<class InputBitTable>struct SelectBits<InputBitTable, NullType>
 	{
 		void operator()(unsigned &bits)
 		{
 		}
 	};
 
-	template<class List>struct SelectOutBits
+	template<class OutputsTable, class List>struct SelectOutBits
 	{
 		void operator()(unsigned &bits)
 		{
 			bits = 0;
-			__sel_bits__<typename __filtr__<List, OutputBitTable::items_list>::Result, __bits_0__>()
-				(&Singleton<OutputBitTable>::Instance().items, &bits);
+			__sel_bits__<typename __filtr__<List, OutputsTable::items_list>::Result, __bits_0__>()
+				(&Singleton<OutputsTable>::Instance().items, &bits);
 		}
 	};
 
-	template<>struct SelectOutBits<NullType>
+	template<class OutputsTable>struct SelectOutBits<OutputsTable, NullType>
 	{
 		void operator()(unsigned &bits)
 		{
@@ -275,8 +275,8 @@ namespace AutomatN
 	{
 		bool operator()()
 		{
-			typedef typename SelectItem<OutputBit1Table::items_list, List>::Result List1;
-			typedef typename SelectItem<OutputBit2Table::items_list, List>::Result List2;
+			typedef typename SelectItem<InputBit1Table::items_list, List>::Result List1;
+			typedef typename SelectItem<InputBit2Table::items_list, List>::Result List2;
 
 			typedef typename Filt<List1, On>::Result list_on1;
 			typedef typename Filt<List1, Off>::Result list_off1;
@@ -291,13 +291,13 @@ namespace AutomatN
 			if(bitsNotEmpty1)res1 = device1730_1.Read();
 			if(bitsNotEmpty2)res2 = device1730_2.Read();
 
-			SelectBits<list_on1>()(bitOn1);
-			SelectBits<list_off1>()(bitOff1);
-			SelectBits<typename Filt<List1, Inv>::Result>()(bitInv1);
+			SelectBits<InputBit1Table, list_on1>()(bitOn1);
+			SelectBits<InputBit1Table, list_off1>()(bitOff1);
+			SelectBits<InputBit1Table, typename Filt<List1, Inv>::Result>()(bitInv1);
 
-			SelectBits<list_on2>()(bitOn2);
-			SelectBits<list_off2>()(bitOff2);
-			SelectBits<typename Filt<List2, Inv>::Result>()(bitInv2);
+			SelectBits<InputBit2Table, list_on2>()(bitOn2);
+			SelectBits<InputBit2Table, list_off2>()(bitOff2);
+			SelectBits<InputBit2Table, typename Filt<List2, Inv>::Result>()(bitInv2);
 
 			bool bits1 = false, bits2 = false;
 
@@ -325,27 +325,31 @@ namespace AutomatN
 			unsigned bitOn1 = 0, bitOff1 = 0, bitInv1 = 0;
 			unsigned bitOn2 = 0, bitOff2 = 0, bitInv2 = 0;
 
-			typedef typename SelectItem<OutputBit1Table::items_list, List>::Result List1;
-			typedef typename SelectItem<OutputBit2Table::items_list, List>::Result List2;
+			typedef typename SelectItem<InputBit1Table::items_list, List>::Result List1;
+			typedef typename SelectItem<InputBit2Table::items_list, List>::Result List2;
 
 			typedef typename Filt<List1, On>::Result list_on1;
+			dprint("~~%s\n", typeid(list_on1).name());
 			typedef typename Filt<List1, Off>::Result list_off1;
+			dprint("~~%s\n", typeid(list_off1).name());
 
 			typedef typename Filt<List2, On>::Result list_on2;
+			dprint("~~%s\n", typeid(list_on2).name());
 			typedef typename Filt<List2, Off>::Result list_off2;
+			dprint("~~%s\n", typeid(list_off2).name());
 
 			typedef typename Filt<List, Proc>::Result list_proc;
 
 			static const bool bitsNotEmpty1 = __all_lists_not_empty__<list_on1, list_off1>::value;
 			static const bool bitsNotEmpty2 = __all_lists_not_empty__<list_on2, list_off2>::value;
 
-			SelectBits<list_on1>()(bitOn1);
-			SelectBits<list_off1>()(bitOff1);
-			SelectBits<typename Filt<List1, Inv>::Result>()(bitInv1);
+			SelectBits<InputBit1Table, list_on1>()(bitOn1);
+			SelectBits<InputBit1Table, list_off1>()(bitOff1);
+			SelectBits<InputBit1Table, typename Filt<List1, Inv>::Result>()(bitInv1);
 
-			SelectBits<list_on2>()(bitOn2);
-			SelectBits<list_off2>()(bitOff2);
-			SelectBits<typename Filt<List2, Inv>::Result>()(bitInv2);
+			SelectBits<InputBit2Table, list_on2>()(bitOn2);
+			SelectBits<InputBit2Table, list_off2>()(bitOff2);
+			SelectBits<InputBit2Table, typename Filt<List2, Inv>::Result>()(bitInv2);
 
 			typedef TL::Append<typename Filt<List, Ex>::Result, ExceptionExit>::Result exeption_list;
 			ArrEvents<exeption_list> arrEvents;
@@ -354,7 +358,7 @@ namespace AutomatN
 			{
 				unsigned ev = WaitForMultipleObjects(dimention_of(arrEvents.h), arrEvents.h, FALSE, 5);
 				unsigned res1 = 0, res2 = 0;
-				if(__list_not_empty__<list_proc>::value)
+			//	if(__list_not_empty__<list_proc>::value)
 				{
 					if(bitsNotEmpty1)res1 = device1730_1.Read();
 					if(bitsNotEmpty2)res2 = device1730_2.Read();

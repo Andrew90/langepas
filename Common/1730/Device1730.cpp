@@ -114,17 +114,17 @@ unsigned Device1730::Read()
 //--------------------------------------------------------------------------
 void Device1730::Write(unsigned output)
 {
-	emulator.Outputs(output);
+	emulator.Outputs(num, output);
 }
 //--------------------------------------------------------------------------
 unsigned Device1730::ReadOutput()
 {	
-	return emulator.Outputs(num);
+	return emulator.ReadOutputs(num);
 }
 //----------------------------------------------------------------------------
 void Device1730::WriteOutput(unsigned output, unsigned maska)
 {	
-	 unsigned t = emulator.Outputs(num);
+	 unsigned t = emulator.ReadOutputs(num);
 	 t &= ~maska;
 	 t |= output;
 	 Write(t);

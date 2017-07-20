@@ -66,6 +66,8 @@ struct test_test
 					 d.status[i] = ++z % 50;
 					
 			 }
+			 d.cutZone0 = 5;
+			 d.cutZone1 = 45;
 		 }
 	 }
 } xxxxx;

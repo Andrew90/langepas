@@ -1,13 +1,30 @@
 #include "stdafx.h"
 #include "Windows\ResultViewer.h"
 #include "DataItem/ConstData.h"
-//#include "MessageText/SelectMessage.h"
 #include "MessageText\StatusMessages.h"
 #include "templates/templates.hpp"
 #include "App/AppBase.h"
 #include "window_tool\MenuAPI.h"
 #include "Windows/ViewersMenu.hpp"
 #include "Windows\CrossWindow.h"
+#include "DataItem\DataItem.h"
+#include "DataItem\DataItem.h"
+
+using namespace Gdiplus;
+
+ResultViewer::Cut0::Cut0(Chart &c):VBorder(c){color = 0xff000000;widthPen = 3; dashStyle = DashStyleDashDotDot;}
+void ResultViewer::Cut0::Draw()
+{
+	value = Singleton<ResultData>::Instance().cutZone0;
+	VBorder::Draw();
+}
+
+ResultViewer::Cut1::Cut1(Chart &c):VBorder(c){color = 0xff000000; widthPen = 3; dashStyle = DashStyleDashDotDot;}
+void ResultViewer::Cut1::Draw()
+{
+	value = Singleton<ResultData>::Instance().cutZone1;
+	VBorder::Draw();
+}
 
 ResultViewer::ResultViewer()
 	: CommonViewer(&tchart, App::count_long_sensors) 
@@ -24,7 +41,6 @@ ResultViewer::ResultViewer()
 bool ResultViewer::GetColorBar(unsigned sensor, int zone, double &data, unsigned &color)
 {
 	data = 0;
-	//color = ConstData::ZoneColor(StatusColor()(viewerData.status[zone]));
 	color = StatusColor()(viewerData.status[zone]);
 	return zone < viewerData.currentOffsetZones - 1;
 }

@@ -3,16 +3,17 @@
 #include "App/AppBase.h"
 using namespace Gdiplus;
 //------------------------------------------------------------------
-VBorder::VBorder(Chart &c) : chart(c), color(0xffffff00),  widthPen(2), value(0.0)
+VBorder::VBorder(Chart &c) : chart(c), color(0xffffff00),  widthPen(2), dashStyle(DashStyleSolid), value(0.0)
 {}
 //-----------------------------------------------------------------
 void VBorder::Draw()
 {
 	Color col(color);
 	Pen pen(col, (Gdiplus::REAL)widthPen);
+	pen.SetDashStyle((Gdiplus::DashStyle)dashStyle);
 	double dX = (double)(chart.rect.right - chart.rect.left - chart.offsetAxesLeft - chart.offsetAxesRight) / (chart.maxAxesX - chart.minAxesX);
 
-	double x =  chart.rect.left + chart.offsetAxesLeft + (value - chart.minAxesX) * dX;
+	double x =  chart.rect.left + chart.offsetAxesLeft + (value - chart.minAxesX) * dX - dX / 2;
 
 	int y_b = chart.rect.bottom - chart.offsetAxesBottom - 3;
 	int y_t = chart.rect.top + chart.offsetAxesTop + 3;

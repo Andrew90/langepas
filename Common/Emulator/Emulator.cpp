@@ -50,149 +50,7 @@ bool tst()
 	return false;
 }
 
-#define BITS(...) TL::foreach<TL::MkTlst<__VA_ARGS__>::Result, __bits__>()(&map->bits0);\
-	printf(#__VA_ARGS__##"\n");
 
-void Bits()
-{
-	BITS(On<iPCH_B>);
-	BITS(On<iReadyR1>);
-	BITS(On<iReadyT>, On<iControlT>, Off<iResultT>);
-	Sleep(3000);
-	BITS(On<iSQ1po>);
-	Sleep(600);
-	BITS(On<iSQ2po>);
-	Sleep(200);
-	BITS(On<iSQ1t>);
-	Sleep(600);
-	BITS(On<iSQ2t>);
-	Sleep(200);
-	BITS(On<iSQ1pr>);
-	Sleep(600);
-	BITS(On<iSQ2pr>);
-	Sleep(200);
-	BITS(On<iSQ1DM>);
-	Sleep(600);
-	BITS(On<iSQ2DM>);
-
-	Sleep(10000);
-
-	BITS(Off<iSQ1po>);
-	Sleep(600);
-	BITS(Off<iSQ2po>);
-	Sleep(200);
-	BITS(Off<iSQ1t>);
-	Sleep(600);
-	BITS(Off<iSQ2t>);
-	Sleep(200);
-	BITS(Off<iSQ1pr>);
-	Sleep(600);
-	BITS(Off<iSQ2pr>);
-	Sleep(200);
-	BITS(Off<iSQ1DM>);
-	Sleep(600);
-	BITS(Off<iSQ2DM>);
-
-	printf("Stop\n");
-	Sleep(20000);
-	/*
-	unsigned t = Performance::Counter() - start_time;
-	if(dl + 20000 < t)
-	{
-		map->bits &= ~inControlCircuts;
-		map->isStart = false;
-		printf("STOP %x time %d\n", map->bits, t);
-		emulator.StopLan();
-	}
-	else if(dl + 17000 < t)
-	{
-		map->bits &= ~inSolid;
-		if(tst())printf("Solid off %x time %d\n", map->bits, t);
-	}
-	else if(dl + 16000 < t)
-	{
-		map->bits &= ~(inThick1); 
-		if(tst())printf("Thick1 off %x time %d\n", map->bits, t);
-
-	}
-	else if(dl + 15000 < t)
-	{
-		map->bits &= ~(inThick0);
-		if(tst())printf("Thick0 off %x time %d\n", map->bits, t);
-	}
-	else if(dl + 13000 < t)
-	{
-		map->bits &= ~(inLong1); 
-		if(tst())printf("Long1 off %x time %d\n", map->bits, t);
-	}
-	else if(dl + 12000 < t)
-	{
-		map->bits &= ~(inLong0);
-		if(tst())printf("Long0 off %x time %d\n", map->bits, t);
-	}
-	else if(dl + 10000 < t)
-	{
-		map->bits &= ~(inCross1); 
-		if(tst())printf("Cross1 off %x time %d\n", map->bits, t);
-	}
-	else if(dl + 9000 < t)
-	{
-		map->bits &= ~(inCross0);
-		if(tst())printf("Cross0 off %x time %d\n", map->bits, t);
-	}
-	else if(xl + 9500 < t)
-	{
-		map->bits &= ~inReady;
-		if(tst())printf("Ready off %x time %d\n", map->bits, t);
-	}
-	else if(xl + 9000 < t)
-	{
-		map->bits |= inSolid;
-		if(tst())printf("Solid on %x time %d\n", map->bits, t);
-	}
-	else if(xl + 8000 < t)
-	{
-		map->bits |= (inThick1);
-		if(tst())printf("Thick1 on %x time %d\n", map->bits, t);
-	}
-	else if(xl + 7000 < t)
-	{
-		map->bits |= (inThick0);
-		if(tst())printf("Thick0 on %x time %d\n", map->bits, t);
-		emulator.StartLan();
-	}
-	else if(xl + 5000 < t)
-	{
-		map->bits |= (inLong1); 
-		if(tst())printf("Long1 on %x time %d\n", map->bits, t);
-	}
-	else if(xl + 4000 < t)
-	{
-		map->bits |= (inLong0);
-		if(tst())printf("Long0 on %x time %d\n", map->bits, t);
-	}
-	else if(xl + 2000 < t)
-	{
-		map->bits |= (inCross1); 
-		if(tst())printf("Cross1 on %x time %d\n", map->bits, t);
-	}
-	else if(xl + 1000 < t)
-	{
-		map->bits |= (inCross0);
-		if(tst())printf("Cross0 on %x time %d\n", map->bits, t);
-	}
-	else if(xl + 10 < t)
-	{
-		map->bits |= (inReady);
-		if(tst()) printf("inReady on %x time %d\n", map->bits, t);
-	}
-	else if(50 < t)
-	{
-		map->bits |= (inControlCircuts);
-		if(tst()) printf("ControlCircuts on %x time %d\n", map->bits, t);
-	}
-   */
-}
 
 Emulator::Emulator()
 	: f(NULL)
@@ -281,63 +139,94 @@ Emulator::Group::~Group(){}
 void Emulator::Group::Do(double &ref, double &sig){}
 #endif
 
+#define BITS(...) TL::foreach<TL::MkTlst<__VA_ARGS__>::Result, __bits__>()(&map->bits0);\
+	printf(#__VA_ARGS__##"\n");
 
 void Emulator::Do()
 {
-	int z = 0;
-	bool b = false;
-	int countSamples = 200;
 	while(map->isStart)
 	{
-		Bits();
+		Sleep(2000);
+		BITS(On<iCycle>);
+		BITS(On<iPCH_B>, On<iPCH_RUN>);
+		BITS(On<iReadyR1>);
+		BITS(On<iReadyT>, On<iControlT>, Off<iResultT>);
+		Sleep(3000);
+		BITS(On<iSQ1po>);
+		Sleep(600);
+		BITS(On<iSQ2po>);
+		Sleep(200);
+		BITS(On<iSQ1t>);
+		Sleep(600);
+		BITS(On<iSQ2t>);
+		Sleep(200);
+		BITS(On<iSQ1pr>);
+		Sleep(600);
+		BITS(On<iSQ2pr>);
+		Sleep(200);
+		BITS(On<iSQ1DM>);
+		Sleep(600);
+		BITS(On<iSQ2DM>);
 
-		int k = map->start;	
-		for(int i = 0; i < 400 * 18; ++i)
-		{
-			int x = i % 18;
-			if(x == 16)
-			{
-				group.Do(map->data[k], map->data[k + 1]);
-			}
-			else if(x == 17)
-			{}
-			else
-			{
-				if(!b)
-				{
-					b = 0 == (z % 30000);
-					map->data[k] = 0;
-				}
-				else
-				{
-					if(b)
-					{
-						countSamples = rand() % 700 + 3;
-					}
-					b = 0 != (z % countSamples);
-					map->data[k] = 100.0 * rand() / RAND_MAX;
-				}					
-			}
+		Sleep(10000);
 
-			++z;
-			if(k < dimention_of(map->data)) ++k;
-		}
-		map->count = k;
-		Sleep(5);
-		if(0 == map->count)
-		{
-			map->start = 0;
-		}
-		else
-		{
-			if(k < dimention_of(map->data))	map->start = k;
-		}
+		BITS(Off<iSQ1po>);
+		Sleep(600);
+		BITS(Off<iSQ2po>);
+		Sleep(200);
+		BITS(Off<iSQ1t>);
+		Sleep(600);
+		BITS(Off<iSQ2t>);
+		Sleep(200);
+		BITS(Off<iSQ1pr>);
+		Sleep(600);
+		BITS(Off<iSQ2pr>);
+		Sleep(200);
+		BITS(Off<iSQ1DM>);
+		Sleep(600);
+		BITS(Off<iSQ2DM>);
+
+		printf("Stop\n");
+		Sleep(20000);
+	}
+}
+
+#define OUTS(...) TL::find<TL::MkTlst<__VA_ARGS__>::Result, __out_bits__>()(&map->outs0)
+int x0 = 0;
+int x1 = 0;
+
+void Emulator::ReadDo()
+{
+	//map->outs0 = 1 << 5;
+	while(map->isStart)
+	{
+	   if(OUTS(On<oPowerSU>))
+	   {
+		   BITS(On<iPCH_B>, Off<iPCH_RUN>, Off<iPCH_A>);
+		   printf("$$$$$$$$$$$$$$$$$On<iPCH_B>, Off<iPCH_RUN>, Off<iPCH_A>\n");
+		   Sleep(2000);
+	   }
+
+	   if(map->outs0 != x0 || map->outs1 != x1)
+	   {
+		  x0 = map->outs0;
+		  x1 = map->outs1;
+		  printf("out %x %x\n", x0, x1);
+	   }
+
+	   Sleep(5);
 	}
 }
 
 DWORD WINAPI Proc(PVOID x)
 {
 	((Emulator *)x)->Do();
+	return 0;
+}
+
+DWORD WINAPI ProcOut(PVOID x)
+{
+	((Emulator *)x)->ReadDo();
 	return 0;
 }
 
@@ -350,6 +239,7 @@ void Emulator::Start()
 		start_time = Performance::Counter();
 		map->isStart = true;
 		CloseHandle(CreateThread(NULL, 0, Proc, this, 0, NULL));
+		CloseHandle(CreateThread(NULL, 0, ProcOut, this, 0, NULL));
 	}  
 }
 
@@ -369,10 +259,15 @@ void Emulator::Outputs(int x, unsigned o)
 	else map->outs1 = o;
 }
 
-unsigned Emulator::Outputs(int x)
+unsigned Emulator::ReadOutputs(int x)
 {
 	return (0 == x) ? map->outs0: map->outs1;
 }
+
+//unsigned Emulator::Outputs(int x)
+//{
+//	return (0 == x) ? map->outs0: map->outs1;
+//}
 
 DWORD WINAPI LAN_DO(PVOID d)
 {

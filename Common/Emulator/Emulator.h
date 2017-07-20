@@ -31,9 +31,12 @@ public:
 
 	void Do();
 
+	void ReadDo();
+
 	unsigned Inputs(int);
+	unsigned ReadOutputs(int);
 	void Outputs(int, unsigned);
-	unsigned Outputs(int);
+	//unsigned Outputs(int);
 
 	void StartLan();
 	void StopLan();

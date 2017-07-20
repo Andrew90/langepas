@@ -6,6 +6,7 @@ public:
 	double value;
 	int color;
 	int widthPen;
+	int dashStyle; 
 public:
   Chart &chart;
   VBorder(Chart &chart);

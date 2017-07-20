@@ -41,6 +41,8 @@ template<class T>struct __bits_data__
 };
 typedef TL::MkTlst<InputBit1Table, InputBit2Table>::Result __tables_list__;
 
+typedef TL::MkTlst<OutputBit1Table, OutputBit2Table>::Result __tables_out_list__;
+
 template<class O, class Param, bool>struct __bits1__
 {
 	bool operator()(unsigned *val)
@@ -73,4 +75,58 @@ template<class O, class P>struct __bits__
 		TL::find<__tables_list__, __bits0__>()(__bits_data__<O>(p));
 	}
 };
+
+///----------------------------------------------------------------------
+template<class Table, class T>struct __out_bit__;
+template<class Table, class T>struct __out_bit__<Table, On<T>>
+{
+	bool operator()(unsigned &b)
+	{
+		return 0 != (b & Singleton<Table>::Instance().items.get<T>().value);
+	}		
+};
+template<class Table, class T>struct __out_bit__<Table, Off<T>>
+{
+	void operator()(unsigned &b)
+	{
+		return 0 == (b & Singleton<Table>::Instance().items.get<T>().value);
+	}		
+};
+
+template<class O, class Param, bool>struct __out_bits1__
+{
+	bool operator()(unsigned *val)
+	{
+		return __out_bit__<O, Param>()(val[TL::IndexOf<__tables_out_list__, O>::value]);
+	}
+};
+template<class O, class Param>struct __out_bits1__<O, Param, false>
+{
+	bool operator()(unsigned *val)
+	{
+		return true;
+	}
+};
+
+template<class O, class P>struct __out_bits0__
+{
+	bool operator()(P &p)
+	{
+		typedef typename TL::Inner<P>::Result Param;
+		return __out_bits1__<O, Param, InList<typename O::items_list, typename TL::Inner<Param>::Result>::value>()(p.value);
+	}
+};
+
+
+template<class O, class P>struct __out_bits__
+{
+	bool operator()(P *p)
+	{
+		return TL::find<__tables_out_list__, __out_bits0__>()(__bits_data__<O>(p));
+	}
+};
+
+
+
+
 

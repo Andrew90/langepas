@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <conio.h>
+#include <locale>
 #include "Base/Base.hpp"
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "App/AppBase.h"
@@ -11,6 +12,10 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	 setlocale(LC_ALL, "Russian");
+
+	printf("s - старт\nt - стоп\n");
+
 	Performance::Init();
 	Initialize initialize;
 	

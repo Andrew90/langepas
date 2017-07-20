@@ -235,7 +235,7 @@ namespace Mode
 				, Off<iPCH_RUN>
 				, Off<iPCH_A  >
 				, Ex<ExceptionStop>	 /// \brief ¬ыход по кнопке стоп
-				, Proc<ExceptionAl<LogMess::iPCH_B_OFF>>	/// если нет готовности - выход
+				, Proc<ExceptionAl<LogMess::NoDriveReady>>	/// если нет готовности - выход
 				)(4000);  /// \brief ожидание 4 сек
 		}		
 		if(job.get<OnTheJob<Thick>>().value)
