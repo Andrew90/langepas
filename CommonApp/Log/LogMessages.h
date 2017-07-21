@@ -41,26 +41,27 @@ namespace LogMess
 {
 	enum ID
 	{
+		
 //		StartSycle
 //		, StopSycle
 //		, OverheadTemperature
-//		, ProgramOpen
+		 ProgramOpen
 //
-//		, TimeoutPipe
+		, TimeoutPipe
 //		, AlarmSensorReadError
 //		, AlarmUSPC
 //		, AlarmRestartServiceError
 //		, AutomatMode
 //		, SingleMode
 //
-//		, ProgramClosed
-//		, ErrStop
+		, ProgramClosed
+		, ErrStop
 //		, AlarmExitTubeInUnit
 //		, AlarmExitDirectionChainOn
 //		, AlarmExitInverterFaulty
 //
-//		, AlarmExitRunBitIn			 
-//		, AlarmExitControlCircuitBitIn 
+		, AlarmExitRunBitIn			 
+		, AlarmExitControlCircuitBitIn 
 //		, AlarmExitWorkBitIn			 
 //		, AlarmExitSycleBitIn		  
 //
@@ -69,7 +70,7 @@ namespace LogMess
 //		, InfoDataReceive
 //		, InfoOnResultBitOut
 //		, InfoReadyBitOut	            
-//		, InfoOnSycleBitIn  
+		, InfoOnSycleBitIn  
 //		, InfoRotationalSpeedSensorsStart
 //		, InfoOnRunBitIn                 
 //		, InfoControlBitOut              
@@ -79,7 +80,7 @@ namespace LogMess
 //		, InfoOffSQ1BitIn                
 //		, InfoOffPowerScannerBitOut         
 //		, InfoOffSQ3BitIn 
-//		, InfoUserStop
+		, InfoUserStop
 //		, InfoDataCollectionComplete
 //		, InfoDataCollection
 //		, InfoBase
@@ -134,97 +135,97 @@ namespace LogMess
 //		, OffiSolid
 //
 //		, TubeOnPosition
-//		, ModulesNotInOperation
-//		, TransverseModuleClampsDidNotWork 
-//		, PipeReturnAllowed
+		, ModulesNotInOperation
+		, TransverseModuleClampsDidNotWork 
+		, PipeReturnAllowed
 //		
-//		, iSQ1prMess	
-//		, iSQ2prMess	
-//		, iSQ1poMess	
-//		, iSQ2poMess	
-//		, iSQ1tMess
-//		, iSQ2tMess
+		, iSQ1prMess	
+		, iSQ2prMess	
+		, iSQ1poMess	
+		, iSQ2poMess	
+		, iSQ1tMess
+		, iSQ2tMess
 //
-//		, iPCH_B_OFF
-//		, iPCH_RUN_OFF
+		, iPCH_B_OFF
+		, iPCH_RUN_OFF
 //
-//		, ReturnPipeCompleted
-//		, PipeReturnTimeExceeded
-//		, ReturnPipe
+		, ReturnPipeCompleted
+		, PipeReturnTimeExceeded
+		, ReturnPipe
 //
-//		, TubeInCrossModule
-//		, TubeInLongModule
-//		, TubeInThickModule
-//		, TubeInSolid
+		, TubeInCrossModule
+		, TubeInLongModule
+		, TubeInThickModule
+		, TubeInSolid
 //
-//		, ExitTube
+		, ExitTube
 //
-//		, NoPipesOnLine
-//		, RotationTube
+		, NoPipesOnLine
+		, RotationTube
 //
 //		//, PCH_BandPCH_RUN
-//		, CheckStatusFrequencyConverter
+		, CheckStatusFrequencyConverter
 //		, TransportUnlocked
 //
-//		, ThicknessGaugeTookOffSignal
-//		, CompletionChangeInPositionModule
-//		, PastureCompleted
+		, ThicknessGaugeTookOffSignal
+		, CompletionChangeInPositionModule
+		, PastureCompleted
 //
-//		, TemperatureCoilSolenoidExceeded0
-//		, TemperatureCoilSolenoidExceeded1
+		, TemperatureCoilSolenoidExceeded0
+		, TemperatureCoilSolenoidExceeded1
 //
-//		, AnalogBoardFailure 
-//		, ModulesInNon_OperatingPosition
-//		, SettingOperatingPositionControl
+		, AnalogBoardFailure 
+		, ModulesInNon_OperatingPosition
+		, SettingOperatingPositionControl
 //
-//		, time_overflow
-//		, error_crc    
-//		, error_count  
-//		, transferControlParametersThicknessGauge
-//		, waitingThicknessGauge
-//		, waitingThicknessResult
+		, time_overflow
+		, error_crc    
+		, error_count  
+		, transferControlParametersThicknessGauge
+		, waitingThicknessGauge
+		, waitingThicknessResult
 //		
-//		, iWork_pnevmoWait
+		, iWork_pnevmoWait
 //
-//		, SOP_MODE
-//		, TUBE_MODE
-//		, RequestPipeNumber
-//		, WAITING_LONGITUDINAL_MODULE
-//		, WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE
-//		, ThicknessModuleNotReady
-//		, PIPE_CONTROL_IMPLEMENTED
+		, SOP_MODE
+		, TUBE_MODE
+		, RequestPipeNumber
+		, WAITING_LONGITUDINAL_MODULE
+		, WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE
+		, ThicknessModuleNotReady
+		, PIPE_CONTROL_IMPLEMENTED
 //
-//		, iRPpr    
-//		, iOPpr     
-//		, iRPpo    
-//		, iOPpo    
-//		, iRPt     
-//		, iOPt  
+		, iRPpr    
+		, iOPpr     
+		, iRPpo    
+		, iOPpo    
+		, iRPt     
+		, iOPt  
+
+		, iZU           
+		, iPCH_B        
+		, iPCH_RUN      
+		, iPCH_A        
+		, iWork_pnevmo  
+		, iRevers_pnevmo
+		, iError_pnevmo 
+		, iWork_pnevmAlarm
 //
-//		, iZU           
-//		, iPCH_B        
-//		, iPCH_RUN      
-//		, iPCH_A        
-//		, iWork_pnevmo  
-//		, iRevers_pnevmo
-//		, iError_pnevmo 
-//		, iWork_pnevmAlarm
-//
-//		, WaitLongOn
-//		, WaitThickOn
-//		, WaitMagneticOn
-//		, WaitLongOff
-//		, WaitCrossOff
-//		, WaitThickOff
-//		, WaitMagneticOff
-//		, waitingPipeEntranceRollerTable
-//		, interruptView
-//		, transferResultControlAutomatedControlSystem
-//		, contineRun
-//		, storedDataBase
-//		,  NoLongDriveReady
+		, WaitLongOn
+		, WaitThickOn
+		, WaitMagneticOn
+		, WaitLongOff
+		, WaitCrossOff
+		, WaitThickOff
+		, WaitMagneticOff
+		, waitingPipeEntranceRollerTable
+		, interruptView
+		, transferResultControlAutomatedControlSystem
+		, contineRun
+		, storedDataBase
+		,  NoLongDriveReady
 //		    
-//		, max_row
+		, max_row
 	};
 
 	//typedef const char * const_char_ptr;
@@ -246,9 +247,9 @@ namespace LogMess
 //	MESS(StartSycle			          , void  , "Цикл старт"                     , green, black)
 //    MESS(StopSycle			          , void  , "Цикл стоп"				        , blue , white)
 //	MESS1(OverheadTemperature         , double, "Температура превышена"	        , red  , yellow)
-//	MESS(ProgramOpen		          , void  , "Программа открыта"              , black, white)
+	MESS(ProgramOpen		          , void  , "Программа открыта"              , black, white)
 //							          
-//	MESS(TimeoutPipe		          , void  , "Превышенно время ожидания", red  , yellow)
+	MESS(TimeoutPipe		          , void  , "Превышенно время ожидания", red  , yellow)
 //	MESSX(AlarmUSPC                    , void  , "Авария!!! Платы ультразвукового контроля", red, yellow)
 //	MESSX(AlarmSensorReadError         , void  , "Авария!!! Чтения данных с платы ультразвукового контроля", red, yellow)
 //
@@ -257,16 +258,16 @@ namespace LogMess
 //	MESS(AutomatMode		          , void  , "Режим \"Автоматический\""		, blue , white)
 //	MESS(SingleMode			          , void  , "Режим \"Одиночное измерение\""	, blue , white)
 //							          
-//	MESS(ProgramClosed		          , void  , "Программа закрыта"	, red  , yellow)
+	MESS(ProgramClosed		          , void  , "Программа закрыта"	, red  , yellow)
 //							          
-//	MESS(ErrStop                      , void  , "Прерывание цикла измерения", red, yellow)
+	MESS(ErrStop                      , void  , "Прерывание цикла измерения", red, yellow)
 //
 //	MESS(AlarmExitTubeInUnit          , void, "Труба в модуле, выполните выгон", red  , yellow)
 //	MESS(AlarmExitDirectionChainOn    , void, "Включите цепи управления", red  , yellow)
 //	MESS(AlarmExitInverterFaulty      , void, "Частотный преодразователь не включён", red  , yellow)
 //
-//	MESS(AlarmExitRunBitIn			  , void, "Ошибка частотного преобразователя\"", red  , yellow)
-//	MESS(AlarmExitControlCircuitBitIn , void, "Нет сигнала \"Цепи управления\""	   , red  , yellow)
+	MESS(AlarmExitRunBitIn			  , void, "Ошибка частотного преобразователя\"", red  , yellow)
+	MESS(AlarmExitControlCircuitBitIn , void, "Нет сигнала \"Цепи управления\""	   , red  , yellow)
 //	MESS(AlarmExitWorkBitIn			  , void, "Нет сигнала \"Работа\""			   , red  , yellow)
 //	MESS(AlarmExitSycleBitIn		  , void, "Нет сигнала \"Цикл\""			   , red  , yellow)
 //
@@ -293,7 +294,7 @@ namespace LogMess
 //	MESS(InfoDataReceive				, void, "Данные с дефектоскопа приняты"                   , blue, yellow)
 //	MESS(InfoReadyBitOut	            , void, "Выставлен сигнал \"Готовность\""				  , blue , white)
 //	MESS(InfoOnResultBitOut             , void, "Выставлен сигнал \"Результат\""                 , blue , white)
-//	MESS(InfoOnSycleBitIn               , void, "Ожидание сигнала \"Цикл\""					  , blue , white)
+	MESS(InfoOnSycleBitIn               , void, "Ожидание сигнала \"Цикл\""					  , blue , white)
 //	MESS(InfoRotationalSpeedSensorsStart, void, "Включение вращения модуля датчиков сканирования", blue , white)
 //	MESS(InfoOnRunBitIn                 , void, "Ожидание раскрутки модуля датчиков сканирования", blue , white)
 //	MESS(InfoControlBitOut              , void, "Выставлен сигнал \"Контроль\""				  , blue , white)
@@ -303,7 +304,7 @@ namespace LogMess
 //	MESS(InfoOffSQ1BitIn                , void, "Ожидание съезда трубы с датчика SQ1"			  , blue , white)
 //	MESS(InfoOffPowerScannerBitOut      , void, "Отключение сканирующего устройства"		      , blue , white)
 //	MESS(InfoOffSQ3BitIn                , void, "Ожидание съезда трубы с датчика SQ3"			  , blue , white)
-//	MESS(InfoUserStop					, void, "Оператор вышел из цикла"			  , red  , yellow)
+	MESS(InfoUserStop					, void, "Оператор вышел из цикла"			  , red  , yellow)
 //
 //	MESS(InfoDataCollectionComplete		, void, "Сбор данных закончен"                           , green, white);
 //	MESS(InfoDataCollection     		, void, "Сбор данных"                           , blue, white);
@@ -343,100 +344,100 @@ namespace LogMess
 //	
 //	MESS(TubeOnPosition , void, "Ожидание трубы на позиции"			, blue , white)
 //
-//	MESS(ModulesNotInOperation, void, "Модули не в положении обслуживания", red  , yellow) 
-//	MESS(TransverseModuleClampsDidNotWork, void, "Не сработали зажимы поперечного модуля", red, yellow)
-//	MESS(PipeReturnAllowed, void , "МОДУЛИ в ОП. Возврат трубы разрещен", blue , white)
+	MESS(ModulesNotInOperation, void, "Модули не в положении обслуживания", red  , yellow) 
+	MESS(TransverseModuleClampsDidNotWork, void, "Не сработали зажимы поперечного модуля", red, yellow)
+	MESS(PipeReturnAllowed, void , "МОДУЛИ в ОП. Возврат трубы разрещен", blue , white)
 //
-//	MESS(iSQ1prMess, void, "Датчик наличия трубы на входе в продольный модуль", blue , white)
-//	MESS(iSQ2prMess, void, "Датчик наличия трубы на выходе из продольного модулья", blue , white)
-//	MESS(iSQ1poMess, void, "Датчик наличия трубы на входе в поперечный модуль", blue , white)
-//	MESS(iSQ2poMess, void, "Датчик наличия трубы на выходе из поперечного модулья", blue , white)
-//	MESS(iSQ1tMess , void, "Датчик наличия трубы на входе в модуль толщины", blue , white)
-//	MESS(iSQ2tMess , void, "Датчик наличия трубы на выходе из модуля толщины", blue , white)
+	MESS(iSQ1prMess, void, "Датчик наличия трубы на входе в продольный модуль", blue , white)
+	MESS(iSQ2prMess, void, "Датчик наличия трубы на выходе из продольного модулья", blue , white)
+	MESS(iSQ1poMess, void, "Датчик наличия трубы на входе в поперечный модуль", blue , white)
+	MESS(iSQ2poMess, void, "Датчик наличия трубы на выходе из поперечного модулья", blue , white)
+	MESS(iSQ1tMess , void, "Датчик наличия трубы на входе в модуль толщины", blue , white)
+	MESS(iSQ2tMess , void, "Датчик наличия трубы на выходе из модуля толщины", blue , white)
 //
-//	MESS(iPCH_B_OFF	 , void, "Авария \"Сигнал состояния частотного преобразователя(В)\" отключен", red, yellow)
-//	MESS(iPCH_RUN_OFF, void, "Авария \"Сигнал состояния частотного преобразователя(Run)\" отключен", red, yellow)
+	MESS(iPCH_B_OFF	 , void, "Авария \"Сигнал состояния частотного преобразователя(В)\" отключен", red, yellow)
+	MESS(iPCH_RUN_OFF, void, "Авария \"Сигнал состояния частотного преобразователя(Run)\" отключен", red, yellow)
 //
-//	MESS(NoLongDriveReady, void, "Авария \"Нет готовности привода продольного модуля\"", red, yellow)
+	MESS(NoLongDriveReady, void, "Авария \"Нет готовности привода продольного модуля\"", red, yellow)
 //
-//	MESS(ReturnPipeCompleted, void, "Возврат трубы завершен", blue , white) 
-//	MESS(PipeReturnTimeExceeded, void, "Время возврата трубы превышено", red, yellow) 
-//	MESS(ReturnPipe, void, "Возврат трубы", blue , white)
+	MESS(ReturnPipeCompleted, void, "Возврат трубы завершен", blue , white) 
+	MESS(PipeReturnTimeExceeded, void, "Время возврата трубы превышено", red, yellow) 
+	MESS(ReturnPipe, void, "Возврат трубы", blue , white)
 //
-//	MESS(ExitTube, void, "Выгон трубы", blue, white)
+	MESS(ExitTube, void, "Выгон трубы", blue, white)
 //
-//	MESS(TubeInCrossModule, void, "Труба в поперечном модуле", red, yellow)
-//	MESS(TubeInLongModule , void, "Труба в продольном модуле", red, yellow)
-//	MESS(TubeInThickModule, void, "Труба в модуле толщиномера", red, yellow)
-//	MESS(TubeInSolid	  , void, "Труба в модуле размагничивания", red, yellow)
+	MESS(TubeInCrossModule, void, "Труба в поперечном модуле", red, yellow)
+	MESS(TubeInLongModule , void, "Труба в продольном модуле", red, yellow)
+	MESS(TubeInThickModule, void, "Труба в модуле толщиномера", red, yellow)
+	MESS(TubeInSolid	  , void, "Труба в модуле размагничивания", red, yellow)
 //
-//	MESS(NoPipesOnLine, void, "ТРУБЫ НА ЛИНИИ НЕТ. ВЫГОН НЕ ТРЕБУЕТСЯ", blue , white)
+	MESS(NoPipesOnLine, void, "ТРУБЫ НА ЛИНИИ НЕТ. ВЫГОН НЕ ТРЕБУЕТСЯ", blue , white)
 //
-//	MESS(RotationTube, void, "ВКЛЮЧИТЕ ВРАЩЕНИЕ СУ ТОЛЩИНЫ", red, yellow);
+	MESS(RotationTube, void, "ВКЛЮЧИТЕ ВРАЩЕНИЕ СУ ТОЛЩИНЫ", red, yellow);
 //
-//	MESS(CheckStatusFrequencyConverter, void, "Проверка состояния частотного преобразователя", blue , white)
+	MESS(CheckStatusFrequencyConverter, void, "Проверка состояния частотного преобразователя", blue , white)
 //
 //	MESS(TransportUnlocked, void, "ТРАНСПОРТ РАЗБЛОКИРОВАН. ВЫПОЛНИТЕ ВЫГОН", blue, white)
-//	MESS(ThicknessGaugeTookOffSignal, void, "Tолщиномер снял сигнал", red, yellow)
-//	MESS(CompletionChangeInPositionModule, void, "Завершение по изменению положения какого-либо модуля", red, yellow)
+	MESS(ThicknessGaugeTookOffSignal, void, "Tолщиномер снял сигнал", red, yellow)
+	MESS(CompletionChangeInPositionModule, void, "Завершение по изменению положения какого-либо модуля", red, yellow)
 //
-//	MESS(PastureCompleted, void, "Выгон завершен", blue, white)
+	MESS(PastureCompleted, void, "Выгон завершен", blue, white)
 //
-//	MESS1(TemperatureCoilSolenoidExceeded0, double, "Превышена температура обмотки соленоида 1", red, yellow)
-//	MESS1(TemperatureCoilSolenoidExceeded1, double, "Превышена температура обмотки соленоида 2", red, yellow)
+	MESS1(TemperatureCoilSolenoidExceeded0, double, "Превышена температура обмотки соленоида 1", red, yellow)
+	MESS1(TemperatureCoilSolenoidExceeded1, double, "Превышена температура обмотки соленоида 2", red, yellow)
 //
-//	MESS(AnalogBoardFailure, void, "Авария аналоговой платы", red, yellow)
+	MESS(AnalogBoardFailure, void, "Авария аналоговой платы", red, yellow)
 //
-//	MESS(SettingOperatingPositionControl, void , "Установка рабочего положения модулей контроля", blue, white)
-//	MESS(ModulesInNon_OperatingPosition, void, "Модули в нерабочем положении", red, yellow)
+	MESS(SettingOperatingPositionControl, void , "Установка рабочего положения модулей контроля", blue, white)
+	MESS(ModulesInNon_OperatingPosition, void, "Модули в нерабочем положении", red, yellow)
 //
-//	MESS(time_overflow, int, "Ошибка КОМ-порта: превышено время ожидания", red, yellow)
-//	MESS(error_crc    , int, "Ошибка КОМ-порта: ошибка CRC", red, yellow)
-//	MESS(error_count  , int, "Ошибка КОМ-порта: принято 0 байт", red, yellow)
+	MESS(time_overflow, int, "Ошибка КОМ-порта: превышено время ожидания", red, yellow)
+	MESS(error_crc    , int, "Ошибка КОМ-порта: ошибка CRC", red, yellow)
+	MESS(error_count  , int, "Ошибка КОМ-порта: принято 0 байт", red, yellow)
 //
-//	MESS(iWork_pnevmoWait, void, "Ожидание готовности контроллера пневмооборудования", blue , white)
-//	MESS(iWork_pnevmAlarm, void, "Авария контроллера пневмооборудования", red, yellow)
+	MESS(iWork_pnevmoWait, void, "Ожидание готовности контроллера пневмооборудования", blue , white)
+	MESS(iWork_pnevmAlarm, void, "Авария контроллера пневмооборудования", red, yellow)
 //
-//	MESS(SOP_MODE, void, "Режим \"СОП\" ожидание трубы", blue , white) 
-//	MESS(TUBE_MODE, void, "Режим \"ТРУБА\" ожидание трубы", blue, white)
-//	MESS(RequestPipeNumber, void, "Запрос номера трубы", blue, white)
-//	MESS(WAITING_LONGITUDINAL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ ПРОДОЛЬНОГО МОДУЛЯ", blue, white)
-//	MESS(WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ МОДУЛЯ КОНТРОЛЯ ТОЛЩИНЫ", blue, white)
-//	MESS(ThicknessModuleNotReady, void, "Модуль толщины не готов", red, yellow)
-//	MESS(PIPE_CONTROL_IMPLEMENTED, void, "ВЫПОЛНЯЕТСЯ КОНТРОЛЬ ТРУБЫ", blue, white)
+	MESS(SOP_MODE, void, "Режим \"СОП\" ожидание трубы", blue , white) 
+	MESS(TUBE_MODE, void, "Режим \"ТРУБА\" ожидание трубы", blue, white)
+	MESS(RequestPipeNumber, void, "Запрос номера трубы", blue, white)
+	MESS(WAITING_LONGITUDINAL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ ПРОДОЛЬНОГО МОДУЛЯ", blue, white)
+	MESS(WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ МОДУЛЯ КОНТРОЛЯ ТОЛЩИНЫ", blue, white)
+	MESS(ThicknessModuleNotReady, void, "Модуль толщины не готов", red, yellow)
+	MESS(PIPE_CONTROL_IMPLEMENTED, void, "ВЫПОЛНЯЕТСЯ КОНТРОЛЬ ТРУБЫ", blue, white)
 //
-//	MESS(iRPpr    	   , bool, "Продольный модуль в рабочем положении", blue, white)
-//	MESS(iOPpr     	   , bool, "Продольный модуль в положении обслуживания", blue, white)
-//	MESS(iRPpo    	   , bool, "Поперечный модуль в рабочем положении", blue, white)
-//	MESS(iOPpo    	   , bool, "Поперечный модуль в положении обслуживания", blue, white)
-//	MESS(iRPt     	   , bool, "Модуль толщины в рабочем положении", blue, white)
-//	MESS(iOPt  		   , bool, "Модуль толщины в положении обслуживания", blue, white)
-//	MESS(iZU           , bool, "Признак включения цепей управления", blue, white)
-//	MESS(iPCH_B        , bool, "Сигнал состояния частотного преобразователя(В)", blue, white)
-//	MESS(iPCH_RUN      , bool, "Сигнал состояния частотного преобразователя(Run)", blue, white)
-//	MESS(iPCH_A        , bool, "Сигнал состояния частотного преобразователя(A)", blue, white)
-//	MESS(iWork_pnevmo  , bool, "Признак рабочего режима контроллера пневмооборудования", blue, white)
-//	MESS(iRevers_pnevmo, bool, "Признак режима реверс контроллера пневмооборудования", blue, white)
-//	MESS(iError_pnevmo , bool, "Признак аварии контроллера пневмооборудования", blue, white)
+	MESS(iRPpr    	   , bool, "Продольный модуль в рабочем положении", blue, white)
+	MESS(iOPpr     	   , bool, "Продольный модуль в положении обслуживания", blue, white)
+	MESS(iRPpo    	   , bool, "Поперечный модуль в рабочем положении", blue, white)
+	MESS(iOPpo    	   , bool, "Поперечный модуль в положении обслуживания", blue, white)
+	MESS(iRPt     	   , bool, "Модуль толщины в рабочем положении", blue, white)
+	MESS(iOPt  		   , bool, "Модуль толщины в положении обслуживания", blue, white)
+	MESS(iZU           , bool, "Признак включения цепей управления", blue, white)
+	MESS(iPCH_B        , bool, "Сигнал состояния частотного преобразователя(В)", blue, white)
+	MESS(iPCH_RUN      , bool, "Сигнал состояния частотного преобразователя(Run)", blue, white)
+	MESS(iPCH_A        , bool, "Сигнал состояния частотного преобразователя(A)", blue, white)
+	MESS(iWork_pnevmo  , bool, "Признак рабочего режима контроллера пневмооборудования", blue, white)
+	MESS(iRevers_pnevmo, bool, "Признак режима реверс контроллера пневмооборудования", blue, white)
+	MESS(iError_pnevmo , bool, "Признак аварии контроллера пневмооборудования", blue, white)
 //
-//	MESS(WaitLongOn		, void, "Ожидание трубы в продольном модуле", blue, white)
-//	MESS(WaitThickOn	, void, "Ожидание трубы в модуле толщиномера", blue, white)
-//	MESS(WaitMagneticOn	, void, "Ожидание трубы в модуле размагничивания", blue, white)
-//	MESS(WaitLongOff	, void, "Ожидание съезда трубы из продольного модуля", blue, white)
-//	MESS(WaitCrossOff	, void, "Ожидание съезда трубы из поперечного модуля", blue, white)
-//	MESS(WaitThickOff	, void, "Ожидание съезда трубы из модуля толщиномера", blue, white)
-//	MESS(WaitMagneticOff, void, "Ожидание съезда трубы из модуля размагничивания", blue, white)
+	MESS(WaitLongOn		, void, "Ожидание трубы в продольном модуле", blue, white)
+	MESS(WaitThickOn	, void, "Ожидание трубы в модуле толщиномера", blue, white)
+	MESS(WaitMagneticOn	, void, "Ожидание трубы в модуле размагничивания", blue, white)
+	MESS(WaitLongOff	, void, "Ожидание съезда трубы из продольного модуля", blue, white)
+	MESS(WaitCrossOff	, void, "Ожидание съезда трубы из поперечного модуля", blue, white)
+	MESS(WaitThickOff	, void, "Ожидание съезда трубы из модуля толщиномера", blue, white)
+	MESS(WaitMagneticOff, void, "Ожидание съезда трубы из модуля размагничивания", blue, white)
 //
-//	MESS(transferControlParametersThicknessGauge, void, "Передача параметров контроля в толщиномер", blue, white)
-//	MESS(waitingThicknessGauge, void, "Oжидание готовности толщиномера", blue, white)
-//	MESS(waitingPipeEntranceRollerTable, void, "Ожидание трубы на входном рольганге", blue, white)
-//	MESS(waitingThicknessResult, void, "Oжидание результатов измерений толщиномера", blue, white)
+	MESS(transferControlParametersThicknessGauge, void, "Передача параметров контроля в толщиномер", blue, white)
+	MESS(waitingThicknessGauge, void, "Oжидание готовности толщиномера", blue, white)
+	MESS(waitingPipeEntranceRollerTable, void, "Ожидание трубы на входном рольганге", blue, white)
+	MESS(waitingThicknessResult, void, "Oжидание результатов измерений толщиномера", blue, white)
 //
-//	MESS(interruptView, void, "Прерывание на просмотр", blue, white)
+	MESS(interruptView, void, "Прерывание на просмотр", blue, white)
 //
-//	MESS(transferResultControlAutomatedControlSystem, void, "передача результата контроля в АСУ", blue, white)
-//	MESS(contineRun, void, "\"F4 ЦИКЛ\"далее \"F11 Продол...\"повторить запрос к АСУ \"Esc Стоп\"выход из цикла", red, white)
-//	MESS(storedDataBase, void, "Сохранение в базе данных", blue, white)
+	MESS(transferResultControlAutomatedControlSystem, void, "передача результата контроля в АСУ", blue, white)
+	MESS(contineRun, void, "\"F4 ЦИКЛ\"далее \"F11 Продол...\"повторить запрос к АСУ \"Esc Стоп\"выход из цикла", red, white)
+	MESS(storedDataBase, void, "Сохранение в базе данных", blue, white)
 
 	class FactoryMessages
 	{
