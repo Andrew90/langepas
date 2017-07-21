@@ -51,23 +51,24 @@ void Unit502::Read()
 
 	if(0 < Unit502N::l502.Read(startChannel, data, count))
 	{
-		//bool crossBool = false;
-		//bool longBool = false;
-		//unsigned currentTime = Performance::Counter();
-		//Unit502N::lir.currentSamples += count / Unit502N::length;
-		//Unit502N::lir.samples[index] = Unit502N::lir.currentSamples;
-		int offs = Unit502N::lir.currentSamples;
-		for(int i = 0; i < (int)count; ++i)
-		{
-			int sens = startChannel + i;
-			//sens %= Unit502N::length;
-			Unit502N::arr[sens % Unit502N::length][offs / Unit502N::length] = data[i];
-			++offs;
-		}
-		Unit502N::lir.samples[Unit502N::lir.index] = offs / Unit502N::length;
-		Unit502N::lir.tick[Unit502N::lir.index] = Performance::Counter();
-		++Unit502N::lir.index;
-		Unit502N::lir.currentSamples = offs;
+	//	int offs = Unit502N::lir.currentSamples;
+	//	for(int i = 0; i < (int)count; ++i)
+	//	{
+	//		int k = offs / Unit502N::length;
+	//		if(k < App::count_frames)
+	//		{
+	//			int sens = startChannel + i;
+	//			Unit502N::arr[sens % Unit502N::length][k] = data[i];
+	//			++offs;
+	//		}
+	//	}
+	//	if(dimention_of(Unit502N::lir.samples) > Unit502N::lir.index)
+	//	{
+	//		Unit502N::lir.samples[Unit502N::lir.index] = offs / Unit502N::length;
+	//		Unit502N::lir.tick[Unit502N::lir.index] = Performance::Counter();
+	//		++Unit502N::lir.index;
+	//	}
+	//	Unit502N::lir.currentSamples = offs;
 	}
 }
 

@@ -139,99 +139,6 @@ namespace AutomatN
 		{
 			try
 			{
-#if 0
-				App::measurementOfRunning = false;	
-				AND_BITS(Ex<ExceptionRun>, Ex<ExceptionStop>)(); //кнопка начала измерений
-				if(packet && !PacketDlg::Do())
-				{
-					ResetEvent(Ex<ExceptionRun>::handle);
-					continue;
-				}
-				packet = false;
-				dprint("collection Start\n");
-				AppKeyHandler::Run();
-				App::measurementOfRunning = true;
-
-				Log::Mess<LogMess::WaitControlCircuitBitIn>();
-				AND_BITS(Ex<ExceptionStop>, On<iСontrolСircuits>)(20000);
-
-				Log::Mess<LogMess::TubeOnPosition>();
-				AND_BITS(Ex<ExceptionStop>, On<iReady>)(20000);
-
-				Compute::Clear();
-				zprint(" iReady\n");
-
-				Log::Mess<LogMess::OniCross>();
-				AND_BITS(On<iCross0>, Proc<Alarm>, Ex<ExceptionStop>)(10000);
-				zprint(" UnitBitInit\n");
-				UnitBitInit();
-				Lir::Clear();
-			
-				unit502.Start(); 
-				Lan::Start();
-				zprint(" Lan::Start()\n");
-				GUARD{
-					unit502.Stop();
-					Lan::Stop();
-					dprint("unit502.Stop();\n");
-				};	  //при выходе из итерации цикла по любой причине останавливает плату
-
-				UNIT_BIT_ON(iCross0);
-				Singleton<MainWindow>::Instance().ClearCharts();
-				AND_BITS(On<iCross1>, Proc<Alarm>, Proc<Collection>, Ex<ExceptionStop>)(10000);
-				UNIT_BIT_ON(iCross1);
-				dprint("Compute::Do();\n");
-				Compute::Do();
-
-				
-
-		//		if(onTheJobLong)
-				{
-					Log::Mess<LogMess::OniLong>();
-					AND_BITS(On<iLong0>, Proc<Alarm>, Proc<Collection>, Ex<ExceptionStop>)(10000);
-					UNIT_BIT_ON(iLong0);
-					AND_BITS(On<iLong1>, Proc<Alarm>, Proc<Collection>, Ex<ExceptionStop>)(10000);
-					UNIT_BIT_ON(iLong1);
-					Compute::Do();
-				}
-				dprint("__1\n");
-
-		//		if(onTheJobThick)
-				{
-					Log::Mess<LogMess::OniThick>();
-					AND_BITS(On<iThick0>, Proc<Alarm>, Proc<Collection>, Ex<ExceptionStop>)(10000);
-					UNIT_BIT_ON(iThick0);
-					AND_BITS(On<iThick1>, Proc<Alarm>, Proc<Collection>, Ex<ExceptionStop>)(10000);
-					UNIT_BIT_ON(iThick1);
-					Compute::Do();
-				}
-
-				dprint("__2\n");
-
-				ItemData<Long> &longItem = Singleton<ItemData<Long>>::Instance();
-				ItemData<Cross> &crossItem = Singleton<ItemData<Cross>>::Instance();
-
-				Log::Mess<LogMess::OniSolid>();
-				AND_BITS(On<iSolid>, Proc<Alarm>, Proc<Collection>, Ex<ExceptionStop>)(10000);
-				UNIT_BIT_ON(iSolid);
-
-				AND_BITS(Off<iSolid>, Proc<Alarm>, Proc<Collection>, Proc<ComputeData>, Ex<ExceptionStop>)(40000);
-				unit_bit_on.get<UnitBit<Off<iSolid>>>()();
-				Log::Mess<LogMess::OffiSolid>();
-				unit502.Stop();
-				Lan::Stop();
-				Log::Mess<LogMess::InfoDataCollectionComplete>();
-				Compute::Do();
-
-				//расчёт группы прочности
-				double result = 0; 
-				wchar_t *groupName = L""; 
-				unsigned color;
-				ComputeSolid::Recalculation(result, groupName, color);
-				//расчёт группы прочности конец
-
-				zprint("  collection stop\n");
-#else
 				AND_BITS(
 					Ex<ExceptionRun>
 					, Ex<ExceptionReturnTube>
@@ -239,8 +146,6 @@ namespace AutomatN
 					, Ex<ExceptionStop>
 				)(); //кнопка начала измерений
 				(*ptrProc)(data);
-#endif
-				
 			}
 			catch(ExceptionStop)
 			{

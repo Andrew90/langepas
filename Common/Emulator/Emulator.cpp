@@ -86,12 +86,18 @@ Emulator::~Emulator()
 
 void Emulator::Read(unsigned &start, double *data, unsigned &count, int delay)
 {
-	int t = Performance::Counter();
-	while(map->count < count) Sleep(5);
-	memmove(data, map->data, sizeof(double) * count);
-	map->count = 0;
-	map->start = 0;
-	start = map->start % 18;
+	//int t = Performance::Counter();
+	//while(map->count < count) Sleep(5);
+	//memmove(data, map->data, sizeof(double) * count);
+	//map->count = 0;
+	//map->start = 0;
+	//start = map->start % 18;
+	for(unsigned i = 0; i < count; ++i)
+	{
+		data[i] = rand() % 100;
+	}
+	start = 0;
+	Sleep(2 * delay / 3);
 }
 namespace 
 {
@@ -140,17 +146,31 @@ void Emulator::Group::Do(double &ref, double &sig){}
 #endif
 
 #define BITS(...) TL::foreach<TL::MkTlst<__VA_ARGS__>::Result, __bits__>()(&map->bits0);\
+	if(!rp)break;\
 	printf(#__VA_ARGS__##"\n");
+
+#define XBITS(...) TL::foreach<TL::MkTlst<__VA_ARGS__>::Result, __bits__>()(&map->bits0);\
+	printf(#__VA_ARGS__##"\n");
+
+
+#define ZBITS(...) TL::foreach<TL::MkTlst<__VA_ARGS__>::Result, __bits__>()(&map->bits0);
+	
+int loop = 0;
+int lastLoop = 0;
 
 void Emulator::Do()
 {
+	rp = false;
 	while(map->isStart)
 	{
 		Sleep(2000);
-		BITS(On<iCycle>);
-		BITS(On<iPCH_B>, On<iPCH_RUN>);
-		BITS(On<iReadyR1>);
-		BITS(On<iReadyT>, On<iControlT>, Off<iResultT>);
+		XBITS(On<iCycle>);
+		XBITS(On<iPCH_B>, On<iPCH_RUN>);
+		XBITS(On<iReadyR1>);
+		XBITS(On<iReadyT>, On<iControlT>, Off<iResultT>);
+		while(rp)
+		{
+			++loop;
 		Sleep(3000);
 		BITS(On<iSQ1po>);
 		Sleep(600);
@@ -185,9 +205,15 @@ void Emulator::Do()
 		BITS(Off<iSQ1DM>);
 		Sleep(600);
 		BITS(Off<iSQ2DM>);
+		BITS(On<iResultT>)
+		}
 
-		printf("Stop\n");
-		Sleep(20000);
+		if(loop != lastLoop)
+		{
+				printf("Stop\n");
+				lastLoop = loop;
+		}
+		Sleep(1000);
 	}
 }
 
@@ -195,17 +221,29 @@ void Emulator::Do()
 int x0 = 0;
 int x1 = 0;
 
+bool power = true;
+
 void Emulator::ReadDo()
 {
 	//map->outs0 = 1 << 5;
-	while(map->isStart)
+	while(true)//map->isStart)
 	{
 	   if(OUTS(On<oPowerSU>))
 	   {
-		   BITS(On<iPCH_B>, Off<iPCH_RUN>, Off<iPCH_A>);
-		   printf("$$$$$$$$$$$$$$$$$On<iPCH_B>, Off<iPCH_RUN>, Off<iPCH_A>\n");
-		   Sleep(2000);
+		  //.. if(power)
+		   {
+		   ZBITS(On<iPCH_B>, Off<iPCH_RUN>, Off<iPCH_A>);
+		  
+		 //  Sleep(2000);
+		//   power = false;
+		   }
 	   }
+	   else
+	   {
+		   power = true;
+	   }
+
+	   rp = OUTS(On<oRP>);
 
 	   if(map->outs0 != x0 || map->outs1 != x1)
 	   {
@@ -216,6 +254,7 @@ void Emulator::ReadDo()
 
 	   Sleep(5);
 	}
+	printf("OUT **************************************************************************************************************************************");
 }
 
 DWORD WINAPI Proc(PVOID x)

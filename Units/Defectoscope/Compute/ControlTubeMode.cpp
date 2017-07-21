@@ -97,8 +97,10 @@ namespace Mode
 		{
 			if(bits1 != (t.val1 & msk1) || bits2 != (t.val2 & msk2))
 			{
+				dprint("allarm bits\n");
 				TL::foreach<list1, __send_mess__>()(Singleton<InputBit1Table>::Instance().items, __send_mess_data__(t.val1 ^ bits1, t.val1));
 				TL::foreach<list2, __send_mess__>()(Singleton<InputBit2Table>::Instance().items, __send_mess_data__(t.val2 ^ bits2, t.val2));
+				
 				throw ExceptionAlarm();
 			}
 		}
@@ -227,7 +229,7 @@ namespace Mode
 		if(job.get<OnTheJob<Long>>().value)	 /// если работа с продольным
 		{
 			Log::Mess<LogMess::WAITING_LONGITUDINAL_MODULE>();
-			OUT_BITS(Off<oPowerSU>);
+			OUT_BITS(On<oPowerSU>);
 			FrequencyInverterRun();
 
 			AND_BITS(
@@ -235,9 +237,10 @@ namespace Mode
 				, Off<iPCH_RUN>
 				, Off<iPCH_A  >
 				, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				, Proc<ExceptionAl<LogMess::NoDriveReady>>	/// если нет готовности - выход
+				, Proc<ExceptionAl<LogMess::NoLongDriveReady>>	/// если нет готовности - выход
 				)(4000);  /// \brief ожидание 4 сек
-		}		
+
+		}	
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE>();
@@ -247,21 +250,20 @@ namespace Mode
 				throw ExceptionAlarm();
 			}
 		}
-
 		OUT_BITS(On<oMagnet>, On<oRP>);
 		Log::Mess<LogMess::PIPE_CONTROL_IMPLEMENTED>();
 
 		EnableDemagnetization();
-		
 		///отслеживаемые биты для аварийного завершения программы
-		AllarmBits::msk1 = 0;
-		TL::foreach<AllarmBits::list1, __set_msk__>()(Singleton<InputBit1Table>::Instance().items, AllarmBits::msk1);
-		AllarmBits::bits1 = device1730_1.Read() & AllarmBits::msk1;
+		unsigned msk1 = 0;
+		TL::foreach<AllarmBits::list1, __set_msk__>()(Singleton<InputBit1Table>::Instance().items, msk1);
+		AllarmBits::bits1 = device1730_1.Read() & msk1;
+		AllarmBits::msk1 = msk1;
 
-		AllarmBits::msk2 = 0;		
-		TL::foreach<AllarmBits::list2, __set_msk__>()(Singleton<InputBit2Table>::Instance().items, AllarmBits::msk2);
-		AllarmBits::bits2 = device1730_2.Read() & AllarmBits::msk2;
-
+		unsigned msk2 = 0;		
+		TL::foreach<AllarmBits::list2, __set_msk__>()(Singleton<InputBit2Table>::Instance().items, msk2);
+		AllarmBits::bits2 = device1730_2.Read() & msk2;
+		AllarmBits::msk2 = msk2;
 		AND_BITS(
 			On<iSQ1po>							  ///ожидание наезда трубы на датчик
 			, Proc<AllarmBits>
@@ -270,7 +272,6 @@ namespace Mode
 		unit502.Start();
 		GUARD{unit502.Stop();};	  /// \brief выключает 502 при досрочном выходе из цикла 
 		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
-
 		WAIT(On<iSQ2po>, on, Cross, 2)
 		if(job.get<OnTheJob<Thick>>().value)
 		{
@@ -284,7 +285,6 @@ namespace Mode
 			WAIT(On<iSQ1pr>, on, Long, 1)
 			WAIT(On<iSQ2pr>, on, Long, 2)
 		}
-
 		///Расчёт мёртвой зоны начало
 		ComputeUnit<Cross>().DeathZonesBegin();
 		ComputeUnit<Long>().DeathZonesBegin();
@@ -297,14 +297,12 @@ namespace Mode
 		Log::Mess<LogMess::WaitCrossOff>();
 		AND_BITS(
 			Off<iSQ1po>
-			, Proc<AllarmBits>	 
-			, Proc<Collection>
-			, Proc<ComputeZones>
+			, Proc<AllarmBits>	 	  
+			, Proc<Collection>	   
+			, Proc<ComputeZones>   
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 			)(60000); 
-
 		ZZZ(off, Cross, 1)
-
 		WAIT(Off<iSQ2po>, off, Cross, 2)
 		if(job.get<OnTheJob<Thick>>().value)
 		{

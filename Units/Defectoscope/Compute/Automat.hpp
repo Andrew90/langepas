@@ -322,68 +322,61 @@ namespace AutomatN
 		int operator()(unsigned delay = (unsigned)-1)
 		{
 			if((unsigned)-1 != delay) delay += Performance::Counter();
-			unsigned bitOn1 = 0, bitOff1 = 0, bitInv1 = 0;
-			unsigned bitOn2 = 0, bitOff2 = 0, bitInv2 = 0;
 
 			typedef typename SelectItem<InputBit1Table::items_list, List>::Result List1;
 			typedef typename SelectItem<InputBit2Table::items_list, List>::Result List2;
 
 			typedef typename Filt<List1, On>::Result list_on1;
-			dprint("~~%s\n", typeid(list_on1).name());
+			//	dprint("~~%s\n", typeid(list_on1).name());
 			typedef typename Filt<List1, Off>::Result list_off1;
-			dprint("~~%s\n", typeid(list_off1).name());
+			//	dprint("~~%s\n", typeid(list_off1).name());
 
 			typedef typename Filt<List2, On>::Result list_on2;
-			dprint("~~%s\n", typeid(list_on2).name());
+			//		dprint("~~%s\n", typeid(list_on2).name());
 			typedef typename Filt<List2, Off>::Result list_off2;
-			dprint("~~%s\n", typeid(list_off2).name());
-
-			typedef typename Filt<List, Proc>::Result list_proc;
+			//		dprint("~~%s\n", typeid(list_off2).name());
 
 			static const bool bitsNotEmpty1 = __all_lists_not_empty__<list_on1, list_off1>::value;
 			static const bool bitsNotEmpty2 = __all_lists_not_empty__<list_on2, list_off2>::value;
 
+			typedef TL::Append<typename Filt<List, Ex>::Result, ExceptionExit>::Result exeption_list;
+			ArrEvents<exeption_list> arrEvents;
+
+			unsigned bitOn1 = 0, bitOff1 = 0, bitInv1 = 0;
 			SelectBits<InputBit1Table, list_on1>()(bitOn1);
 			SelectBits<InputBit1Table, list_off1>()(bitOff1);
 			SelectBits<InputBit1Table, typename Filt<List1, Inv>::Result>()(bitInv1);
 
+			unsigned bitOn2 = 0, bitOff2 = 0, bitInv2 = 0;
 			SelectBits<InputBit2Table, list_on2>()(bitOn2);
 			SelectBits<InputBit2Table, list_off2>()(bitOff2);
 			SelectBits<InputBit2Table, typename Filt<List2, Inv>::Result>()(bitInv2);
 
-			typedef TL::Append<typename Filt<List, Ex>::Result, ExceptionExit>::Result exeption_list;
-			ArrEvents<exeption_list> arrEvents;
-
 			while(true)
 			{
 				unsigned ev = WaitForMultipleObjects(dimention_of(arrEvents.h), arrEvents.h, FALSE, 5);
-				unsigned res1 = 0, res2 = 0;
-			//	if(__list_not_empty__<list_proc>::value)
-				{
-					if(bitsNotEmpty1)res1 = device1730_1.Read();
-					if(bitsNotEmpty2)res2 = device1730_2.Read();
-				}
+
+				unsigned res1 = device1730_1.Read();
+				unsigned res2 = device1730_2.Read();
+
 				bool bits1 = false, bits2 = false;
 				if(WAIT_TIMEOUT == ev)
 				{
-					if(bitsNotEmpty1 &&(bitOn1 || bitOff1))
-					{						
+					if(bitsNotEmpty1 && (bitOn1 || bitOff1))
+					{	
 						unsigned t = res1 ^ bitInv1;
 						bits1 = bitOn1 == (t & (bitOn1 | bitOff1));						
-					}					
-
-					if(bitsNotEmpty2 &&(bitOn2 || bitOff2))
-					{						
+					}
+					if(bitsNotEmpty2 && (bitOn2 || bitOff2)	)
+					{	
 						unsigned t = res2 ^ bitInv2;
 						bits2 = bitOn2 == (t & (bitOn2 | bitOff2));
 					}
-
 					if((bits1 || !bitsNotEmpty1)&&(bits2 || !bitsNotEmpty2)&&(bitsNotEmpty1 || bitsNotEmpty2))
 					{
 						return -1;
 					}
-
-					DefaultDo<list_proc>()(res1, res2, delay);
+					DefaultDo<typename Filt<List, Proc>::Result>()(res1, res2, delay);
 					if(Performance::Counter() >= delay)
 					{
 						throw ExceptionTimeOut();
@@ -487,7 +480,7 @@ namespace AutomatN
 			NoUsed_SET_Bits_2<OutputBit2Table, SelectItem<OutputBit2Table::items_list, List>::Result>()();
 		}
 	};
-	
+
 #define AND_BITS(...) AND_Bits<TL::MkTlst<__VA_ARGS__>::Result>()
 #define OR_BITS(...) OR_Bits<TL::MkTlst<__VA_ARGS__>::Result>()
 

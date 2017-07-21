@@ -15,6 +15,7 @@ class Emulator
 		~Group();
 		void Do(double &, double &);
 	};
+	bool rp;
 	FILE *f;
 	char *offsFirst, offsNext;
 	bool start;
