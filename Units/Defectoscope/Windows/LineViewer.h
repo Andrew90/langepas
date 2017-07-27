@@ -96,9 +96,9 @@ public:
 		TL::MkTlst<
 		LeftAxes
 		, BottomAxes
-		//, BarSeries
-		, Grid	
 		, BarSeries
+		, Grid	
+		//, BarSeries
 		>::Result
 		, typename TL::ListToWapperList<Thresh, Border>::Result
 	>::Result>::Result> TChart;

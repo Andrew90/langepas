@@ -4,6 +4,7 @@
 #include "App\AppBase.h"
 #include "Filtre\MedianFiltre.h"
 #include "DspFilters\ChebyshevFiltre.h"
+#include "MessageText\StatusMessages.h"
 
 static const int AnalogFiltre_bufSize = 10 * 1024;
 
@@ -65,7 +66,8 @@ template<class T>struct ComputeZone
 		char &statusResult =  item.status[sensor][zone - 1];
 		double &valueResult = item.buffer[sensor][zone - 1];
 
-		statusResult = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value;
+		unsigned t[] = {TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value, -1};
+		statusResult = ResultMessageId(t);
 		valueResult = 0;
 
 		MedianFiltre filtre;
@@ -90,11 +92,25 @@ template<class T>struct ComputeZone
 			if(val > valueResult)
 			{
 				valueResult = val;
-				statusResult = st;
+				unsigned t[] = {st, -1};
+				statusResult = ResultMessageId(t);
 			}
 		}
 
 		return true;
+	}
+};
+
+template<class T>struct __stop__
+{
+	void operator()(){}
+};
+
+template<>struct __stop__ <Cross>
+{
+	void operator()()
+	{
+		dprint("__stop__\n");
 	}
 };
 
@@ -108,37 +124,31 @@ template<class T>struct ComputeZoneBegin
 		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
 		double borderDefect = Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<T>>().value;
 
-		//double *startZone = &item.ascan[sensor][item.offsets[zone - 1]];
-		//double *stopZone = &item.ascan[sensor][item.offsets[zone]];
-		//double *deadZone0 = &item.ascan[sensor][item.deadSamplesBegin];
-		double *startZone = &item.ascan[sensor][item.offsets[0]];
-		double *stopZone = &item.ascan[sensor][item.offsets[1]];
-		double *deadZone0 = &item.ascan[sensor][item.deadSamplesBegin];
+		__stop__<T>()();
 
-		int samplesZone = stopZone - startZone;
-		if(samplesZone <= 0) return false;
+		int dead = Singleton<DeadAreaTable>::Instance().items.get<DeadAreaMM0<T>>().value;
 
-		if(samplesZone > AnalogFiltre_bufSize)
-		{
-			zprint(" Allarm memory %d\n", samplesZone);
-			return false;
-		}
+		int full = dead / App::zone_length;
+		int remains = dead % App::zone_length;
 
-		int offsDead = deadZone0 - startZone;
+		int offs = full;
+		if(remains > 0) --offs;
+
+		double d = double(remains) / App::zone_length;
+		d = 1.0 - d;
+
+
+
+		double *startZone = &item.ascan[sensor][item.offsets[full]] + int(d * ( &item.ascan[sensor][item.offsets[1 + full]] -  &item.ascan[sensor][item.offsets[full]]));
+		double *stopZone = &item.ascan[sensor][item.offsets[1 + full]];
+
+		
 		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
 
-		deadZone0 = &startZone[offsDead];
+		
 
-		//char &statusResult =  item.status[sensor][zone - 1];
-		//double &valueResult = item.buffer[sensor][zone - 1];
-		char &statusResult =  item.status[sensor][0];
-		double &valueResult = item.buffer[sensor][0];
-
-		statusResult = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value;
-		valueResult = 0;
-
-		double *i = startZone;
+		//double *i = startZone;
 
 		MedianFiltre filtre;
 		//filtre.Init(width, startZone - width);
@@ -150,20 +160,22 @@ template<class T>struct ComputeZoneBegin
 			filtre.Init(width, startZone - width);
 		}
 
-		if(startZone < deadZone0)
+		if(filtreOn)
 		{
-			double *stop = stopZone < deadZone0 ? stopZone: deadZone0;
-			if(filtreOn)
+			for(double *i = startZone; i < stopZone; ++i)
 			{
-				for(; i < stop; ++i)
-				{
-					filtre(*i);
-				}
+				filtre(*i);
 			}
-			statusResult = TL::IndexOf<ColorTable::items_list, Clr<DeathZone>>::value;
 		}
 
-		for(; i < stopZone; ++i)
+		char &statusResult =  item.status[sensor][full];
+		double &valueResult = item.buffer[sensor][full];	
+
+		unsigned t[] = {TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value, -1};
+		statusResult = ResultMessageId(t);
+		valueResult = 0;
+
+		for(double *i = startZone; i < stopZone; ++i)
 		{
 			int st = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value; 
 
@@ -175,8 +187,17 @@ template<class T>struct ComputeZoneBegin
 			if(val > valueResult)
 			{
 				valueResult = val;
-				statusResult = st;
+				unsigned t[] = {st, -1};
+				statusResult = ResultMessageId(t);
 			}
+		}
+
+		unsigned _dz_[] = {TL::IndexOf<ColorTable::items_list, Clr<DeathZone>>::value, -1};
+		int dz = ResultMessageId(_dz_);
+
+		for(int i = 0; i < full; ++i)
+		{
+			item.status[sensor][i] = dz;
 		}
 
 		return true;
@@ -185,41 +206,36 @@ template<class T>struct ComputeZoneBegin
 
 template<class T>struct ComputeZoneEnd
 {
-	bool operator()(//double(&xbuf)[AnalogFiltre_bufSize], char(&xstatus)[AnalogFiltre_bufSize]
-//	, unsigned &xcount, 
-		unsigned zone, unsigned sensor)//, int width)
+	bool operator()(unsigned zone, unsigned sensor)
 	{
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
 		double borderDefect = Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<T>>().value;
 
-		double *startZone = &item.ascan[sensor][item.offsets[zone - 1]];
-		double *stopZone = &item.ascan[sensor][item.offsets[zone]];
-		double *deadZone1 = &item.ascan[sensor][item.deadSamplesEnd];
+		int dead = Singleton<DeadAreaTable>::Instance().items.get<DeadAreaMM1<T>>().value;
 
-		int samplesZone = stopZone - startZone;
-		if(samplesZone <= 0) return false;
+		int full = dead / App::zone_length;
+		int remains = dead % App::zone_length;
 
-		if(samplesZone > AnalogFiltre_bufSize)
-		{
-			zprint(" Allarm memory %d\n", samplesZone);
-			return false;
-		}
+		int offs = zone - full;
+		if(remains > 0) --offs;
 
-		int offsZone = deadZone1 - startZone;
-		//AnalogFiltre<T>()(startZone, stopZone);
+		double d = double(remains) / App::zone_length;
+
+		double *startZone = &item.ascan[sensor][item.offsets[offs]];
+		double *stopZone = startZone + int(d *(&item.ascan[sensor][item.offsets[offs + 1]] - &item.ascan[sensor][item.offsets[offs]]));
+		
 		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
-		deadZone1 = &startZone[offsZone];
 
-		char &statusResult =  item.status[sensor][zone - 1];
-		double &valueResult = item.buffer[sensor][zone - 1];
+		char &statusResult =  item.status[sensor][offs];
+		double &valueResult = item.buffer[sensor][offs];
 
-		statusResult = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value;
+		unsigned t[] = {TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value, -1};
+		statusResult = ResultMessageId(t);
 		valueResult = 0;
 
 		MedianFiltre filtre;
-		//filtre.Init(width, startZone - width);
 		MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
 		bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
 		if(filtreOn)
@@ -228,7 +244,7 @@ template<class T>struct ComputeZoneEnd
 			filtre.Init(width, startZone - width);
 		}
 
-		for(double *i = startZone; i < stopZone && i < deadZone1; ++i)
+		for(double *i = startZone; i < stopZone; ++i)
 		{
 			int st = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value; 
 
@@ -240,13 +256,18 @@ template<class T>struct ComputeZoneEnd
 			if(val > valueResult)
 			{
 				valueResult = val;
-				statusResult = st;
+				unsigned t[] = {st, -1};
+				statusResult = ResultMessageId(t);
 			}
 		}
 
-		if(deadZone1 < stopZone)
+		unsigned _dz_[] = {TL::IndexOf<ColorTable::items_list, Clr<DeathZone>>::value, -1};
+
+		int dz = ResultMessageId(_dz_);
+
+		for(int i = offs; i < (int)zone; ++i)
 		{
-			statusResult = TL::IndexOf<ColorTable::items_list, Clr<DeathZone>>::value;
+			item.status[sensor][i] = dz;
 		}
 		return true;
 	}

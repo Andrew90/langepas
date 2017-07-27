@@ -14,6 +14,8 @@
 #include "SolidGroupAlgoritm\ComputeSolidGroup.h"
 #include "StoredData\PacketBase.h"
 
+#include "Dates\CounterTubes.h"
+
 bool App::measurementOfRunning = false;
 bool App::isStandard = false;
 

@@ -75,16 +75,7 @@ void SelectTypeSizeList::Do(TCommand &m)
 				AppBase::InitTypeSizeTables(base);
 				(*ptr)();
 
-				SetFocus(m.hwnd);
-				//wchar_t b[256];
-				//wchar_t bb[512];
-				////if(ExistCurrentUSPCFile(b))
-				//{
-				//	wsprintf(bb, L"%s %s", App::TitleApp(), b);
-				//	SetWindowText(m.hwnd, bb);
-				//
-				//	USPC::ConfigFromFile();
-				//}
+				SetFocus(m.hwnd);				
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SolidBase.h"
-#include "ComputeSolidGroup.h"
+//#include "ComputeSolidGroup.h"
 #include <typeinfo>
 #include "tools_debug/DebugMess.h"
 #include "Base\tables.hpp"
@@ -46,6 +46,34 @@ template<int N>void DPrint(Holder<N> &d){dprint("%S", (wchar_t *)d);}
 		}
 	};
 }
+//-----------------------------------------------
+//void SolidBase::InitTypeSizeTables()
+//{
+//	//TODO отладить
+//	///вставить солид базу
+//	//CurrentParametersTable x;
+//	//Select<CurrentParametersTable>(*this).ID(1).Execute(x);
+//	//ParametersTable	&p = Singleton<ParametersTable>::Instance();
+//	//Select<ParametersTable>(*this).ID(x.items.get<CurrentID>().value).Execute(p);
+//	//TL::foreach<typename ParametersTable::items_list, __default_param__>()(&p.items, this);
+//}
+//
+//void SolidBase::Init()
+//{
+//	ParametersBase parameters;
+//	CBase base(
+//		parameters.name()
+//		, CreateDataBase<ParametersBase::type_list, SetDefault<ParametersBase::type_list> >()
+//		, parameters.tables
+//		);
+//	if(base.IsOpen())
+//	{
+//		zprint("\n");
+//		TL::foreach<ParametersBase::one_row_table_list, row_table>()(&base);
+//
+//		InitTypeSizeTables();
+//	}
+//}
 //------------------------------------------------------------------------
 const wchar_t *SolidBase::name()
 {

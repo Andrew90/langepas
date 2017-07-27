@@ -157,7 +157,7 @@ void Emulator::Group::Do(double &ref, double &sig){}
 	
 int loop = 0;
 int lastLoop = 0;
-
+#define OUTS(...) !TL::find<TL::MkTlst<__VA_ARGS__>::Result, __out_bits__>()(&map->outs0)
 void Emulator::Do()
 {
 	rp = false;
@@ -168,8 +168,11 @@ void Emulator::Do()
 		XBITS(On<iPCH_B>, On<iPCH_RUN>);
 		XBITS(On<iReadyR1>);
 		XBITS(On<iReadyT>, On<iControlT>, Off<iResultT>);
-		while(rp)
-		{
+		while(!rp) Sleep(50);
+	//	{
+			printf("Sleep\n");
+			 while(OUTS(Off<oCooling>)) Sleep(50);
+			 printf("Start\n");
 			++loop;
 		Sleep(3000);
 		BITS(On<iSQ1po>);
@@ -188,7 +191,7 @@ void Emulator::Do()
 		Sleep(600);
 		BITS(On<iSQ2DM>);
 
-		Sleep(10000);
+		Sleep(5000);
 
 		BITS(Off<iSQ1po>);
 		Sleep(600);
@@ -206,7 +209,7 @@ void Emulator::Do()
 		Sleep(600);
 		BITS(Off<iSQ2DM>);
 		BITS(On<iResultT>)
-		}
+//		}
 
 		if(loop != lastLoop)
 		{
@@ -217,7 +220,7 @@ void Emulator::Do()
 	}
 }
 
-#define OUTS(...) TL::find<TL::MkTlst<__VA_ARGS__>::Result, __out_bits__>()(&map->outs0)
+
 int x0 = 0;
 int x1 = 0;
 

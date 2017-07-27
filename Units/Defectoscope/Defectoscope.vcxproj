@@ -151,6 +151,7 @@
     <ClCompile Include="Defectoscope.cpp" />
     <ClCompile Include="Dialogs\AboutWindow.cpp" />
     <ClCompile Include="Dialogs\AcfCutOffBordersDlg.cpp" />
+    <ClCompile Include="Dialogs\AdditionalParams502Dlg.cpp" />
     <ClCompile Include="Dialogs\AnalogPlateDlg.cpp" />
     <ClCompile Include="Dialogs\ColorItemsDlg.cpp" />
     <ClCompile Include="Dialogs\ComPortDlg.cpp" />

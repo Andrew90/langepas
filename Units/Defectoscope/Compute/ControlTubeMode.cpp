@@ -114,7 +114,6 @@ namespace Mode
 	{
 		template<class T>static void Do(T &t)//unsigned, unsigned)
 		{
-			//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
 			static unsigned counter = 0;
 			if((++counter % 20) == 0)
 			{
@@ -125,6 +124,11 @@ namespace Mode
 
 	SubLir &lir = Singleton<SubLir>::Instance();
 
+	template<class T>struct __updata_window__
+	{
+		void operator()(){}
+	};
+
 	struct ComputeZones
 	{
 		template<class T>static void Do(T &)//unsigned, unsigned)
@@ -133,16 +137,38 @@ namespace Mode
 			static unsigned counter = 0;
 			if((++counter % 20) == 0) 
 			{
+				dprint("time %d  %d\n", GetTickCount(), lir.moduleItems.get<Module<Cross>>().zonesOffs);
 				lir.Do();   //вызываться будет через ~100 м.сек.
-				bool crossB = ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs);
-				bool longB = ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
-				if(crossB || longB)
-				{
-					RepaintWindow(app.mainWindow.hWnd);
-				}
+				if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
+				if(ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
 			}
 		}
 	};
+
+	//ItemData<Cross> &crossData = Singleton<ItemData<Cross>>::Instance();
+	//ItemData<Long> &longData = Singleton<ItemData<Long>>::Instance();
+
+	//longData.currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
+	//crossData.currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
+
+	template<>struct __updata_window__<Cross>
+	{
+		void operator()()
+		{
+			unsigned z = Singleton<ItemData<Cross>>::Instance().currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
+			dprint("cross zones %d\n", z);
+			RepaintWindow(app.mainWindow.viewers.get<CrossViewer>().hWnd);
+		}
+	};
+	template<>struct __updata_window__<Long>
+	{
+		void operator()()
+		{
+			unsigned z = Singleton<ItemData<Long>>::Instance().currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
+			dprint("long zones %d\n", z);
+			RepaintWindow(app.mainWindow.viewers.get<LongViewer>().hWnd);
+		}
+	};	
 
 	template<class T>struct __compute_unit__
 	{
@@ -150,7 +176,8 @@ namespace Mode
 		{
 			if(ComputeUnit<T>().Zones(lir.moduleItems.get<Module<T>>().zonesOffs))
 			{
-				RepaintWindow(app.mainWindow.hWnd);
+				//RepaintWindow(app.mainWindow.hWnd);
+				__updata_window__<T>()();
 			}
 		}
 	};
@@ -166,6 +193,8 @@ namespace Mode
 
 	void ControlTube(Data &)
 	{
+		ItemData<Long> &dataLong = Singleton<ItemData<Long>>::Instance();
+		ItemData<Cross> &dataCross = Singleton<ItemData<Cross>>::Instance();
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 		//TODO Проверка модуля размагничивания
@@ -273,6 +302,7 @@ namespace Mode
 		GUARD{unit502.Stop();};	  /// \brief выключает 502 при досрочном выходе из цикла 
 		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
 		WAIT(On<iSQ2po>, on, Cross, 2)
+
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOn>();
@@ -283,16 +313,15 @@ namespace Mode
 		{
 			Log::Mess<LogMess::WaitLongOn>();
 			WAIT(On<iSQ1pr>, on, Long, 1)
-			WAIT(On<iSQ2pr>, on, Long, 2)
+			WAIT(On<iSQ2pr>, on, Long, 2)			
 		}
-		///Расчёт мёртвой зоны начало
-		ComputeUnit<Cross>().DeathZonesBegin();
-		ComputeUnit<Long>().DeathZonesBegin();
-
+				
 		Log::Mess<LogMess::WaitMagneticOn>();
 		WAIT(On<iSQ1DM>, on, Magn, 1)
 		WAIT(On<iSQ2DM>, on, Magn, 2)
 		OUT_BITS(On<oT_Base>);
+
+		
 //.................................................................		
 		Log::Mess<LogMess::WaitCrossOff>();
 		AND_BITS(
@@ -304,6 +333,15 @@ namespace Mode
 			)(60000); 
 		ZZZ(off, Cross, 1)
 		WAIT(Off<iSQ2po>, off, Cross, 2)
+
+		///Расчёт мёртвой зоны начало
+		ComputeUnit<Cross>().DeathZonesBegin();
+		if(job.get<OnTheJob<Long>>().value)
+		{
+			ComputeUnit<Long>().DeathZonesBegin();
+		}
+
+
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOff>();
@@ -318,9 +356,16 @@ namespace Mode
 			WAIT(Off<iSQ2pr>, off, Long, 2)
 		}
 
-		///Расчёт мёртвой зоны конец
-		ComputeUnit<Cross>().DeathZonesEnd(lir.moduleItems.get<Module<Cross>>().zonesOffs);
-		ComputeUnit<Long>().DeathZonesEnd(lir.moduleItems.get<Module<Long>>().zonesOffs);
+		/////Расчёт мёртвой зоны конец
+		//Module<Cross> &moduleCross = lir.moduleItems.get<Module<Cross>>();
+		//moduleCross.Stop();
+		//ComputeUnit<Cross>().DeathZonesEnd(moduleCross.zonesOffs);
+		//if(job.get<OnTheJob<Long>>().value)
+		//{
+		//	Module<Long> &moduleLong = lir.moduleItems.get<Module<Long>>();
+		//	moduleLong.Stop();
+		//	ComputeUnit<Long>().DeathZonesEnd(moduleLong.zonesOffs);
+		//}
 
 		Log::Mess<LogMess::WaitMagneticOff>();
 		WAIT(Off<iSQ1DM>, off, Magn, 1)
@@ -331,6 +376,24 @@ namespace Mode
 //---------------------------------------------------------------	
 		GetDataFromThicknessModule();
 		ComputeResult();
+		UpdateScreen();
+#ifdef EMUL
+		SubLir &Xlir = lir;
+		
+		Module<Long> &ml = lir.moduleItems.get<Module<Long>>();
+		dprint("count lond modules zones %d\n", ml.zonesOffs);
+
+		
+
+
+		for(int i = 1; i < ml.zonesOffs; ++i)
+		{
+			dprint("samples in zone %d  %d st %d\n", i, ml.zones[i] - ml.zones[i - 1], dataLong.status[0][i]);
+		}
+		dprint("count lond modules zones %d\n", ml.zonesOffs);
+		OUT_BITS(Off<oCooling>);
+#endif
+
 		if(job.get<OnTheJob<ViewInterrupt>>().value)
 		{
 			Log::Mess<LogMess::interruptView>();
@@ -341,8 +404,8 @@ namespace Mode
 				)(); 
 		}
 		
-		WorkACS(numberTube);
-		StoredData(!sop);
+		WorkACS(numberTube); //передача в асу
+		StoredData(!sop); // сохранение в базе
 //---------------------------------------------------------------
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 

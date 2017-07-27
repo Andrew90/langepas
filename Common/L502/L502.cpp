@@ -143,13 +143,14 @@ bool L502::ReadAsync(unsigned ch, int range, double &value)
 	}
 	if (err == X502_ERR_OK) {
 		/* Считываем кадр данных АЦП из одного отсчета */
-		err = X502_AsyncGetAdcFrame((t_l502_hnd)hnd, X502_PROC_FLAGS_VOLT, 1000, &value);
-		if (err == X502_ERR_OK) {
-			/* верно считали значение val */
-			return true;
-		}
+		return X502_ERR_OK == X502_AsyncGetAdcFrame((t_l502_hnd)hnd, X502_PROC_FLAGS_VOLT, 1000, &value);
 	}
 	return false;
+}
+bool L502::BitOut(unsigned ch, bool value)
+{
+	unsigned bits = 1 << ch;
+	return X502_ERR_OK == int32_t X502_AsyncOutDig((t_l502_hnd)hnd, value ? bits: 0, ~bits);
 }
 #else
 #include "Emulator\Emulator.h"
@@ -167,6 +168,11 @@ int L502::Read(unsigned &startChennel, double *data, unsigned &count)
 bool L502::ReadAsync(unsigned ch, int, double &value)
 {
 	value = ch;
+	return true;
+}
+
+bool L502::BitOut(unsigned ch, bool value)
+{
 	return true;
 }
 #endif

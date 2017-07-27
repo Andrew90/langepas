@@ -29,11 +29,11 @@ public:
 	unsigned time;
 	int framesOffs;
 	int zonesOffs;
-	int zonesStop;
 	double rem;
 	unsigned (&zones)[1 + App::count_zones];
 	Module(SubLir &lir);
 	void Start();
+	void Stop();
 };
 #pragma warning(disable: 4355)
 template<class T>struct __sq_do_data__
@@ -47,7 +47,9 @@ template<class O, class P>struct __sq_do__
 	void operator()(P &p)
 	{
 		Module<O> &module = p.lir.moduleItems.get<Module<O>>();
-		Zones::Do(p.lir, p.sq.time, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
+		unsigned t = Performance::Counter();
+		Zones::Do(p.lir, t/*p.sq.time*/, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
+		zprint("  module.zonesOffs %d\n", module.zonesOffs);
 	}
 };
 
@@ -59,7 +61,6 @@ template<class O, class P, int N>struct __sq_do__<off<O, N>, P>
 		unsigned t = p.lir.sqItems.get<SQ<off<O, 1>>>().time;
 		unsigned time = t + (p.sq.time - t) / 2;
 		Zones::Do(p.lir, time, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
-		module.zonesStop =  module.zonesOffs;
 	}
 };
 
@@ -197,30 +198,32 @@ struct Zones
 {
 	static void Do(SubLir &lir, unsigned sq_time, double sq_perSamples
 		, int  &module_zonesOffs, unsigned *module_zones
-		, int &module_framesOffs, double &module_rem
+		, int &module_framesOffs_, double &module_rem
 		)
 	{	
-		if(0 == module_framesOffs) return;
+		if(0 == module_framesOffs_) return;
 		unsigned *samples = lir.samples;
 		unsigned *tick = lir.tick;
 
 		int index = lir.index;
-
-		for(; module_framesOffs < index; ++module_framesOffs)
+		int i = module_framesOffs_;
+		for(; i < index; ++i)
 		{
-			if(tick[module_framesOffs] > sq_time)
+			if(tick[i] > sq_time)
 			{
-				break;
+				if(i != module_framesOffs_)module_framesOffs_ = i - 1;
+				return;
 			}
 			if(module_rem > App::zone_length)
 			{
 				module_rem -= App::zone_length;
 				double d = module_rem / App::zone_length;
-				module_zones[module_zonesOffs] = samples[module_framesOffs - 1] + unsigned(d * (samples[module_framesOffs] - samples[module_framesOffs - 1]));
+				module_zones[module_zonesOffs] = samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
 				if(module_zonesOffs < 1 + App::count_zones)	++module_zonesOffs;
 			}
-			module_rem += (tick[module_framesOffs] - tick[module_framesOffs - 1]) * sq_perSamples;
+			module_rem += (tick[i] - tick[i - 1]) * sq_perSamples;
 		}
+		module_framesOffs_ = i;
 	}
 };
 
@@ -309,7 +312,6 @@ template<class T>Module<T>::Module(SubLir &lir)
 
 template<class T>void Module<T>::Start()
 {
-	zonesStop = 0;
 	SQ<on<T,1>> &sq1 = lir.sqItems.get<SQ<on<T,1>>>();
 	SQ<on<T,2>> &sq2 = lir.sqItems.get<SQ<on<T,2>>>();
 	unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
@@ -322,7 +324,7 @@ template<class T>void Module<T>::Start()
 	{
 		if(tick[i] > offs)
 		{
-			double d = double(tick[i] - offs) / (tick[i - 1] - tick[i]);
+			double d = double(tick[i] - offs) / (tick[i] - tick[i - 1]);
 			zones[0] = samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
 			zonesOffs = 1;
 			framesOffs = i;
@@ -330,6 +332,33 @@ template<class T>void Module<T>::Start()
 			break;
 		}
 	}	
+}
+
+template<class T>void Module<T>::Stop()
+{
+	SQ<off<T,1>> &sq1 = lir.sqItems.get<SQ<off<T,1>>>();
+	SQ<off<T,2>> &sq2 = lir.sqItems.get<SQ<off<T,2>>>();
+	unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
+	//
+	unsigned *tick = lir.tick;
+	unsigned *samples = lir.samples;
+	for(int i = lir.lastOffs - 1; i > 0; --i)
+	{
+		if(tick[i] < offs)
+		{
+			double dt = double(offs - tick[i]) / (tick[i + 1] - tick[i]);
+			unsigned offs = samples[i] + unsigned(dt * (samples[i + 1] - samples[i]));
+			for(int k = zonesOffs - 1; k > 0; --k)
+			{
+				if(offs > zones[k])
+				{
+					zonesOffs = 1 + k;
+					zones[1 + k] = offs;
+					return;
+				}
+			}
+		}
+	}
 }
 
 

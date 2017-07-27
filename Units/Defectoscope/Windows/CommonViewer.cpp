@@ -33,9 +33,9 @@ void CommonViewer::operator()(TSize &l)
 	{
 		return;
 	}
+
 	chart->rect.right = l.Width;
 	chart->rect.bottom = l.Height;
-	
 
     Graphics g(backScreen);
 	SolidBrush solidBrush(Color((ARGB)BACK_GROUND));

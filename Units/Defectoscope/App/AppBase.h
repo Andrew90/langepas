@@ -781,15 +781,17 @@ struct RotationalSpeedTable
 template<class, int>struct Tresh;
 DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 0, double, 10)
 DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 1, double, 10)
-struct TemperatureTresholdsable
+DEFINE_PARAM_WAPPER_NUM(Tresh, Magn, 0, double, 5)
+struct AdditionalParams502Table
 {
 	typedef TL::MkTlst<
 		  Tresh<Temperature, 0>
 		, Tresh<Temperature, 1>
+		, Tresh<Magn, 0>
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
-	const wchar_t *name(){return L"TemperatureTresholdsable";}
+	const wchar_t *name(){return L"AdditionalParams502Table";}
 };
 //-----------------------------------------------------------------
 DEFINE_PARAM(NumberComPort, int, 3)
@@ -857,6 +859,7 @@ struct OffsetSensorsTable
 		 , L502OffsetsDigitTable
 		 , ComPortTable
 		 , OffsetSensorsTable
+		 , AdditionalParams502Table
 	 >::Result one_row_table_list;
 
 	 typedef TL::MkTlst<

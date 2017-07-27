@@ -1,10 +1,10 @@
 #pragma once
-#include "SolidBase.h"
-#include "Base\tables.hpp"
+//#include "SolidBase.h"
+//#include "Base\tables.hpp"
 #include "Base\TablesDefine.h"
 #include "templates\typelist.hpp"
 #include "App\AppBase.h"
-
+//
 #include "ComputeSolidGroup.h"
 
 //STR_PARAM(NameParam, 128, L"NONAME")
@@ -125,7 +125,9 @@ struct SolidBase
 	 TTables tables;
 	 wchar_t path[512];
 	 const wchar_t *name();
- };
+	// void InitTypeSizeTables();
+	// void Init();
+};
 
 
 

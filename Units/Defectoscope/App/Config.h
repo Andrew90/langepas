@@ -12,3 +12,5 @@
 
 #define CLIENT
 
+#define EMUL
+

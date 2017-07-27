@@ -74,4 +74,6 @@ DLG(ComPortDlg)
 
 DLG(OffsetSensorDlg)
 
+DLG(AdditionalParamsDlg)
+
 #undef DLG

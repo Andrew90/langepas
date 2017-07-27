@@ -25,6 +25,7 @@ void FrequencyInverterRun();
 void SettingOperatingModeAirConditioningController();
 ///TODO Очистка экрана
 void CleaningScreen();
+void UpdateScreen();
 ///TODO Запрос номера трубы
 void RequestPipeNumber(char (&)[9]);
 ///TODO включить размагничивание

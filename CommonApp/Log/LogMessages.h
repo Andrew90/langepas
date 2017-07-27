@@ -223,7 +223,9 @@ namespace LogMess
 		, transferResultControlAutomatedControlSystem
 		, contineRun
 		, storedDataBase
-		,  NoLongDriveReady
+		, NoLongDriveReady
+		, demagnetizationNotCorrect
+		, demagnetizationTesting
 //		    
 		, max_row
 	};
@@ -438,6 +440,9 @@ namespace LogMess
 	MESS(transferResultControlAutomatedControlSystem, void, "передача результата контроля в АСУ", blue, white)
 	MESS(contineRun, void, "\"F4 ЦИКЛ\"далее \"F11 Продол...\"повторить запрос к АСУ \"Esc Стоп\"выход из цикла", red, white)
 	MESS(storedDataBase, void, "Сохранение в базе данных", blue, white)
+
+	MESS(demagnetizationNotCorrect, void, "Авария. Размагничивание не исправно", red, yellow)
+	MESS(demagnetizationTesting, void, "Тестирование размагничивания", blue, white)
 
 	class FactoryMessages
 	{

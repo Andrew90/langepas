@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <limits>
 #include "ControlTubeSubModules.h"
 #include "ControlMode.h"
 #include "Log\LogBuffer.h"
@@ -11,6 +12,10 @@
 #include "Compute\AppKeyHandler.h"
 #include "Windows\MainWindow.h"
 #include "MessageText\StatusMessages.h"
+#include "lir\SubLir.h"
+#include "DataItem\DataItem.h"
+#include "App\Config.h"
+#include "window_tool\EmptyWindow.h"
 
 #define TEST_MESS(n) if(TEST_IN_BITS(On<n>)){Log::Mess<LogMess::n##Mess>(); /*throw ExceptionAlarm();*/return;}
 
@@ -27,14 +32,14 @@ void TestCoilTemperature()
 		Log::Mess<LogMess::AnalogBoardFailure>();
 		throw AutomatN::ExceptionAlarm();
 	}
-	TemperatureTresholdsable::TItems &tresh = Singleton<TemperatureTresholdsable>::Instance().items;
+	AdditionalParams502Table::TItems &tresh = Singleton<AdditionalParams502Table>::Instance().items;
 
 	double tresh1 = tresh.get< Tresh<Temperature, 0>>().value;
 	double tresh2 = tresh.get< Tresh<Temperature, 1>>().value;
 
-//TODO DEBUG
+#ifdef EMUL
 	return;
-//TODO DEBUG
+#endif
 
 	if(t1 > tresh1)
 	{
@@ -43,14 +48,60 @@ void TestCoilTemperature()
 	}
 	if(t2 > tresh2)
 	{
-		Log::Mess<LogMess::TemperatureCoilSolenoidExceeded1>(t2); throw AutomatN::ExceptionAlarm();
+		Log::Mess<LogMess::TemperatureCoilSolenoidExceeded1>(t2);
 		throw AutomatN::ExceptionAlarm();
 	}
 }
-
+#undef max
+#undef min
 void CheckDemagnetizeModule()
 {
+	unit502.SetupParams();
+	for(;;)
+	{
+		Log::Mess<LogMess::demagnetizationTesting>();
+		unit502.Start();
+		for(int i = 0; i < 5; ++i)
+		{
+			unit502.Read();
+			Sleep(200);
+		}
+		unit502.Stop();
 
+		SubLir &lir = Singleton<SubLir>::Instance();
+
+		int offs = lir.currentSamples / 10;
+
+		double min =  std::numeric_limits<double>::max();
+		double max =  std::numeric_limits<double>::min();
+
+		double *d = Singleton<ItemData<Solid>>::Instance().ascan[1];
+
+		for(int i = offs; i < lir.currentSamples - offs; ++i)
+		{
+			if(d[i] > max) max = d[i];
+			else if(d[i] < min) min = d[i];
+		}
+
+		double z = max - min;
+		double t = (z > 0) ? 0.5 * (max + min) / z : 0;
+
+		double tresh = Singleton<AdditionalParams502Table>::Instance().items.get<Tresh<Magn, 0>>().value;
+		///если амплитуда меньше порога, либо отличие больше 20 процентов
+#ifndef EMUL
+		if(max < tresh || -min < tresh || t < 0.2)
+		{
+			
+			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить тест?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+			{
+				Log::Mess<LogMess::demagnetizationNotCorrect>(); 
+				throw AutomatN::ExceptionAlarm();
+			}
+		}
+#else
+		return;
+#endif
+	}
 }
 
 void SettingWorkingPositionControlModules()
@@ -58,13 +109,13 @@ void SettingWorkingPositionControlModules()
 	using namespace AutomatN;
 	/// \brief Проверка наличия трубы в модулях
 	TEST_MESS(iSQ1pr)
-		TEST_MESS(iSQ2pr)
-		TEST_MESS(iSQ1po)
-		TEST_MESS(iSQ2po)
-		TEST_MESS(iSQ1t	)
-		TEST_MESS(iSQ2t	)
+	TEST_MESS(iSQ2pr)
+	TEST_MESS(iSQ1po)
+	TEST_MESS(iSQ2po)
+	TEST_MESS(iSQ1t	)
+	TEST_MESS(iSQ2t	)
 
-		OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
+	OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
 
 	bool bLong = false, bThick = false;
 
@@ -99,9 +150,9 @@ void SettingWorkingPositionControlModules()
 	/// \brief ожидание когда модули примут рабочее положение 
 	Log::Mess<LogMess::SettingOperatingPositionControl>();
 
-	//TODO DEBUG
+#ifdef EMUL
 	return;
-//TODO DEBUG
+#endif
 
 	unsigned t = 0;
 	for(int i = 0; i < 300; ++i)
@@ -122,9 +173,9 @@ void TransferParametersThicknessModule()
 {
 	using namespace AutomatN;
 
-	//TODO DEBUG
+#ifdef EMUL
 	return;
-	//TODO DEBUG
+#endif
 
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value)
 	{
@@ -154,28 +205,22 @@ void TransferParametersThicknessModule()
 			)(); //кнопка начала измерений
 	}
 }
-/*
-int Thick::RequestControlResult(ComPort &comPort
-		, double &brak
-		, double &class2
-		, double &class3
-		, int &lengthTube
-		, unsigned short (&zones)[65]
-	)
-*/
+
 void GetDataFromThicknessModule()
 {
 	using namespace AutomatN;
+
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value)
 	{
 		ItemData<Thick> &data = Singleton<ItemData<Thick>>::Instance();
 		Log::Mess<LogMess::waitingThicknessResult>();
 		unsigned short zones[65];
+		bool receiveDataOk = true;
+#ifndef EMUL
 		AND_BITS(
-				On<iResultT>
-				, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				)(120000); 
-		bool receiveDataOk = false;
+			On<iResultT>
+			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			)(120000); 		
 		for(int i = 0; i < 99; ++i)
 		{
 			int res =  Communication::Thick::RequestControlResult(
@@ -190,11 +235,22 @@ void GetDataFromThicknessModule()
 			case Communication::error_count  :  Log::Mess<LogMess::error_count>(i);
 				//throw AutomatN::ExceptionAlarm();
 				AND_BITS(
-				  Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				)(3000); 
+					Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+					)(3000); 
+				receiveDataOk = false;
 				continue;
 			}
 		}
+#else
+		data.currentOffsetZones = 53;
+		short t = 42;
+		for(int i = 0; i < 53; ++i)
+		{
+			zones[i] = t;
+			t += 1;
+			if(t > 62) t = 40;
+		}
+#endif
 		if(receiveDataOk)
 		{
 			unsigned res[] = {0, -1};
@@ -204,7 +260,7 @@ void GetDataFromThicknessModule()
 				if(data.brak > t)
 				{
 					res[0] = StatusId<Clr<BorderDefect<Thick>>>();
-			    }
+				}
 				else if(data.class3 > t)
 				{
 					res[0] = StatusId<Clr<BorderKlass3<Thick>>>();
@@ -228,8 +284,10 @@ void FrequencyInverterPreparation()
 {
 	using namespace AutomatN;
 	/// проверить биты
+#ifndef EMUL
 	if(TEST_IN_BITS(Off<iPCH_B>)){Log::Mess<LogMess::iPCH_B_OFF>();throw AutomatN::ExceptionAlarm();}
 	if(TEST_IN_BITS(Off<iPCH_RUN>)){Log::Mess<LogMess::iPCH_RUN_OFF>();throw AutomatN::ExceptionAlarm();}	
+#endif
 }
 
 void FrequencyInverterRun()
@@ -242,7 +300,7 @@ void FrequencyInverterRun()
 		| (speed.get<SpeedBit<oRM>>().value ? outputBit.get<oRM>().value: 0)
 		| (speed.get<SpeedBit<oRH>>().value ? outputBit.get<oRH>().value: 0)
 		| outputBit.get<oSTF>().value
-	//	| outputBit.get<oRP>().value	 
+		//	| outputBit.get<oRP>().value	 
 		;
 	device1730_1.AddBits(outBits);
 }
@@ -262,9 +320,9 @@ void SettingOperatingModeAirConditioningController()
 
 	Log::Mess<LogMess::iWork_pnevmoWait>();
 
-	//TODO DEBUG
+#ifdef EMUL
 	return;
-	//TODO DEBUG
+#endif
 
 	AND_BITS(
 		On<iWork_pnevmo>	  /// \brief iWork_pnevmo - ВКЛЮЧЕНО
@@ -280,6 +338,11 @@ void CleaningScreen()
 {
 	//Compute::Clear();
 	app.mainWindow.ClearCharts();
+}
+
+void UpdateScreen()
+{
+	RepaintWindow(app.mainWindow.hWnd);
 }
 
 ///TODO Запрос номера трубы
@@ -310,11 +373,11 @@ void RequestPipeNumber(char (&numberTube)[9])
 		}
 		else
 		{
-		//	AppKeyHandler::RunContine();	/// включили кнопку продолжить
+			//	AppKeyHandler::RunContine();	/// включили кнопку продолжить
 			AND_BITS(
 				Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 				, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
-			//	, Ex<ExceptionRun>
+				//	, Ex<ExceptionRun>
 				)(); 
 			dprint("continue\n");
 		}
@@ -325,23 +388,20 @@ void RequestPipeNumber(char (&numberTube)[9])
 ///TODO включить размагничивание
 void EnableDemagnetization()
 {
+	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x, 0>>().value, true))
+	{
+		dprint("error "__FUNCTION__"\n");
+	}
 }
 ///TODO включить размагничивание
 void DisableDemagnetization()
 {
+	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x, 0>>().value, false))
+	{
+		dprint("error "__FUNCTION__"\n");
+	}
 }
-/*
-int Asu::SendData(ComPort &comPort
-		, char (&numberTube)[9]
-	, int crossBrak, int crossClass2
-		, int longBrak, int longClass2
-		, int thickBrak, int thickClass2
-		, int lengthTube
-		, int cutZone1, int cutZone2
-		, int resultCommon
-		, char solidGroupTube
-		)
-*/
+
 void WorkACS(char (&numberTube)[9])
 {
 	using namespace AutomatN;
@@ -397,10 +457,10 @@ void WorkACS(char (&numberTube)[9])
 
 void StoredData(bool tubeMode)
 {
-	 if(tubeMode)
-	 {
-		 Log::Mess<LogMess::storedDataBase>();
-	 }
+	if(tubeMode)
+	{
+		Log::Mess<LogMess::storedDataBase>();
+	}
 }
 
 #undef TEST_MESS

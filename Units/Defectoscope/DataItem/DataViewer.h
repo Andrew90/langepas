@@ -74,8 +74,8 @@ template<class T>struct DataViewer: DefectData
 	void Do(int zone, int channel)
 	{
 		ItemData<T> &d = Singleton<ItemData<T> >::Instance();
-		int stop = d.offsets[1 + zone];
-		if(stop >  d.currentOffset) stop =  d.currentOffset;
+		//int stop = d.offsets[1 + zone];
+		//if(stop >  d.currentOffsetZones) stop =  d.currentOffsetZones;
 
 		int widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T>>().value;
 		if(0 != widthFiltre)
@@ -83,7 +83,7 @@ template<class T>struct DataViewer: DefectData
 			widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T>>().value;
 		}
 
-		Set(d.offsets[zone], stop, d.ascan[channel], StatusId<Clr<BorderKlass2<T>>>(), StatusId<Clr<BorderDefect<T>>>(), widthFiltre
+		Set(d.offsets[zone], d.offsets[1 + zone], d.ascan[channel], StatusId<Clr<BorderKlass2<T>>>(), StatusId<Clr<BorderDefect<T>>>(), widthFiltre
 			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequencyOn<T>>().value
 			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequency<T>>().value
 			);

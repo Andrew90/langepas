@@ -522,6 +522,9 @@
     <ClCompile Include="Compute\ComputeResult.cpp">
       <Filter>Compute</Filter>
     </ClCompile>
+    <ClCompile Include="Dialogs\AdditionalParams502Dlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

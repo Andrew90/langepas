@@ -131,6 +131,8 @@ namespace MainWindowMenu
 	struct ComPort__  : ComPortDlg{};
 	struct OffsetsSens : OffsetSensorDlg{};
 
+	struct AdditionalParams: AdditionalParamsDlg{};
+
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
 	MENU_ITEM(L"Входные порты плата 1", DiscretePlateInputs)
 	MENU_ITEM(L"Выодные порты плата 1", DiscretePlateOutputs)
@@ -150,6 +152,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Цвета", ColorItems)
 	MENU_ITEM(L"Ком-порт", ComPort__)
 	MENU_ITEM(L"Смещение датчиков наличия трубы в модуле", OffsetsSens)
+	MENU_ITEM(L"Дополнительные параметры", AdditionalParams)
 	
 	template<>struct SubMenu<AnalogPlate__>
 	{
@@ -169,27 +172,15 @@ namespace MainWindowMenu
 		>::Result list;
 	};
 
-	//MENU_TEXT(L"Настройки лир", SubMenu<Lir__>)
-	//MENU_ITEM(L"Дискриптор лир", LirDescriptorDlg)
-//	MENU_ITEM(L"Датчики лир", LirDlg)
-
-	//template<>struct SubMenu<Lir__>
-	//{
-	//	//typedef TL::TypeToTypeLst<
-	//	//	typename TL::MkTlst<LirDescriptorDlg, LirDlg>::Result 
-	//	//	, MenuItem
-	//	//>::Result list;
-	//};
-
 	template<>struct TopMenu<Setting>
 	{
 		typedef TL::MkTlst<
 			 SubMenu<DiscretePlate>	
 			 , SubMenu<AnalogPlate__>
-			// , SubMenu<Lir__>
 			, MenuItem<ComPort__>
 			, MenuItem<ColorItems>
 			, MenuItem<OffsetsSens>
+			, MenuItem<AdditionalParams>
 		>::Result list;		
 	};
 	// ----------------------------------------------------------------------------------------------------

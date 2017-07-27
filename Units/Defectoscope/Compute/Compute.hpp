@@ -6,7 +6,7 @@ template<class T>class ComputeUnit
 public:
 	void Clear()
 	{
-		lastZone = 0;
+		lastZone = 1;
 	}
 	bool Zones(unsigned currentZone)
 	{

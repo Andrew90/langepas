@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Emu", "Units\Emu\Emu.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCuttingZones", "Tests\TestCuttingZones\TestCuttingZones.vcxproj", "{311A436B-6CB0-4EA7-AF98-B5C452E63E22}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testMess", "Tests\testMess\testMess.vcxproj", "{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -65,6 +67,10 @@ Global
 		{311A436B-6CB0-4EA7-AF98-B5C452E63E22}.Debug|Win32.Build.0 = Debug|Win32
 		{311A436B-6CB0-4EA7-AF98-B5C452E63E22}.Release|Win32.ActiveCfg = Release|Win32
 		{311A436B-6CB0-4EA7-AF98-B5C452E63E22}.Release|Win32.Build.0 = Release|Win32
+		{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}.Debug|Win32.Build.0 = Debug|Win32
+		{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}.Release|Win32.ActiveCfg = Release|Win32
+		{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

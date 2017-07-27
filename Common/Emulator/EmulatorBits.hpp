@@ -82,14 +82,14 @@ template<class Table, class T>struct __out_bit__<Table, On<T>>
 {
 	bool operator()(unsigned &b)
 	{
-		return 0 != (b & Singleton<Table>::Instance().items.get<T>().value);
+		return 0 == (b & Singleton<Table>::Instance().items.get<T>().value);
 	}		
 };
 template<class Table, class T>struct __out_bit__<Table, Off<T>>
 {
-	void operator()(unsigned &b)
+	bool operator()(unsigned &b)
 	{
-		return 0 == (b & Singleton<Table>::Instance().items.get<T>().value);
+		return 0 != (b & Singleton<Table>::Instance().items.get<T>().value);
 	}		
 };
 

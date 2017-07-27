@@ -221,9 +221,11 @@ template<class O, class P>struct __skip__
 {
 	void operator()(P &p)
 	{
-		if(0 != (TL::IndexOf<StatusMessages::lst_lst::skip_list, O>::value & p))
+		static unsigned skipBit = 1 << TL::IndexOf<StatusMessages::lst_lst::skip_list, O>::value;
+		if(0 != (skipBit & p))
 		{
-			p &=~O::value;
+			if(0 != (p & O::value))p &=~skipBit;
+		  // p &=~ O::value;
 		}
 	}
 };
@@ -261,7 +263,6 @@ void StatusText::FromSensors(unsigned *sens, unsigned &color, bool &visible, wch
 		
 		 visible = !(TL::IndexOf<StatusMessages::lst_lst::lst_list, TL::MkTlst<Undefined>::Result>::value == id 
 			 || TL::IndexOf<StatusMessages::lst_lst::lst_list, TL::MkTlst<DeathZone>::Result>::value == id);
-		 dprint("StatusText::FromSensors  id=%d visible=%d\n", id, visible);
 	}
 
 unsigned StatusColor::operator()(unsigned id)

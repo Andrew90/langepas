@@ -22,7 +22,7 @@ template<int SENS>struct PrimaryData
 	int currentOffset;	  //счётчик кадров
 	int currentOffsetZones;	 //счётчик собранных зон
 	//int currentTimeOffset;	//счётчик считанных кадров с ацп
-	int deadSamplesBegin, deadSamplesEnd;
+	int deadSamplesBegin, deadSamplesEnd;		//TODO удалить
 	double ascan[SENS][App::count_frames];	 //кадры с ацп
 	unsigned offsets[1 + App::count_zones];		  //смещение кадров по зонам
 	double buffer[SENS][App::count_zones];	 //значение в зоне

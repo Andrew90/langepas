@@ -4,6 +4,8 @@
 #include "App/AppBase.h"
 #include "DataItem\DataItem.h"
 #include "MessageText\StatusMessages.h"
+#include "lir\SubLir.h"
+#include "Compute\Compute.hpp"
 
 namespace
 {
@@ -72,19 +74,50 @@ void ComputeResult()
 
 	ResultData &resultData = Singleton<ResultData>::Instance();
 
-	for(int i = 0; i < App::count_zones; ++i)
+    SubLir &lir = Singleton<SubLir>::Instance();
+
+	//Расчёт мёртвой зоны конец
+	Module<Cross> &moduleCross = lir.moduleItems.get<Module<Cross>>();
+	moduleCross.Stop();
+	
+	int len = moduleCross.zonesOffs;
+	
+	Module<Long> &moduleLong = lir.moduleItems.get<Module<Long>>();
+	if(isLong)
+	{
+		moduleLong.Stop();
+		if(moduleLong.zonesOffs < len) len = moduleLong.zonesOffs;
+	}
+
+	longData.currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
+	crossData.currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
+
+	if(isTick) if(thickData.currentOffsetZones < len) len = thickData.currentOffsetZones;
+
+	moduleCross.zonesOffs = len;
+	moduleLong.zonesOffs = len;
+	thickData.currentOffsetZones = len;
+
+	crossData.currentOffsetZones = len;
+	thickData.currentOffsetZones = len;
+	resultData.currentOffsetZones = len;
+
+	ComputeUnit<Cross>().DeathZonesEnd(len);
+	if(isLong)ComputeUnit<Long>().DeathZonesEnd(len);
+
+	for(int i = 0; i < len; ++i)
 	{
 		int last = 0;
 		for(int j = 0; j < countCrossSensors; ++j)
 		{
 			st[last++] = (i < crossData.currentOffsetZones) ? crossData.status[j][i]: StatusId<Clr<Undefined>>();
 		}
-
+		
 		if(isTick)
 		{
 			st[last++] = (i < thickData.currentOffsetZones) ? thickData.status[i]: StatusId<Clr<Undefined>>();
 		}
-
+		
 		if(isLong)
 		{
 			for(int j = 0; j < App::count_long_sensors; ++j)
@@ -98,10 +131,6 @@ void ComputeResult()
 		resultData.status[i] = ResultMessageId(st);
 	}
 
-	int len = crossData.currentOffsetZones;
-	if(isTick) if(len < thickData.currentOffsetZones) len = thickData.currentOffsetZones;
-	if(isLong) if(len < longData.currentOffsetZones) len = longData.currentOffsetZones;
-	resultData.currentOffsetZones = len;
 	CuttingZones(); /// зоны реза
 }
 
