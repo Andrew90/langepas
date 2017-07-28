@@ -76,3 +76,77 @@ public:
 	typedef typename to_lst<num_list>::Result lst_list;
 };
 
+namespace StatusMessages
+{
+	template<class List, class Sub>struct Bits;
+	template<class List, class Head, class Tail>struct Bits<List, Tlst<Head, Tail> >
+	{
+		static const unsigned value = (1 << TL::IndexOf<List, Head>::value) | Bits<List, Tail>::value;
+	};
+	template<class List>struct Bits<List, NullType>
+	{
+		static const unsigned value = 0;
+	};
+	template<class T>struct ItemSkipX;
+
+#define SKIP(item, ...)template<>struct ItemSkipX<item>{static const unsigned value = Bits<status_list, typename TL::MkTlst<__VA_ARGS__>::Result>::value;};
+	
+	template<>struct ItemSkipX<DeathZone>{static const unsigned value = 0;};
+	SKIP(Undefined
+		, DeathZone
+		, Nominal			   
+		, BorderKlass2<Thick> 
+		, BorderKlass3<Thick> 
+		, BorderDefect<Thick> 
+		, BorderKlass2<Cross> 
+		, BorderDefect<Cross> 
+		, BorderKlass2<Long> 
+		, BorderDefect<Long> 
+		)
+
+		SKIP(Nominal
+		, DeathZone
+		, BorderKlass3<Thick> 
+		, BorderKlass2<Thick> 
+		, BorderDefect<Thick> 
+		, BorderKlass2<Cross> 
+		, BorderDefect<Cross> 
+		, BorderKlass2<Long> 
+		, BorderDefect<Long> 
+		)
+
+		SKIP(BorderKlass2<Thick>
+		, DeathZone
+		, BorderKlass3<Thick> 
+		, BorderDefect<Thick> 
+		)
+		SKIP(BorderKlass3<Thick>
+		, DeathZone
+		, BorderDefect<Thick> 
+		)
+		SKIP(BorderDefect<Thick>
+		, DeathZone
+		)
+
+		SKIP(BorderKlass2<Cross>
+		, DeathZone
+		, BorderDefect<Cross> 
+		)
+		SKIP(BorderDefect<Cross>
+		, DeathZone
+		)
+
+		SKIP(BorderKlass2<Long>
+		, DeathZone
+		, BorderDefect<Long> 
+		)
+		SKIP(BorderDefect<Long>
+		, DeathZone
+		)
+#undef SKIP
+
+	typedef GenList<status_list, ItemSkipX> lst_lst;
+	typedef lst_lst::lst_list list_items;
+}
+#define STATUS_ID(...)TL::IndexOf<StatusMessages::list_items, TL::MkTlst<__VA_ARGS__>::Result>::value
+

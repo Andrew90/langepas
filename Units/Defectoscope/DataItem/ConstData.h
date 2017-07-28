@@ -3,5 +3,5 @@
 namespace ConstData{
 		
 	void Init();
-	unsigned ZoneColor(unsigned );
+	//unsigned ZoneColor(unsigned );
 }

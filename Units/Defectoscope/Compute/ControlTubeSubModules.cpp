@@ -16,6 +16,7 @@
 #include "DataItem\DataItem.h"
 #include "App\Config.h"
 #include "window_tool\EmptyWindow.h"
+#include "MessageText\ListMess.hpp"
 
 #define TEST_MESS(n) if(TEST_IN_BITS(On<n>)){Log::Mess<LogMess::n##Mess>(); /*throw ExceptionAlarm();*/return;}
 
@@ -259,19 +260,19 @@ void GetDataFromThicknessModule()
 				double t = data.buffer[i] = 0.1 * zones[i];
 				if(data.brak > t)
 				{
-					res[0] = StatusId<Clr<BorderDefect<Thick>>>();
+					res[0] = STATUS_ID(BorderDefect<Thick>);//StatusId<Clr<BorderDefect<Thick>>>();
 				}
 				else if(data.class3 > t)
 				{
-					res[0] = StatusId<Clr<BorderKlass3<Thick>>>();
+					res[0] = STATUS_ID(BorderKlass3<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
 				}
 				else if(data.class2 > t)
 				{
-					res[0] = StatusId<Clr<BorderKlass2<Thick>>>();
+					res[0] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass2<Thick>>>();
 				}
 				else
 				{
-					res[0] =  StatusId<Clr<Nominal>>();
+					res[0] =  STATUS_ID(Nominal);//StatusId<Clr<Nominal>>();
 				}
 				data.status[i] = ResultMessageId(res);
 			}

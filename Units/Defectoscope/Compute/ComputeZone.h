@@ -5,23 +5,21 @@
 #include "Filtre\MedianFiltre.h"
 #include "DspFilters\ChebyshevFiltre.h"
 #include "MessageText\StatusMessages.h"
+#include "MessageText\ListMess.hpp"
 
 static const int AnalogFiltre_bufSize = 10 * 1024;
 
-//template<class T>
 struct AnalogFiltre
 {
 	double buf[AnalogFiltre_bufSize];
 	void operator()(double *&start, double *&stop, bool CutoffFrequencyOn, int CutoffFrequency)
 	{
-		//if(Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequencyOn<T>>().value)
 		if(CutoffFrequencyOn)
 		{
 			ChebyshevFiltre dsp;
 			dsp.Setup(
 				Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value
 				, 3
-				//, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequency<T>>().value
 				, CutoffFrequency
 				, 40
 				);
@@ -40,9 +38,7 @@ struct AnalogFiltre
 
 template<class T>struct ComputeZone
 {
-	bool operator()(//double(&bufx)[AnalogFiltre_bufSize], char(&statusx)[AnalogFiltre_bufSize]
-	 //unsigned &countx, 
-	 unsigned zone, unsigned sensor)//, int width)
+	bool operator()(unsigned zone, unsigned sensor)
 	{
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
@@ -66,8 +62,7 @@ template<class T>struct ComputeZone
 		char &statusResult =  item.status[sensor][zone - 1];
 		double &valueResult = item.buffer[sensor][zone - 1];
 
-		unsigned t[] = {TL::IndexOf<status_list, Nominal>::value, -1};
-		statusResult = ResultMessageId(t);
+		statusResult =  STATUS_ID(Nominal);
 		valueResult = 0;
 
 		MedianFiltre filtre;
@@ -86,17 +81,15 @@ template<class T>struct ComputeZone
 
 			double val = filtreOn ? filtre(*i) : *i;
 
-			if(borderDefect < val)st = TL::IndexOf<status_list, BorderDefect<T> >::value;
-			else if(borderKlass2 < val)st = TL::IndexOf<status_list, BorderKlass2<T> >::value; 
+			if(borderDefect < val)st =  STATUS_ID(BorderDefect<T>);
+			else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>); 
 
 			if(val > valueResult)
 			{
 				valueResult = val;
-				unsigned t[] = {st, -1};
-				statusResult = ResultMessageId(t);
+				statusResult = st;
 			}
 		}
-				 ..
 		return true;
 	}
 };
@@ -116,8 +109,6 @@ template<>struct __stop__ <Cross>
 
 template<class T>struct ComputeZoneBegin
 {
-	//bool operator()(double(&xbuf)[AnalogFiltre_bufSize], char(&xstatus)[AnalogFiltre_bufSize]
-	//, unsigned &xcount, unsigned zone, unsigned sensor, int width)
 	bool operator()(unsigned sensor)
 	{
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
@@ -137,8 +128,6 @@ template<class T>struct ComputeZoneBegin
 		double d = double(remains) / App::zone_length;
 		d = 1.0 - d;
 
-
-
 		double *startZone = &item.ascan[sensor][item.offsets[full]] + int(d * ( &item.ascan[sensor][item.offsets[1 + full]] -  &item.ascan[sensor][item.offsets[full]]));
 		double *stopZone = &item.ascan[sensor][item.offsets[1 + full]];
 
@@ -146,12 +135,7 @@ template<class T>struct ComputeZoneBegin
 		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
 
-		
-
-		//double *i = startZone;
-
 		MedianFiltre filtre;
-		//filtre.Init(width, startZone - width);
 		MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
 		bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
 		if(filtreOn)
@@ -171,33 +155,28 @@ template<class T>struct ComputeZoneBegin
 		char &statusResult =  item.status[sensor][full];
 		double &valueResult = item.buffer[sensor][full];	
 
-		unsigned t[] = {TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value, -1};
-		statusResult = ResultMessageId(t);
+		statusResult = STATUS_ID(Nominal);
 		valueResult = 0;
 
 		for(double *i = startZone; i < stopZone; ++i)
 		{
-			int st = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value; 
+			int st = STATUS_ID(Nominal); 
 
 			double val = filtreOn ? filtre(*i) : *i;
 
-			if(borderDefect < val)st = TL::IndexOf<ColorTable::items_list, Clr<BorderDefect<T> >>::value;
-			else if(borderKlass2 < val)st = TL::IndexOf<ColorTable::items_list, Clr<BorderKlass2<T> >>::value; 
+			if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
+			else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>);
 
 			if(val > valueResult)
 			{
 				valueResult = val;
-				unsigned t[] = {st, -1};
-				statusResult = ResultMessageId(t);
+				statusResult = st;
 			}
 		}
 
-		unsigned _dz_[] = {TL::IndexOf<ColorTable::items_list, Clr<DeathZone>>::value, -1};
-		int dz = ResultMessageId(_dz_);
-
 		for(int i = 0; i < full; ++i)
 		{
-			item.status[sensor][i] = dz;
+			item.status[sensor][i] = STATUS_ID(DeathZone);
 		}
 
 		return true;
@@ -231,8 +210,7 @@ template<class T>struct ComputeZoneEnd
 		char &statusResult =  item.status[sensor][offs];
 		double &valueResult = item.buffer[sensor][offs];
 
-		unsigned t[] = {TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value, -1};
-		statusResult = ResultMessageId(t);
+		statusResult = STATUS_ID(Nominal);
 		valueResult = 0;
 
 		MedianFiltre filtre;
@@ -246,28 +224,23 @@ template<class T>struct ComputeZoneEnd
 
 		for(double *i = startZone; i < stopZone; ++i)
 		{
-			int st = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value; 
+			int st = STATUS_ID(Nominal); 
 
 			double val = filtreOn ? filtre(*i): *i;
 
-			if(borderDefect < val)st = TL::IndexOf<ColorTable::items_list, Clr<BorderDefect<T> >>::value;
-			else if(borderKlass2 < *i)st = TL::IndexOf<ColorTable::items_list, Clr<BorderKlass2<T> >>::value; 
+			if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
+			else if(borderKlass2 < *i)st = STATUS_ID(BorderKlass2<T>);
 
 			if(val > valueResult)
 			{
 				valueResult = val;
-				unsigned t[] = {st, -1};
-				statusResult = ResultMessageId(t);
+				statusResult = st;
 			}
 		}
 
-		unsigned _dz_[] = {TL::IndexOf<ColorTable::items_list, Clr<DeathZone>>::value, -1};
-
-		int dz = ResultMessageId(_dz_);
-
 		for(int i = offs; i < (int)zone; ++i)
 		{
-			item.status[sensor][i] = dz;
+			item.status[sensor][i] = STATUS_ID(DeathZone);
 		}
 		return true;
 	}
