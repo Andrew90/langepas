@@ -225,7 +225,7 @@ template<class O, class P>struct __skip__
 		if(0 != (skipBit & p))
 		{
 			if(0 != (p & O::value))p &=~skipBit;
-		  // p &=~ O::value;
+		 //  p &=~ O::value;
 		}
 	}
 };

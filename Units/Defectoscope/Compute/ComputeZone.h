@@ -66,7 +66,7 @@ template<class T>struct ComputeZone
 		char &statusResult =  item.status[sensor][zone - 1];
 		double &valueResult = item.buffer[sensor][zone - 1];
 
-		unsigned t[] = {TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value, -1};
+		unsigned t[] = {TL::IndexOf<status_list, Nominal>::value, -1};
 		statusResult = ResultMessageId(t);
 		valueResult = 0;
 
@@ -82,12 +82,12 @@ template<class T>struct ComputeZone
 
 		for(double *i = startZone; i < stopZone; ++i)
 		{
-			int st = TL::IndexOf<ColorTable::items_list, Clr<Nominal>>::value; 
+			int st = TL::IndexOf<status_list, Nominal>::value; 
 
 			double val = filtreOn ? filtre(*i) : *i;
 
-			if(borderDefect < val)st = TL::IndexOf<ColorTable::items_list, Clr<BorderDefect<T> >>::value;
-			else if(borderKlass2 < val)st = TL::IndexOf<ColorTable::items_list, Clr<BorderKlass2<T> >>::value; 
+			if(borderDefect < val)st = TL::IndexOf<status_list, BorderDefect<T> >::value;
+			else if(borderKlass2 < val)st = TL::IndexOf<status_list, BorderKlass2<T> >::value; 
 
 			if(val > valueResult)
 			{
@@ -96,7 +96,7 @@ template<class T>struct ComputeZone
 				statusResult = ResultMessageId(t);
 			}
 		}
-
+				 ..
 		return true;
 	}
 };
