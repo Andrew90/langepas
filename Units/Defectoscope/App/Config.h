@@ -1,11 +1,11 @@
-#pragma once
-#pragma message("ПОДКЛЮЧЕНИЕ ПЛАТ РАСШИРЕНИЯ!!!")
-//undef DEBUG_ITEMS - ПОДключение платы: 1730
-//define DEBUG_ITEMS - ОТключение платы: 1730
-#define DEBUG_ITEMS
+п»ї#pragma once
+#pragma message("РџРћР”РљР›Р®Р§Р•РќРР• РџР›РђРў Р РђРЎРЁРР Р•РќРРЇ!!!")
+//undef DEBUG_ITEMS - РџРћР”РєР»СЋС‡РµРЅРёРµ РїР»Р°С‚С‹: 1730
+//define DEBUG_ITEMS - РћРўРєР»СЋС‡РµРЅРёРµ РїР»Р°С‚С‹: 1730
+#undef DEBUG_ITEMS
 
 #ifndef DEBUG_ITEMS
-#pragma message("подключены платы 1730, USPC")
+#pragma message("РїРѕРґРєР»СЋС‡РµРЅС‹ РїР»Р°С‚С‹ 1730, USPC")
 #endif
 
 #define THREAD_PRIORITY

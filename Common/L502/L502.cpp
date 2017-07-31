@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "L502.h"
 #include "App/AppBase.h"
 #include "App/Config.h"
@@ -35,9 +35,9 @@ bool L502::Init()
 
 void L502::Destroy()
 {
-	 /* закрываем связь с модулем */
+	 /* Р·Р°РєСЂС‹РІР°РµРј СЃРІСЏР·СЊ СЃ РјРѕРґСѓР»РµРј */
         L502_Close((t_l502_hnd)hnd);
-        /* освобождаем описатель */
+        /* РѕСЃРІРѕР±РѕР¶РґР°РµРј РѕРїРёСЃР°С‚РµР»СЊ */
         L502_Free((t_l502_hnd)hnd);
 }
 
@@ -68,8 +68,8 @@ bool L502::SetupParams()
 	int err = L502_SetLChannelCount((t_l502_hnd)hnd, buf_size);
 	for (int i=0; (i < buf_size) && !err; i++)
         err = L502_SetLChannel((t_l502_hnd)hnd, i, f_channels[i], f_ch_modes[i], f_ch_ranges[i], 0);
-	/* устанавливаем частоты ввода для АЦП и цифровых входов */
-	int ADC_FREQ = Singleton<L502ParametersTable>::Instance().items.get<Frequency502>().value;
+	/* СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‡Р°СЃС‚РѕС‚С‹ РІРІРѕРґР° РґР»СЏ РђР¦Рџ Рё С†РёС„СЂРѕРІС‹С… РІС…РѕРґРѕРІ */
+	int ADC_FREQ = Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value;
 	double f_adc = ADC_FREQ;
 	double f_frame = (double)ADC_FREQ/buf_size;
     if (!err)
@@ -77,14 +77,14 @@ bool L502::SetupParams()
         err = L502_SetAdcFreq((t_l502_hnd)hnd, &f_adc, &f_frame);
     }
 
-    /* записываем настройки в модуль */
+    /* Р·Р°РїРёСЃС‹РІР°РµРј РЅР°СЃС‚СЂРѕР№РєРё РІ РјРѕРґСѓР»СЊ */
     if (!err)
 	{
 		dprint("frequency adc = %0.0f frequency chenell = %0.0f", f_adc, f_frame);
         err = L502_Configure((t_l502_hnd)hnd, 0);
 	}
 
-    /* разрешаем синхронные потоки */
+    /* СЂР°Р·СЂРµС€Р°РµРј СЃРёРЅС…СЂРѕРЅРЅС‹Рµ РїРѕС‚РѕРєРё */
     if (!err)
     {
         err = L502_StreamsEnable((t_l502_hnd)hnd, L502_STREAM_ADC);
@@ -102,7 +102,7 @@ int L502::Start()
 
 int L502::Stop()
 {
-	/* останавливаем поток сбора данных (независимо от того, была ли ошибка) */
+	/* РѕСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕС‚РѕРє СЃР±РѕСЂР° РґР°РЅРЅС‹С… (РЅРµР·Р°РІРёСЃРёРјРѕ РѕС‚ С‚РѕРіРѕ, Р±С‹Р»Р° Р»Рё РѕС€РёР±РєР°) */
 	int err = L502_StreamsStop((t_l502_hnd)hnd);
 	if (err)
 	{
@@ -130,27 +130,27 @@ int L502::Read(unsigned &startChannel, double *data, unsigned &count)
 }
 bool L502::ReadAsync(unsigned ch, int range, double &value)
 {
-	/* устанавливаем 1 логический канал в управляющей таблице */
-	int32_t err = X502_SetLChannelCount(hnd, 1);
-	if (err == X502_ERR_OK) {
-		/* логический канал соответствует измерению 7 канала
-		в диф. режиме */
-		err = X502_SetLChannel(hnd,0 ,ch,X502_LCH_MODE_COMM,range,0);
+	/* СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј 1 Р»РѕРіРёС‡РµСЃРєРёР№ РєР°РЅР°Р» РІ СѓРїСЂР°РІР»СЏСЋС‰РµР№ С‚Р°Р±Р»РёС†Рµ */
+	int32_t err = L502_SetLChannelCount((t_l502_hnd)hnd, 1);
+	if (err == L502_ERR_OK) {
+		/* Р»РѕРіРёС‡РµСЃРєРёР№ РєР°РЅР°Р» СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РёР·РјРµСЂРµРЅРёСЋ 7 РєР°РЅР°Р»Р°
+		РІ РґРёС„. СЂРµР¶РёРјРµ */
+		err = L502_SetLChannel((t_l502_hnd)hnd,0 ,ch,L502_LCH_MODE_COMM,range,0);
 	}
-	if (err == X502_ERR_OK) {
-		/* передаем настройки в модуль */
-		err = X502_Configure(hnd,0);
+	if (err == L502_ERR_OK) {
+		/* РїРµСЂРµРґР°РµРј РЅР°СЃС‚СЂРѕР№РєРё РІ РјРѕРґСѓР»СЊ */
+		err = L502_Configure((t_l502_hnd)hnd,0);
 	}
-	if (err == X502_ERR_OK) {
-		/* Считываем кадр данных АЦП из одного отсчета */
-		return X502_ERR_OK == X502_AsyncGetAdcFrame((t_l502_hnd)hnd, X502_PROC_FLAGS_VOLT, 1000, &value);
+	if (err == L502_ERR_OK) {
+		/* РЎС‡РёС‚С‹РІР°РµРј РєР°РґСЂ РґР°РЅРЅС‹С… РђР¦Рџ РёР· РѕРґРЅРѕРіРѕ РѕС‚СЃС‡РµС‚Р° */
+		return L502_ERR_OK == L502_AsyncGetAdcFrame((t_l502_hnd)hnd, L502_PROC_FLAGS_VOLT, 1000, &value);
 	}
 	return false;
 }
 bool L502::BitOut(unsigned ch, bool value)
 {
 	unsigned bits = 1 << ch;
-	return X502_ERR_OK == int32_t X502_AsyncOutDig((t_l502_hnd)hnd, value ? bits: 0, ~bits);
+	return L502_ERR_OK == L502_AsyncOutDig((t_l502_hnd)hnd, value ? bits: 0, ~bits);
 }
 #else
 #include "Emulator\Emulator.h"
