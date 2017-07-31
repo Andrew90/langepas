@@ -130,11 +130,11 @@ void Device1730::WriteOutput(unsigned output, unsigned maska)
 	 Write(t);
 }
 
+
+#endif
+
 void Device1730::AddBits(unsigned val)
 {
-	unsigned t = ReadOutput();
-	val |= t;
-	Write(val);
+	Write(val | ReadOutput());
 }
-#endif
 

@@ -12,5 +12,5 @@
 
 #define CLIENT
 
-#define EMUL
+#undef EMUL
 

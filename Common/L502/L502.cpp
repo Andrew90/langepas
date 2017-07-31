@@ -58,20 +58,20 @@ namespace
 bool L502::SetupParams()
 {
 	static const int buf_size = TL::Length<L502RangeTable::items_list>::value;
-	int f_channels[buf_size];
-	TL::foreach<L502RangeTable::items_list, __set_array__<L502RangeTable::items_list>::loc>()(&Singleton<L502RangeTable>::Instance().items, f_channels);
+	
+	int f_ch_ranges[buf_size];
+	TL::foreach<L502RangeTable::items_list, __set_array__<L502RangeTable::items_list>::loc>()(&Singleton<L502RangeTable>::Instance().items, f_ch_ranges);
 	int f_ch_modes[buf_size];
 	for(int i = 0; i < buf_size; ++i) f_ch_modes[i] = L502_LCH_MODE_COMM;
-	int f_ch_ranges[buf_size];
-	TL::foreach<L502OffsetsTable::items_list, __set_array__<L502OffsetsTable::items_list>::loc>()(&Singleton<L502OffsetsTable>::Instance().items, f_ch_ranges);
-
+	int f_channels[buf_size];
+	TL::foreach<L502OffsetsTable::items_list, __set_array__<L502OffsetsTable::items_list>::loc>()(&Singleton<L502OffsetsTable>::Instance().items, f_channels);
 	int err = L502_SetLChannelCount((t_l502_hnd)hnd, buf_size);
 	for (int i=0; (i < buf_size) && !err; i++)
         err = L502_SetLChannel((t_l502_hnd)hnd, i, f_channels[i], f_ch_modes[i], f_ch_ranges[i], 0);
 	/* устанавливаем частоты ввода для АЦП и цифровых входов */
 	int ADC_FREQ = Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value;
-	double f_adc = ADC_FREQ;
-	double f_frame = (double)ADC_FREQ/buf_size;
+	double f_adc = ADC_FREQ * buf_size;
+	double f_frame = (double)ADC_FREQ;
     if (!err)
     {
         err = L502_SetAdcFreq((t_l502_hnd)hnd, &f_adc, &f_frame);
