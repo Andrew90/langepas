@@ -6,8 +6,8 @@
 class IOportsWindow
 {
 public:
-	static const int width = 400;
-	static const int height = 200;
+	static const int width = 980;
+	static const int height = 730;
 	Gdiplus::Bitmap *backScreen;
 public:
 	IOportsViewer viewer;

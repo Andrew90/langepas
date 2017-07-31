@@ -46,7 +46,8 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 		if(NULL != dataViewer.data && offs < dataViewer.count)
 		{
 			data = DefVal<typename T::sub_type>()(dataViewer.data[offs], offs);
-			color = ConstData::ZoneColor(dataViewer.status[offs]);
+			//color = ConstData::ZoneColor(dataViewer.status[offs]);
+			color = StatusColor()(dataViewer.status[offs]);
 			return true;
 		}
 		return false;

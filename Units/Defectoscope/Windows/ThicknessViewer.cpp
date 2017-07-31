@@ -96,7 +96,8 @@ void ThickViewer::operator()(TSize &l)
 bool ThickViewer::GetColorBar(int zone, double &data, unsigned &color)
 {
 	data = viewerData.buffer[zone];
-	color = ConstData::ZoneColor(viewerData.status[zone]);
+	//color = ConstData::ZoneColor(viewerData.status[zone]);
+	color = StatusColor()(viewerData.status[zone]);
 	return zone < viewerData.currentOffsetZones - 1;
 }
 

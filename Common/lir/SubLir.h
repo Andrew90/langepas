@@ -196,6 +196,7 @@ template<template<class, int>class W, int N>struct Stop<W<Cross, N>>
 
 struct Zones
 {
+	//Zones::Do(p.lir, t/*p.sq.time*/, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
 	static void Do(SubLir &lir, unsigned sq_time, double sq_perSamples
 		, int  &module_zonesOffs, unsigned *module_zones
 		, int &module_framesOffs_, double &module_rem
@@ -217,8 +218,12 @@ struct Zones
 			if(module_rem > App::zone_length)
 			{
 				module_rem -= App::zone_length;
-				double d = module_rem / App::zone_length;
+				double d = 1.0 - module_rem / App::zone_length;
+
+				dprint("module rem  %d %f  %f\n", module_zonesOffs, module_rem, d);
+
 				module_zones[module_zonesOffs] = samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
+				//dprint("len<<<<>>>>>xx  %d  %d\n", module_zonesOffs, samples[module_zonesOffs] - samples[module_zonesOffs - 1]);
 				if(module_zonesOffs < 1 + App::count_zones)	++module_zonesOffs;
 			}
 			module_rem += (tick[i] - tick[i - 1]) * sq_perSamples;
@@ -236,7 +241,7 @@ template<class T>struct __sq__
 		sq.time = Performance::Counter();
 		lir.offset[lir.timeIndex] = sq.offs - lir.lastOffs;
 		lir.tmpPerSamples = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
-		printf("tmpPerSamples %f\n", lir.tmpPerSamples);
+		dprint("tmpPerSamples %f\n", lir.tmpPerSamples);
 		++lir.timeIndex;
 		lir.lastTime = sq.time;
 		lir.lastOffs = sq.offs;
@@ -328,7 +333,7 @@ template<class T>void Module<T>::Start()
 			zones[0] = samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
 			zonesOffs = 1;
 			framesOffs = i;
-			rem = d * (tick[i] - tick[i - 1]) * sq2.perSamples;
+			rem = (1.0 - d) * (tick[i] - tick[i - 1]) * sq2.perSamples;
 			break;
 		}
 	}	
@@ -346,8 +351,8 @@ template<class T>void Module<T>::Stop()
 	{
 		if(tick[i] < offs)
 		{
-			double dt = double(offs - tick[i]) / (tick[i + 1] - tick[i]);
-			unsigned offs = samples[i] + unsigned(dt * (samples[i + 1] - samples[i]));
+			double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
+			unsigned offs = samples[i] + unsigned(d * (samples[i + 1] - samples[i]));
 			for(int k = zonesOffs - 1; k > 0; --k)
 			{
 				if(offs > zones[k])

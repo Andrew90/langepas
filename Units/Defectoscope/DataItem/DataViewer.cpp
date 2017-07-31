@@ -70,7 +70,7 @@ void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2,
 
 		if(data[i] > brackThreshold) status[i] = borderDefect;
 		else if(data[i] > klass2Threshold) status[i] = borderKlass2;
-//		else status[i] = StatusId<Clr<Nominal>>();
+    		else status[i] = STATUS_ID(Nominal);
 	}
 }
 

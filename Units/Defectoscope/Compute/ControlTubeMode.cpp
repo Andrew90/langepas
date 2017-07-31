@@ -195,6 +195,10 @@ namespace Mode
 	{
 		ItemData<Long> &dataLong = Singleton<ItemData<Long>>::Instance();
 		ItemData<Cross> &dataCross = Singleton<ItemData<Cross>>::Instance();
+
+
+		Module<Long> &ml = lir.moduleItems.get<Module<Long>>();
+		Module<Cross> &cl = lir.moduleItems.get<Module<Cross>>();
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 		//TODO Проверка модуля размагничивания
@@ -380,15 +384,12 @@ namespace Mode
 #ifdef EMUL
 		SubLir &Xlir = lir;
 		
-		Module<Long> &ml = lir.moduleItems.get<Module<Long>>();
-		dprint("count lond modules zones %d\n", ml.zonesOffs);
-
 		
-
+		dprint("count lond modules zones %d\n", ml.zonesOffs);
 
 		for(int i = 1; i < ml.zonesOffs; ++i)
 		{
-			dprint("samples in zone %d  %d st %d\n", i, ml.zones[i] - ml.zones[i - 1], dataLong.status[0][i]);
+			dprint("samples in zone %d  %d st %d    %d\n", i, ml.zones[i] - ml.zones[i - 1], dataLong.status[0][i], cl.zones[i] - cl.zones[i - 1]);
 		}
 		dprint("count lond modules zones %d\n", ml.zonesOffs);
 		OUT_BITS(Off<oCooling>);

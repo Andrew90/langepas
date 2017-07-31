@@ -5,6 +5,7 @@
 #include "templates/typelist.hpp"
 #include "DataItem/DataItem.h"
 #include "Filtre\MedianFiltre.h"
+#include "MessageText\ListMess.hpp"
 
 struct DataVieverConst
 {
@@ -82,8 +83,8 @@ template<class T>struct DataViewer: DefectData
 		{
 			widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T>>().value;
 		}
-
-		Set(d.offsets[zone], d.offsets[1 + zone], d.ascan[channel], StatusId<Clr<BorderKlass2<T>>>(), StatusId<Clr<BorderDefect<T>>>(), widthFiltre
+		//Set(d.offsets[zone], d.offsets[1 + zone], d.ascan[channel], StatusId<Clr<BorderKlass2<T>>>(), StatusId<Clr<BorderDefect<T>>>(), widthFiltre
+		Set(d.offsets[zone], d.offsets[1 + zone], d.ascan[channel], STATUS_ID(BorderKlass2<T>), STATUS_ID(BorderDefect<T>), widthFiltre
 			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequencyOn<T>>().value
 			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequency<T>>().value
 			);
