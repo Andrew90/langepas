@@ -140,7 +140,7 @@ namespace Mode
 				dprint("time %d  %d\n", GetTickCount(), lir.moduleItems.get<Module<Cross>>().zonesOffs);
 				lir.Do();   //вызываться будет через ~100 м.сек.
 				if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
-				if(ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
+				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
 			}
 		}
 	};
@@ -359,17 +359,6 @@ namespace Mode
 			WAIT(Off<iSQ1pr>, off, Long, 1)
 			WAIT(Off<iSQ2pr>, off, Long, 2)
 		}
-
-		/////Расчёт мёртвой зоны конец
-		//Module<Cross> &moduleCross = lir.moduleItems.get<Module<Cross>>();
-		//moduleCross.Stop();
-		//ComputeUnit<Cross>().DeathZonesEnd(moduleCross.zonesOffs);
-		//if(job.get<OnTheJob<Long>>().value)
-		//{
-		//	Module<Long> &moduleLong = lir.moduleItems.get<Module<Long>>();
-		//	moduleLong.Stop();
-		//	ComputeUnit<Long>().DeathZonesEnd(moduleLong.zonesOffs);
-		//}
 
 		Log::Mess<LogMess::WaitMagneticOff>();
 		WAIT(Off<iSQ1DM>, off, Magn, 1)

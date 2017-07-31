@@ -6,6 +6,8 @@
 #include "MessageText\StatusMessages.h"
 #include "lir\SubLir.h"
 #include "Compute\Compute.hpp"
+#include "window_tool\EmptyWindow.h"
+#include "Windows\MainWindow.h"
 
 namespace
 {
@@ -132,5 +134,23 @@ void ComputeResult()
 	}
 
 	CuttingZones(); /// зоны реза
+}
+
+void Recalculation()
+{
+	SubLir &lir = Singleton<SubLir>::Instance();
+
+	ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
+	ComputeUnit<Cross>().DeathZonesBegin();
+
+	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value)
+	{
+		ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
+		ComputeUnit<Long>().DeathZonesBegin();
+	}
+
+	ComputeResult();
+
+	RepaintWindow(app.mainWindow.hWnd);
 }
 

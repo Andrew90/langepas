@@ -3,7 +3,7 @@
 #include "App/config.h"
 #include "window_tool/WindowsPosition.h"
 #include "Dialogs/Dialogs.h"
-//#include "Compute\Compute.h"
+#include "Compute\ComputeResult.h"
 
 namespace MainWindowMenu
 {
@@ -12,7 +12,7 @@ namespace MainWindowMenu
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	struct LoadDateFile {static void Do(HWND h){zprint("");}};//LoadDataDlg{};//{static void Do(HWND h){zprint("");}};
 	struct SaveDateFile {static void Do(HWND h){zprint("");}};//StoredDataDlg{};//{static void Do(HWND h){zprint("");}};
-	struct Compute_      {static void Do(HWND h){throw "дописать";/*Compute::Recompute();*/}};//RecalculationDlg{};//{static void Do(HWND h){zprint("");}};
+	struct Compute_      {static void Do(HWND h){Recalculation();}};//RecalculationDlg{};//{static void Do(HWND h){zprint("");}};
 	struct MainExit
 	{
 		static void Do(HWND h)
