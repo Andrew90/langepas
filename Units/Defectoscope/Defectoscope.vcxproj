@@ -149,6 +149,7 @@
     <ClCompile Include="Compute\ControlTubeSubModules.cpp" />
     <ClCompile Include="Compute\ExitTubeMode.cpp" />
     <ClCompile Include="Compute\ReturnTubeMode.cpp" />
+    <ClCompile Include="Compute\SaveData.cpp" />
     <ClCompile Include="Compute\Unit502.cpp" />
     <ClCompile Include="DataItem\ConstData.cpp" />
     <ClCompile Include="DataItem\DataItem.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Dialogs\PacketDlg.cpp" />
     <ClCompile Include="Dialogs\PipeThicknessDlg.cpp" />
     <ClCompile Include="Dialogs\RotationalSpeedDlg.cpp" />
+    <ClCompile Include="Dialogs\StoredDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdsDlg.cpp" />
     <ClCompile Include="Dialogs\TypeSizeDlg.cpp" />
@@ -324,6 +326,7 @@
     <ClInclude Include="Compute\ComputeZone.h" />
     <ClInclude Include="Compute\ControlMode.h" />
     <ClInclude Include="Compute\ControlTubeSubModules.h" />
+    <ClInclude Include="Compute\SaveData.h" />
     <ClInclude Include="Compute\Unit502.h" />
     <ClInclude Include="DataItem\ConstData.h" />
     <ClInclude Include="DataItem\DataItem.h" />

@@ -525,6 +525,12 @@
     <ClCompile Include="Dialogs\AdditionalParams502Dlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="Compute\SaveData.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\StoredDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1026,6 +1032,9 @@
       <Filter>Common\Devices\Emulator</Filter>
     </ClInclude>
     <ClInclude Include="Compute\ComputeResult.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\SaveData.h">
       <Filter>Compute</Filter>
     </ClInclude>
   </ItemGroup>

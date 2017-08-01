@@ -159,10 +159,10 @@ void  L502::Destroy(){}
 bool   L502::SetupParams(){return true;}
 int   L502::Start(){return 0;}
 int   L502::Stop(){return 0;}
-int L502::Read(unsigned &startChennel, double *data, unsigned &count)
+bool L502::Read(unsigned &startChennel, double *data, unsigned &count)
 {
 	Singleton<Emulator>::Instance().Read(startChennel, data, count, 50);
-	return 1;
+	return true;
 }
 bool L502::ReadAsync(unsigned ch, int, double &value)
 {

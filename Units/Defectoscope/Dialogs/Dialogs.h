@@ -76,4 +76,7 @@ DLG(OffsetSensorDlg)
 
 DLG(AdditionalParamsDlg)
 
+DLG(LoadDlg)
+DLG(SaveDlg)
+
 #undef DLG

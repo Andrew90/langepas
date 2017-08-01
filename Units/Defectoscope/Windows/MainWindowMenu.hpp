@@ -4,14 +4,15 @@
 #include "window_tool/WindowsPosition.h"
 #include "Dialogs/Dialogs.h"
 #include "Compute\ComputeResult.h"
+//#include "window_tool\EmptyWindow.h"
 
 namespace MainWindowMenu
 {
 	struct MainFile{};
 	MENU_TEXT(L"Τΰιλ", TopMenu<MainFile>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	struct LoadDateFile {static void Do(HWND h){zprint("");}};//LoadDataDlg{};//{static void Do(HWND h){zprint("");}};
-	struct SaveDateFile {static void Do(HWND h){zprint("");}};//StoredDataDlg{};//{static void Do(HWND h){zprint("");}};
+	struct LoadDateFile : LoadDlg{static void Do(HWND h){LoadDlg::Do(h); Recalculation();}};//{static void Do(HWND h){zprint("");}};//LoadDataDlg{};//{static void Do(HWND h){zprint("");}};
+	struct SaveDateFile : SaveDlg{};//{static void Do(HWND h){zprint("");}};//StoredDataDlg{};//{static void Do(HWND h){zprint("");}};
 	struct Compute_      {static void Do(HWND h){Recalculation();}};//RecalculationDlg{};//{static void Do(HWND h){zprint("");}};
 	struct MainExit
 	{
