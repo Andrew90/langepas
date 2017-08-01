@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Automat.h"
 #include "Automat.hpp"
 #include "Compute\AppKeyHandler.h"
@@ -122,7 +122,7 @@ namespace AutomatN
 		LogMess::FactoryMessages &f = LogMess::FactoryMessages::Instance();
 		char c[128];
 		f.Text(d->id, c, d->value);
-		MessageBoxA(app.mainWindow.hWnd, c, "Сообщение!!!", MB_ICONINFORMATION);
+		MessageBoxA(app.mainWindow.hWnd, c, "РЎРѕРѕР±С‰РµРЅРёРµ!!!", MB_ICONINFORMATION);
 	}
 	//----------------------------------------------------------------------------
 	static DWORD WINAPI Do(LPVOID)
@@ -144,7 +144,8 @@ namespace AutomatN
 					, Ex<ExceptionReturnTube>
 					, Ex<ExceptionExitTube>
 					, Ex<ExceptionStop>
-				)(); //кнопка начала измерений
+				)(); //РєРЅРѕРїРєР° РЅР°С‡Р°Р»Р° РёР·РјРµСЂРµРЅРёР№
+
 				(*ptrProc)(data);
 			}
 			catch(ExceptionStop)

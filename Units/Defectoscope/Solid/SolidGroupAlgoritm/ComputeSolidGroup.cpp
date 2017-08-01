@@ -65,7 +65,7 @@ namespace
 				p.solidItem.groupName = o.value;
 				p.self.groupNameList.at(o.value);
 			}
-			catch(...)
+			catch(std::out_of_range &)
 			{
 				GroupTable t;
 				int id = Select<GroupTable>(p.base).ID(o.value).Execute(t);

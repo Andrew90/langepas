@@ -13,7 +13,7 @@ public:
 	bool SetupParams();
 	int Start();
 	int Stop();
-	int Read(unsigned &startChennel, double *data, unsigned &count);
+	bool Read(unsigned &startChennel, double *data, unsigned &count);
 	bool ReadAsync(unsigned ch, int range, double &value);
 
 	bool BitOut(unsigned ch, bool value);

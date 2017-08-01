@@ -111,22 +111,21 @@ int L502::Stop()
 	return err;
 }
 
-int L502::Read(unsigned &startChannel, double *data, unsigned &count)
+bool L502::Read(unsigned &startChannel, double *data, unsigned &count)
 {
 	unsigned rcv_buf[buffer_length];
 	int cnt = L502_Recv((t_l502_hnd)hnd, rcv_buf, buffer_length, READ_TIMEOUT);
 	if(cnt > 0)
 	{
 		L502_GetNextExpectedLchNum((t_l502_hnd)hnd, &startChannel);
-		int err = L502_ProcessData((t_l502_hnd)hnd, rcv_buf, cnt, L502_PROC_FLAGS_VOLT,
-			data, &count, NULL, NULL);
-		if (err)
+		int err = L502_ProcessData((t_l502_hnd)hnd, rcv_buf, cnt, L502_PROC_FLAGS_VOLT, data, &count, NULL, NULL);
+		if (err < 0)
 		{
 			dprint("error computing date: %s", L502_GetErrorString(err));
-		}
-		return err;
+			return false;
+		}		
 	}
-	return cnt;
+	return true;
 }
 bool L502::ReadAsync(unsigned ch, int range, double &value)
 {

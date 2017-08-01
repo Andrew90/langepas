@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <limits>
 #include "ControlTubeSubModules.h"
 #include "ControlMode.h"
@@ -57,15 +57,20 @@ void TestCoilTemperature()
 #undef min
 void CheckDemagnetizeModule()
 {
-	unit502.SetupParams();
-	for(;;)
+	bool b = unit502.SetupParams();
+	if(!b)
+	{
+		Log::Mess<LogMess::unit502SetupParams>(); 
+		throw AutomatN::ExceptionAlarm();
+	}
+	for(;b;)
 	{
 		Log::Mess<LogMess::demagnetizationTesting>();
 		unit502.Start();
 		for(int i = 0; i < 5; ++i)
 		{
-			unit502.Read();
 			Sleep(200);
+			unit502.Read();
 		}
 		unit502.Stop();
 
@@ -73,8 +78,8 @@ void CheckDemagnetizeModule()
 
 		int offs = lir.currentSamples / 10;
 
-		double min =  std::numeric_limits<double>::max();
-		double max =  std::numeric_limits<double>::min();
+		double min =  1e99;//std::numeric_limits<double>::max();
+		double max =  -1e99;//std::numeric_limits<double>::min();
 
 		double *d = Singleton<ItemData<Solid>>::Instance().ascan[1];
 
@@ -88,16 +93,20 @@ void CheckDemagnetizeModule()
 		double t = (z > 0) ? 0.5 * (max + min) / z : 0;
 
 		double tresh = Singleton<AdditionalParams502Table>::Instance().items.get<Tresh<Magn, 0>>().value;
-		///если амплитуда меньше порога, либо отличие больше 20 процентов
+		///РµСЃР»Рё Р°РјРїР»РёС‚СѓРґР° РјРµРЅСЊС€Рµ РїРѕСЂРѕРіР°, Р»РёР±Рѕ РѕС‚Р»РёС‡РёРµ Р±РѕР»СЊС€Рµ 20 РїСЂРѕС†РµРЅС‚РѕРІ
 #ifndef EMUL
 		if(max < tresh || -min < tresh || t < 0.2)
 		{
 			
-			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить тест?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+			if(IDNO == MessageBox(app.mainWindow.hWnd, L"РџРѕРІС‚РѕСЂРёС‚СЊ С‚РµСЃС‚?", L"РћС€РёР±РєР° !!!", MB_ICONERROR | MB_YESNO))
 			{
 				Log::Mess<LogMess::demagnetizationNotCorrect>(); 
 				throw AutomatN::ExceptionAlarm();
 			}
+		}
+		else
+		{
+			return;
 		}
 #else
 		return;
@@ -108,7 +117,7 @@ void CheckDemagnetizeModule()
 void SettingWorkingPositionControlModules()
 {	
 	using namespace AutomatN;
-	/// \brief Проверка наличия трубы в модулях
+	/// \brief РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ С‚СЂСѓР±С‹ РІ РјРѕРґСѓР»СЏС…
 	TEST_MESS(iSQ1pr)
 	TEST_MESS(iSQ2pr)
 	TEST_MESS(iSQ1po)
@@ -148,7 +157,7 @@ void SettingWorkingPositionControlModules()
 		| (bLong ? bits.get<iRPpr>().value: bits.get<iOPpr>().value)
 		| (bThick ? bits.get<iRPt>().value: bits.get<iOPt>().value)
 		;
-	/// \brief ожидание когда модули примут рабочее положение 
+	/// \brief РѕР¶РёРґР°РЅРёРµ РєРѕРіРґР° РјРѕРґСѓР»Рё РїСЂРёРјСѓС‚ СЂР°Р±РѕС‡РµРµ РїРѕР»РѕР¶РµРЅРёРµ 
 	Log::Mess<LogMess::SettingOperatingPositionControl>();
 
 #ifdef EMUL
@@ -162,12 +171,17 @@ void SettingWorkingPositionControlModules()
 		if(inp == (t & inp)) break;
 		Sleep(100);
 	}
-	/// \brief если в течннии 300 * 100 микросекунд модули не приняли рабочее положение - выходим
+	/// \brief РµСЃР»Рё РІ С‚РµС‡РЅРЅРёРё 300 * 100 РјРёРєСЂРѕСЃРµРєСѓРЅРґ РјРѕРґСѓР»Рё РЅРµ РїСЂРёРЅСЏР»Рё СЂР°Р±РѕС‡РµРµ РїРѕР»РѕР¶РµРЅРёРµ - РІС‹С…РѕРґРёРј РёР· СЃР±РѕСЂР° РґР°РЅРЅС‹С…
 	if(inp != (t & inp))
 	{
 		Log::Mess<LogMess::ModulesInNon_OperatingPosition>();
 		throw AutomatN::ExceptionAlarm();
 	}
+}
+
+void it_does_not_work_without_it_Sleep(DWORD d)
+{
+	Sleep(d);
 }
 
 void TransferParametersThicknessModule()
@@ -182,7 +196,7 @@ void TransferParametersThicknessModule()
 	{
 		Log::Mess<LogMess::transferControlParametersThicknessGauge>();
 		OUT_BITS(On<oT_Work>);
-		Sleep(300);
+		it_does_not_work_without_it_Sleep(500);
 		ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
 		int res = Communication::Thick::TransferControlParameters(
 			comPort
@@ -201,9 +215,9 @@ void TransferParametersThicknessModule()
 		}
 		Log::Mess<LogMess::waitingThicknessGauge>();
 		AND_BITS(
-			On<iReadyT>	  /// \brief ожидание готовности толщиномера
-			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			)(); //кнопка начала измерений
+			On<iReadyT>	  /// \brief РѕР¶РёРґР°РЅРёРµ РіРѕС‚РѕРІРЅРѕСЃС‚Рё С‚РѕР»С‰РёРЅРѕРјРµСЂР°
+			, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
+			)(); //РєРЅРѕРїРєР° РЅР°С‡Р°Р»Р° РёР·РјРµСЂРµРЅРёР№
 	}
 }
 
@@ -220,7 +234,7 @@ void GetDataFromThicknessModule()
 #ifndef EMUL
 		AND_BITS(
 			On<iResultT>
-			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
 			)(120000); 		
 		for(int i = 0; i < 99; ++i)
 		{
@@ -231,12 +245,12 @@ void GetDataFromThicknessModule()
 			switch(res)
 			{
 			case Communication::ok: receiveDataOk = true; break;
-			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>(i);
-			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>(i);
-			case Communication::error_count  :  Log::Mess<LogMess::error_count>(i);
+			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
+			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
+			case Communication::error_count  :  Log::Mess<LogMess::error_count>();
 				//throw AutomatN::ExceptionAlarm();
 				AND_BITS(
-					Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+					Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
 					)(3000); 
 				receiveDataOk = false;
 				continue;
@@ -254,37 +268,37 @@ void GetDataFromThicknessModule()
 #endif
 		if(receiveDataOk)
 		{
-			unsigned res[] = {0, -1};
+			//unsigned res[] = {0, -1};
 			for(int i = 0; i < App::count_zones; ++i)
 			{
 				double t = data.buffer[i] = 0.1 * zones[i];
 				if(data.brak > t)
 				{
-					res[0] = STATUS_ID(BorderDefect<Thick>);//StatusId<Clr<BorderDefect<Thick>>>();
+					data.status[i] = STATUS_ID(BorderDefect<Thick>);//StatusId<Clr<BorderDefect<Thick>>>();
 				}
 				else if(data.class3 > t)
 				{
-					res[0] = STATUS_ID(BorderKlass3<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
+					data.status[i] = STATUS_ID(BorderKlass3<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
 				}
 				else if(data.class2 > t)
 				{
-					res[0] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass2<Thick>>>();
+					data.status[i] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass2<Thick>>>();
 				}
 				else
 				{
-					res[0] =  STATUS_ID(Nominal);//StatusId<Clr<Nominal>>();
+					data.status[i] =  STATUS_ID(Nominal);//StatusId<Clr<Nominal>>();
 				}
-				data.status[i] = ResultMessageId(res);
+				//data.status[i] = ResultMessageId(res);
 			}
 		}
 	}
 }
 
-/// \brief подготовка частотного преобразователя
+/// \brief РїРѕРґРіРѕС‚РѕРІРєР° С‡Р°СЃС‚РѕС‚РЅРѕРіРѕ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЏ
 void FrequencyInverterPreparation()
 {
 	using namespace AutomatN;
-	/// проверить биты
+	/// РїСЂРѕРІРµСЂРёС‚СЊ Р±РёС‚С‹
 #ifndef EMUL
 	if(TEST_IN_BITS(Off<iPCH_B>)){Log::Mess<LogMess::iPCH_B_OFF>();throw AutomatN::ExceptionAlarm();}
 	if(TEST_IN_BITS(Off<iPCH_RUN>)){Log::Mess<LogMess::iPCH_RUN_OFF>();throw AutomatN::ExceptionAlarm();}	
@@ -293,7 +307,7 @@ void FrequencyInverterPreparation()
 
 void FrequencyInverterRun()
 {
-	/// включить частотник
+	/// РІРєР»СЋС‡РёС‚СЊ С‡Р°СЃС‚РѕС‚РЅРёРє
 	OutputBit1Table::TItems &outputBit = Singleton<OutputBit1Table>::Instance().items;
 	RotationalSpeedTable::TItems &speed = Singleton<RotationalSpeedTable>::Instance().items;
 	unsigned outBits = outputBit.get<oPowerPCH>().value
@@ -306,7 +320,7 @@ void FrequencyInverterRun()
 	device1730_1.AddBits(outBits);
 }
 
-///TODO Установка режима работы контроллера пневмооборудования
+///TODO РЈСЃС‚Р°РЅРѕРІРєР° СЂРµР¶РёРјР° СЂР°Р±РѕС‚С‹ РєРѕРЅС‚СЂРѕР»Р»РµСЂР° РїРЅРµРІРјРѕРѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ
 void SettingOperatingModeAirConditioningController()
 {
 	using namespace AutomatN;
@@ -326,15 +340,15 @@ void SettingOperatingModeAirConditioningController()
 #endif
 
 	AND_BITS(
-		On<iWork_pnevmo>	  /// \brief iWork_pnevmo - ВКЛЮЧЕНО
-		, Off<iRevers_pnevmo>	/// \brief iRevers_pnevmo - ОТКЛЮЧЕНО
-		, Off<iError_pnevmo >	/// \brief iError_pnevmo - ОТКЛЮЧЕНО
-		, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-		, Proc<ExceptionAl<LogMess::iWork_pnevmAlarm>>	/// если нет готовности - выход
-		)(10000);  /// \brief ожидание 10 сек
+		On<iWork_pnevmo>	  /// \brief iWork_pnevmo - Р’РљР›Р®Р§Р•РќРћ
+		, Off<iRevers_pnevmo>	/// \brief iRevers_pnevmo - РћРўРљР›Р®Р§Р•РќРћ
+		, Off<iError_pnevmo >	/// \brief iError_pnevmo - РћРўРљР›Р®Р§Р•РќРћ
+		, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
+		, Proc<ExceptionAl<LogMess::iWork_pnevmAlarm>>	/// РµСЃР»Рё РЅРµС‚ РіРѕС‚РѕРІРЅРѕСЃС‚Рё - РІС‹С…РѕРґ
+		)(10000);  /// \brief РѕР¶РёРґР°РЅРёРµ 10 СЃРµРє
 }
 
-///TODO Очистка экрана
+///TODO РћС‡РёСЃС‚РєР° СЌРєСЂР°РЅР°
 void CleaningScreen()
 {
 	//Compute::Clear();
@@ -346,7 +360,7 @@ void UpdateScreen()
 	RepaintWindow(app.mainWindow.hWnd);
 }
 
-///TODO Запрос номера трубы
+///TODO Р—Р°РїСЂРѕСЃ РЅРѕРјРµСЂР° С‚СЂСѓР±С‹
 void RequestPipeNumber(char (&numberTube)[9])
 {
 	using namespace AutomatN;
@@ -368,16 +382,16 @@ void RequestPipeNumber(char (&numberTube)[9])
 		if(0 != strncmp(numberTube, "00000000", 8))
 		{
 			wchar_t buf[64];
-			wsprintf(buf, L"Номер трубы %S", numberTube);
+			wsprintf(buf, L"РќРѕРјРµСЂ С‚СЂСѓР±С‹ %S", numberTube);
 			app.StatusBar(App::status_bar_number_tube, buf);
 			break;
 		}
 		else
 		{
-			//	AppKeyHandler::RunContine();	/// включили кнопку продолжить
+			//	AppKeyHandler::RunContine();	/// РІРєР»СЋС‡РёР»Рё РєРЅРѕРїРєСѓ РїСЂРѕРґРѕР»Р¶РёС‚СЊ
 			AND_BITS(
-				Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
+				Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
+				, Ex<ExceptionContinue>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ РїСЂРѕРґРѕР»Р¶РёС‚СЊ
 				//	, Ex<ExceptionRun>
 				)(); 
 			dprint("continue\n");
@@ -386,7 +400,7 @@ void RequestPipeNumber(char (&numberTube)[9])
 	dprint("OK cont\n");
 }
 
-///TODO включить размагничивание
+///TODO РІРєР»СЋС‡РёС‚СЊ СЂР°Р·РјР°РіРЅРёС‡РёРІР°РЅРёРµ
 void EnableDemagnetization()
 {
 	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x, 0>>().value, true))
@@ -394,7 +408,7 @@ void EnableDemagnetization()
 		dprint("error "__FUNCTION__"\n");
 	}
 }
-///TODO включить размагничивание
+///TODO РІРєР»СЋС‡РёС‚СЊ СЂР°Р·РјР°РіРЅРёС‡РёРІР°РЅРёРµ
 void DisableDemagnetization()
 {
 	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x, 0>>().value, false))
@@ -438,10 +452,10 @@ void WorkACS(char (&numberTube)[9])
 				else
 				{
 					Log::Mess<LogMess::contineRun>();
-					AppKeyHandler::RunContine();	/// включили кнопку продолжить
+					AppKeyHandler::RunContine();	/// РІРєР»СЋС‡РёР»Рё РєРЅРѕРїРєСѓ РїСЂРѕРґРѕР»Р¶РёС‚СЊ
 					int pushButton = AND_BITS(
-						Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-						, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
+						Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
+						, Ex<ExceptionContinue>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ РїСЂРѕРґРѕР»Р¶РёС‚СЊ
 						, Ex<ExceptionRun>
 						)(); 
 

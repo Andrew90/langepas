@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "ControlMode.h"
 #include "tools_debug\DebugMess.h"
 #include "ControlTubeSubModules.h"
@@ -117,7 +117,7 @@ namespace Mode
 			static unsigned counter = 0;
 			if((++counter % 20) == 0)
 			{
-				unit502.Read();   //вызываться будет через ~100 м.сек.
+				unit502.Read();   //РІС‹Р·С‹РІР°С‚СЊСЃСЏ Р±СѓРґРµС‚ С‡РµСЂРµР· ~100 Рј.СЃРµРє.
 			}
 		}
 	};
@@ -138,7 +138,7 @@ namespace Mode
 			if((++counter % 20) == 0) 
 			{
 				dprint("time %d  %d\n", GetTickCount(), lir.moduleItems.get<Module<Cross>>().zonesOffs);
-				lir.Do();   //вызываться будет через ~100 м.сек.
+				lir.Do();   //РІС‹Р·С‹РІР°С‚СЊСЃСЏ Р±СѓРґРµС‚ С‡РµСЂРµР· ~100 Рј.СЃРµРє.
 				if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
 				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
 			}
@@ -199,67 +199,67 @@ namespace Mode
 
 		Module<Long> &ml = lir.moduleItems.get<Module<Long>>();
 		Module<Cross> &cl = lir.moduleItems.get<Module<Cross>>();
-		//TODO Проверка температуры обмоток соленоида
+		//TODO РџСЂРѕРІРµСЂРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ РѕР±РјРѕС‚РѕРє СЃРѕР»РµРЅРѕРёРґР°
 		TestCoilTemperature(); 
-		//TODO Проверка модуля размагничивания
-		CheckDemagnetizeModule();
-		//TODO Установка рабочего положения модулей контроля
-		SettingWorkingPositionControlModules();
-		//TODO Если толщиномер используется передать параметры
+		//TODO РџСЂРѕРІРµСЂРєР° РјРѕРґСѓР»СЏ СЂР°Р·РјР°РіРЅРёС‡РёРІР°РЅРёСЏ
+//TODO РЈРґР°Р»С‘РЅ РЅР° РІСЂРµРјСЏ РѕС‚Р»Р°РґРєРё		CheckDemagnetizeModule();
+		//TODO РЈСЃС‚Р°РЅРѕРІРєР° СЂР°Р±РѕС‡РµРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ РјРѕРґСѓР»РµР№ РєРѕРЅС‚СЂРѕР»СЏ
+//TODO РЈРґР°Р»С‘РЅ РЅР° РІСЂРµРјСЏ РѕС‚Р»Р°РґРєРё		SettingWorkingPositionControlModules();
+		//TODO Р•СЃР»Рё С‚РѕР»С‰РёРЅРѕРјРµСЂ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїРµСЂРµРґР°С‚СЊ РїР°СЂР°РјРµС‚СЂС‹
 		TransferParametersThicknessModule();
-		//TODO Подготовка частотного преобразователя продольного модуля
+		//TODO РџРѕРґРіРѕС‚РѕРІРєР° С‡Р°СЃС‚РѕС‚РЅРѕРіРѕ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЏ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РјРѕРґСѓР»СЏ
 		FrequencyInverterPreparation();
-		///TODO Установка режима работы контроллера пневмооборудования
+		///TODO РЈСЃС‚Р°РЅРѕРІРєР° СЂРµР¶РёРјР° СЂР°Р±РѕС‚С‹ РєРѕРЅС‚СЂРѕР»Р»РµСЂР° РїРЅРµРІРјРѕРѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ
 		SettingOperatingModeAirConditioningController();
 
-		OUT_BITS(On<oCooling>);   /// включение вентилятора охлаждения
+		OUT_BITS(On<oCooling>);   /// РІРєР»СЋС‡РµРЅРёРµ РІРµРЅС‚РёР»СЏС‚РѕСЂР° РѕС…Р»Р°Р¶РґРµРЅРёСЏ
 
 		Log::Mess<LogMess::InfoOnSycleBitIn>();
 		AND_BITS(
-			On<iCycle>	  /// \brief ожидание цикла
-			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			On<iCycle>	  /// \brief РѕР¶РёРґР°РЅРёРµ С†РёРєР»Р°
+			, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
 			)(); 
 
 		Sleep(1000);
 
-		bool sop = TEST_IN_BITS(On<iEtalon>); /// если есть сигнал  то режим работы - проверка сопа
+		bool sop = TEST_IN_BITS(On<iEtalon>); /// РµСЃР»Рё РµСЃС‚СЊ СЃРёРіРЅР°Р»  С‚Рѕ СЂРµР¶РёРј СЂР°Р±РѕС‚С‹ - РїСЂРѕРІРµСЂРєР° СЃРѕРїР°
 
-		if(sop)   /// вывод сообщения режима работы
+		if(sop)   /// РІС‹РІРѕРґ СЃРѕРѕР±С‰РµРЅРёСЏ СЂРµР¶РёРјР° СЂР°Р±РѕС‚С‹
 		{
 			Log::Mess<LogMess::SOP_MODE>();
 		}
 		else
 		{
 			Log::Mess<LogMess::TUBE_MODE>();
-			OUT_BITS(On<oReloc1>, On<oReloc2>); ///разрешение перекладки в транспортную систему
+			OUT_BITS(On<oReloc1>, On<oReloc2>); ///СЂР°Р·СЂРµС€РµРЅРёРµ РїРµСЂРµРєР»Р°РґРєРё РІ С‚СЂР°РЅСЃРїРѕСЂС‚РЅСѓСЋ СЃРёСЃС‚РµРјСѓ
 		}
 
 		Log::Mess<LogMess::waitingPipeEntranceRollerTable>();
 		AND_BITS(
-			On<iReadyR1>	  /// \brief ожидание цикла
-			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			On<iReadyR1>	  /// \brief РѕР¶РёРґР°РЅРёРµ С†РёРєР»Р°
+			, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
 			)(); 
 
 		OUT_BITS(Off<oReloc1>, Off<oReloc2>, Off<oDefect>);
 
 		ComputeUnit<Cross>().Clear();
 		ComputeUnit<Long>().Clear();
-		CleaningScreen();	///Очистка экрана
+		CleaningScreen();	///РћС‡РёСЃС‚РєР° СЌРєСЂР°РЅР°
 
 		OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
 
 		char numberTube[9] = "00000000";
-		if(job.get<OnTheJob<ACS>>().value)	 /// если работа с АСУ
+		if(job.get<OnTheJob<ACS>>().value)	 /// РµСЃР»Рё СЂР°Р±РѕС‚Р° СЃ РђРЎРЈ
 		{
-			///TODO Запрос номера трубы, если "00000000" то повтор
+			///TODO Р—Р°РїСЂРѕСЃ РЅРѕРјРµСЂР° С‚СЂСѓР±С‹, РµСЃР»Рё "00000000" С‚Рѕ РїРѕРІС‚РѕСЂ
 			RequestPipeNumber(numberTube);
 		}
 		OUT_BITS(Off<oReloc1>); /// 6.10
-		if(job.get<OnTheJob<Thick>>().value)	 /// если работа с толщиномером
+		if(job.get<OnTheJob<Thick>>().value)	 /// РµСЃР»Рё СЂР°Р±РѕС‚Р° СЃ С‚РѕР»С‰РёРЅРѕРјРµСЂРѕРј
 		{
 			OUT_BITS(On<oT_Cycle>);	 //6.11
 		}
-		if(job.get<OnTheJob<Long>>().value)	 /// если работа с продольным
+		if(job.get<OnTheJob<Long>>().value)	 /// РµСЃР»Рё СЂР°Р±РѕС‚Р° СЃ РїСЂРѕРґРѕР»СЊРЅС‹Рј
 		{
 			Log::Mess<LogMess::WAITING_LONGITUDINAL_MODULE>();
 			OUT_BITS(On<oPowerSU>);
@@ -269,9 +269,9 @@ namespace Mode
 				  On<iPCH_B  >
 				, Off<iPCH_RUN>
 				, Off<iPCH_A  >
-				, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				, Proc<ExceptionAl<LogMess::NoLongDriveReady>>	/// если нет готовности - выход
-				)(4000);  /// \brief ожидание 4 сек
+				, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
+				, Proc<ExceptionAl<LogMess::NoLongDriveReady>>	/// РµСЃР»Рё РЅРµС‚ РіРѕС‚РѕРІРЅРѕСЃС‚Рё - РІС‹С…РѕРґ
+				)(4000);  /// \brief РѕР¶РёРґР°РЅРёРµ 4 СЃРµРє
 
 		}	
 		if(job.get<OnTheJob<Thick>>().value)
@@ -287,7 +287,7 @@ namespace Mode
 		Log::Mess<LogMess::PIPE_CONTROL_IMPLEMENTED>();
 
 		EnableDemagnetization();
-		///отслеживаемые биты для аварийного завершения программы
+		///РѕС‚СЃР»РµР¶РёРІР°РµРјС‹Рµ Р±РёС‚С‹ РґР»СЏ Р°РІР°СЂРёР№РЅРѕРіРѕ Р·Р°РІРµСЂС€РµРЅРёСЏ РїСЂРѕРіСЂР°РјРјС‹
 		unsigned msk1 = 0;
 		TL::foreach<AllarmBits::list1, __set_msk__>()(Singleton<InputBit1Table>::Instance().items, msk1);
 		AllarmBits::bits1 = device1730_1.Read() & msk1;
@@ -298,13 +298,13 @@ namespace Mode
 		AllarmBits::bits2 = device1730_2.Read() & msk2;
 		AllarmBits::msk2 = msk2;
 		AND_BITS(
-			On<iSQ1po>							  ///ожидание наезда трубы на датчик
+			On<iSQ1po>							  ///РѕР¶РёРґР°РЅРёРµ РЅР°РµР·РґР° С‚СЂСѓР±С‹ РЅР° РґР°С‚С‡РёРє
 			, Proc<AllarmBits>
-			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
 			)(60000); 
 		unit502.Start();
-		GUARD{unit502.Stop();};	  /// \brief выключает 502 при досрочном выходе из цикла 
-		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
+		GUARD{unit502.Stop();};	  /// \brief РІС‹РєР»СЋС‡Р°РµС‚ 502 РїСЂРё РґРѕСЃСЂРѕС‡РЅРѕРј РІС‹С…РѕРґРµ РёР· С†РёРєР»Р° 
+		ZZZ(on, Cross, 1)  /// СЃРѕС…СЂР°РЅРµРЅРёРµ РІСЂРµРјРµРЅРё РЅР°РµР·РґР° РЅР° РґР°С‚С‡РёРє РїРѕРїРµСЂРµС‡РЅС‹Р№ 
 		WAIT(On<iSQ2po>, on, Cross, 2)
 
 		if(job.get<OnTheJob<Thick>>().value)
@@ -333,12 +333,12 @@ namespace Mode
 			, Proc<AllarmBits>	 	  
 			, Proc<Collection>	   
 			, Proc<ComputeZones>   
-			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			, Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
 			)(60000); 
 		ZZZ(off, Cross, 1)
 		WAIT(Off<iSQ2po>, off, Cross, 2)
 
-		///Расчёт мёртвой зоны начало
+		///Р Р°СЃС‡С‘С‚ РјС‘СЂС‚РІРѕР№ Р·РѕРЅС‹ РЅР°С‡Р°Р»Рѕ
 		ComputeUnit<Cross>().DeathZonesBegin();
 		if(job.get<OnTheJob<Long>>().value)
 		{
@@ -387,17 +387,17 @@ namespace Mode
 		if(job.get<OnTheJob<ViewInterrupt>>().value)
 		{
 			Log::Mess<LogMess::interruptView>();
-			AppKeyHandler::Continue();	/// включили кнопку продолжить
+			AppKeyHandler::Continue();	/// РІРєР»СЋС‡РёР»Рё РєРЅРѕРїРєСѓ РїСЂРѕРґРѕР»Р¶РёС‚СЊ
 			AND_BITS(
-				Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
+				Ex<ExceptionStop>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ СЃС‚РѕРї
+				, Ex<ExceptionContinue>	 /// \brief Р’С‹С…РѕРґ РїРѕ РєРЅРѕРїРєРµ РїСЂРѕРґРѕР»Р¶РёС‚СЊ
 				)(); 
 		}
 		
-		WorkACS(numberTube); //передача в асу
-		StoredData(!sop); // сохранение в базе
+		WorkACS(numberTube); //РїРµСЂРµРґР°С‡Р° РІ Р°СЃСѓ
+		StoredData(!sop); // СЃРѕС…СЂР°РЅРµРЅРёРµ РІ Р±Р°Р·Рµ
 //---------------------------------------------------------------
-		//TODO Проверка температуры обмоток соленоида
+		//TODO РџСЂРѕРІРµСЂРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ РѕР±РјРѕС‚РѕРє СЃРѕР»РµРЅРѕРёРґР°
 		TestCoilTemperature(); 
 	}
 }

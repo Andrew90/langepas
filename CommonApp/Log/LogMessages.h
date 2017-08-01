@@ -226,6 +226,7 @@ namespace LogMess
 		, NoLongDriveReady
 		, demagnetizationNotCorrect
 		, demagnetizationTesting
+		, unit502SetupParams
 //		    
 		, max_row
 	};
@@ -393,9 +394,9 @@ namespace LogMess
 	MESS(SettingOperatingPositionControl, void , "Установка рабочего положения модулей контроля", blue, white)
 	MESS(ModulesInNon_OperatingPosition, void, "Модули в нерабочем положении", red, yellow)
 //
-	MESS(time_overflow, int, "Ошибка КОМ-порта: превышено время ожидания", red, yellow)
-	MESS(error_crc    , int, "Ошибка КОМ-порта: ошибка CRC", red, yellow)
-	MESS(error_count  , int, "Ошибка КОМ-порта: принято 0 байт", red, yellow)
+	MESS(time_overflow, void, "Ошибка КОМ-порта: превышено время ожидания", red, yellow)
+	MESS(error_crc    , void, "Ошибка КОМ-порта: ошибка CRC", red, yellow)
+	MESS(error_count  , void, "Ошибка КОМ-порта: принято 0 байт", red, yellow)
 //
 	MESS(iWork_pnevmoWait, void, "Ожидание готовности контроллера пневмооборудования", blue , white)
 	MESS(iWork_pnevmAlarm, void, "Авария контроллера пневмооборудования", red, yellow)
@@ -441,8 +442,10 @@ namespace LogMess
 	MESS(contineRun, void, "\"F4 ЦИКЛ\"далее \"F11 Продол...\"повторить запрос к АСУ \"Esc Стоп\"выход из цикла", red, white)
 	MESS(storedDataBase, void, "Сохранение в базе данных", blue, white)
 
-	MESS(demagnetizationNotCorrect, void, "Авария. Размагничивание не исправно", red, yellow)
+	MESS(demagnetizationNotCorrect, void, "Авария. Размагничивание неисправно", red, yellow)
 	MESS(demagnetizationTesting, void, "Тестирование размагничивания", blue, white)
+
+	MESS(unit502SetupParams, void, "Плата L502 не инициализируется", red, yellow)
 
 	class FactoryMessages
 	{

@@ -49,7 +49,7 @@ void Unit502::Read()
 	unsigned startChannel;
 	unsigned count = dimention_of(data);
 
-	if(0 < Unit502N::l502.Read(startChannel, data, count))
+	if(Unit502N::l502.Read(startChannel, data, count))
 	{
 		int offs = Unit502N::lir.currentSamples;
 		for(int i = 0; i < (int)count; ++i)
