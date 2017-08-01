@@ -201,9 +201,6 @@
     <ClCompile Include="App\AppBase.cpp">
       <Filter>App</Filter>
     </ClCompile>
-    <ClCompile Include="App\VersionDiff.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
     <ClCompile Include="Windows\CommonViewer.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
@@ -531,6 +528,9 @@
     <ClCompile Include="Dialogs\StoredDlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="Dialogs\MinimalTubeLengthDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -642,9 +642,6 @@
       <Filter>App</Filter>
     </ClInclude>
     <ClInclude Include="App\Config.h">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="App\VersionDiff.h">
       <Filter>App</Filter>
     </ClInclude>
     <ClInclude Include="Windows\CommonViewer.h">

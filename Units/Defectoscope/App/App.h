@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "templates/typelist.hpp"
 #include "1730/Device1730.h"
 #include "Compute\Unit502.h"
@@ -40,7 +40,7 @@ public:
 	App();
 	void Init();
 	void Destroy();
-	static const wchar_t *TitleApp(){return L"XXX \"xxxxxxxxxx\"";}
+	static const wchar_t *TitleApp(){return L"УРАН-3000";}
 	static const wchar_t *Salt(){return L"Defect";};
 	static const int status_bar_number_tube = 0;
 	void StatusBar(int, wchar_t *txt);

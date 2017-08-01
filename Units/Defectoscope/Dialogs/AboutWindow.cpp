@@ -1,14 +1,15 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Dialogs/Dialogs.h"
 #include "templates/typelist.hpp"
 #include "Version.h"
 namespace{
 static const wchar_t *about_text[] = {
-	L"ООО НТЦ НК 'Уран'"
-	, L"Январь 2017 г."
-	, L"Проект 'БУРАН'-9955-143/10"
-	, L"Номер установки 1626"
-	, L"Версия 1.0"
+	L"РћРћРћ РќРўР¦ РќРљ 'РЈСЂР°РЅ'"
+	, L"РђРІРіСѓСЃС‚ 2017 Рі."
+	, L"РџСЂРѕРµРєС‚ 9955-190/16"
+	, L"РЈР РђРќ-3000"
+	, L"Рі.Р›Р°РЅРіРµРїР°СЃ"
+	, L"Р’РµСЂСЃРёСЏ 2.0"
 	, VERSION()
 };
 
@@ -43,7 +44,7 @@ LRESULT CALLBACK Proc(HWND h, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			int offs = width / 2 - 55;
 			dy += 5;
-			CreateWindow(L"button", L"Закрыть"
+			CreateWindow(L"button", L"Р—Р°РєСЂС‹С‚СЊ"
 				, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 				,offs, dy, 110, 30, h, (HMENU)IDOK, GetModuleHandle(NULL), NULL
 				);
@@ -69,7 +70,7 @@ void AboutWindowDlg::Do(HWND hWnd)
 	d.dwExtendedStyle = 0;
 	d.cdit = 0;
 	wchar_t *c = (wchar_t *)&p[sizeof(DLGTEMPLATE) + 4];
-    wcscpy(c, L"О программе");
+    wcscpy(c, L"Рћ РїСЂРѕРіСЂР°РјРјРµ");
 	
 	DialogBoxIndirectParam(GetModuleHandle(NULL), &d, hWnd, (DLGPROC)Proc, NULL);
     LocalFree((HLOCAL)p);

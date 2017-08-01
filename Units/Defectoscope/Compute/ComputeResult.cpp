@@ -37,7 +37,7 @@ void CuttingZones()
 				if(!IsDefect(status[j]))
 				{
 					currentStop = j;
-					cutingZone[current].cut0 = j;
+					cutingZone[current].cut0 = 1 + j;
 					break;
 				}
 			}
@@ -140,13 +140,15 @@ void Recalculation()
 {
 	SubLir &lir = Singleton<SubLir>::Instance();
 
-	ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
-	ComputeUnit<Cross>().DeathZonesBegin();
+	ComputeUnit<Cross>::Clear();
+	ComputeUnit<Cross>::Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs);
+	ComputeUnit<Cross>::DeathZonesBegin();
 
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value)
 	{
-		ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
-		ComputeUnit<Long>().DeathZonesBegin();
+		ComputeUnit<Long>::Clear();
+		ComputeUnit<Long>::Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
+		ComputeUnit<Long>::DeathZonesBegin();
 	}
 
 	ComputeResult();

@@ -79,4 +79,6 @@ DLG(AdditionalParamsDlg)
 DLG(LoadDlg)
 DLG(SaveDlg)
 
+DLG(MinimalTubeLength)
+
 #undef DLG

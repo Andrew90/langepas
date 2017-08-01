@@ -4,11 +4,11 @@ template<class T>class ComputeUnit
 {
 	static unsigned lastZone;
 public:
-	void Clear()
+	static void Clear()
 	{
 		lastZone = 1;
 	}
-	bool Zones(unsigned currentZone)
+	static bool Zones(unsigned currentZone)
 	{
 		
 		if(lastZone != currentZone)
@@ -25,14 +25,14 @@ public:
 		}
 		return false;
 	}
-	void DeathZonesBegin()
+	static void DeathZonesBegin()
 	{
 		for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 		{
 			ComputeZoneBegin<T>()(j);
 		}
 	}
-	void DeathZonesEnd(unsigned currentZone)
+	static void DeathZonesEnd(unsigned currentZone)
 	{
 		for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 		{

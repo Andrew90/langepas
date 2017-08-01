@@ -280,6 +280,7 @@ DEFINE_PARAM_ID(CalculationAlgorithmTable, int, 1)
 DEFINE_PARAM_ID(RotationalSpeedTable, int, 1)
 DEFINE_PARAM(TubeMinLength            , int, 38)
 DEFINE_PARAM(DiametrTube            , int, 73)
+DEFINE_PARAM_ID(MinimumLengthPipeTable, int, 1)
 
  struct ParametersTable
  {
@@ -293,6 +294,7 @@ DEFINE_PARAM(DiametrTube            , int, 73)
 		, ID<AnalogFilterTable>
 		, ID<CalculationAlgorithmTable>
 		, ID<RotationalSpeedTable>
+		, ID<MinimumLengthPipeTable>
 		, CrossCountSensors
 		, NameParam
 		, TubeMinLength

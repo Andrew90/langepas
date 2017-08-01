@@ -126,12 +126,11 @@ template<class T>struct ComputeZoneBegin
 		if(remains > 0) --offs;
 
 		double d = double(remains) / App::zone_length;
-		d = 1.0 - d;
 
 		double *startZone = &item.ascan[sensor][item.offsets[full]] + int(d * ( &item.ascan[sensor][item.offsets[1 + full]] -  &item.ascan[sensor][item.offsets[full]]));
 		double *stopZone = &item.ascan[sensor][item.offsets[1 + full]];
 
-		
+
 		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
 
@@ -187,6 +186,7 @@ template<class T>struct ComputeZoneEnd
 {
 	bool operator()(unsigned zone, unsigned sensor)
 	{
+		--zone;
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
 		double borderDefect = Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<T>>().value;
@@ -197,45 +197,49 @@ template<class T>struct ComputeZoneEnd
 		int remains = dead % App::zone_length;
 
 		int offs = zone - full;
-		if(remains > 0) --offs;
-
-		double d = double(remains) / App::zone_length;
-
-		double *startZone = &item.ascan[sensor][item.offsets[offs]];
-		double *stopZone = startZone + int(d *(&item.ascan[sensor][item.offsets[offs + 1]] - &item.ascan[sensor][item.offsets[offs]]));
-		
-		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
-		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
-
-		char &statusResult =  item.status[sensor][offs];
-		double &valueResult = item.buffer[sensor][offs];
-
-		statusResult = STATUS_ID(Nominal);
-		valueResult = 0;
-
-		MedianFiltre filtre;
-		MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
-		bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
-		if(filtreOn)
+		if(remains > 0)
 		{
-			int width = filtreParam.get<MedianFiltreWidth<T>>().value;
-			filtre.Init(width, startZone - width);
-		}
+			--offs;
 
-		for(double *i = startZone; i < stopZone; ++i)
-		{
-			int st = STATUS_ID(Nominal); 
+			double d = 1.0 - double(remains) / App::zone_length;
 
-			double val = filtreOn ? filtre(*i): *i;
+			double *startZone = &item.ascan[sensor][item.offsets[offs]];
+			double *stopZone = startZone + int(d *(&item.ascan[sensor][item.offsets[offs + 1]] - &item.ascan[sensor][item.offsets[offs]]));
 
-			if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
-			else if(borderKlass2 < *i)st = STATUS_ID(BorderKlass2<T>);
+			AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
+			AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
 
-			if(val > valueResult)
+			char &statusResult =  item.status[sensor][offs];
+			double &valueResult = item.buffer[sensor][offs];
+
+			statusResult = STATUS_ID(Nominal);
+			valueResult = 0;
+
+			MedianFiltre filtre;
+			MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
+			bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
+			if(filtreOn)
 			{
-				valueResult = val;
-				statusResult = st;
+				int width = filtreParam.get<MedianFiltreWidth<T>>().value;
+				filtre.Init(width, startZone - width);
 			}
+
+			for(double *i = startZone; i < stopZone; ++i)
+			{
+				int st = STATUS_ID(Nominal); 
+
+				double val = filtreOn ? filtre(*i): *i;
+
+				if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
+				else if(borderKlass2 < *i)st = STATUS_ID(BorderKlass2<T>);
+
+				if(val > valueResult)
+				{
+					valueResult = val;
+					statusResult = st;
+				}
+			}
+			++offs;
 		}
 
 		for(int i = offs; i < (int)zone; ++i)

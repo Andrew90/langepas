@@ -80,7 +80,6 @@ void App::Init()
 #endif
 	if(ok)Automat::Init();
 
-	//Compute::Init();	
 	NameParam::type_value &nameParam = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
 	Singleton<ComputeSolidGroup>::Instance().Load(nameParam);
 }
@@ -88,7 +87,6 @@ void App::Init()
 void App::Destroy()
 {
 	Automat::Exit();
-//	Compute::Destroy();
 }
 
 void App::StatusBar(int n, wchar_t *txt)
