@@ -89,19 +89,6 @@ bool Unit502::SetupParams()
 
 int Unit502::Start()
 {
-	//Unit502N::crossData.currentOffset = 0;
-	//Unit502N::crossData.currentOffset = 0;
-	//
-	//Unit502N::longData.currentOffset = 0;
-	//Unit502N::longData.currentTimeOffset = 0;
-	//
-	//Unit502N::crossData.currentOffset = 0;
-	//Unit502N::crossData.currentTimeOffset = 0;
-
-	//Unit502N::solidData.currentOffset = 0;
-	//
-	//
-	//Unit502N::timeFrames.currentTimeOffset = 0;
 	Unit502N::lir.currentSamples = 0;
 	return Unit502N::l502.Start();
 }

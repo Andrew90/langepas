@@ -129,7 +129,7 @@ namespace Zip
 		ProgrammDir pd;
 		wchar_t path[1024];
 		wchar_t *pdPath = pd.Get();
-		wsprintf(path, L"%s\\bzip2 -z -f %s\\..\\Stored\\%s", pdPath, pdPath, n);
+		wsprintf(path, L"%s\\bin\\bzip2 -z -f %s\\..\\Stored\\%s", pdPath, pdPath, n);
 		BOOL b = CreateProcess(
 			NULL
 			, path
@@ -160,7 +160,7 @@ namespace Zip
 		ProgrammDir pd;
 		wchar_t *pdPath = pd.Get();
 		wchar_t path[1024];
-		wsprintf(path, L"%s\\bzip2 -d -k %s\\..\\Stored\\%s.bz2", pdPath, pdPath, n);
+		wsprintf(path, L"%s\\bin\\bzip2 -d -k %s\\..\\Stored\\%s.bz2", pdPath, pdPath, n);
 		BOOL b = CreateProcess(
 			NULL
 			, path
@@ -191,7 +191,7 @@ namespace Zip
 		ProgrammDir pd;
 		wchar_t *pdPath = pd.Get();
 		wchar_t path[1024];
-		wsprintf(path, L"%s\\bzip2 -d -k %s", pdPath, n);
+		wsprintf(path, L"%s\\bin\\bzip2 -d -k %s", pdPath, n);
 		BOOL b = CreateProcess(
 			NULL
 			, path

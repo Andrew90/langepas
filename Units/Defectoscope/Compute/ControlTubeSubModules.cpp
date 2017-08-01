@@ -231,6 +231,7 @@ void GetDataFromThicknessModule()
 		Log::Mess<LogMess::waitingThicknessResult>();
 		unsigned short zones[65];
 		bool receiveDataOk = true;
+		double brak = 0, class2 = 0, class3 = 0;
 #ifndef EMUL
 		AND_BITS(
 			On<iResultT>
@@ -272,15 +273,15 @@ void GetDataFromThicknessModule()
 			for(int i = 0; i < App::count_zones; ++i)
 			{
 				double t = data.buffer[i] = 0.1 * zones[i];
-				if(data.brak > t)
+				if(brak > t)
 				{
 					data.status[i] = STATUS_ID(BorderDefect<Thick>);//StatusId<Clr<BorderDefect<Thick>>>();
 				}
-				else if(data.class3 > t)
+				else if(class3 > t)
 				{
 					data.status[i] = STATUS_ID(BorderKlass3<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
 				}
-				else if(data.class2 > t)
+				else if(class2 > t)
 				{
 					data.status[i] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass2<Thick>>>();
 				}

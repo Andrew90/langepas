@@ -26,7 +26,7 @@ template<class T>class Module
 {
 	SubLir &lir;
 public:
-	unsigned time;
+	//unsigned time;
 	int framesOffs;
 	int zonesOffs;
 	double rem;
@@ -149,7 +149,6 @@ public:
 	unsigned lastTime;
 	int lastOffs;
 	int index;
-	int indexLength;
 	unsigned startTime;
 	int currentSamples;
 	SubLir()
@@ -159,7 +158,6 @@ public:
 	void Start()
 	{
 		timeIndex = 0;
-		indexLength = 0;
 		index = 0;
 		currentSamples = 0;
 		TL::foreach<module_list, __init_modules__>()(moduleItems);
