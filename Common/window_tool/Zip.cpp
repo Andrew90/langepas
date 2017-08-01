@@ -226,7 +226,7 @@ namespace Zip
 		ProgrammDir pd;
 		wchar_t *pdPath = pd.Get();
 		wchar_t path[1024];
-		wsprintf(path, L"%s\\bzip2 -z -f %s", pdPath, n);
+		wsprintf(path, L"%s\\bin\\bzip2 -z -f %s", pdPath, n);
 		BOOL b = CreateProcess(
 			NULL
 			, path

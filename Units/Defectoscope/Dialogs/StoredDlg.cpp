@@ -17,6 +17,8 @@ void SaveDlg::Do(HWND h)
 	SaveData o(h, L"Сохранить");
 	if(o())
 	{
+		int offs = (int)wcslen(o.sFile) - 4;
+		bool archive = 0 == wcscmp(&o.sFile[offs], L".bz2");
 		ComputeData::Save(o.sFile);
 	}
 }
