@@ -65,11 +65,12 @@ namespace Communication
 		{
 			err = error_count;
 			receiveBuffer = buf;
-			countBytes = count; 
-			if(count > 0)
+			//countBytes = count; 
+			countBytes = buf[0]; 
+			if(count >= countBytes)
 			{
 				err = ok;
-				if(0 != Crc16(buf, count))	err = error_crc;
+				if(0 != Crc16(buf, countBytes))	err = error_crc;
 			}
 			SetEvent(hEvent);
 		}
