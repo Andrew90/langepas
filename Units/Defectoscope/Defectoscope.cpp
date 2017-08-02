@@ -5,6 +5,8 @@
 #include "Base/Base.hpp"
 #include "App/App.h"
 #include "window_tool/HookKey.h"
+#include "Windows\MainWindow.h"
+#include "window_tool\Emptywindow.h"
 
 #if defined _M_IX86
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -26,7 +28,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	CreateSemaphore(0, 0, 1, typeWindow);
 	if(GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		HWND h = FindWindow(typeWindow, 0);
+		HWND h = FindWindow(WindowClass<MainWindow>()(), 0);
 		SendMessage(h, WM_SYSCOMMAND, SC_RESTORE, 0);
 		SetForegroundWindow(h);
 		return 0;

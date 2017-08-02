@@ -130,6 +130,7 @@
     <ClCompile Include="..\..\Common\window_tool\HookKey.cpp" />
     <ClCompile Include="..\..\Common\window_tool\InRect.cpp" />
     <ClCompile Include="..\..\Common\window_tool\ItemIni.cpp" />
+    <ClCompile Include="..\..\Common\window_tool\LaunchExternalProgram.cpp" />
     <ClCompile Include="..\..\Common\window_tool\MenuAPI.cpp" />
     <ClCompile Include="..\..\Common\window_tool\Pass.cpp" />
     <ClCompile Include="..\..\Common\window_tool\ProcessRun.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Dialogs\FilterDlg.cpp" />
     <ClCompile Include="Dialogs\FrameWindowDlg.cpp" />
     <ClCompile Include="Dialogs\InputOutputDlg.cpp" />
+    <ClCompile Include="Dialogs\LaunchExternalProgramDlg.cpp" />
     <ClCompile Include="Dialogs\MedianFiltreDlg.cpp" />
     <ClCompile Include="Dialogs\MinimalTubeLengthDlg.cpp" />
     <ClCompile Include="Dialogs\OffsetSensorDlg.cpp" />
@@ -300,6 +302,7 @@
     <ClInclude Include="..\..\Common\window_tool\InitToolbar.hpp" />
     <ClInclude Include="..\..\Common\window_tool\InRect.h" />
     <ClInclude Include="..\..\Common\window_tool\ItemIni.h" />
+    <ClInclude Include="..\..\Common\window_tool\LaunchExternalProgram.h" />
     <ClInclude Include="..\..\Common\window_tool\MenuAPI.h" />
     <ClInclude Include="..\..\Common\window_tool\message.h" />
     <ClInclude Include="..\..\Common\window_tool\MessagesInterface.h" />

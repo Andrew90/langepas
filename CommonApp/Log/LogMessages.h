@@ -247,106 +247,21 @@ namespace LogMess
 	///\param сообщение
 	///\param цвет фона
 	///\param цвет шрифта
-//	MESS(StartSycle			          , void  , "Цикл старт"                     , green, black)
-//    MESS(StopSycle			          , void  , "Цикл стоп"				        , blue , white)
-//	MESS1(OverheadTemperature         , double, "Температура превышена"	        , red  , yellow)
 	MESS(ProgramOpen		          , void  , "Программа открыта"              , black, white)
 //							          
 	MESS(TimeoutPipe		          , void  , "Превышенно время ожидания", red  , yellow)
-//	MESSX(AlarmUSPC                    , void  , "Авария!!! Платы ультразвукового контроля", red, yellow)
-//	MESSX(AlarmSensorReadError         , void  , "Авария!!! Чтения данных с платы ультразвукового контроля", red, yellow)
-//
-//	MESS(AlarmRestartServiceError     , void  , "Авария!!! Сервис \"USPS7100WinService\" не перезапускается", red, yellow)
-//							          
-//	MESS(AutomatMode		          , void  , "Режим \"Автоматический\""		, blue , white)
-//	MESS(SingleMode			          , void  , "Режим \"Одиночное измерение\""	, blue , white)
-//							          
+						          
 	MESS(ProgramClosed		          , void  , "Программа закрыта"	, red  , yellow)
 //							          
 	MESS(ErrStop                      , void  , "Прерывание цикла измерения", red, yellow)
-//
-//	MESS(AlarmExitTubeInUnit          , void, "Труба в модуле, выполните выгон", red  , yellow)
-//	MESS(AlarmExitDirectionChainOn    , void, "Включите цепи управления", red  , yellow)
-//	MESS(AlarmExitInverterFaulty      , void, "Частотный преодразователь не включён", red  , yellow)
-//
+
 	MESS(AlarmExitRunBitIn			  , void, "Ошибка частотного преобразователя\"", red  , yellow)
 	MESS(AlarmExitControlCircuitBitIn , void, "Нет сигнала \"Цепи управления\""	   , red  , yellow)
-//	MESS(AlarmExitWorkBitIn			  , void, "Нет сигнала \"Работа\""			   , red  , yellow)
-//	MESS(AlarmExitSycleBitIn		  , void, "Нет сигнала \"Цикл\""			   , red  , yellow)
-//
-//	MESS(AlarmNoDataCollection        , void, "Внимание!!! Нет сбора данных", red, yellow)
-//	MESS(AlarmBufferOverflow, void, "Внимание!!! Буфер переполнен", red, yellow)
-//
-//	MESS(WaitControlCircuitBitIn      , void, "Ожидание сигнала \"Цепи управления\"", blue, white)
-//
-//	MESS(PowerBMOn, void, "Включено \"ПИТАНИЕ БМ\"", blue, white)
-//	MESS(WaitCycle, void, "Ожидание входного сигнала \"Цикл\" и \"Готовность\"", blue, white)
-//	MESS(WaitReady, void, "Ожидание входного сигнала \"Готовность\"", blue, white)
-//	MESS(WaitControl, void, "Ожидание входного сигнала \"Контроль\"", blue, white) 
-//
-//	MESS(AlarmControlCircuts, void, "Авария!!! Снят сигнал \"Цепи управления\"", red, yellow)
-//	MESS(AlarmBase,           void, "Авария!!! Нет сигнала \"БАЗА\"", red, yellow)
-//	MESS(AlarmCycle			, void, "Авария!!! Снят сигнал \"Цикл\"", red, yellow)
-//
-//	MESSX(CycleOk  , double, "Результат контроля \"ГОДНО\". Длина трубы  %.2f м.", blue, white)
-//	MESSX(CycleBrak, double, "Результат контроля \"БРАК\". Длина трубы  %.2f м.", red, yellow)
-//
-//
-//	MESS(InfoOnWorkBitIn                , void, "Ожидание сигнала \"Работа\""					  , blue , white)
-//	MESS(InfoOffWorkBitIn				, void, "Ожидание снятия сигнала \"Работа\""			  , green, blue)
-//	MESS(InfoDataReceive				, void, "Данные с дефектоскопа приняты"                   , blue, yellow)
-//	MESS(InfoReadyBitOut	            , void, "Выставлен сигнал \"Готовность\""				  , blue , white)
-//	MESS(InfoOnResultBitOut             , void, "Выставлен сигнал \"Результат\""                 , blue , white)
+
 	MESS(InfoOnSycleBitIn               , void, "Ожидание сигнала \"Цикл\""					  , blue , white)
-//	MESS(InfoRotationalSpeedSensorsStart, void, "Включение вращения модуля датчиков сканирования", blue , white)
-//	MESS(InfoOnRunBitIn                 , void, "Ожидание раскрутки модуля датчиков сканирования", blue , white)
-//	MESS(InfoControlBitOut              , void, "Выставлен сигнал \"Контроль\""				  , blue , white)
-//	MESS(InfoOnSQ1BitIn	                , void, "Ожидание трубы на датчике SQ1"				  , blue , white)
-//	MESS(InfoPowerScannerBitOut         , void, "Включение сканирующего устройства"			  , blue , white)
-//	MESS(InfoOnSQ3BitIn	                , void, "Ожидание трубы на датчике SQ3"				  , blue , white)
-//	MESS(InfoOffSQ1BitIn                , void, "Ожидание съезда трубы с датчика SQ1"			  , blue , white)
-//	MESS(InfoOffPowerScannerBitOut      , void, "Отключение сканирующего устройства"		      , blue , white)
-//	MESS(InfoOffSQ3BitIn                , void, "Ожидание съезда трубы с датчика SQ3"			  , blue , white)
+
 	MESS(InfoUserStop					, void, "Оператор вышел из цикла"			  , red  , yellow)
-//
-//	MESS(InfoDataCollectionComplete		, void, "Сбор данных закончен"                           , green, white);
-//	MESS(InfoDataCollection     		, void, "Сбор данных"                           , blue, white);
-//	MESS(InfoBase, void, "Сработал датчик \"База\"", blue, white);
-//
-//	MESS(InfoDataSaved, void, "Данные сохранены", green, white);
-//	MESS(InfoDataSaving, void, "Данные сохраняются", red, blue);
-//
-//	MESS(SQ1BitIn             , bool, "SQ1BitIn            ", white, black)
-//	MESS(SQ3BitIn             , bool, "SQ3BitIn            ", white, black)
-//	MESS(StateBBitIn          , bool, "StateBBitIn         ", white, black)
-//	MESS(StateABitIn          , bool, "StateABitIn         ", white, black)
-//	MESS(RunBitIn             , bool, "RunBitIn            ", white, black)
-//	MESS(ControlCircuitBitIn  , bool, "ControlCircuitBitIn ", white, black)
-//	MESS(WorkBitIn            , bool, "WorkBitIn           ", white, black)
-//	MESS(SycleBitIn           , bool, "SycleBitIn          ", white, black)
-//	MESS(BaseBitIn 			  , bool, "BaseBitIn 		   ", white, black)
-//	MESS(PowerInverterBitOut  , bool, "PowerInverterBitOut ", white, black)
-//	MESS(SpeedRLBitOut        , bool, "SpeedRLBitOut       ", white, black)
-//	MESS(SpeedRMBitOut        , bool, "SpeedRMBitOut       ", white, black)
-//	MESS(SpeedRHBitOut        , bool, "SpeedRHBitOut       ", white, black)
-//	MESS(STFBitOut            , bool, "STFBitOut           ", white, black)
-//	MESS(PowerScannerBitOut	  , bool, "PowerScannerBitOut  ", white, black)
-//	MESS(ReadyBitOut          , bool, "ReadyBitOut         ", white, black)
-//	MESS(ControlBitOut        , bool, "ControlBitOut       ", white, black)
-//	MESS(ResultBitOut   	  , bool, "ResultBitOut   	 "  , white, black)
-//
-//	MESS(OniCross , void, "Ожидание трубы в поперечном модуле"				, blue , white)
-//	MESS(OniLong  , void, "Ожидание трубы в продольном модуле"				, blue , white)
-//	MESS(OniThick , void, "Ожидание трубы в модуле толщиномера"			, blue , white)
-//	MESS(OniSolid , void, "Ожидание трубы в модуле группы прочности"			, blue , white)
-//
-//	MESS(OffiCross , void, "Выход трубы из поперечного модуля"				, blue , white)
-//	MESS(OffiLong  , void, "Выход трубы из продольного модуля"				, blue , white)
-//	MESS(OffiThick , void, "Выход трубы из модуля толщиномера"			, blue , white)
-//	MESS(OffiSolid , void, "Выход трубы из модуля группы прочности"			, blue , white)
-//	
-//	MESS(TubeOnPosition , void, "Ожидание трубы на позиции"			, blue , white)
-//
+
 	MESS(ModulesNotInOperation, void, "Модули не в положении обслуживания", red  , yellow) 
 	MESS(TransverseModuleClampsDidNotWork, void, "Не сработали зажимы поперечного модуля", red, yellow)
 	MESS(PipeReturnAllowed, void , "МОДУЛИ в ОП. Возврат трубы разрещен", blue , white)
@@ -380,7 +295,6 @@ namespace LogMess
 //
 	MESS(CheckStatusFrequencyConverter, void, "Проверка состояния частотного преобразователя", blue , white)
 //
-//	MESS(TransportUnlocked, void, "ТРАНСПОРТ РАЗБЛОКИРОВАН. ВЫПОЛНИТЕ ВЫГОН", blue, white)
 	MESS(ThicknessGaugeTookOffSignal, void, "Tолщиномер снял сигнал", red, yellow)
 	MESS(CompletionChangeInPositionModule, void, "Завершение по изменению положения какого-либо модуля", red, yellow)
 //

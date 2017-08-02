@@ -17,8 +17,8 @@ namespace Zip
 		return path;
 	}
 
-	wchar_t name[] = L"Parallel hatch in zip space";
-	wchar_t eventName[] = L"zip event 2015 12 16 08 29";
+	wchar_t name[] = L"Parallel hatch in zip space  170802 8:29";
+	wchar_t eventName[] = L"zip event 170802 8:29";
 
 	struct TZipData
 	{

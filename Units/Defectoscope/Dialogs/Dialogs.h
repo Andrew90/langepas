@@ -81,4 +81,6 @@ DLG(SaveDlg)
 
 DLG(MinimalTubeLength)
 
+DLG(LaunchExternalProgramDlg)
+
 #undef DLG

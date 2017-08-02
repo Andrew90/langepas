@@ -127,7 +127,7 @@ void ColorPanel::operator()(TCommand &l)
 
 void ColorPanel::operator()(TDestroy &m)
 {
-	StoredWindowPosition<ColorPanel>::Do(m.hwnd);
+	WindowPositionDlg<ColorPanel>::Do(m.hwnd);
 	SetWindowLongPtr(m.hwnd, GWLP_USERDATA, NULL);
 	delete backScreen;
     backScreen = NULL;	

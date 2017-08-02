@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #if 1
 #include "App/config.h"
 #include "window_tool/WindowsPosition.h"
@@ -9,7 +9,7 @@
 namespace MainWindowMenu
 {
 	struct MainFile{};
-	MENU_TEXT(L"Файл", TopMenu<MainFile>)
+	MENU_TEXT(L"Р¤Р°Р№Р»", TopMenu<MainFile>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	struct LoadDateFile : LoadDlg{static void Do(HWND h){LoadDlg::Do(h); Recalculation();}};//{static void Do(HWND h){zprint("");}};//LoadDataDlg{};//{static void Do(HWND h){zprint("");}};
 	struct SaveDateFile : SaveDlg{};//{static void Do(HWND h){zprint("");}};//StoredDataDlg{};//{static void Do(HWND h){zprint("");}};
@@ -23,10 +23,10 @@ namespace MainWindowMenu
 		}
 	};
 
-	MENU_ITEM(L"Загрузить данные", LoadDateFile)
-	MENU_ITEM(L"Сохранить данные", SaveDateFile)
-	MENU_ITEM(L"Перерасчёт", Compute_)
-	MENU_ITEM(L"Выход", MainExit)
+	MENU_ITEM(L"Р—Р°РіСЂСѓР·РёС‚СЊ РґР°РЅРЅС‹Рµ", LoadDateFile)
+	MENU_ITEM(L"РЎРѕС…СЂР°РЅРёС‚СЊ РґР°РЅРЅС‹Рµ", SaveDateFile)
+	MENU_ITEM(L"РџРµСЂРµСЂР°СЃС‡С‘С‚", Compute_)
+	MENU_ITEM(L"Р’С‹С…РѕРґ", MainExit)
 
 	template<>struct TopMenu<MainFile>
 	{
@@ -41,7 +41,7 @@ namespace MainWindowMenu
 	};
 	//------------------------------------------------------------------------
 	struct MainOptionTypeSize{};
-	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
+	MENU_TEXT(L"РўРёРїРѕСЂР°Р·РјРµСЂ", TopMenu<MainOptionTypeSize>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 	struct DeadZones                 : DeadZonesDlg{};							 						
 	struct MainCreateTypesize        : AddTypeSizeDlg{};
@@ -55,18 +55,18 @@ namespace MainWindowMenu
 //	struct AcfCutOffBorders  : AcfCutOffBordersDlg{};
 	struct Filter_: FilderDlg{}; 
 
-	MENU_ITEM(L"Поперечные пороги", CrossThresholdWindow__)
-	MENU_ITEM(L"Продольные пороги", LongThresholdWindow__)
-	MENU_ITEM(L"Пороги толщины", ThickThresholdWindow__)
-	MENU_ITEM(L"Мёртвые зоны", DeadZones)
-	MENU_ITEM(L"Создать типоразмер", MainCreateTypesize)
-	MENU_ITEM(L"Удалить типоразмер", MainDeleteTypeSize)
-	MENU_ITEM(L"Медианный фильтр", MedianFiltre)
+	MENU_ITEM(L"РџРѕРїРµСЂРµС‡РЅС‹Рµ РїРѕСЂРѕРіРё", CrossThresholdWindow__)
+	MENU_ITEM(L"РџСЂРѕРґРѕР»СЊРЅС‹Рµ РїРѕСЂРѕРіРё", LongThresholdWindow__)
+	MENU_ITEM(L"РџРѕСЂРѕРіРё С‚РѕР»С‰РёРЅС‹", ThickThresholdWindow__)
+	MENU_ITEM(L"РњС‘СЂС‚РІС‹Рµ Р·РѕРЅС‹", DeadZones)
+	MENU_ITEM(L"РЎРѕР·РґР°С‚СЊ С‚РёРїРѕСЂР°Р·РјРµСЂ", MainCreateTypesize)
+	MENU_ITEM(L"РЈРґР°Р»РёС‚СЊ С‚РёРїРѕСЂР°Р·РјРµСЂ", MainDeleteTypeSize)
+	MENU_ITEM(L"РњРµРґРёР°РЅРЅС‹Р№ С„РёР»СЊС‚СЂ", MedianFiltre)
 
-	MENU_ITEM(L"Минимальная и максимальная стенки трубы", PipeThicknes)
-//	MENU_ITEM(L"Границы отсечения в частотной области", AcfCutOffBorders)
-	MENU_ITEM(L"Настройки аналогового фильтра", Filter_)
-	MENU_ITEM(L"Скорость вращения", RotationSpeed)
+	MENU_ITEM(L"РњРёРЅРёРјР°Р»СЊРЅР°СЏ Рё РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ СЃС‚РµРЅРєРё С‚СЂСѓР±С‹", PipeThicknes)
+//	MENU_ITEM(L"Р“СЂР°РЅРёС†С‹ РѕС‚СЃРµС‡РµРЅРёСЏ РІ С‡Р°СЃС‚РѕС‚РЅРѕР№ РѕР±Р»Р°СЃС‚Рё", AcfCutOffBorders)
+	MENU_ITEM(L"РќР°СЃС‚СЂРѕР№РєРё Р°РЅР°Р»РѕРіРѕРІРѕРіРѕ С„РёР»СЊС‚СЂР°", Filter_)
+	MENU_ITEM(L"РЎРєРѕСЂРѕСЃС‚СЊ РІСЂР°С‰РµРЅРёСЏ", RotationSpeed)
 
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
@@ -88,15 +88,17 @@ namespace MainWindowMenu
 	 };
 	//--------------------------------------------------------------------------------
 	struct Options{};
-	MENU_TEXT(L"Настройки", TopMenu<Options>)
+	MENU_TEXT(L"РќР°СЃС‚СЂРѕР№РєРё", TopMenu<Options>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	struct WindowPosition    : WindowPositionDlg<MainWindow>{};//{static void Do(HWND h){zprint("");}};
 	struct IOportsView       : IOportsDlg{};
 	struct GroupOptions      : FrameWindowDlg{};//{static void Do(HWND h){zprint("");}};
+	struct LaunchExternalProgram       : LaunchExternalProgramDlg{};
 
-	MENU_ITEM(L"Сохранить координаты окна", WindowPosition)
-    MENU_ITEM(L"Просмотр дискретных портов", IOportsView)
-    MENU_ITEM(L"Настройка группы прочности", GroupOptions)
+	MENU_ITEM(L"РЎРѕС…СЂР°РЅРёС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕРєРЅР°", WindowPosition)
+    MENU_ITEM(L"РџСЂРѕСЃРјРѕС‚СЂ РґРёСЃРєСЂРµС‚РЅС‹С… РїРѕСЂС‚РѕРІ", IOportsView)
+    MENU_ITEM(L"РќР°СЃС‚СЂРѕР№РєР° РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё", GroupOptions)
+    MENU_ITEM(L"РџСЂРѕСЃРјРѕС‚СЂ СЃРѕРѕР±С‰РµРЅРёР№", LaunchExternalProgram)
 
 	template<>struct TopMenu<Options>
 	{
@@ -106,11 +108,12 @@ namespace MainWindowMenu
 			, MenuItem<WindowPosition>
 			, Separator<1>
 			, MenuItem<IOportsView>
+			, MenuItem<LaunchExternalProgram>
 		>::Result list;		
 	};
 	//-------------------------------------------------------------------------------------------------------
 	struct Setting{};
-	MENU_TEXT(L"Установка", TopMenu<Setting>)
+	MENU_TEXT(L"РЈСЃС‚Р°РЅРѕРІРєР°", TopMenu<Setting>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	struct AnalogPlate__           {};
 	struct DiscretePlate	      {};
@@ -134,26 +137,26 @@ namespace MainWindowMenu
 
 	struct AdditionalParams: AdditionalParamsDlg{};
 
-	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
-	MENU_ITEM(L"Входные порты плата 1", DiscretePlateInputs)
-	MENU_ITEM(L"Выодные порты плата 1", DiscretePlateOutputs)
+	MENU_TEXT(L"Р”РёСЃРєСЂРµС‚РЅР°СЏ РїР»Р°С‚Р°", SubMenu<DiscretePlate>)
+	MENU_ITEM(L"Р’С…РѕРґРЅС‹Рµ РїРѕСЂС‚С‹ РїР»Р°С‚Р° 1", DiscretePlateInputs)
+	MENU_ITEM(L"Р’С‹РѕРґРЅС‹Рµ РїРѕСЂС‚С‹ РїР»Р°С‚Р° 1", DiscretePlateOutputs)
 
-	MENU_ITEM(L"Входные порты плата 2", DiscretePlateInputs1)
-	MENU_ITEM(L"Выодные порты плата 2", DiscretePlateOutputs1)
+	MENU_ITEM(L"Р’С…РѕРґРЅС‹Рµ РїРѕСЂС‚С‹ РїР»Р°С‚Р° 2", DiscretePlateInputs1)
+	MENU_ITEM(L"Р’С‹РѕРґРЅС‹Рµ РїРѕСЂС‚С‹ РїР»Р°С‚Р° 2", DiscretePlateOutputs1)
 
-	MENU_ITEM(L"Дискрипторы дискретных плат", DiscretePlateDescriptor)
-	MENU_ITEM(L"Коэффициенты пересчёта", Coefficient)
+	MENU_ITEM(L"Р”РёСЃРєСЂРёРїС‚РѕСЂС‹ РґРёСЃРєСЂРµС‚РЅС‹С… РїР»Р°С‚", DiscretePlateDescriptor)
+	MENU_ITEM(L"РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РїРµСЂРµСЃС‡С‘С‚Р°", Coefficient)
 	
-	MENU_TEXT(L"Аналоговая плата", SubMenu<AnalogPlate__>)
-	MENU_ITEM(L"Смещение каналов", OffsetChannels)
-	MENU_ITEM(L"Усиление каналов", AmplificationChannels)
+	MENU_TEXT(L"РђРЅР°Р»РѕРіРѕРІР°СЏ РїР»Р°С‚Р°", SubMenu<AnalogPlate__>)
+	MENU_ITEM(L"РЎРјРµС‰РµРЅРёРµ РєР°РЅР°Р»РѕРІ", OffsetChannels)
+	MENU_ITEM(L"РЈСЃРёР»РµРЅРёРµ РєР°РЅР°Р»РѕРІ", AmplificationChannels)
 
-	MENU_ITEM(L"Параметры сигнала", Signal)
-	MENU_ITEM(L"Границы АЧХ", ACFBorder)
-	MENU_ITEM(L"Цвета", ColorItems)
-	MENU_ITEM(L"Ком-порт", ComPort__)
-	MENU_ITEM(L"Смещение датчиков наличия трубы в модуле", OffsetsSens)
-	MENU_ITEM(L"Дополнительные параметры", AdditionalParams)
+	MENU_ITEM(L"РџР°СЂР°РјРµС‚СЂС‹ СЃРёРіРЅР°Р»Р°", Signal)
+	MENU_ITEM(L"Р“СЂР°РЅРёС†С‹ РђР§РҐ", ACFBorder)
+	MENU_ITEM(L"Р¦РІРµС‚Р°", ColorItems)
+	MENU_ITEM(L"РљРѕРј-РїРѕСЂС‚", ComPort__)
+	MENU_ITEM(L"РЎРјРµС‰РµРЅРёРµ РґР°С‚С‡РёРєРѕРІ РЅР°Р»РёС‡РёСЏ С‚СЂСѓР±С‹ РІ РјРѕРґСѓР»Рµ", OffsetsSens)
+	MENU_ITEM(L"Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹", AdditionalParams)
 	
 	template<>struct SubMenu<AnalogPlate__>
 	{
@@ -186,9 +189,9 @@ namespace MainWindowMenu
 	};
 	// ----------------------------------------------------------------------------------------------------
 	struct MainAbout: AboutWindowDlg{};//{static void Do(HWND h){zprint("");}};
-	MENU_TEXT(L"О программе", TopMenu<MainAbout>)
+	MENU_TEXT(L"Рћ РїСЂРѕРіСЂР°РјРјРµ", TopMenu<MainAbout>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	MENU_ITEM(L"О программе", MainAbout)
+	MENU_ITEM(L"Рћ РїСЂРѕРіСЂР°РјРјРµ", MainAbout)
 
 	template<>struct TopMenu<MainAbout>
 	{
@@ -197,7 +200,7 @@ namespace MainWindowMenu
 		>::Result list;
 	};
 	// --------------------------------------------------------------------------------------------------------- 
-	/// \brief	Добавить меню пример использования
+	/// \brief	Р”РѕР±Р°РІРёС‚СЊ РјРµРЅСЋ РїСЂРёРјРµСЂ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 	//struct TestMenu{};
 	//MENU_TEXT(L"TestMenu", TopMenu<TestMenu>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

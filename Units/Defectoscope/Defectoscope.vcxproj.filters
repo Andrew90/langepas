@@ -531,6 +531,12 @@
     <ClCompile Include="Dialogs\MinimalTubeLengthDlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Common\window_tool\LaunchExternalProgram.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\LaunchExternalProgramDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1033,6 +1039,9 @@
     </ClInclude>
     <ClInclude Include="Compute\SaveData.h">
       <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\window_tool\LaunchExternalProgram.h">
+      <Filter>Common\window_tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

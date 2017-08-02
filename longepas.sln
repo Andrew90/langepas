@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCuttingZones", "Tests\T
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testMess", "Tests\testMess\testMess.vcxproj", "{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Messages", "Units\Messages\Messages.vcxproj", "{AB43774F-0155-4DAC-BF5C-47104F784830}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -71,6 +73,10 @@ Global
 		{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}.Debug|Win32.Build.0 = Debug|Win32
 		{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}.Release|Win32.ActiveCfg = Release|Win32
 		{FDEBCE98-B643-4B3E-A0CD-38FA5C6978B2}.Release|Win32.Build.0 = Release|Win32
+		{AB43774F-0155-4DAC-BF5C-47104F784830}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB43774F-0155-4DAC-BF5C-47104F784830}.Debug|Win32.Build.0 = Debug|Win32
+		{AB43774F-0155-4DAC-BF5C-47104F784830}.Release|Win32.ActiveCfg = Release|Win32
+		{AB43774F-0155-4DAC-BF5C-47104F784830}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +88,6 @@ Global
 		{01B4DA79-B806-46E8-A51C-4561C1987761} = {41D60A8B-B4FE-476F-A92B-9CD736AAEE82}
 		{311A436B-6CB0-4EA7-AF98-B5C452E63E22} = {41D60A8B-B4FE-476F-A92B-9CD736AAEE82}
 		{AA419953-EDD1-4ECB-8895-A4405F610CD4} = {E57922AA-961C-445E-BA4E-FEC7FDC4C850}
+		{AB43774F-0155-4DAC-BF5C-47104F784830} = {E57922AA-961C-445E-BA4E-FEC7FDC4C850}
 	EndGlobalSection
 EndGlobal

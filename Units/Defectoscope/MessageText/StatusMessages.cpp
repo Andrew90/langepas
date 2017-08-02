@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+п»ї#include "StdAfx.h"
 #include "StatusMessages.h"
 #include "App/MessageItems.h"
 #include "templates\sort.hpp"
@@ -6,88 +6,19 @@
 #include "MessageText\ListMess.hpp"
 namespace StatusMessages
 {
-//	template<class List, class Sub>struct Bits;
-//	template<class List, class Head, class Tail>struct Bits<List, Tlst<Head, Tail> >
-//	{
-//		static const unsigned value = (1 << TL::IndexOf<List, Head>::value) | Bits<List, Tail>::value;
-//	};
-//	template<class List>struct Bits<List, NullType>
-//	{
-//		static const unsigned value = 0;
-//	};
-//	template<class T>struct ItemSkipX;
-//
-//#define SKIP(item, ...)template<>struct ItemSkipX<item>{static const unsigned value = Bits<status_list, typename TL::MkTlst<__VA_ARGS__>::Result>::value;};
-//	
-//	template<>struct ItemSkipX<DeathZone>{static const unsigned value = 0;};
-//	SKIP(Undefined
-//		, DeathZone
-//		, Nominal			   
-//		, BorderKlass2<Thick> 
-//		, BorderKlass3<Thick> 
-//		, BorderDefect<Thick> 
-//		, BorderKlass2<Cross> 
-//		, BorderDefect<Cross> 
-//		, BorderKlass2<Long> 
-//		, BorderDefect<Long> 
-//		)
-//
-//		SKIP(Nominal
-//		, DeathZone
-//		, BorderKlass3<Thick> 
-//		, BorderKlass2<Thick> 
-//		, BorderDefect<Thick> 
-//		, BorderKlass2<Cross> 
-//		, BorderDefect<Cross> 
-//		, BorderKlass2<Long> 
-//		, BorderDefect<Long> 
-//		)
-//
-//		SKIP(BorderKlass2<Thick>
-//		, DeathZone
-//		, BorderKlass3<Thick> 
-//		, BorderDefect<Thick> 
-//		)
-//		SKIP(BorderKlass3<Thick>
-//		, DeathZone
-//		, BorderDefect<Thick> 
-//		)
-//		SKIP(BorderDefect<Thick>
-//		, DeathZone
-//		)
-//
-//		SKIP(BorderKlass2<Cross>
-//		, DeathZone
-//		, BorderDefect<Cross> 
-//		)
-//		SKIP(BorderDefect<Cross>
-//		, DeathZone
-//		)
-//
-//		SKIP(BorderKlass2<Long>
-//		, DeathZone
-//		, BorderDefect<Long> 
-//		)
-//		SKIP(BorderDefect<Long>
-//		, DeathZone
-//		)
-//#undef SKIP
-//
-//	typedef GenList<status_list, ItemSkipX> lst_lst;
-
 	template<class T>struct Txt;
-	template<>struct Txt<Undefined			  >{wchar_t *operator()(){return L"\"результат не определён\"";}};
-	template<>struct Txt<DeathZone			  >{wchar_t *operator()(){return L"\"мёртвая зона\"";}};
-	template<>struct Txt<Nominal			  >{wchar_t *operator()(){return L"\"норма\"";}};
-	template<>struct Txt<BorderDefect<Thick>  >{wchar_t *operator()(){return L"\"дефект толщины\"";}};
-	template<>struct Txt<BorderDefect<Cross>  >{wchar_t *operator()(){return L"\"поперечный дефект\"";}};
-	template<>struct Txt<BorderDefect<Long>   >{wchar_t *operator()(){return L"\"продольный дефект\"";}};
-	template<>struct Txt<BorderKlass3<Thick>  >{wchar_t *operator()(){return L"\"толщина класс 3\"";}};
-	template<>struct Txt<BorderKlass2<Thick>  >{wchar_t *operator()(){return L"\"толщина класс 2\"";}};
-	template<>struct Txt<BorderKlass2<Cross>  >{wchar_t *operator()(){return L"\"поперечный 2 класс\"";}};
-	template<>struct Txt<BorderKlass2<Long>   >{wchar_t *operator()(){return L"\"продольный 2 класс\"";}};
+	template<>struct Txt<Undefined			  >{wchar_t *operator()(){return L"\"СЂРµР·СѓР»СЊС‚Р°С‚ РЅРµ РѕРїСЂРµРґРµР»С‘РЅ\"";}};
+	template<>struct Txt<DeathZone			  >{wchar_t *operator()(){return L"\"РјС‘СЂС‚РІР°СЏ Р·РѕРЅР°\"";}};
+	template<>struct Txt<Nominal			  >{wchar_t *operator()(){return L"\"РЅРѕСЂРјР°\"";}};
+	template<>struct Txt<BorderDefect<Thick>  >{wchar_t *operator()(){return L"\"РґРµС„РµРєС‚ С‚РѕР»С‰РёРЅС‹\"";}};
+	template<>struct Txt<BorderDefect<Cross>  >{wchar_t *operator()(){return L"\"РїРѕРїРµСЂРµС‡РЅС‹Р№ РґРµС„РµРєС‚\"";}};
+	template<>struct Txt<BorderDefect<Long>   >{wchar_t *operator()(){return L"\"РїСЂРѕРґРѕР»СЊРЅС‹Р№ РґРµС„РµРєС‚\"";}};
+	template<>struct Txt<BorderKlass3<Thick>  >{wchar_t *operator()(){return L"\"С‚РѕР»С‰РёРЅР° РєР»Р°СЃСЃ 3\"";}};
+	template<>struct Txt<BorderKlass2<Thick>  >{wchar_t *operator()(){return L"\"С‚РѕР»С‰РёРЅР° РєР»Р°СЃСЃ 2\"";}};
+	template<>struct Txt<BorderKlass2<Cross>  >{wchar_t *operator()(){return L"\"РїРѕРїРµСЂРµС‡РЅС‹Р№ 2 РєР»Р°СЃСЃ\"";}};
+	template<>struct Txt<BorderKlass2<Long>   >{wchar_t *operator()(){return L"\"РїСЂРѕРґРѕР»СЊРЅС‹Р№ 2 РєР»Р°СЃСЃ\"";}};
 
-/// \todo вставить цвета для текстового сообщения
+/// \todo РІСЃС‚Р°РІРёС‚СЊ С†РІРµС‚Р° РґР»СЏ С‚РµРєСЃС‚РѕРІРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
 	ColorTable::TItems &ct = Singleton<ColorTable>::Instance().items;
 
 	struct __arr_proc_data__
