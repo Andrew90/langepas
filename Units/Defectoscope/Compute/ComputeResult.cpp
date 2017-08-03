@@ -8,6 +8,7 @@
 #include "Compute\Compute.hpp"
 #include "window_tool\EmptyWindow.h"
 #include "Windows\MainWindow.h"
+#include "Solid\Dates\ComputeSolid.h"
 
 namespace
 {
@@ -15,7 +16,7 @@ namespace
 }
 void CuttingZones()
 {
-	int minimumLengthPipe = Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value;
+	int minimumLengthPipe = 1;//Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value;
 	ResultData &resultData = Singleton<ResultData>::Instance();
 	char (&status)[App::count_zones] = resultData.status;
 	CutingZone cutingZone[10] = {};
@@ -26,9 +27,11 @@ void CuttingZones()
 	{
 		if(IsDefect(status[j]))
 		{
-			if((j - 1) - currentStop > minimumLengthPipe)
+			int t = (j - 1) - currentStop;
+			if(t > minimumLengthPipe)
 			{
 				cutingZone[current].cut1 = j - 1;
+				minimumLengthPipe = t;
 				++current;
 
 			}
@@ -61,6 +64,9 @@ void CuttingZones()
 
 	resultData.cutZone0 = cutingZone[offs].cut0;
 	resultData.cutZone1 = cutingZone[offs].cut1;
+
+	if(1 == resultData.cutZone0)  resultData.cutZone0 = 0;
+	if(resultData.currentOffsetZones - 1 == resultData.cutZone1)  resultData.cutZone1 = 0;
 }
 
 
@@ -133,7 +139,27 @@ void ComputeResult()
 		resultData.status[i] = ResultMessageId(st);
 	}
 
+	double res = 0;
+	wchar_t *group = NULL;
+	unsigned color = 0;
+
 	CuttingZones(); /// зоны реза
+
+	ComputeSolid::Recalculation(res, group, color);
+	wchar_t txt[1024];
+	wchar_t *s = txt;
+	wsprintf(s, L"<ff>\"Группа прочности\"<%x>%s ", color & 0xFFFFFF, group);
+	if(0 != resultData.cutZone0)
+	{
+		s += wcslen(s);
+		wsprintf(s, L"<ff>\"Зона реза 1\"<ff0000>%d ", resultData.cutZone0); 
+	}
+	if(0 != resultData.cutZone1)
+	{
+		s += wcslen(s);
+		wsprintf(s, L"<ff>\"Зона реза 2\"<ff0000>%d ", resultData.cutZone1); 
+	}
+	app.mainWindow.topLabelViewer.SetMessage(txt);
 }
 
 void Recalculation()

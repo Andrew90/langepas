@@ -34,7 +34,7 @@ namespace ComputeSolid
 					);	
 				double (&s)[SolidData::MAX_ZONES_COUNT] = solidData.signal;
 				double (&noFiltre)[SolidData::MAX_ZONES_COUNT]	 = solidData.signalNoFiltre;
-				for(int i = 0; i < solidData.currentOffset; ++i)
+				for(int i = solidData.start; i < solidData.stop; ++i)
 				{
 					s[i] = dsp.OneSample(noFiltre[i]);
 				}
@@ -49,7 +49,7 @@ namespace ComputeSolid
 					);	
 				double (&s)[SolidData::MAX_ZONES_COUNT] = solidData.reference;
 				double (&noFiltre)[SolidData::MAX_ZONES_COUNT]	 = solidData.referenceNoFiltre;
-				for(int i = 0; i < solidData.currentOffset; ++i)
+				for(int i = solidData.start; i < solidData.stop; ++i)
 				{
 					s[i] = dsp.OneSample(noFiltre[i]);
 				}
@@ -57,8 +57,8 @@ namespace ComputeSolid
 		}
 		else
 		{
-			memmove(solidData.signal, solidData.signalNoFiltre, sizeof(double) * solidData.currentOffset);
-			memmove(solidData.reference, solidData.referenceNoFiltre, sizeof(double) * solidData.currentOffset);
+			memmove(solidData.signal, solidData.signalNoFiltre, sizeof(solidData.signal));
+			memmove(solidData.reference, solidData.referenceNoFiltre, sizeof(solidData.reference));
 		}
 
 		//if(flt.get<CutoffFrequencyOn<ReferenceSignal>>().value)
@@ -86,8 +86,8 @@ namespace ComputeSolid
 
 	void Recalculation()
 	{
-		solidData.start = int(0.1 * solidData.currentOffset);
-		solidData.stop = solidData.currentOffset - solidData.start;
+//		solidData.start = int(0.1 * solidData.currentOffset);
+//		solidData.stop = solidData.currentOffset - solidData.start;
 
 		double result = 0;
 		wchar_t *groupName = L"";
@@ -114,9 +114,9 @@ namespace ComputeSolid
 			);
 
 		computeSolidGroup.currentGroupName = groupName;
-
-		Singleton<L502Signal>::Instance().Set(solidData.signal, solidData.currentOffset);
-		Singleton<L502Reference>::Instance().Set(solidData.reference, solidData.currentOffset);
+		//int count = solidData.stop - solidData.start;
+		//Singleton<L502Signal>::Instance().Set(&solidData.signal[solidData.start], count);
+		//Singleton<L502Reference>::Instance().Set(&solidData.reference[solidData.start], count);
 
 		//todo разобраться
 		//App::PrintTopLabel(buf);
@@ -128,8 +128,8 @@ namespace ComputeSolid
 
 	void Recalculation(double &result, wchar_t *&groupName, unsigned &color)
 	{
-		solidData.start = int(0.1 * solidData.currentOffset);
-		solidData.stop = solidData.currentOffset - solidData.start;
+		//solidData.start = int(0.1 * solidData.currentOffset);
+		//solidData.stop = solidData.currentOffset - solidData.start;
 
 		result = 0;
 		groupName = L"";

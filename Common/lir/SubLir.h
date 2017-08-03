@@ -1,5 +1,6 @@
 #pragma once
 #include "PerformanceCounter\PerformanceCounter.h"
+#include <math.h>
 #include "templates/typelist.hpp"
 #include "Base\TablesDefine.h"
 #include "App/App.h"
@@ -48,8 +49,9 @@ template<class O, class P>struct __sq_do__
 	{
 		Module<O> &module = p.lir.moduleItems.get<Module<O>>();
 		unsigned t = Performance::Counter();
+		zprint(" start module rem %f\n", module.rem);
 		Zones::Do(p.lir, t/*p.sq.time*/, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
-		zprint("  module.zonesOffs %d\n", module.zonesOffs);
+		dprint("stop module rem %f\n", module.rem);
 	}
 };
 
@@ -144,8 +146,11 @@ public:
 	typedef TL::MkTlst<Module<Cross>, Module<Long>>::Result module_list;
 	TL::Factory<module_list> moduleItems;
 
+	static double samplesLenMax;
+
 	unsigned tick[3000];
 	unsigned samples[3000];
+	static unsigned samplesLen[3000];
 	unsigned lastTime;
 	int lastOffs;
 	int index;
@@ -160,6 +165,7 @@ public:
 		timeIndex = 0;
 		index = 0;
 		currentSamples = 0;
+		samplesLenMax = 0;
 		TL::foreach<module_list, __init_modules__>()(moduleItems);
 	}
 	void Do()
@@ -194,7 +200,6 @@ template<template<class, int>class W, int N>struct Stop<W<Cross, N>>
 
 struct Zones
 {
-	//Zones::Do(p.lir, t/*p.sq.time*/, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
 	static void Do(SubLir &lir, unsigned sq_time, double sq_perSamples
 		, int  &module_zonesOffs, unsigned *module_zones
 		, int &module_framesOffs_, double &module_rem
@@ -206,6 +211,7 @@ struct Zones
 
 		int index = lir.index;
 		int i = module_framesOffs_;
+		double offs = samples[i - 1];
 		for(; i < index; ++i)
 		{
 			if(tick[i] > sq_time)
@@ -213,15 +219,33 @@ struct Zones
 				if(i != module_framesOffs_)module_framesOffs_ = i - 1;
 				return;
 			}
+
+			double dTimeSamples = double(samples[i] - samples[i - 1])/(tick[i] - tick[i - 1]);
+
 			if(module_rem > App::zone_length)
 			{
 				module_rem -= App::zone_length;
-				double d = 1.0 - module_rem / App::zone_length;
+				//if(module_rem < 0) module_rem = 0;
+				double d = fmod(module_rem, App::zone_length) /  App::zone_length;
 
-				dprint("module rem  %d %f  %f\n", module_zonesOffs, module_rem, d);
-
-				module_zones[module_zonesOffs] = samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
+				//dprint("module rem  %d %f  %f\n", module_zonesOffs, module_rem, d);	
+				offs += dTimeSamples * d * App::zone_length / sq_perSamples;
+				module_zones[module_zonesOffs] = (unsigned)offs;//samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
 				//dprint("len<<<<>>>>>xx  %d  %d\n", module_zonesOffs, samples[module_zonesOffs] - samples[module_zonesOffs - 1]);
+				if(module_zonesOffs > 0)dprint("samples in xxxxx %d %d  %f\n", module_zonesOffs, module_zones[module_zonesOffs] - module_zones[module_zonesOffs - 1], dTimeSamples);
+				if(module_zonesOffs < 1 + App::count_zones)	++module_zonesOffs;
+			}
+			while(module_rem > App::zone_length)
+			{
+				module_rem -= App::zone_length;
+				//if(module_rem < 0) module_rem = 0;
+				//double d = 1.0 - fmod(module_rem, App::zone_length) /  App::zone_length;
+
+				//dprint("module rem  %d %f  %f\n", module_zonesOffs, module_rem, d);	
+				offs += dTimeSamples * App::zone_length / sq_perSamples;
+				module_zones[module_zonesOffs] = (unsigned)offs;//samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
+				//dprint("len<<<<>>>>>xx  %d  %d\n", module_zonesOffs, samples[module_zonesOffs] - samples[module_zonesOffs - 1]);
+				if(module_zonesOffs > 0)dprint("samples in yyyy %d %d  %f\n", module_zonesOffs, module_zones[module_zonesOffs] - module_zones[module_zonesOffs - 1], dTimeSamples);
 				if(module_zonesOffs < 1 + App::count_zones)	++module_zonesOffs;
 			}
 			module_rem += (tick[i] - tick[i - 1]) * sq_perSamples;
@@ -284,8 +308,20 @@ template<>struct __start__<on<Magn, 2>>
 {
 	void operator()(SubLir &lir)
 	{
+		Singleton<ItemData<Solid>>::Instance().start = lir.samples[lir.index - 1];
+		dprint("offs <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< On %d\n", lir.samples[lir.index - 1]);
 	}
 };
+
+template<>struct __start__<off<Magn, 1>>
+{
+	void operator()(SubLir &lir)
+	{
+		Singleton<ItemData<Solid>>::Instance().stop = lir.samples[lir.index - 1];
+		dprint("offs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Off %d\n", lir.samples[lir.index - 1]);
+	}
+};
+
 template<>struct __start__<on<Thick, 2>>
 {
 	void operator()(SubLir &lir)
@@ -301,10 +337,24 @@ template<class T>struct __start__<on<T, 2>>
 	}
 };
 
+template<class T>struct __stop_0_
+{
+	void operator()(){};
+};
+
+template<>struct __stop_0_<off<Cross, 2>>
+{
+	void operator()()
+	{
+		zprint("\n");
+	}
+};
+
 template<class T>void SQ<T>::Do()
 {
 	__sq__<T>()(lir);	 //сохранение времени срабатывания датчика
 	__start__<T>()(lir);  //смещение начала отчёта данных в модуле
+	__stop_0_<T>()();
 	TL::foreach<__zones_do__<T>::Result, __sq_do__>()(__sq_do_data__<T>(lir));
 }
 
@@ -323,6 +373,7 @@ template<class T>void Module<T>::Start()
 	unsigned *samples = lir.samples;
 	int index = lir.index;
 	int i = 0;
+	rem = 0;
 	for(; i < index; ++i)  /// смещение 1 зоны в отчётах
 	{
 		if(tick[i] > offs)

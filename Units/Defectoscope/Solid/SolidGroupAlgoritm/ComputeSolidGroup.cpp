@@ -410,8 +410,8 @@ void ComputeSolidGroup::AddThreshold()
 	wchar_t path[1024];
 	if('\0' == solidFile[0])
 	{
-		if(Singleton<SolidData>::Instance().currentOffset > 0)
-		{			
+		//if(Singleton<SolidData>::Instance().currentOffset > 0)
+		//{			
 			currentFile = CreateNameFile(
 				subDir
 				, (wchar_t *)typeSizeName.c_str()
@@ -419,11 +419,11 @@ void ComputeSolidGroup::AddThreshold()
 				, path
 				);
 			solidFile = (wchar_t *)currentFile.c_str();
-		}
-		else
-		{
-			return;
-		}
+		//}
+		//else
+		//{
+		//	return;
+		//}
 	}
 
 	if(!FileExist(subDir, solidFile))

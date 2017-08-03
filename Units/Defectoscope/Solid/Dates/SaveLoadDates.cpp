@@ -9,6 +9,7 @@
 #include "App\AppBase.h"
 #include "SolidGroupAlgoritm\ComputeSolidGroup.h"
 #include "Dates\CounterTubes.h"
+#include "App/Config.h"
 
 namespace
 {
@@ -28,7 +29,7 @@ void SaveDateFile::Do(HWND h)
 {
 	SaveData o(h);
 	bool b = false;
-	if(solidData.currentOffset > 0 && o())
+	if(solidData.start > 0 && o())
 	{
 		StoreDataFile(o.sFile);
 	}
@@ -66,17 +67,27 @@ bool LoadDateFile::Do(wchar_t *path)
 				break;
 			}
 		}
-		if(fread(&solidData.currentOffset, sizeof(solidData.currentOffset), 1, f))
+#ifndef EMUL
+		b = fread(solidData.reference, sizeof(solidData.reference), 1, f)
+			&& fread(&solidData.signal, sizeof(solidData.signal), 1, f)
+			;
+		memmove(solidData.referenceNoFiltre, solidData.reference, sizeof(solidData.referenceNoFiltre));
+		memmove(solidData.signalNoFiltre, solidData.signal, sizeof(solidData.signalNoFiltre));		
+#else
+		int size;
+		if(fread(&size, sizeof(size), 1, f))
 		{
-			if(solidData.currentOffset < SolidData::MAX_ZONES_COUNT)
+			if(size < SolidData::MAX_ZONES_COUNT)
 			{
-				b = fread(solidData.reference, sizeof(double) * solidData.currentOffset, 1, f)
-					&& fread(&solidData.signal, sizeof(double) * solidData.currentOffset, 1, f)
+				b = fread(&solidData.reference[solidData.start], sizeof(double) * size, 1, f)
+					&& fread(&solidData.signal[solidData.start], sizeof(double) * size, 1, f)
 					;
-				memmove(solidData.referenceNoFiltre, solidData.reference, sizeof(double) * solidData.currentOffset);
-				memmove(solidData.signalNoFiltre, solidData.signal, sizeof(double) * solidData.currentOffset);
+				memmove(solidData.referenceNoFiltre, solidData.reference, sizeof(solidData.referenceNoFiltre));
+				memmove(solidData.signalNoFiltre, solidData.signal, sizeof(solidData.signalNoFiltre));
 			}
 		}
+
+#endif
 	}
 	return b;
 }
@@ -87,9 +98,8 @@ void StoreDataFile(wchar_t *path)
 	FILE *f= _wfopen(path, L"wb+");
 	if(NULL != f)
 	{
-		fwrite(&solidData.currentOffset, sizeof(solidData.currentOffset), 1, f)
-			&& fwrite(solidData.referenceNoFiltre, sizeof(double) * solidData.currentOffset, 1, f)
-			&& fwrite(&solidData.signalNoFiltre, sizeof(double) * solidData.currentOffset, 1, f)
+			fwrite(solidData.referenceNoFiltre, sizeof(solidData.referenceNoFiltre), 1, f)
+			&& fwrite(&solidData.signalNoFiltre, sizeof(solidData.signalNoFiltre), 1, f)
 			;
 		fclose(f);
 	}

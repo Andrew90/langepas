@@ -137,10 +137,10 @@ namespace Mode
 			static unsigned counter = 0;
 			if((++counter % 20) == 0) 
 			{
-				dprint("time %d  %d\n", GetTickCount(), lir.moduleItems.get<Module<Cross>>().zonesOffs);
-				lir.Do();   //вызываться будет через ~100 м.сек.
-				if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
-				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
+				//dprint("time %d  %d\n", GetTickCount(), lir.moduleItems.get<Module<Cross>>().zonesOffs);
+				//lir.Do();   //вызываться будет через ~100 м.сек.
+				//if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
+				//if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
 			}
 		}
 	};
@@ -170,13 +170,13 @@ namespace Mode
 		}
 	};	
 
+	//template<class T>struct __compute_unit__{void operator()(SubLir &){}};
 	template<class T>struct __compute_unit__
 	{
 		void operator()(SubLir &lir)
 		{
 			if(ComputeUnit<T>().Zones(lir.moduleItems.get<Module<T>>().zonesOffs))
 			{
-				//RepaintWindow(app.mainWindow.hWnd);
 				__updata_window__<T>()();
 			}
 		}
@@ -186,9 +186,12 @@ namespace Mode
 
 
 #define ZZZ(sb, n, c) lir.sqItems.get<SQ<sb<n, c>>>().Do();
+
+#define WAIT(inp, on, sen) AND_BITS(inp, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);\
+	lir.sqItems.get<SQ<on<sen, 1>>>().Do();
  
-#define WAIT(inp, on, sen, num) AND_BITS(inp, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);\
-	lir.sqItems.get<SQ<on<sen, num>>>().Do();\
+#define WAIT_COMPUTE(inp, on, sen) AND_BITS(inp, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);\
+	lir.sqItems.get<SQ<on<sen, 2>>>().Do();\
 	__compute_unit__<sen>()(lir);
 
 	void ControlTube(Data &)
@@ -305,25 +308,40 @@ namespace Mode
 		unit502.Start();
 		GUARD{unit502.Stop();};	  /// \brief выключает 502 при досрочном выходе из цикла 
 		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
-		WAIT(On<iSQ2po>, on, Cross, 2)
+		WAIT_COMPUTE(On<iSQ2po>, on, Cross)
 
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOn>();
-			WAIT(On<iSQ1t>, on, Thick, 1)
-			WAIT(On<iSQ2t>, on, Thick, 2)
+			WAIT(On<iSQ1t>, on, Thick)
+			WAIT_COMPUTE(On<iSQ2t>, on, Thick)
 		}
 		if(job.get<OnTheJob<Long>>().value)
 		{
 			Log::Mess<LogMess::WaitLongOn>();
-			WAIT(On<iSQ1pr>, on, Long, 1)
-			WAIT(On<iSQ2pr>, on, Long, 2)			
+			WAIT(On<iSQ1pr>, on, Long)
+
+			//#define WAIT(inp, on, sen, num) 
+		//	AND_BITS(On<iSQ1pr>, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);
+			
+	//lir.sqItems.get<SQ<on<Long, 1>>>().Do();
+	//__compute_unit__<Long, 1>()(lir);
+
+
+			WAIT_COMPUTE(On<iSQ2pr>, on, Long)			
 		}
 				
 		Log::Mess<LogMess::WaitMagneticOn>();
-		WAIT(On<iSQ1DM>, on, Magn, 1)
-		WAIT(On<iSQ2DM>, on, Magn, 2)
+		WAIT(On<iSQ1DM>, on, Magn)
+		WAIT_COMPUTE(On<iSQ2DM>, on, Magn)
 		OUT_BITS(On<oT_Base>);
+
+		///Расчёт мёртвой зоны начало
+		ComputeUnit<Cross>().DeathZonesBegin();
+		if(job.get<OnTheJob<Long>>().value)
+		{
+			ComputeUnit<Long>().DeathZonesBegin();
+		}
 
 		
 //.................................................................		
@@ -336,33 +354,28 @@ namespace Mode
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 			)(60000); 
 		ZZZ(off, Cross, 1)
-		WAIT(Off<iSQ2po>, off, Cross, 2)
+		WAIT_COMPUTE(Off<iSQ2po>, off, Cross)
 
-		///Расчёт мёртвой зоны начало
-		ComputeUnit<Cross>().DeathZonesBegin();
-		if(job.get<OnTheJob<Long>>().value)
-		{
-			ComputeUnit<Long>().DeathZonesBegin();
-		}
+		
 
 
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOff>();
-			WAIT(Off<iSQ1t>, off, Thick, 1)
-			WAIT(Off<iSQ2t>, off, Thick, 2)
+			WAIT(Off<iSQ1t>, off, Thick)
+			WAIT_COMPUTE(Off<iSQ2t>, off, Thick)
 
 		}
 		if(job.get<OnTheJob<Long>>().value)
 		{
 			Log::Mess<LogMess::WaitLongOff>();
-			WAIT(Off<iSQ1pr>, off, Long, 1)
-			WAIT(Off<iSQ2pr>, off, Long, 2)
+			WAIT(Off<iSQ1pr>, off, Long)
+			WAIT_COMPUTE(Off<iSQ2pr>, off, Long)
 		}
 
 		Log::Mess<LogMess::WaitMagneticOff>();
-		WAIT(Off<iSQ1DM>, off, Magn, 1)
-		WAIT(Off<iSQ2DM>, off, Magn, 2)
+		WAIT(Off<iSQ1DM>, off, Magn)
+		WAIT_COMPUTE(Off<iSQ2DM>, off, Magn)
 		OUT_BITS(Off<oT_Base>, Off<oSTF>, Off<oPowerSU>, Off<oMagnet>, Off<oRP>);
 		DisableDemagnetization();
 		unit502.Stop();

@@ -16,14 +16,14 @@ ResultViewer::Cut0::Cut0(Chart &c):VBorder(c){color = 0xff000000;widthPen = 3; d
 void ResultViewer::Cut0::Draw()
 {
 	value = Singleton<ResultData>::Instance().cutZone0;
-	VBorder::Draw();
+	if(0 != value)VBorder::Draw();
 }
 
 ResultViewer::Cut1::Cut1(Chart &c):VBorder(c){color = 0xff000000; widthPen = 3; dashStyle = DashStyleDashDotDot;}
 void ResultViewer::Cut1::Draw()
 {
 	value = Singleton<ResultData>::Instance().cutZone1;
-	VBorder::Draw();
+	if(0 != value)VBorder::Draw();
 }
 
 ResultViewer::ResultViewer()

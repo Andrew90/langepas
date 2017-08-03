@@ -537,6 +537,9 @@
     <ClCompile Include="Dialogs\LaunchExternalProgramDlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Common\lir\SubLir.cpp">
+      <Filter>Common\Devices\lir</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

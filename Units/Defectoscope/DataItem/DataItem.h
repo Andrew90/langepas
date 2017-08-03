@@ -21,22 +21,15 @@ template<int SENS>struct PrimaryData
 	static const int count_sensors = SENS;
 	int currentOffset;	  //счётчик кадров
 	int currentOffsetZones;	 //счётчик собранных зон
-	//int currentTimeOffset;	//счётчик считанных кадров с ацп
-//	int deadSamplesBegin, deadSamplesEnd;		//TODO удалить
 	double ascan[SENS][App::count_frames];	 //кадры с ацп
 	unsigned offsets[1 + App::count_zones];		  //смещение кадров по зонам
 	double buffer[SENS][App::count_zones];	 //значение в зоне
 	char status[SENS][App::count_zones];	 //статус в зоне
-	//unsigned time[3000];	//				 // время принятого кадра(для рсчёта смещения по зонам)
-	//unsigned frame[3000];	//распределение кадров по зонам
 };
 
 struct PrimaryThickData
 {
 	int currentOffsetZones;
-	//double brak;
-	//double class2;
-	//double class3;
 	double buffer[App::count_zones];
 	char status[App::count_zones];
 };
@@ -44,8 +37,7 @@ struct PrimaryThickData
 struct SolidGroupData
 {
 	static const int count_sensors = 2;
-	int currentOffset;
-	int currentOffsetZones;
+	int start, stop;
 	double ascan[count_sensors][App::count_frames];	
 };
 

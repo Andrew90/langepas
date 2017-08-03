@@ -65,7 +65,6 @@ namespace Communication
 		{
 			err = error_count;
 			receiveBuffer = buf;
-			//countBytes = count; 
 			countBytes = buf[0]; 
 			if(count >= countBytes)
 			{

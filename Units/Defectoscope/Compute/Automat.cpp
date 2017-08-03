@@ -101,19 +101,6 @@ namespace AutomatN
 			o(p);
 		}
 	};	
-	//struct ComputeData
-	//{
-	//	static void Do(unsigned bits)
-	//	{
-	//		static unsigned time = 0;
-	//		unsigned t = GetTickCount();
-	//		if(t - time > 1000)
-	//		{
-	//			time = t;
-	//			Compute::Do();
-	//		}
-	//	}
-	//};
 //----------------------------------------------------------------------
 	ExceptionAlarm::ExceptionAlarm()
 	{

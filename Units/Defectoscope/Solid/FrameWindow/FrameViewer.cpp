@@ -112,6 +112,9 @@ void FrameViewer::BeforeDraw(Gdiplus::Graphics &)
 	chart.minAxesY = Singleton<GraphAxesTable>::Instance().items.get<PrimarySignalMin>().value;
 	chart.maxAxesY = Singleton<GraphAxesTable>::Instance().items.get<PrimarySignalMax>().value;
 
+	if(x < solidData.start)	x =  solidData.start;
+	else if(x + width >= solidData.stop)	x =  solidData.stop - width;
+
 	chart.minAxesX = x;
 	chart.maxAxesX = x + width;
 
@@ -122,13 +125,13 @@ void FrameViewer::BeforeDraw(Gdiplus::Graphics &)
 void FrameViewer::IncFrame()
 {
 	x += offset;
-	if(x + width >= solidData.currentOffset)	x =  solidData.currentOffset - width;
+	if(x + width >= solidData.stop)	x =  solidData.stop - width;
 }
 
 void FrameViewer::DecFrame()
 {
 	x -= offset;
-	if(x < 0)	x =  0;
+	if(x < solidData.start)	x =  solidData.start;
 }
 
 

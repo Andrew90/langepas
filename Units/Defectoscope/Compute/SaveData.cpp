@@ -18,6 +18,8 @@ namespace ComputeData
 			fwrite(&longData, sizeof(longData), 1, f);
 			ItemData<Thick> &thickData = Singleton<ItemData<Thick>>::Instance();
 			fwrite(&thickData, sizeof(thickData), 1, f);
+			ItemData<Solid> &solidData = Singleton<ItemData<Solid>>::Instance();
+			fwrite(&solidData, sizeof(solidData), 1, f);
 			fclose(f);
 		}
 	}
@@ -35,6 +37,8 @@ namespace ComputeData
 			fread(&longData, sizeof(longData), 1, f);
 			ItemData<Thick> &thickData = Singleton<ItemData<Thick>>::Instance();
 			fread(&thickData, sizeof(thickData), 1, f);
+			ItemData<Solid> &solidData = Singleton<ItemData<Solid>>::Instance();
+			fread(&solidData, sizeof(solidData), 1, f);
 			fclose(f);
 		}
 	}

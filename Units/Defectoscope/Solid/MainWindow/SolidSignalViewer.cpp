@@ -31,7 +31,8 @@ SolidSignalViewer::SolidSignalViewer()
 //------------------------------------------------------------------------------
 void SolidSignalViewer::BeforeDraw(Gdiplus::Graphics &)
 {
-	 chart.maxAxesX = solidData.currentOffset;
+	 //chart.maxAxesX = solidData.currentOffset;
+	chart.maxAxesX = solidData.stop - solidData.start;
 	 chart.items.get<SignalMin>().SetData(signal.dataMin, signal.count);
 	 chart.items.get<SignalMax>().SetData(signal.dataMax, signal.count);
 	 chart.items.get<ReferenceMin>().SetData(reference.dataMin, reference.count);

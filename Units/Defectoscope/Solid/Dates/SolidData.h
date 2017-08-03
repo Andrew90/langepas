@@ -8,15 +8,14 @@ class SolidData
 	SolidData &operator=(const SolidData &);
 public:
 	static const int MAX_ZONES_COUNT = App::count_frames; 
-	int &currentOffset;
-	int start;
-	int stop; 
+	int &start;
+	int &stop; 
 	double (&referenceNoFiltre)[MAX_ZONES_COUNT];
 	double (&signalNoFiltre)[MAX_ZONES_COUNT];
 	double reference[MAX_ZONES_COUNT];
 	double signal[MAX_ZONES_COUNT];
 public:	
-	void Clear();
-	void SetData(double *data, int count);
+	//void Clear();
+	//void SetData(double *data, int count);
 };
 
