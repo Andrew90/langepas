@@ -138,9 +138,9 @@ namespace Mode
 			if((++counter % 20) == 0) 
 			{
 				//dprint("time %d  %d\n", GetTickCount(), lir.moduleItems.get<Module<Cross>>().zonesOffs);
-				//lir.Do();   //вызываться будет через ~100 м.сек.
-				//if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
-				//if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
+				lir.Do();   //вызываться будет через ~100 м.сек.
+				if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
+				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
 			}
 		}
 	};
@@ -245,6 +245,7 @@ namespace Mode
 
 		OUT_BITS(Off<oReloc1>, Off<oReloc2>, Off<oDefect>);
 
+		lir.Start();
 		ComputeUnit<Cross>().Clear();
 		ComputeUnit<Long>().Clear();
 		CleaningScreen();	///Очистка экрана
@@ -320,30 +321,13 @@ namespace Mode
 		{
 			Log::Mess<LogMess::WaitLongOn>();
 			WAIT(On<iSQ1pr>, on, Long)
-
-			//#define WAIT(inp, on, sen, num) 
-		//	AND_BITS(On<iSQ1pr>, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);
-			
-	//lir.sqItems.get<SQ<on<Long, 1>>>().Do();
-	//__compute_unit__<Long, 1>()(lir);
-
-
 			WAIT_COMPUTE(On<iSQ2pr>, on, Long)			
 		}
 				
 		Log::Mess<LogMess::WaitMagneticOn>();
 		WAIT(On<iSQ1DM>, on, Magn)
 		WAIT_COMPUTE(On<iSQ2DM>, on, Magn)
-		OUT_BITS(On<oT_Base>);
-
-		///Расчёт мёртвой зоны начало
-		ComputeUnit<Cross>().DeathZonesBegin();
-		if(job.get<OnTheJob<Long>>().value)
-		{
-			ComputeUnit<Long>().DeathZonesBegin();
-		}
-
-		
+		OUT_BITS(On<oT_Base>);		
 //.................................................................		
 		Log::Mess<LogMess::WaitCrossOff>();
 		AND_BITS(
@@ -356,8 +340,12 @@ namespace Mode
 		ZZZ(off, Cross, 1)
 		WAIT_COMPUTE(Off<iSQ2po>, off, Cross)
 
-		
-
+		///Расчёт мёртвой зоны начало
+		ComputeUnit<Cross>().DeathZonesBegin();
+		if(job.get<OnTheJob<Long>>().value)
+		{
+			ComputeUnit<Long>().DeathZonesBegin();
+		}
 
 		if(job.get<OnTheJob<Thick>>().value)
 		{
@@ -366,6 +354,7 @@ namespace Mode
 			WAIT_COMPUTE(Off<iSQ2t>, off, Thick)
 
 		}
+
 		if(job.get<OnTheJob<Long>>().value)
 		{
 			Log::Mess<LogMess::WaitLongOff>();
@@ -385,7 +374,6 @@ namespace Mode
 		UpdateScreen();
 #ifdef EMUL
 		SubLir &Xlir = lir;
-		
 		
 		dprint("count lond modules zones %d\n", ml.zonesOffs);
 

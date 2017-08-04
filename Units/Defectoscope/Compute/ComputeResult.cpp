@@ -63,7 +63,7 @@ void CuttingZones()
 	}
 
 	resultData.cutZone0 = cutingZone[offs].cut0;
-	resultData.cutZone1 = cutingZone[offs].cut1;
+	resultData.cutZone1 = 1 + cutingZone[offs].cut1;
 
 	if(1 == resultData.cutZone0)  resultData.cutZone0 = 0;
 	if(resultData.currentOffsetZones - 1 == resultData.cutZone1)  resultData.cutZone1 = 0;
@@ -110,8 +110,13 @@ void ComputeResult()
 	thickData.currentOffsetZones = len;
 	resultData.currentOffsetZones = len;
 
+	ComputeUnit<Cross>::Zones(len);
 	ComputeUnit<Cross>().DeathZonesEnd(len);
-	if(isLong)ComputeUnit<Long>().DeathZonesEnd(len);
+	if(isLong)
+	{
+		ComputeUnit<Long>::Zones(len);
+		ComputeUnit<Long>().DeathZonesEnd(len);
+	}
 
 	for(int i = 0; i < len; ++i)
 	{

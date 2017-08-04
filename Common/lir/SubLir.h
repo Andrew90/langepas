@@ -27,10 +27,10 @@ template<class T>class Module
 {
 	SubLir &lir;
 public:
-	//unsigned time;
 	int framesOffs;
 	int zonesOffs;
-	double rem;
+	double offset;
+	unsigned startLen;
 	unsigned (&zones)[1 + App::count_zones];
 	Module(SubLir &lir);
 	void Start();
@@ -49,9 +49,12 @@ template<class O, class P>struct __sq_do__
 	{
 		Module<O> &module = p.lir.moduleItems.get<Module<O>>();
 		unsigned t = Performance::Counter();
-		zprint(" start module rem %f\n", module.rem);
-		Zones::Do(p.lir, t/*p.sq.time*/, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
-		dprint("stop module rem %f\n", module.rem);
+	//	zprint(" start module rem %f\n", module.rem);
+		Zones::Do(p.lir, t/*p.sq.time*/, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
+			, module.startLen
+			, module.offset
+			);
+	//	dprint("stop module rem %f\n", module.rem);
 	}
 };
 
@@ -62,7 +65,10 @@ template<class O, class P, int N>struct __sq_do__<off<O, N>, P>
 		Module<O> &module = p.lir.moduleItems.get<Module<O>>();
 		unsigned t = p.lir.sqItems.get<SQ<off<O, 1>>>().time;
 		unsigned time = t + (p.sq.time - t) / 2;
-		Zones::Do(p.lir, time, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs, module.rem);
+		Zones::Do(p.lir, time, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
+			, module.startLen
+			, module.offset
+			);
 	}
 };
 
@@ -112,7 +118,7 @@ template<class O, class P>struct __init_modules__
 {
 	void operator()(O &o)
 	{
-		o.framesOffs = o.zonesOffs = 0;
+		o.framesOffs = o.zonesOffs = o.startLen = 0;
 	}
 };
 
@@ -146,11 +152,11 @@ public:
 	typedef TL::MkTlst<Module<Cross>, Module<Long>>::Result module_list;
 	TL::Factory<module_list> moduleItems;
 
-	static double samplesLenMax;
+	double samplesLenMax;
 
 	unsigned tick[3000];
 	unsigned samples[3000];
-	static unsigned samplesLen[3000];
+	unsigned samplesLen[3000];
 	unsigned lastTime;
 	int lastOffs;
 	int index;
@@ -163,7 +169,11 @@ public:
 	void Start()
 	{
 		timeIndex = 0;
+		tmpPerSamples = 0;
+		lastTime = 0;
+		lastOffs = 0;
 		index = 0;
+		startTime = 0;
 		currentSamples = 0;
 		samplesLenMax = 0;
 		TL::foreach<module_list, __init_modules__>()(moduleItems);
@@ -200,14 +210,24 @@ template<template<class, int>class W, int N>struct Stop<W<Cross, N>>
 
 struct Zones
 {
-	static void Do(SubLir &lir, unsigned sq_time, double sq_perSamples
+	static void Do(SubLir &lir, unsigned sq_time
+		
+		
+		
+		, double sq_perSamples
 		, int  &module_zonesOffs, unsigned *module_zones
-		, int &module_framesOffs_, double &module_rem
+		, int &module_framesOffs_//, double &module_rem
+
+
+
+		, unsigned startLen
+		, double &offset
 		)
 	{	
 		if(0 == module_framesOffs_) return;
 		unsigned *samples = lir.samples;
 		unsigned *tick = lir.tick;
+		unsigned *samplesLen = lir.samplesLen;
 
 		int index = lir.index;
 		int i = module_framesOffs_;
@@ -219,36 +239,44 @@ struct Zones
 				if(i != module_framesOffs_)module_framesOffs_ = i - 1;
 				return;
 			}
-
-			double dTimeSamples = double(samples[i] - samples[i - 1])/(tick[i] - tick[i - 1]);
-
-			if(module_rem > App::zone_length)
+			// 
+			if(0 == samplesLen[0] && 0.0 != lir.tmpPerSamples)
 			{
-				module_rem -= App::zone_length;
-				//if(module_rem < 0) module_rem = 0;
-				double d = fmod(module_rem, App::zone_length) /  App::zone_length;
+				int z = index - 1;
+				if(samplesLen[z] == 100000) return;
 
-				//dprint("module rem  %d %f  %f\n", module_zonesOffs, module_rem, d);	
-				offs += dTimeSamples * d * App::zone_length / sq_perSamples;
-				module_zones[module_zonesOffs] = (unsigned)offs;//samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
-				//dprint("len<<<<>>>>>xx  %d  %d\n", module_zonesOffs, samples[module_zonesOffs] - samples[module_zonesOffs - 1]);
-				if(module_zonesOffs > 0)dprint("samples in xxxxx %d %d  %f\n", module_zonesOffs, module_zones[module_zonesOffs] - module_zones[module_zonesOffs - 1], dTimeSamples);
-				if(module_zonesOffs < 1 + App::count_zones)	++module_zonesOffs;
+				
+				for(; z > 0; --z)
+				{
+					if(samplesLen[z] == 100000) break;
+				}
+
+				if(index - z < 3) break;
+
+				unsigned d = samplesLen[z + 2] - samplesLen[z + 1];
+
+				unsigned start = samplesLen[z + 1];
+
+				for(int k = z; k >= 0; --k)
+				{
+					start -= d;
+					samplesLen[k] = start;
+				}
+
+				lir.moduleItems.get<Module<Cross>>().Start();
 			}
-			while(module_rem > App::zone_length)
+			int t = lir.samplesLen[i] - startLen;
+			int j = t / App::zone_length;
+			if(j > module_zonesOffs)
 			{
-				module_rem -= App::zone_length;
-				//if(module_rem < 0) module_rem = 0;
-				//double d = 1.0 - fmod(module_rem, App::zone_length) /  App::zone_length;
-
-				//dprint("module rem  %d %f  %f\n", module_zonesOffs, module_rem, d);	
-				offs += dTimeSamples * App::zone_length / sq_perSamples;
-				module_zones[module_zonesOffs] = (unsigned)offs;//samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
-				//dprint("len<<<<>>>>>xx  %d  %d\n", module_zonesOffs, samples[module_zonesOffs] - samples[module_zonesOffs - 1]);
-				if(module_zonesOffs > 0)dprint("samples in yyyy %d %d  %f\n", module_zonesOffs, module_zones[module_zonesOffs] - module_zones[module_zonesOffs - 1], dTimeSamples);
-				if(module_zonesOffs < 1 + App::count_zones)	++module_zonesOffs;
+				double d = double(samples[i] - samples[i - 1]) / (samplesLen[i] -  samplesLen[i - 1]); 
+				for(; module_zonesOffs < j; ++module_zonesOffs)
+				{
+					offset += d * App::zone_length;
+					module_zones[module_zonesOffs] = (unsigned )offset;
+					//module_zones[module_zonesOffs] = module_zones[module_zonesOffs - 1] + unsigned(d * App::zone_length);
+				}
 			}
-			module_rem += (tick[i] - tick[i - 1]) * sq_perSamples;
 		}
 		module_framesOffs_ = i;
 	}
@@ -322,18 +350,11 @@ template<>struct __start__<off<Magn, 1>>
 	}
 };
 
-template<>struct __start__<on<Thick, 2>>
+template<>struct __start__<on<Long, 2>>
 {
 	void operator()(SubLir &lir)
 	{
-	}
-};
-
-template<class T>struct __start__<on<T, 2>>
-{
-	void operator()(SubLir &lir)
-	{
-		lir.moduleItems.get<Module<T>>().Start();
+		lir.moduleItems.get<Module<Long>>().Start();
 	}
 };
 
@@ -371,18 +392,23 @@ template<class T>void Module<T>::Start()
 
 	unsigned *tick = lir.tick;
 	unsigned *samples = lir.samples;
+	unsigned *samplesLen = lir.samplesLen;
 	int index = lir.index;
 	int i = 0;
-	rem = 0;
+//	rem = 0;
 	for(; i < index; ++i)  /// смещение 1 зоны в отчётах
 	{
 		if(tick[i] > offs)
 		{
 			double d = double(tick[i] - offs) / (tick[i] - tick[i - 1]);
 			zones[0] = samples[i - 1] + unsigned(d * (samples[i] - samples[i - 1]));
+			offset = zones[0];
 			zonesOffs = 1;
 			framesOffs = i;
-			rem = (1.0 - d) * (tick[i] - tick[i - 1]) * sq2.perSamples;
+		//	rem = (1.0 - d) * (tick[i] - tick[i - 1]) * sq2.perSamples;
+
+			startLen = 	samplesLen[i - 1] + unsigned(d * (samplesLen[i] - samplesLen[i - 1]));
+
 			break;
 		}
 	}	

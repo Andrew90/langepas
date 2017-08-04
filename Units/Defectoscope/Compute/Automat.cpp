@@ -126,13 +126,14 @@ namespace AutomatN
 		{
 			try
 			{
+				 App::measurementOfRunning = false;
 				AND_BITS(
 					Ex<ExceptionRun>
 					, Ex<ExceptionReturnTube>
 					, Ex<ExceptionExitTube>
 					, Ex<ExceptionStop>
 				)(); //кнопка начала измерений
-
+				 App::measurementOfRunning = true;
 				(*ptrProc)(data);
 			}
 			catch(ExceptionStop)

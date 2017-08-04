@@ -73,7 +73,7 @@ void Unit502::Read()
 			}
 			else
 			{
-				Unit502N::lir.samplesLenMax = 1000;
+				Unit502N::lir.samplesLenMax = 100000;
 				Unit502N::lir.samplesLen[Unit502N::lir.index] = 0;
 			}
 			++Unit502N::lir.index;
@@ -100,6 +100,8 @@ bool Unit502::SetupParams()
 int Unit502::Start()
 {
 	Unit502N::lir.currentSamples = 0;
+	Unit502N::lir.index = 0;
+	Unit502N::lir.tmpPerSamples = 0;
 	return Unit502N::l502.Start();
 }
 

@@ -154,7 +154,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Параметры сигнала", Signal)
 	MENU_ITEM(L"Границы АЧХ", ACFBorder)
 	MENU_ITEM(L"Цвета", ColorItems)
-	MENU_ITEM(L"Ком-порт", ComPort__)
+	MENU_ITEM(L"СОМ-порт", ComPort__)
 	MENU_ITEM(L"Смещение датчиков наличия трубы в модуле", OffsetsSens)
 	MENU_ITEM(L"Дополнительные параметры", AdditionalParams)
 	
