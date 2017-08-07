@@ -10,6 +10,7 @@
 
 LongWindow::LongWindow()
     : viewer(viewers.get<NoSubMenu<LongViewer>>())
+	, adjustItem(*this)
 	, count_sensors(App::count_long_sensors)
 {
 	viewer.cursor.SetMouseMoveHandler(this, &LongWindow::DrawCursor);	

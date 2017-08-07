@@ -219,6 +219,7 @@
     <ClCompile Include="Windows\ScanWindow.cpp" />
     <ClCompile Include="Windows\ThicknessViewer.cpp" />
     <ClCompile Include="Windows\TopLabelViewer.cpp" />
+    <ClCompile Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\CommonApp\ASU\Asu.h" />
@@ -389,6 +390,8 @@
     <ClInclude Include="Windows\ThicknessViewer.h" />
     <ClInclude Include="Windows\TopLabelViewer.h" />
     <ClInclude Include="Windows\ViewersMenu.hpp" />
+    <ClInclude Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.h" />
+    <ClInclude Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\Resource\Defectoscope.rc" />

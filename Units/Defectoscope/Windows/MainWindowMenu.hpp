@@ -65,7 +65,7 @@ namespace MainWindowMenu
 
 	MENU_ITEM(L"Минимальная и максимальная стенки трубы", PipeThicknes)
 //	MENU_ITEM(L"Границы отсечения в частотной области", AcfCutOffBorders)
-	MENU_ITEM(L"Настройки аналогового фильтра", Filter_)
+	MENU_ITEM(L"Настройки цифрового фильтра", Filter_)
 	MENU_ITEM(L"Скорость вращения", RotationSpeed)
 
 	template<>struct TopMenu<MainOptionTypeSize>
@@ -138,11 +138,11 @@ namespace MainWindowMenu
 	struct AdditionalParams: AdditionalParamsDlg{};
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
-	MENU_ITEM(L"Входные порты плата 1", DiscretePlateInputs)
-	MENU_ITEM(L"Выодные порты плата 1", DiscretePlateOutputs)
+	MENU_ITEM(L"Входные сигналы(IDI) платы 1", DiscretePlateInputs)
+	MENU_ITEM(L"Выходные сигналы(IDO)платы 1", DiscretePlateOutputs)
 
-	MENU_ITEM(L"Входные порты плата 2", DiscretePlateInputs1)
-	MENU_ITEM(L"Выодные порты плата 2", DiscretePlateOutputs1)
+	MENU_ITEM(L"Входные сигналы(IDI) платы 2", DiscretePlateInputs1)
+	MENU_ITEM(L"Выходные сигналы(IDO)платы 2", DiscretePlateOutputs1)
 
 	MENU_ITEM(L"Дискрипторы дискретных плат", DiscretePlateDescriptor)
 	MENU_ITEM(L"Коэффициенты пересчёта", Coefficient)

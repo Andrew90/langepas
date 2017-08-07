@@ -61,8 +61,8 @@ LRESULT LineViewer::operator()(TCreate &l)
 	chart->maxAxesX = 512;
 	chart->rect.top = 17;	
 	storedMouseMove.hwnd = l.hwnd;
-	storedMouseMove.x = 0;//WORD((chart->rect.right - chart->rect.left)/ 2);
-	storedMouseMove.y = 0;//WORD((chart->rect.bottom - chart->rect.top)/ 2);
+	storedMouseMove.x = 0;
+	storedMouseMove.y = 0;
 	mouseMove = false;
 	offsetX = 5;
 	return 0;

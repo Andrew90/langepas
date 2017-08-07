@@ -138,6 +138,8 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 		//	(*(TopViewer::Parent *)&x)(s);
 		//}
 		//RepaintWindow(owner->hWnd);
+		zprint("  test menu\n");
+		owner->adjustItem.get<AdjustingMultipliers<Line<T, N>>>().Show();
 	}
 
 	void operator()(TRButtonDown &l);	
@@ -151,7 +153,7 @@ template<class T, void(T::*X)()>struct TopMenu<MenuNum<T, X> >
 };
 
 template<class T>struct NameMenu<TopMenu<MenuNum<T, &T::MenuItemScan> > >{wchar_t *operator()(HWND){return L"Просмотр сигнала";}};
-template<class T>struct NameMenu<TopMenu<MenuNum<T, &T::MenuZoneDisable> > >{wchar_t *operator()(HWND){return L"Изменить статус датчика в зоне";}};
+template<class T>struct NameMenu<TopMenu<MenuNum<T, &T::MenuZoneDisable> > >{wchar_t *operator()(HWND){return L"Корректирующий множитель";}};
 
 template<class T, void(T::*X)()>struct Event<TopMenu<MenuNum<T, X> >> 	
 {										

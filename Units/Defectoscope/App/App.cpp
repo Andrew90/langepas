@@ -71,7 +71,7 @@ void App::Init()
 	ComPortTable::TItems & comPortParam = Singleton<ComPortTable>::Instance().items;
 	if(ok && !comPort.Open(comPortParam.get<NumberComPort>().value, comPortParam.get<Speed>().value))
 	{
-		MessageBox(h, L"Не могу инициировать ком-порт", L"Ошибка !!!", MB_ICONERROR);
+		MessageBox(h, L"Не могу инициировать COM-порт", L"Ошибка !!!", MB_ICONERROR);
 		ok = false;
 	}
 

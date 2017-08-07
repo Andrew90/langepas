@@ -10,7 +10,7 @@ namespace
 	DO_NOT_CHECK(NumberComPort)
 		DO_NOT_CHECK(Speed)
 
-		PARAM_TITLE(NumberComPort, L"Номер ком-порта")
+		PARAM_TITLE(NumberComPort, L"Номер COM-порта")
 		PARAM_TITLE(Speed, L"Скорость")
 
 		int speed[] = {4800, 7200, 9600, 14400, 19200, 38400};
@@ -65,15 +65,15 @@ namespace
 void ComPortDlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase, ComPortTable, DlgItem
-	>(Singleton<ComPortTable>::Instance()).Do(h, L"Настройка ком-порта"))
+	>(Singleton<ComPortTable>::Instance()).Do(h, L"Настройка COM-порта"))
 	{
 		ComPortTable::TItems & comPortParam = Singleton<ComPortTable>::Instance().items;
 		comPort.Close();
 		Sleep(100);
 		if(!comPort.Open(comPortParam.get<NumberComPort>().value, comPortParam.get<Speed>().value))
 		{
-			MessageBox(h, L"Не могу инициировать ком-порт", L"Ошибка !!!", MB_ICONERROR);
+			MessageBox(h, L"Не могу инициировать COM-порт", L"Ошибка !!!", MB_ICONERROR);
 		}
 	}
 }
-
+									 

@@ -257,7 +257,7 @@ void Inputs1Dlg::Do(HWND h)
 {
 	InputBit1Table t;
 	TL::foreach<InputBit1Table::items_list, __compress_bits__>()(&t.items, &Singleton<InputBit1Table>::Instance().items);
-	if(TemplDialog<ParametersBase, InputBit1Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит входного порта платы 1"))
+	if(TemplDialog<ParametersBase, InputBit1Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Входные сигналы(IDI) платы 1"))
 	{
 	}
 }
@@ -266,7 +266,7 @@ void Outputs1Dlg::Do(HWND h)
 {
 	OutputBit1Table t;
 	TL::foreach<OutputBit1Table::items_list, __compress_bits__>()(&t.items, &Singleton<OutputBit1Table>::Instance().items);
-	if(TemplDialog<ParametersBase, OutputBit1Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит выходного порта платы 1"))
+	if(TemplDialog<ParametersBase, OutputBit1Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Выходные сигналы(IDO)платы 1"))
 	{
 	}
 }
@@ -275,7 +275,7 @@ void Inputs2Dlg::Do(HWND h)
 {
 	InputBit2Table t;
 	TL::foreach<InputBit2Table::items_list, __compress_bits__>()(&t.items, &Singleton<InputBit2Table>::Instance().items);
-	if(TemplDialog<ParametersBase, InputBit2Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит входного порта платы 2"))
+	if(TemplDialog<ParametersBase, InputBit2Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Входные сигналы(IDI) платы 2"))
 	{
 	}
 }
@@ -284,7 +284,7 @@ void Outputs2Dlg::Do(HWND h)
 {
 	OutputBit2Table t;
 	TL::foreach<OutputBit2Table::items_list, __compress_bits__>()(&t.items, &Singleton<OutputBit2Table>::Instance().items);
-	if(TemplDialog<ParametersBase, OutputBit2Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Смещения бит выходного порта платы 2"))
+	if(TemplDialog<ParametersBase, OutputBit2Table, DlgItem, TL::MkTlst<putsDlg_OkBtn, CancelBtn>::Result>(t).Do(h, L"Выходные сигналы(IDO)платы 2"))
 	{
 	}
 }

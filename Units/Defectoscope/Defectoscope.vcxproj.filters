@@ -133,6 +133,9 @@
     <Filter Include="Common\Devices\lir">
       <UniqueIdentifier>{f7565ba3-bc9d-4911-a052-0d180743e234}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\WindowAdjustingMultipliers">
+      <UniqueIdentifier>{f1e914c1-6905-445c-96df-2ebd5850e5d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Defectoscope.cpp">
@@ -539,6 +542,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\lir\SubLir.cpp">
       <Filter>Common\Devices\lir</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.cpp">
+      <Filter>Windows\WindowAdjustingMultipliers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1045,6 +1051,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Common\window_tool\LaunchExternalProgram.h">
       <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.h">
+      <Filter>Windows\WindowAdjustingMultipliers</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.hpp">
+      <Filter>Windows\WindowAdjustingMultipliers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

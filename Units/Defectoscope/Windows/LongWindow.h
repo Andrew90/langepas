@@ -5,6 +5,7 @@
 #include "DataItem/ConstData.h"
 #include "Windows/LineChart.hpp"
 #include "Common.h"
+#include "Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.hpp"
 
 class LongWindow
 {
@@ -22,6 +23,7 @@ public:
 		    , line_list
 	    >::Result viewers_list;
 	TL::Factory<viewers_list> viewers;
+	TL::Factory<TL::ListToWapperList<line_list, AdjustingMultipliers>::Result> adjustItem;
 	LongViewer &viewer;
 	LongWindow();
 	void operator()(TSize &);

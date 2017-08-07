@@ -29,7 +29,7 @@ void FilderDlg::Do(HWND h)
 		, TL::MkTlst<CutoffFrequency<Cross>, CutoffFrequencyOn<Cross>
 		,  CutoffFrequency<Long>,  CutoffFrequencyOn<Long>
 		>::Result
-	>(Singleton<AnalogFilterTable>::Instance()).Do(h, L"Настройки аналогового фильтра"))
+	>(Singleton<AnalogFilterTable>::Instance()).Do(h, L"Настройки цифрового фильтра"))
 	{
 	}
 }
@@ -39,7 +39,7 @@ void SolidDlg::Do(HWND h)
 	if(TemplDialogList<ParametersBase, AnalogFilterTable
 		, TL::MkTlst<CutoffFrequency<Voltage>, CutoffFrequencyOn<Voltage>
 		>::Result
-	>(Singleton<AnalogFilterTable>::Instance()).Do(h, L"Настройки аналогового фильтра"))
+	>(Singleton<AnalogFilterTable>::Instance()).Do(h, L"Настройки цифрового фильтра"))
 	{
 		ComputeSolid::Recalculation();
 		FrameWindow &f = Singleton<FrameWindow>::Instance();

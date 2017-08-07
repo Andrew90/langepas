@@ -842,6 +842,50 @@ struct OffsetSensorsTable
 	const wchar_t *name(){return L"OffsetSensorsTable";}
 };
 //-----------------------------------------------------------------
+template<class T, int N>struct Adjust;
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 0, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 1, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 2, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 3, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 4, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 5, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 6, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 7, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 8, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 9, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 10, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Cross, 11, double, 1.0)
+
+DEFINE_PARAM_WAPPER_NUM(Adjust, Long, 0, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Long, 1, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Long, 2, double, 1.0)
+DEFINE_PARAM_WAPPER_NUM(Adjust, Long, 3, double, 1.0)
+struct AdjustingMultipliersTable
+{
+	typedef TL::MkTlst<
+		Adjust<Cross, 0>
+		, Adjust<Cross, 1>
+		, Adjust<Cross, 2>
+		, Adjust<Cross, 3>
+		, Adjust<Cross, 4>
+		, Adjust<Cross, 5>
+		, Adjust<Cross, 6>
+		, Adjust<Cross, 7>
+		, Adjust<Cross, 8>
+		, Adjust<Cross, 9>
+		, Adjust<Cross, 10>
+		, Adjust<Cross, 11>
+		
+		, Adjust<Long, 0> 
+		, Adjust<Long, 1> 
+		, Adjust<Long, 2> 
+		, Adjust<Long, 3> 
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"AdjustingMultipliersTable";}
+};
+//-----------------------------------------------------------------
  struct ParametersBase
  {
 	 typedef TL::MkTlst<
@@ -877,6 +921,7 @@ struct OffsetSensorsTable
 		 , CountSubZonesTable
 		 , RotationalSpeedTable
 		 , MinimumLengthPipeTable
+		 , AdjustingMultipliersTable
 	 >::Result multy_row_table_list;
 
 	 typedef TL::MkTlst<
