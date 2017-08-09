@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Windows\LongViewer.h"
 #include "DataItem/ConstData.h"
-//#include "MessageText/SelectMessage.h"
 #include "MessageText\StatusMessages.h"
 #include "templates/templates.hpp"
 #include "App/AppBase.h"
@@ -24,7 +23,6 @@ bool LongViewer::GetColorBar(unsigned sensor, int zone, double &data, unsigned &
 {
 	--sensor;
 	data = viewerData.buffer[sensor][zone];
-	//color = ConstData::ZoneColor(viewerData.status[sensor][zone]);
 	color = StatusColor()(viewerData.status[sensor][zone]);
 	return zone < viewerData.currentOffsetZones - 1;
 }

@@ -60,7 +60,7 @@ void OffsetsChannelDlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase
 		, L502OffsetsTable, DlgItem
-	>(Singleton<L502OffsetsTable>::Instance()).Do(h, L"Смещения каналов"))
+	>(Singleton<L502OffsetsTable>::Instance()).Do(h, L"Номера каналов"))
 	{
 	}
 }
@@ -108,7 +108,7 @@ namespace
 #undef RANGE_CROSS
 #undef RANGE_LONG
 
-	const wchar_t *SyncGainData[] ={L"10", L"5", L"2", L"1", L"0.5", L"0.2"};
+const wchar_t *SyncGainData[] ={L"10", L"5", L"2", L"1", L"0.5", L"0.2"};
 
 #define COMBO_ITEMS(TYPE)\
 	template<>struct FillComboboxList<TYPE>			 \
@@ -220,5 +220,162 @@ void AmplificationChannelDlg::Do(HWND h)
 	{
 	}
 }
+
+namespace  
+{
+
+	#define MODE_CROSS(N)template<>struct ParamTitle<Mode502<Cross, N> >{wchar_t *operator()(){\
+	return L"режим подключения поперечного канала "##L#N;}};
+#define MODE_LONG(N)template<>struct ParamTitle<Mode502<Long, N> >{wchar_t *operator()(){\
+	return L"режим подключения продольного канала "##L#N;}};
+
+	typedef Mode502<Voltage, 0> Mode502Voltage;
+	PARAM_TITLE(Mode502Voltage, L"режим подключения для напряжения группы прочности")
+	typedef	Mode502<Current, 0> Mode502Current;
+	PARAM_TITLE(Mode502Current, L"режим подключения для тока группы прочности")
+
+	typedef	Mode502<MagneticField, 0> Mode502MagneticField;
+	PARAM_TITLE(Mode502MagneticField, L"режим подключения для датчика наличия магнитного поля")
+
+	typedef	Mode502<Temperature, 0> Mode502Temperature1;
+	PARAM_TITLE(Mode502Temperature1, L"режим подключения для датчика температуры 1")
+
+	typedef	Mode502<Temperature, 1> Mode502Temperature2;
+	PARAM_TITLE(Mode502Temperature2, L"режим подключения датчика температуры 2")
+
+	
+		MODE_CROSS(1)
+		MODE_CROSS(2)
+		MODE_CROSS(3)
+		MODE_CROSS(4)
+		MODE_CROSS(5)
+		MODE_CROSS(6)
+		MODE_CROSS(7)
+		MODE_CROSS(8)
+		MODE_CROSS(9)
+		MODE_CROSS(10)
+		MODE_CROSS(11)
+		MODE_CROSS(12)
+
+		MODE_LONG(1)
+		MODE_LONG(2)
+		MODE_LONG(3)
+		MODE_LONG(4)
+
+#undef MODE_CROSS
+#undef MODE_LONG
+
+const wchar_t *modeGainData[] ={L"с общей землёй", L"дифференциальный"};
+
+#define COMBO_ITEMS(TYPE, N)\
+	template<>struct FillComboboxList<Mode502<TYPE, N>>			 \
+	{															 \
+		void operator()(HWND h, Mode502<TYPE, N> &)			 \
+		{														 \
+			for(int i = 0; i < dimention_of(modeGainData); ++i)	 \
+			{													 \
+				ComboBox_AddString(h, modeGainData[i]);			 \
+			}													 \
+		}														 \
+	};	\
+	template<>struct CurrentValue<Mode502<TYPE, N>>				 \
+	{															 \
+		void operator()(HWND h, Mode502<TYPE, N> &)			 \
+		{														 \
+			const int val = Singleton<L502ModeTable>::Instance().items.get<Mode502<TYPE, N>>().value;\
+			ComboBox_SetCurSel(h, val);\
+		}\
+	};\
+	template<>struct DlgSubItems<Mode502<TYPE, N>, int>: ComboBoxSubItem<Mode502<TYPE, N>>{};\
+	template<class P>struct __ok_btn__<DlgItem<Mode502<TYPE, N>>, P>\
+    {  \
+		typedef DlgItem<Mode502<TYPE, N>> O; \
+		void operator()(O *o, P *p)	 \
+		{						   \
+			wchar_t s[128];					\
+			GetWindowText(o->hWnd, s, dimention_of(s));	\
+			int i = 0;											  \
+			for(; i < dimention_of(modeGainData); ++i)	\
+			{																		  \
+				if(0 == wcscmp(s, modeGainData[i])) break;	  \
+			}												 \
+			   o->value.value =  i;		   \
+			p->update.set<typename TL::Inner<O>::Result>(o->value.value);  \
+		}	 \
+	};
+
+COMBO_ITEMS(Cross, 1)
+COMBO_ITEMS(Cross, 2)
+COMBO_ITEMS(Cross, 3)
+COMBO_ITEMS(Cross, 4)
+COMBO_ITEMS(Cross, 5)
+COMBO_ITEMS(Cross, 6)
+COMBO_ITEMS(Cross, 7)
+COMBO_ITEMS(Cross, 8)
+COMBO_ITEMS(Cross, 9)
+COMBO_ITEMS(Cross, 10)
+COMBO_ITEMS(Cross, 11)
+COMBO_ITEMS(Cross, 12)
+
+COMBO_ITEMS(Long, 1)
+COMBO_ITEMS(Long, 2)
+COMBO_ITEMS(Long, 3)
+COMBO_ITEMS(Long, 4)
+#undef COMBO_ITEMS
+
+
+#define COMBO_ITEMS(TYPE)\
+	template<>struct FillComboboxList<TYPE>			 \
+	{															 \
+		void operator()(HWND h, TYPE &t)			 \
+		{														 \
+			for(int i = 0; i < dimention_of(modeGainData); ++i)	 \
+			{													 \
+				ComboBox_AddString(h, modeGainData[i]);			 \
+			}													 \
+		}														 \
+	};															 \
+	template<>struct CurrentValue<TYPE>				 \
+	{															 \
+		void operator()(HWND h, TYPE &t)			 \
+		{														 \
+			ComboBox_SetCurSel(h, Singleton<L502ModeTable>::Instance().items.get<TYPE>().value);\
+		}\
+	};\
+	template<>struct DlgSubItems<TYPE, int>: ComboBoxSubItem<TYPE>{};\
+	template<class P>struct __ok_btn__<DlgItem<TYPE>, P>\
+    {  \
+		typedef DlgItem<TYPE> O; \
+		void operator()(O *o, P *p)	 \
+		{						   \
+			wchar_t s[128];					\
+			   GetWindowText(o->hWnd, s, dimention_of(s));	\
+			int i = 0;											  \
+			for(; i < dimention_of(modeGainData); ++i)	\
+			{																		  \
+				if(0 == wcscmp(s, modeGainData[i])) break;	  \
+			}												 \
+			   o->value.value =  i;		   \
+			p->update.set<typename TL::Inner<O>::Result>(o->value.value);  \
+		}	 \
+	};
+COMBO_ITEMS(Mode502Voltage)
+COMBO_ITEMS(Mode502Current)
+
+COMBO_ITEMS(Mode502MagneticField)
+COMBO_ITEMS(Mode502Temperature1)
+COMBO_ITEMS(Mode502Temperature2)
+#undef COMBO_ITEMS
+}
+
+void ModeChannelDlg::Do(HWND h)
+{
+	if(TemplDialog<ParametersBase
+		, L502ModeTable, DlgItem
+	>(Singleton<L502ModeTable>::Instance()).Do(h, L"Режим подключения каналов"))
+	{
+	}
+}
+
 
 //TODO написать настройку дискретных входов-выходов платы 502

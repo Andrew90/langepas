@@ -135,6 +135,8 @@ namespace MainWindowMenu
 	struct ComPort__  : ComPortDlg{};
 	struct OffsetsSens : OffsetSensorDlg{};
 
+	struct ModeChannel: ModeChannelDlg{};
+
 	struct AdditionalParams: AdditionalParamsDlg{};
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
@@ -148,8 +150,9 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Коэффициенты пересчёта", Coefficient)
 	
 	MENU_TEXT(L"Аналоговая плата", SubMenu<AnalogPlate__>)
-	MENU_ITEM(L"Смещение каналов", OffsetChannels)
+	MENU_ITEM(L"Номера каналов", OffsetChannels)
 	MENU_ITEM(L"Усиление каналов", AmplificationChannels)
+	MENU_ITEM(L"Режим подключения каналов", ModeChannel)
 
 	MENU_ITEM(L"Параметры сигнала", Signal)
 	MENU_ITEM(L"Границы АЧХ", ACFBorder)
@@ -161,7 +164,7 @@ namespace MainWindowMenu
 	template<>struct SubMenu<AnalogPlate__>
 	{
 		typedef TL::TypeToTypeLst<
-			typename TL::MkTlst<OffsetChannels, AmplificationChannels>::Result 
+			typename TL::MkTlst<OffsetChannels, AmplificationChannels, ModeChannel>::Result 
 			, MenuItem
 		>::Result list;
 	};

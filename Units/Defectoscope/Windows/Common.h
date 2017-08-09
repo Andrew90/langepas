@@ -227,23 +227,15 @@ namespace Common
 			o->chart->maxAxesY = Singleton<AxesTable>::Instance().items.get<AxesYMax<typename P::sub_type> >().value;
 		}
 	};
-	//template<class O, class P>struct __set_thresholds__
-	//{
-	//	void operator()(O *o, P *p)
-	//	{
-	//	//	o->value = Singleton<ThresholdsTable>::Instance().items.get<TL::Inner<O>::Result>().value[*p];
-	//	}
-	//};
+	
 	template<class O, class P>struct __update__;
 	template<template<class, int>class W, class X, int N, class P>struct __update__<W<X, N>, P>
 	{
 		typedef W<X, N> O;
 		void operator()(O *o, P *p)
 		{
-			o->dataViewer.Do(p->lastZone, N);
+			o->dataViewer.Do(p->lastZone, N, o->owner->adjustItem.get<AdjustingMultipliers<O>>().val);
 			o->chart->maxAxesX = o->dataViewer.count;
-			//typedef TL::SelectWapper<typename O::TChart::items_list, Border>::Result lst;
-			//TL::foreach<lst, __set_thresholds__>()(&((typename O::TChart *)o->chart)->items, &p->lastZone);
 			RepaintWindow(o->hWnd);
 		}
 	};
@@ -322,6 +314,8 @@ template<>struct SetParamOpenWindow<LongWindow>
 {
 	void operator()(HWND h);
 };
+
+
 }
 
 

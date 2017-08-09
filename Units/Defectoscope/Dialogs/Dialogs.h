@@ -83,4 +83,6 @@ DLG(MinimalTubeLength)
 
 DLG(LaunchExternalProgramDlg)
 
+DLG(ModeChannelDlg)
+
 #undef DLG

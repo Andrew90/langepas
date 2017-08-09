@@ -56,10 +56,12 @@ void CrossWindow::operator()(TCommand &l)
 	EventDo(l);
 }
 //--------------------------------------------------------------------
+
 void CrossWindow::operator()(TDestroy &l)
 {
 	SetWindowLongPtr(l.hwnd, GWLP_USERDATA, NULL);
 	TL::foreach<viewers_list, Common::__destroy__window__>()(&viewers);
+	AdjustStored<ajust_window_list>()(l.hwnd);
 	delete this;
 }
 //----------------------------------------------------------------------

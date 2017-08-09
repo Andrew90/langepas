@@ -39,14 +39,12 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 	{
 		((Parent::TChart *)chart)->items.get<BarSeries>().SetColorBarHandler(this, &Line::GetColorBar);
 		cursor->SetMouseMoveHandler(this, &Line::CursorDraw);
-		zprint(" Line\n");
 	}	
 	bool GetColorBar(int offs, double &data, unsigned &color)
 	{
 		if(NULL != dataViewer.data && offs < dataViewer.count)
 		{
 			data = DefVal<typename T::sub_type>()(dataViewer.data[offs], offs);
-			//color = ConstData::ZoneColor(dataViewer.status[offs]);
 			color = StatusColor()(dataViewer.status[offs]);
 			return true;
 		}
@@ -60,15 +58,7 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			return 0;
 		}
 	};
-	//template<int N>struct Test<ThickWindow, N>
-	//{
-	//	template<class Z>int operator()(Z &t, int i)
-	//	{
-	//		char *c = t.firstScan[i];
-	//		return *(int *)&c[sizeof(int) * N];
-	//	}
-	//};
-
+	
 	bool CursorDraw(TMouseMove &l, VGraphics &g)	  
 	{	
 		if(owner->drawZones)
@@ -84,9 +74,6 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			wchar_t s[256];
 			StatusText()(dataViewer.status[offsetX], color, b, s);
 			bool no = TL::IndexOf<ColorTable::items_list, Clr<Undefined>>::value == status
-				//|| TL::IndexOf<ColorTable::items_list, Clr<LessMinimumEnergy>>::value == status
-				//|| TL::IndexOf<ColorTable::items_list, Clr<GreaterMaximumEnergy>>::value == status
-				//|| TL::IndexOf<ColorTable::items_list, Clr<ValueLessThreshold>>::value == status
 				;
 
 			if(!no)
@@ -121,24 +108,6 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 	*/
 	void MenuZoneDisable()
 	{
-		//ItemData<T::sub_type> &d = Singleton<ItemData<T::sub_type>>::Instance();
-		//d.cancelOperatorSensor[N][owner->lastZone] ^= true;
-		//compute.Recalculation();
-		//RECT r;
-		//GetClientRect(hWnd, &r);
-		//{
-		//	TSize s = {hWnd, WM_SIZE, 0, (WORD)r.right, (WORD)r.bottom};
-		//	(*(Parent::Parent *)this)(s);
-		//}
-		//typedef TL::TypeAt<T::viewers_list, 0>::Result TopViewer;
-		//TopViewer &x = owner->viewers.get<TopViewer>();
-		//GetClientRect(x.hWnd, &r);
-		//{
-		//	TSize s = {x.hWnd, WM_SIZE, 0, (WORD)r.right, (WORD)r.bottom};
-		//	(*(TopViewer::Parent *)&x)(s);
-		//}
-		//RepaintWindow(owner->hWnd);
-		zprint("  test menu\n");
 		owner->adjustItem.get<AdjustingMultipliers<Line<T, N>>>().Show();
 	}
 

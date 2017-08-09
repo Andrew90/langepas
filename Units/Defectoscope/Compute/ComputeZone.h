@@ -36,6 +36,42 @@ struct AnalogFiltre
 	}
 };
 
+template<class List, class T>struct __adjust_list__;
+template<class Head, class Tail, class T>struct __adjust_list__<Tlst<Head, Tail>, T>
+{
+	typedef typename __adjust_list__<Tail, T>::Result Result;
+};
+template<class Tail, class T, int N>struct __adjust_list__<Tlst<Adjust<T, N>, Tail>, T>
+{
+	typedef Tlst<Adjust<T, N>, typename __adjust_list__<Tail, T>::Result> Result;
+};
+
+template<class T>struct __adjust_list__<NullType, T>
+{
+	typedef NullType Result;
+};
+
+template<class T>struct __get_adjust_data__
+{
+	typedef typename __adjust_list__<AdjustingMultipliersTable::items_list, T>::Result List;
+	int sensor;
+	double &adjust;
+	__get_adjust_data__(int sensor, double &adjust): sensor(sensor), adjust(adjust){}
+};
+
+template<class O, class P>struct __get_adjust__
+{
+	bool operator()(O &o, P &p)
+	{
+		if(p.sensor == TL::IndexOf<typename P::List, O>::value)
+		{
+			p.adjust = o.value;
+			return false;
+		}
+		return true;
+	}
+};
+
 template<class T>struct ComputeZone
 {
 	bool operator()(unsigned zone, unsigned sensor)
@@ -52,7 +88,6 @@ template<class T>struct ComputeZone
 
 		if(samplesZone > AnalogFiltre_bufSize)
 		{
-			zprint(" Allarm memory %d\n", samplesZone);
 			return false;
 		}
 
@@ -68,18 +103,30 @@ template<class T>struct ComputeZone
 		MedianFiltre filtre;
 		MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
 
+		double adjust = 1;
+		typedef __get_adjust_data__<T> Sub;
+		TL::find<Sub::List, __get_adjust__>()(
+			Singleton<AdjustingMultipliersTable>::Instance().items
+			, Sub(sensor, adjust)
+			);
+
 		bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
 		if(filtreOn)
 		{
 			int width = filtreParam.get<MedianFiltreWidth<T>>().value;
 			filtre.Init(width, startZone - width);
+			for(int i = 0; i < dimention_of(filtre.buf); ++i)
+			{
+				filtre.buf[i] *= adjust;
+			}
 		}
 
 		for(double *i = startZone; i < stopZone; ++i)
 		{
-			int st = TL::IndexOf<status_list, Nominal>::value; 
+			int st = STATUS_ID(Nominal);
 
 			double val = filtreOn ? filtre(*i) : *i;
+			val *= adjust;
 
 			if(borderDefect < val)st =  STATUS_ID(BorderDefect<T>);
 			else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>); 
@@ -136,21 +183,33 @@ template<class T>struct ComputeZoneBegin
 
 		MedianFiltre filtre;
 		MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
+
+		double adjust = 1;
+		typedef __get_adjust_data__<T> Sub;
+		TL::find<Sub::List, __get_adjust__>()(
+			Singleton<AdjustingMultipliersTable>::Instance().items
+			, Sub(sensor, adjust)
+			);
+
 		bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
 		if(filtreOn)
 		{
 			int width = filtreParam.get<MedianFiltreWidth<T>>().value;
 			filtre.Init(width, startZone - width);
-		}
-
-		if(filtreOn)
-		{
-			for(double *i = startZone; i < stopZone; ++i)
+			for(int i = 0; i < dimention_of(filtre.buf); ++i)
 			{
-				filtre(*i);
+				filtre.buf[i] *= adjust;
 			}
 		}
 
+		//if(filtreOn)
+		//{
+		//	for(double *i = startZone; i < stopZone; ++i)
+		//	{
+		//		filtre(*i);
+		//	}
+		//}
+		//   отлаживать здесь
 		char &statusResult =  item.status[sensor][full];
 		double &valueResult = item.buffer[sensor][full];	
 
@@ -162,6 +221,7 @@ template<class T>struct ComputeZoneBegin
 			int st = STATUS_ID(Nominal); 
 
 			double val = filtreOn ? filtre(*i) : *i;
+			val *= adjust;
 
 			if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
 			else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>);
@@ -218,10 +278,22 @@ template<class T>struct ComputeZoneEnd
 			MedianFiltre filtre;
 			MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
 			bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
+
+			double adjust = 1;
+			typedef __get_adjust_data__<T> Sub;
+			TL::find<Sub::List, __get_adjust__>()(
+				Singleton<AdjustingMultipliersTable>::Instance().items
+				, Sub(sensor, adjust)
+				);
+
 			if(filtreOn)
 			{
 				int width = filtreParam.get<MedianFiltreWidth<T>>().value;
 				filtre.Init(width, startZone - width);
+				for(int i = 0; i < dimention_of(filtre.buf); ++i)
+				{
+					filtre.buf[i] *= adjust;
+				}
 			}
 
 			for(double *i = startZone; i < stopZone; ++i)
@@ -229,6 +301,7 @@ template<class T>struct ComputeZoneEnd
 				int st = STATUS_ID(Nominal); 
 
 				double val = filtreOn ? filtre(*i): *i;
+				val *= adjust;
 
 				if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
 				else if(borderKlass2 < *i)st = STATUS_ID(BorderKlass2<T>);

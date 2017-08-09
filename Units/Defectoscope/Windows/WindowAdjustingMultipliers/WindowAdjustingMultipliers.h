@@ -8,8 +8,8 @@
 
 class WindowAdjustingMultipliers
 {	
-	typedef void (WindowAdjustingMultipliers::*Tptr)(TCommand &);
-	Tptr ptrOk, ptrCancel;
+	//typedef void (WindowAdjustingMultipliers::*Tptr)(TCommand &);
+	//Tptr ptrOk, ptrCancel;
 public:
 	class OkBtn: TEvent
 	{
@@ -29,6 +29,7 @@ public:
 	static const int width = 300;
 	static const int height = 120;
 public:
+	void(WindowAdjustingMultipliers::*ptrUpdate)(wchar_t *);
 	HWND hWnd;
 	OkBtn okBtn;
 	CancelBtn cancelBtn;
@@ -36,4 +37,7 @@ public:
 	void operator()(TCommand &);
 	void operator()(TGetMinMaxInfo &);
 	LRESULT operator()(TCreate &);
+	virtual void OkBtnHandler(TCommand &){}
+	virtual void CancelBtnHandler(TCommand &){}
+	void Refresh(wchar_t *t){if(NULL != ptrUpdate)(this->*ptrUpdate)(t);}
 };

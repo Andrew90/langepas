@@ -31,7 +31,7 @@ DefectData::DefectData(int &filterWidth, bool &filterOn, double &brak, double &k
 {
 }
 
-void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2, const int borderDefect, int widthFiltre, bool filtreOn, int cutoffFrequency)
+void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2, const int borderDefect, int widthFiltre, bool filtreOn, int cutoffFrequency, double adjustMul)
 {
 	int len = stop - start;
 	count = len;
@@ -57,7 +57,7 @@ void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2,
 		startZone = &ascan[start - App::zone_filter_offset];
 		for(int i = 0; i < len + App::zone_filter_offset; ++i)
 		{
-			buf[i] = dsp.OneSample(startZone[i]);
+			buf[i] = dsp.OneSample(startZone[i] * adjustMul);
 		}
 		startZone = &buf[App::zone_filter_offset];		
 	}

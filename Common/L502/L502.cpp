@@ -62,7 +62,7 @@ bool L502::SetupParams()
 	int f_ch_ranges[buf_size];
 	TL::foreach<L502RangeTable::items_list, __set_array__<L502RangeTable::items_list>::loc>()(&Singleton<L502RangeTable>::Instance().items, f_ch_ranges);
 	int f_ch_modes[buf_size];
-	for(int i = 0; i < buf_size; ++i) f_ch_modes[i] = L502_LCH_MODE_COMM;
+	TL::foreach<L502ModeTable::items_list, __set_array__<L502ModeTable::items_list>::loc>()(&Singleton<L502ModeTable>::Instance().items, f_ch_modes);
 	int f_channels[buf_size];
 	TL::foreach<L502OffsetsTable::items_list, __set_array__<L502OffsetsTable::items_list>::loc>()(&Singleton<L502OffsetsTable>::Instance().items, f_channels);
 	int err = L502_SetLChannelCount((t_l502_hnd)hnd, buf_size);

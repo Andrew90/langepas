@@ -2,7 +2,7 @@
 #include "App/App.h"
 #include "Base/tables.hpp"
 #include "Base/TablesDefine.h"
-//#include "Lan/LanParameters.h"
+#include "L502\l502api.h"
 #include "App/MessageItems.h"
 //-------------------------------------------------------------------------------------------
 void TrimTypeList(wchar_t *, wchar_t *);
@@ -267,6 +267,7 @@ struct AxesTable;
 struct AnalogFilterTable;
 struct CalculationAlgorithmTable;
 struct RotationalSpeedTable;
+struct AdjustingMultipliersTable;
 DEFINE_PARAM_ID(ThresholdsTable            , int, 1)
 DEFINE_PARAM_ID(DeadAreaTable			   , int, 1)
 DEFINE_PARAM_ID(AxesTable	   , int, 1)
@@ -281,6 +282,7 @@ DEFINE_PARAM_ID(RotationalSpeedTable, int, 1)
 DEFINE_PARAM(TubeMinLength            , int, 38)
 DEFINE_PARAM(DiametrTube            , int, 73)
 DEFINE_PARAM_ID(MinimumLengthPipeTable, int, 1)
+DEFINE_PARAM_ID(AdjustingMultipliersTable, int, 1)
 
  struct ParametersTable
  {
@@ -295,6 +297,7 @@ DEFINE_PARAM_ID(MinimumLengthPipeTable, int, 1)
 		, ID<CalculationAlgorithmTable>
 		, ID<RotationalSpeedTable>
 		, ID<MinimumLengthPipeTable>
+		, ID<AdjustingMultipliersTable>
 		, CrossCountSensors
 		, NameParam
 		, TubeMinLength
@@ -690,6 +693,68 @@ struct L502OffsetsTable
 	const wchar_t *name(){return L"L502OffsetsTable";}
 };
 //-------------------------------------------------------------------
+template<class T, int>struct Mode502;
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 1, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 2, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 3, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 4, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 5, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 6, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 7, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 8, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 9, int,  L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 10, int, L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 11, int, L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 12, int, L502_LCH_MODE_COMM)
+					
+DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 1, int  , L502_LCH_MODE_DIFF)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 2, int  , L502_LCH_MODE_DIFF)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 3, int  , L502_LCH_MODE_DIFF)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 4, int  , L502_LCH_MODE_DIFF)
+						
+DEFINE_PARAM_WAPPER_NUM(Mode502, Voltage, 0, int, L502_LCH_MODE_DIFF)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Current, 0, int, L502_LCH_MODE_DIFF)
+						
+DEFINE_PARAM_WAPPER_NUM(Mode502, Temperature, 0, int, L502_LCH_MODE_COMM)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Temperature, 1, int, L502_LCH_MODE_COMM)
+					
+DEFINE_PARAM_WAPPER_NUM(Mode502, MagneticField, 0, int, L502_LCH_MODE_COMM)
+
+struct L502ModeTable
+{
+	typedef TL::MkTlst<
+		  Mode502<Long, 1> 
+        , Mode502<Long, 2> 
+        , Mode502<Long, 3> 
+		, Mode502<Long, 4> 
+	
+        , Mode502<Cross, 1> 
+        , Mode502<Cross, 2> 
+        , Mode502<Cross, 3> 
+        , Mode502<Cross, 4> 
+        , Mode502<Cross, 5> 
+        , Mode502<Cross, 6> 
+        , Mode502<Cross, 7> 
+        , Mode502<Cross, 8> 
+        , Mode502<Cross, 9> 
+        , Mode502<Cross, 10>
+        , Mode502<Cross, 11> 
+		, Mode502<Cross, 12> 
+		
+		, Mode502<MagneticField, 0>
+
+		, Mode502<Temperature, 0> 
+		, Mode502<Temperature, 1> 
+	
+		, Mode502<Voltage, 0>
+        , Mode502<Current, 0>
+	>::Result items_list;
+	typedef NullType unique_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"L502ModeTable";}
+};
+//-------------------------------------------------------------------
 template<class T>struct CutoffFrequency;
 template<class T>struct CutoffFrequencyOn;
 
@@ -903,6 +968,7 @@ struct AdjustingMultipliersTable
 		 , L502RangeTable
 		 , L502OffsetsTable
 		 , L502OffsetsDigitTable
+		 , L502ModeTable
 		 , ComPortTable
 		 , OffsetSensorsTable
 		 , AdditionalParams502Table

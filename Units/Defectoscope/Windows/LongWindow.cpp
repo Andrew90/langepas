@@ -6,7 +6,6 @@
 #include "Common.h"
 #include "tools_debug\DebugMess.h"
 #include "App/App.h"
-//#include "MessageText\SelectMessage.h"
 
 LongWindow::LongWindow()
     : viewer(viewers.get<NoSubMenu<LongViewer>>())
@@ -60,6 +59,7 @@ void LongWindow::operator()(TDestroy &l)
 {
 	SetWindowLongPtr(l.hwnd, GWLP_USERDATA, NULL);
 	TL::foreach<viewers_list, Common::__destroy__window__>()(&viewers);
+	AdjustStored<ajust_window_list>()(l.hwnd);
 	delete this;
 }
 //----------------------------------------------------------------------

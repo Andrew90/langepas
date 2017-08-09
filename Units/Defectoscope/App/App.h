@@ -27,7 +27,6 @@ public:
 	static const int duration_collections = 60;
 	static const int frequency_rate = 10000;
 	static const int count_zones = 60;
-	//static const int count_sensors = 8;
 	static const int count_cross_sensors = 12;
 	static const int count_long_sensors = 4;
 	static const int count_Thick_sensors = 1;
