@@ -1,31 +1,31 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Dialogs/Dialogs.h"
 #include "DlgTemplates\ParamDlg.h"
 #include "DlgTemplates\ParamDlg.hpp"
 
-/// \brief Настройки смещения и усиления каналов  платы сбора данных
+/// \brief РќР°СЃС‚СЂРѕР№РєРё СЃРјРµС‰РµРЅРёСЏ Рё СѓСЃРёР»РµРЅРёСЏ РєР°РЅР°Р»РѕРІ  РїР»Р°С‚С‹ СЃР±РѕСЂР° РґР°РЅРЅС‹С…
 
 namespace
 {
 #if 1
 #define OFFS_CROSS(N)template<>struct ParamTitle<Offset<Cross, N> >{wchar_t *operator()(){\
-	return L"смешение поперечного канала "##L#N;}};
+	return L"СЃРјРµС€РµРЅРёРµ РїРѕРїРµСЂРµС‡РЅРѕРіРѕ РєР°РЅР°Р»Р° "##L#N;}};
 #define OFFS_LONG(N)template<>struct ParamTitle<Offset<Long, N> >{wchar_t *operator()(){\
-	return L"смешение продольного канала "##L#N;}};
+	return L"СЃРјРµС€РµРЅРёРµ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РєР°РЅР°Р»Р° "##L#N;}};
 
 	typedef Offset<Voltage, 0> OffsVoltage;
-	PARAM_TITLE(OffsVoltage, L"смещение канала напряжения для группы прочности")
+	PARAM_TITLE(OffsVoltage, L"СЃРјРµС‰РµРЅРёРµ РєР°РЅР°Р»Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ РґР»СЏ РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё")
 	typedef	Offset<Current, 0> OffsCurrent;
-	PARAM_TITLE(OffsCurrent, L"смещение канала тока для группы прочности")
+	PARAM_TITLE(OffsCurrent, L"СЃРјРµС‰РµРЅРёРµ РєР°РЅР°Р»Р° С‚РѕРєР° РґР»СЏ РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё")
 
 	typedef	Offset<MagneticField, 0> OffsetMagneticField;
-	PARAM_TITLE(OffsetMagneticField, L"смещение канала датчика наличия магнитного поля")
+	PARAM_TITLE(OffsetMagneticField, L"СЃРјРµС‰РµРЅРёРµ РєР°РЅР°Р»Р° РґР°С‚С‡РёРєР° РЅР°Р»РёС‡РёСЏ РјР°РіРЅРёС‚РЅРѕРіРѕ РїРѕР»СЏ")
 
 	typedef	Offset<Temperature, 0> OffsetTemperature1;
-	PARAM_TITLE(OffsetTemperature1, L"смещение канала датчика температуры 1")
+	PARAM_TITLE(OffsetTemperature1, L"СЃРјРµС‰РµРЅРёРµ РєР°РЅР°Р»Р° РґР°С‚С‡РёРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 1")
 
 	typedef	Offset<Temperature, 1> OffsetTemperature2;
-	PARAM_TITLE(OffsetTemperature2, L"смещение канала датчика температуры 2")
+	PARAM_TITLE(OffsetTemperature2, L"СЃРјРµС‰РµРЅРёРµ РєР°РЅР°Р»Р° РґР°С‚С‡РёРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 2")
 		
 		OFFS_CROSS(1)
 		OFFS_CROSS(2)
@@ -60,7 +60,7 @@ void OffsetsChannelDlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase
 		, L502OffsetsTable, DlgItem
-	>(Singleton<L502OffsetsTable>::Instance()).Do(h, L"Номера каналов"))
+	>(Singleton<L502OffsetsTable>::Instance()).Do(h, L"РќРѕРјРµСЂР° РєР°РЅР°Р»РѕРІ"))
 	{
 	}
 }
@@ -68,23 +68,23 @@ void OffsetsChannelDlg::Do(HWND h)
 namespace
 {
 #define RANGE_CROSS(N)template<>struct ParamTitle<Range<Cross, N> >{wchar_t *operator()(){\
-	return L"усиление поперечного канала "##L#N;}};
+	return L"СѓСЃРёР»РµРЅРёРµ РїРѕРїРµСЂРµС‡РЅРѕРіРѕ РєР°РЅР°Р»Р° "##L#N;}};
 #define RANGE_LONG(N)template<>struct ParamTitle<Range<Long, N> >{wchar_t *operator()(){\
-	return L"усиление продольного канала "##L#N;}};
+	return L"СѓСЃРёР»РµРЅРёРµ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РєР°РЅР°Р»Р° "##L#N;}};
 
 	typedef Range<Voltage, 0> RangeVoltage;
-	PARAM_TITLE(RangeVoltage, L"напряжение для группы прочности")
+	PARAM_TITLE(RangeVoltage, L"РЅР°РїСЂСЏР¶РµРЅРёРµ РґР»СЏ РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё")
 	typedef	Range<Current, 0> RangeCurrent;
-	PARAM_TITLE(RangeCurrent, L"ток для группы прочности")
+	PARAM_TITLE(RangeCurrent, L"С‚РѕРє РґР»СЏ РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё")
 
 	typedef	Range<MagneticField, 0> RangeMagneticField;
-	PARAM_TITLE(RangeMagneticField, L"датчик наличия магнитного поля")
+	PARAM_TITLE(RangeMagneticField, L"РґР°С‚С‡РёРє РЅР°Р»РёС‡РёСЏ РјР°РіРЅРёС‚РЅРѕРіРѕ РїРѕР»СЏ")
 
 	typedef	Range<Temperature, 0> RangeTemperature1;
-	PARAM_TITLE(RangeTemperature1, L"датчик температуры 1")
+	PARAM_TITLE(RangeTemperature1, L"РґР°С‚С‡РёРє С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 1")
 
 	typedef	Range<Temperature, 1> RangeTemperature2;
-	PARAM_TITLE(RangeTemperature2, L"датчик температуры 2")
+	PARAM_TITLE(RangeTemperature2, L"РґР°С‚С‡РёРє С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 2")
 
 	
 		RANGE_CROSS(1)
@@ -216,7 +216,7 @@ void AmplificationChannelDlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase
 		, L502RangeTable, DlgItem
-	>(Singleton<L502RangeTable>::Instance()).Do(h, L"Усиление каналов"))
+	>(Singleton<L502RangeTable>::Instance()).Do(h, L"РЈСЃРёР»РµРЅРёРµ РєР°РЅР°Р»РѕРІ"))
 	{
 	}
 }
@@ -225,23 +225,23 @@ namespace
 {
 
 	#define MODE_CROSS(N)template<>struct ParamTitle<Mode502<Cross, N> >{wchar_t *operator()(){\
-	return L"режим подключения поперечного канала "##L#N;}};
+	return L"СЂРµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РїРѕРїРµСЂРµС‡РЅРѕРіРѕ РєР°РЅР°Р»Р° "##L#N;}};
 #define MODE_LONG(N)template<>struct ParamTitle<Mode502<Long, N> >{wchar_t *operator()(){\
-	return L"режим подключения продольного канала "##L#N;}};
+	return L"СЂРµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РїСЂРѕРґРѕР»СЊРЅРѕРіРѕ РєР°РЅР°Р»Р° "##L#N;}};
 
 	typedef Mode502<Voltage, 0> Mode502Voltage;
-	PARAM_TITLE(Mode502Voltage, L"режим подключения для напряжения группы прочности")
+	PARAM_TITLE(Mode502Voltage, L"СЂРµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РґР»СЏ РЅР°РїСЂСЏР¶РµРЅРёСЏ РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё")
 	typedef	Mode502<Current, 0> Mode502Current;
-	PARAM_TITLE(Mode502Current, L"режим подключения для тока группы прочности")
+	PARAM_TITLE(Mode502Current, L"СЂРµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РґР»СЏ С‚РѕРєР° РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё")
 
 	typedef	Mode502<MagneticField, 0> Mode502MagneticField;
-	PARAM_TITLE(Mode502MagneticField, L"режим подключения для датчика наличия магнитного поля")
+	PARAM_TITLE(Mode502MagneticField, L"СЂРµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РґР»СЏ РґР°С‚С‡РёРєР° РЅР°Р»РёС‡РёСЏ РјР°РіРЅРёС‚РЅРѕРіРѕ РїРѕР»СЏ")
 
 	typedef	Mode502<Temperature, 0> Mode502Temperature1;
-	PARAM_TITLE(Mode502Temperature1, L"режим подключения для датчика температуры 1")
+	PARAM_TITLE(Mode502Temperature1, L"СЂРµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РґР»СЏ РґР°С‚С‡РёРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 1")
 
 	typedef	Mode502<Temperature, 1> Mode502Temperature2;
-	PARAM_TITLE(Mode502Temperature2, L"режим подключения датчика температуры 2")
+	PARAM_TITLE(Mode502Temperature2, L"СЂРµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РґР°С‚С‡РёРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 2")
 
 	
 		MODE_CROSS(1)
@@ -265,7 +265,7 @@ namespace
 #undef MODE_CROSS
 #undef MODE_LONG
 
-const wchar_t *modeGainData[] ={L"с общей землёй", L"дифференциальный"};
+const wchar_t *modeGainData[] ={L"СЃ РѕР±С‰РµР№ Р·РµРјР»С‘Р№", L"РґРёС„С„РµСЂРµРЅС†РёР°Р»СЊРЅС‹Р№"};
 
 #define COMBO_ITEMS(TYPE, N)\
 	template<>struct FillComboboxList<Mode502<TYPE, N>>			 \
@@ -372,10 +372,39 @@ void ModeChannelDlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase
 		, L502ModeTable, DlgItem
-	>(Singleton<L502ModeTable>::Instance()).Do(h, L"Режим подключения каналов"))
+	>(Singleton<L502ModeTable>::Instance()).Do(h, L"Р РµР¶РёРј РїРѕРґРєР»СЋС‡РµРЅРёСЏ РєР°РЅР°Р»РѕРІ"))
 	{
 	}
 }
 
+namespace 
+{
+	PARAM_TITLE(Inp502<sinhro_s>, L"Р’С…РѕРґ СЃРёРЅС…СЂРѕСЃРёРіРЅР°Р»Р° 1(SINHRO_S)")
+	PARAM_TITLE(Inp502<sinhro_d>, L"Р’С…РѕРґ СЃРёРЅС…СЂРѕСЃРёРіРЅР°Р»Р° 2(SINHRO_D)")
+	PARAM_TITLE(Inp502<error_x> , L"Р’С…РѕРґ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЂР°Р·РјР°РіРЅРёС‡РёРІР°РЅРёСЏ(ERROR)")
+	PARAM_TITLE(Out502<start_x> , L"Р’РєР»СЋС‡РµРЅРёРµ СЂР°Р·РјР°РіРЅРёС‡РёРІР°РЅРёСЏ(START)")
 
-//TODO написать настройку дискретных входов-выходов платы 502
+	template<>struct DlgSubItems<Inp502<sinhro_s>, int>: UpDownSubItem<Inp502<sinhro_s>, 16>{};
+	template<>struct DlgSubItems<Inp502<sinhro_d>, int>: UpDownSubItem<Inp502<sinhro_d>, 16>{};
+	template<>struct DlgSubItems<Inp502<error_x> , int>: UpDownSubItem<Inp502<error_x> , 16>{};
+	template<>struct DlgSubItems<Out502<start_x> , int>: UpDownSubItem<Out502<start_x> , 16>{};
+
+	DO_NOT_CHECK(Inp502<sinhro_s>)
+	DO_NOT_CHECK(Inp502<sinhro_d>)
+	DO_NOT_CHECK(Inp502<error_x> )
+	DO_NOT_CHECK(Out502<start_x> )
+}
+
+void Digital502Dlg::Do(HWND h)
+{
+	 if(TemplDialog<ParametersBase
+		, L502OffsetsDigitTable, DlgItem
+	>(Singleton<L502OffsetsDigitTable>::Instance()).Do(h, L"Р”РёСЃРєСЂРµС‚РЅС‹Рµ РєР°РЅР°Р»С‹ Р°РЅР°Р»РѕРіРѕРІРѕР№ РїР»Р°С‚С‹"))
+	{
+	}
+}
+
+//РЅР°СЃС‚СЂРѕР№РєРё РґРёСЃРєСЂРµС‚РЅС‹С… РїРѕСЂС‚РѕРІ L502
+
+
+//TODO РЅР°РїРёСЃР°С‚СЊ РЅР°СЃС‚СЂРѕР№РєСѓ РґРёСЃРєСЂРµС‚РЅС‹С… РІС…РѕРґРѕРІ-РІС‹С…РѕРґРѕРІ РїР»Р°С‚С‹ 502

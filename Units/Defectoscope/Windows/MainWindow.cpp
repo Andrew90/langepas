@@ -106,8 +106,8 @@ LRESULT MainWindow::operator()(TCreate &m)
 	SendMessage(hStatusWindow, SB_SETPARTS, dimention_of(pParts), (LPARAM)pParts);
 //
 	acsCheckBox	 .Init(toolBar.hWnd, L"Режим с АСУ");
-	longCheckBox	 .Init(toolBar.hWnd, L"Измерение продольных дефектов стенки трубы");
-	ThickCheckBox.Init(toolBar.hWnd, L"Измерение толщины стенки трубы");
+	longCheckBox	 .Init(toolBar.hWnd, L"Модуль продольных дефектов");
+	ThickCheckBox.Init(toolBar.hWnd, L"Модуль толщины");
 	viewInterruptCheckBox.Init(toolBar.hWnd, L"Прерывание на просмотр");
 //
 	topLabelViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<TopLabelViewer>::Proc, L"TopLabelWindow", &topLabelViewer);

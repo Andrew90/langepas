@@ -85,4 +85,6 @@ DLG(LaunchExternalProgramDlg)
 
 DLG(ModeChannelDlg)
 
+DLG(Digital502Dlg)
+
 #undef DLG

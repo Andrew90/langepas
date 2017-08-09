@@ -404,7 +404,7 @@ void RequestPipeNumber(char (&numberTube)[9])
 ///TODO включить размагничивание
 void EnableDemagnetization()
 {
-	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x, 0>>().value, true))
+	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x>>().value, true))
 	{
 		dprint("error "__FUNCTION__"\n");
 	}
@@ -412,7 +412,7 @@ void EnableDemagnetization()
 ///TODO включить размагничивание
 void DisableDemagnetization()
 {
-	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x, 0>>().value, false))
+	if(!unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x>>().value, false))
 	{
 		dprint("error "__FUNCTION__"\n");
 	}

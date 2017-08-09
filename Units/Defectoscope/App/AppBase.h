@@ -542,8 +542,8 @@ struct Current{};
 struct Temperature{};
 struct MagneticField{};
 
-template<class T, int>struct Inp502;
-template<class T, int>struct Out502;
+template<class T>struct Inp502;
+template<class T>struct Out502;
 
 struct sinhro_s{};
 struct sinhro_d{};
@@ -603,18 +603,18 @@ DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 1, int, 22)
 					
 DEFINE_PARAM_WAPPER_NUM(Offset, MagneticField, 0, int, 20)
 
-DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_s, 0, int, 1)
-DEFINE_PARAM_WAPPER_NUM(Inp502, sinhro_d, 0, int, 5)
-DEFINE_PARAM_WAPPER_NUM(Inp502, error_x, 0, int, 3)
-DEFINE_PARAM_WAPPER_NUM(Out502, start_x, 0, int, 1)
+DEFINE_PARAM_WAPPER(Inp502, sinhro_s, int, 1)
+DEFINE_PARAM_WAPPER(Inp502, sinhro_d, int, 5)
+DEFINE_PARAM_WAPPER(Inp502, error_x, int, 3)
+DEFINE_PARAM_WAPPER(Out502, start_x, int, 1)
 
 struct L502OffsetsDigitTable
 {
 	typedef TL::MkTlst<
-	     Inp502<sinhro_s, 0>
-	   , Inp502<sinhro_d, 0>
-	   , Inp502<error_x, 0>
-	   , Out502<start_x, 0>
+	     Inp502<sinhro_s>
+	   , Inp502<sinhro_d>
+	   , Inp502<error_x>
+	   , Out502<start_x>
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;

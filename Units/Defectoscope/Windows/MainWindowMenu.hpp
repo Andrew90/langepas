@@ -136,6 +136,7 @@ namespace MainWindowMenu
 	struct OffsetsSens : OffsetSensorDlg{};
 
 	struct ModeChannel: ModeChannelDlg{};
+	struct Digital502: Digital502Dlg{};
 
 	struct AdditionalParams: AdditionalParamsDlg{};
 
@@ -160,11 +161,12 @@ namespace MainWindowMenu
 	MENU_ITEM(L"СОМ-порт", ComPort__)
 	MENU_ITEM(L"Смещение датчиков наличия трубы в модуле", OffsetsSens)
 	MENU_ITEM(L"Дополнительные параметры", AdditionalParams)
+	MENU_ITEM(L"Дискретные каналы аналоговой платы", Digital502)
 	
 	template<>struct SubMenu<AnalogPlate__>
 	{
 		typedef TL::TypeToTypeLst<
-			typename TL::MkTlst<OffsetChannels, AmplificationChannels, ModeChannel>::Result 
+			typename TL::MkTlst<OffsetChannels, AmplificationChannels, ModeChannel, Digital502>::Result 
 			, MenuItem
 		>::Result list;
 	};
