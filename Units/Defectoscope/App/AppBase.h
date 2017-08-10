@@ -863,11 +863,16 @@ struct AdditionalParams502Table
 //-----------------------------------------------------------------
 DEFINE_PARAM(NumberComPort, int, 3)
 DEFINE_PARAM(Speed, int, 9600)
+
+DEFINE_PARAM(SubscriberThickness, int, 1)
+DEFINE_PARAM(SubscriberASU, int, 2)
 struct ComPortTable
 {
 	typedef TL::MkTlst<
 		  NumberComPort
 		, Speed
+		, SubscriberThickness
+		, SubscriberASU
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;

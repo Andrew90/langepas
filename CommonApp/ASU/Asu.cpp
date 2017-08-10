@@ -2,6 +2,9 @@
 #include "Asu.h"
 #include "ComPort/crc.h"
 #include "ComPort/ComPort.h"
+#include "App/AppBase.h"
+#include "templates\typelist.hpp"
+
 namespace Communication
 {	
 #pragma pack(push, 1)
@@ -95,7 +98,7 @@ namespace Communication
 		Func5 func = {};
 		func.size = sizeof(func);
 
-		func.numAbonent = 2;
+		func.numAbonent = Singleton<ComPortTable>::Instance().items.get<SubscriberASU>().value;
 		func.numFunc = 5;
 
 		memmove(func.numberTube, numberTube, sizeof(func.numberTube));
@@ -137,7 +140,9 @@ namespace Communication
 
 	int Asu::Test(ComPort &comPort)
 	{
-		unsigned char buf[] = {5, 2, 1, 0, 0};
+		unsigned char buf[] = {5
+			, Singleton<ComPortTable>::Instance().items.get<SubscriberASU>().value
+			, 1, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
 
 		HandleComPort handleComPort;
@@ -157,7 +162,9 @@ namespace Communication
 
 	int Asu::RequestInformationAboutPipe(ComPort &comPort, char (&numberTube)[9])
 	{
-		unsigned char buf[] = {5, 2, 1, 0, 0};
+		unsigned char buf[] = {5
+			, Singleton<ComPortTable>::Instance().items.get<SubscriberASU>().value
+			, 1, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
 
 		HandleComPort handleComPort;
@@ -184,7 +191,9 @@ namespace Communication
 	/// \return возвращает 0 - если нет ошибок
 	int Thick::Test(ComPort &comPort)
 	{
-		unsigned char buf[] = {5, 1, 1, 0, 0};
+		unsigned char buf[] = {5
+			, Singleton<ComPortTable>::Instance().items.get<SubscriberThickness>().value
+			, 1, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
 
 		HandleComPort handleComPort;
@@ -210,6 +219,7 @@ namespace Communication
 
 		unsigned short brakTreshold;
 		unsigned short class2Treshold;
+		unsigned short class3Treshold;
 		unsigned short lengthTube;
 		char reserve[4];
 		unsigned short zones[65];
@@ -231,7 +241,9 @@ namespace Communication
 		, unsigned short (&zones)[65]
 	)
 	{
-		 unsigned char buf[] = {5, 1, 2, 0, 0};
+		 unsigned char buf[] = {5
+			 , Singleton<ComPortTable>::Instance().items.get<SubscriberThickness>().value
+			 , 2, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
 
 		HandleComPort handleComPort;
@@ -247,6 +259,7 @@ namespace Communication
 				Func2_1 *b = (Func2_1 *)handleComPort.receiveBuffer;
 				brak = 0.1 * b->brakTreshold;
 				class2 = 0.1 * b->class2Treshold;
+				class3 = 0.1 * b->class3Treshold;
 				lengthTube = b->lengthTube;
 				memmove(zones, b->zones, 65 * sizeof(short));
 				break;
@@ -266,6 +279,7 @@ namespace Communication
 		unsigned short typeSizeTube;
 		unsigned short brakTreshold;
 		unsigned short class2Treshold;
+		unsigned short class3Treshold;
 		char reserve[10];
 		unsigned short crc	   ;
 	};
@@ -285,13 +299,14 @@ namespace Communication
 	{
 		Func4_1 buf = {};
 		buf.size = sizeof(buf);
-		buf.numAbonent = 1;
+		buf.numAbonent = Singleton<ComPortTable>::Instance().items.get<SubscriberThickness>().value;
 		buf.numFunc = 4;
 
 		buf.typeSizeTube = typeSize;
 
 		buf.brakTreshold = (unsigned short)(brakTresh / 0.1);
-		buf.class2Treshold =  (unsigned short)(class3Tresh / 0.1);
+		buf.class2Treshold =  (unsigned short)(class2Tresh / 0.1);
+		buf.class3Treshold =  (unsigned short)(class3Tresh / 0.1);
 
 
 		buf.crc = Crc16((unsigned char *)&buf,  sizeof(buf) - sizeof(short));

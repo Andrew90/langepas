@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Dialogs/Dialogs.h"
 #include "DlgTemplates\ParamDlg.h"
 #include "DlgTemplates\ParamDlg.hpp"
@@ -10,8 +10,14 @@ namespace
 	DO_NOT_CHECK(NumberComPort)
 		DO_NOT_CHECK(Speed)
 
-		PARAM_TITLE(NumberComPort, L"Номер COM-порта")
-		PARAM_TITLE(Speed, L"Скорость")
+		DO_NOT_CHECK(SubscriberThickness)
+		DO_NOT_CHECK(SubscriberASU)
+
+		PARAM_TITLE(NumberComPort, L"РќРѕРјРµСЂ COM-РїРѕСЂС‚Р°")
+		PARAM_TITLE(Speed, L"РЎРєРѕСЂРѕСЃС‚СЊ")
+
+		PARAM_TITLE(SubscriberThickness, L"РђР±РѕРЅРµРЅС‚ С‚РѕР»С‰РёРЅРѕРјРµСЂ")
+		PARAM_TITLE(SubscriberASU, L"РђР±РѕРЅРµРЅС‚ РђРЎРЈ")
 
 		int speed[] = {4800, 7200, 9600, 14400, 19200, 38400};
 	template<>struct FillComboboxList<Speed>			 
@@ -65,15 +71,15 @@ namespace
 void ComPortDlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase, ComPortTable, DlgItem
-	>(Singleton<ComPortTable>::Instance()).Do(h, L"Настройка COM-порта"))
+	>(Singleton<ComPortTable>::Instance()).Do(h, L"РќР°СЃС‚СЂРѕР№РєР° COM-РїРѕСЂС‚Р°"))
 	{
 		ComPortTable::TItems & comPortParam = Singleton<ComPortTable>::Instance().items;
 		comPort.Close();
 		Sleep(100);
 		if(!comPort.Open(comPortParam.get<NumberComPort>().value, comPortParam.get<Speed>().value))
 		{
-			MessageBox(h, L"Не могу инициировать COM-порт", L"Ошибка !!!", MB_ICONERROR);
+			MessageBox(h, L"РќРµ РјРѕРіСѓ РёРЅРёС†РёРёСЂРѕРІР°С‚СЊ COM-РїРѕСЂС‚", L"РћС€РёР±РєР° !!!", MB_ICONERROR);
 		}
 	}
 }
-									 
+
