@@ -265,7 +265,7 @@ namespace
 			void operator()(O &o)
 			{
 				SendMessage (o.hWnd, BM_SETCHECK
-					, !(TEST_IN_BITS(On<T>))
+					, (TEST_IN_BITS(On<T>))
 					? BST_CHECKED
 					: BST_UNCHECKED
 					, 0);
