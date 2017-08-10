@@ -169,10 +169,12 @@
     <ClCompile Include="Dialogs\LaunchExternalProgramDlg.cpp" />
     <ClCompile Include="Dialogs\MedianFiltreDlg.cpp" />
     <ClCompile Include="Dialogs\MinimalTubeLengthDlg.cpp" />
+    <ClCompile Include="Dialogs\ModulePosition.cpp" />
     <ClCompile Include="Dialogs\OffsetSensorDlg.cpp" />
     <ClCompile Include="Dialogs\PacketDlg.cpp" />
     <ClCompile Include="Dialogs\PipeThicknessDlg.cpp" />
     <ClCompile Include="Dialogs\RotationalSpeedDlg.cpp" />
+    <ClCompile Include="Dialogs\RotationScanningDevice.cpp" />
     <ClCompile Include="Dialogs\StoredDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdsDlg.cpp" />

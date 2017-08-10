@@ -87,4 +87,6 @@ DLG(ModeChannelDlg)
 
 DLG(Digital502Dlg)
 
+DLG(ModulePositionDlg)
+
 #undef DLG

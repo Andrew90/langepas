@@ -136,6 +136,9 @@
     <Filter Include="Windows\WindowAdjustingMultipliers">
       <UniqueIdentifier>{f1e914c1-6905-445c-96df-2ebd5850e5d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialogs\TestUnits">
+      <UniqueIdentifier>{4328d424-8a92-4df8-9234-4cd06c1002e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Defectoscope.cpp">
@@ -545,6 +548,12 @@
     </ClCompile>
     <ClCompile Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.cpp">
       <Filter>Windows\WindowAdjustingMultipliers</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\RotationScanningDevice.cpp">
+      <Filter>Dialogs\TestUnits</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\ModulePosition.cpp">
+      <Filter>Dialogs\TestUnits</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

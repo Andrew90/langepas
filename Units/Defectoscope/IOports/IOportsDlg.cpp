@@ -31,6 +31,7 @@ void IOportsDlg::Do(HWND h)
 			, title
 			, r.left, r.top
 			, IOportsWindow::width, IOportsWindow::height
+			, IDI_settings
 			);
 		ShowWindow(h, SW_SHOWNORMAL);
 		SetWindowPos(h, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);

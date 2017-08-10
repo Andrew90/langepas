@@ -34,7 +34,7 @@ namespace
 		, BUTTON_KEY(IDB_CycleBtn)
 		, BUTTON_KEY(IDB_Continue)
 		, BUTTON_KEY(IDB_Reset)
-		, BUTTON_KEY(IDB_QueryBtn) 		
+		//, BUTTON_KEY(IDB_QueryBtn) 		
 		, SeparatorToolbar<1>
 		, BUTTON_KEY(IDB_ExitTubeBtn)
 		, BUTTON_KEY(IDB_SensorsUnit)

@@ -106,9 +106,7 @@ namespace MainWindowMenu
 			MenuItem<GroupOptions>
 			, Separator<0>
 			, MenuItem<WindowPosition>
-			, Separator<1>
-			, MenuItem<IOportsView>
-			, MenuItem<LaunchExternalProgram>
+			
 		>::Result list;		
 	};
 	//-------------------------------------------------------------------------------------------------------
@@ -192,6 +190,23 @@ namespace MainWindowMenu
 			, MenuItem<AdditionalParams>
 		>::Result list;		
 	};
+//--------------------------------------------------------------------------------------------
+	struct TestUnit{};
+	MENU_TEXT(L"Тест", TopMenu<TestUnit>)
+		//----------------------------------------------------
+	struct ModulePosition : ModulePositionDlg{};
+
+	MENU_ITEM(L"Положение сканирующих устройств", ModulePosition)
+
+		template<>struct TopMenu<TestUnit>
+	{
+		typedef TL::MkTlst<
+			MenuItem<ModulePosition>
+			, MenuItem<IOportsView>
+			, Separator<1>
+			, MenuItem<LaunchExternalProgram>
+		>::Result list;		
+	};
 	// ----------------------------------------------------------------------------------------------------
 	struct MainAbout: AboutWindowDlg{};//{static void Do(HWND h){zprint("");}};
 	MENU_TEXT(L"О программе", TopMenu<MainAbout>)
@@ -237,6 +252,7 @@ namespace MainWindowMenu
 		, TopMenu<MainOptionTypeSize>
 		, TopMenu<Options>
 		, TopMenu<Setting>
+		, TopMenu<TestUnit>
 		, TopMenu<MainAbout>
 	>::Result MainMenu;	
 	}

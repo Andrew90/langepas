@@ -97,7 +97,6 @@ namespace Mode
 		{
 			if(bits1 != (t.val1 & msk1) || bits2 != (t.val2 & msk2))
 			{
-				dprint("allarm bits\n");
 				TL::foreach<list1, __send_mess__>()(Singleton<InputBit1Table>::Instance().items, __send_mess_data__(t.val1 ^ bits1, t.val1));
 				TL::foreach<list2, __send_mess__>()(Singleton<InputBit2Table>::Instance().items, __send_mess_data__(t.val2 ^ bits2, t.val2));
 				
