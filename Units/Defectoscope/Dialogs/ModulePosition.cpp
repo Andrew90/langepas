@@ -76,14 +76,12 @@ namespace
 	PARAM_TITLE(Stat<iRPt >, L"(RPt )Рабочее положение модуля толщинометра")
 	PARAM_TITLE(Stat<iOPt >, L"(OPt )Положение обслуживания модуля толщиномера")
 
-
 	template<>struct DlgSubItems<Stat<iRPpo> , bool>: DlgItemsRadio<Stat<iRPpo>>{};
 	template<>struct DlgSubItems<Stat<iOPpo> , bool>: DlgItemsRadio<Stat<iOPpo>>{};
 	template<>struct DlgSubItems<Stat<iRPpr> , bool>: DlgItemsRadio<Stat<iRPpr>>{};
 	template<>struct DlgSubItems<Stat<iOPpr> , bool>: DlgItemsRadio<Stat<iOPpr>>{};
 	template<>struct DlgSubItems<Stat<iRPt > , bool>: DlgItemsRadio<Stat<iRPt >>{};
 	template<>struct DlgSubItems<Stat<iOPt > , bool>: DlgItemsRadio<Stat<iOPt >>{};
-
 
 	PARAM_TITLE(Stat<iSQ1pr>, L"(SQ1pr)Датчик наличия трубы на входе в продольный модуль")
 	PARAM_TITLE(Stat<iSQ2pr>, L"(SQ2pr)Датчик наличия трубы на выходе из продольного модуля")
@@ -92,14 +90,12 @@ namespace
 	PARAM_TITLE(Stat<iSQ1t >, L"(SQ1t )Датчик наличия трубы на входе в модуль толщины")
 	PARAM_TITLE(Stat<iSQ2t >, L"(SQ2t )Датчик наличия трубы на выходе из модуля толщины")
 
-
 	template<>struct DlgSubItems<Stat<iSQ1pr> , bool>: DlgItemsRadio<Stat<iSQ1pr>>{};
 	template<>struct DlgSubItems<Stat<iSQ2pr> , bool>: DlgItemsRadio<Stat<iSQ2pr>>{};
 	template<>struct DlgSubItems<Stat<iSQ1po> , bool>: DlgItemsRadio<Stat<iSQ1po>>{};
 	template<>struct DlgSubItems<Stat<iSQ2po> , bool>: DlgItemsRadio<Stat<iSQ2po>>{};
 	template<>struct DlgSubItems<Stat<iSQ1t > , bool>: DlgItemsRadio<Stat<iSQ1t >>{};
 	template<>struct DlgSubItems<Stat<iSQ2t > , bool>: DlgItemsRadio<Stat<iSQ2t >>{};
-
 
 	struct OkBtnPos
 	{
@@ -164,14 +160,12 @@ namespace
 	{
 		void operator()(O &o, P &p)
 		{
-			if(TEST_IN_BITS(On<TL::Inner<TL::Inner<O>::Result>::Result>))
-			{
-				SendMessage (o.hWnd, BM_SETCHECK, BST_CHECKED, 0);
-			}
-			else
-			{
-				SendMessage (o.hWnd, BM_SETCHECK, BST_UNCHECKED, 0);
-			}
+			SendMessage (o.hWnd, BM_SETCHECK
+				, (TEST_IN_BITS(On<TL::Inner<TL::Inner<O>::Result>::Result>))
+				? BST_CHECKED
+				: BST_UNCHECKED
+				, 0);
+
 			if(p.currentTime != 0 && p.currentTime > GetTickCount())
 			{
 				p.currentTime = 0;

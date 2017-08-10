@@ -195,14 +195,17 @@ namespace MainWindowMenu
 	MENU_TEXT(L"Тест", TopMenu<TestUnit>)
 		//----------------------------------------------------
 	struct ModulePosition : ModulePositionDlg{};
+    struct RotationScanningDevice_: RotationScanningDevice{};
 
 	MENU_ITEM(L"Положение сканирующих устройств", ModulePosition)
+	MENU_ITEM(L"Вращение сканирующего устройства", RotationScanningDevice_)
 
 		template<>struct TopMenu<TestUnit>
 	{
 		typedef TL::MkTlst<
 			MenuItem<ModulePosition>
 			, MenuItem<IOportsView>
+			, MenuItem<RotationScanningDevice_>
 			, Separator<1>
 			, MenuItem<LaunchExternalProgram>
 		>::Result list;		

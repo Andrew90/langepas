@@ -88,5 +88,6 @@ DLG(ModeChannelDlg)
 DLG(Digital502Dlg)
 
 DLG(ModulePositionDlg)
+DLG(RotationScanningDevice)
 
 #undef DLG
