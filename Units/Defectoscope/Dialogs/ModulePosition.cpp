@@ -105,22 +105,8 @@ namespace
 		wchar_t *Title(){return L"Применить";}
 		template<class Owner>void BtnHandler(Owner &owner, HWND h)
 		{
-			if(!TEST_IN_BITS(
-				  On<iSQ1pr>
-				, On<iSQ2pr>
-				, On<iSQ1po>
-				, On<iSQ2po>
-				, On<iSQ1t >
-				, On<iSQ2t >
-				))
-			{
-				TL::foreach<typename Owner::list, __write_state__>()(owner.items);
-				(( DlgW &)owner).currentTime = 1000 + GetTickCount();
-			}
-			else
-			{
-				MessageBox(h, L"Труба в установке", L"Предупреждение!!!", MB_ICONEXCLAMATION);
-			}
+			TL::foreach<typename Owner::list, __write_state__>()(owner.items);
+			(( DlgW &)owner).currentTime = 1000 + GetTickCount();
 		}
 	};
 
@@ -184,19 +170,52 @@ namespace
 	template<>struct BitOff<Long>{void operator()(){OUT_BITS(On<oPR_OP>);}};
 	template<>struct BitOff<Thick>{void operator()(){OUT_BITS(On<oT_OP>);}};
 
+	template<class T>struct BitTest{bool operator()(){return false;}};
+
+	template<>struct BitTest<Cross>
+	{
+		bool operator()()
+		{
+			return !(TEST_IN_BITS(On<iOPpo>, On<iRPpo>) || !TEST_IN_BITS(Off<iSQ1po>, Off<iSQ2po>));
+		}
+	};
+	template<>struct BitTest<Long>
+	{
+		bool operator()()
+		{
+			return !(TEST_IN_BITS(On<iOPpr>, On<iRPpr>) || !TEST_IN_BITS(Off<iSQ1pr>, Off<iSQ2pr>));
+		}
+	};
+	template<>struct BitTest<Thick>
+	{
+		bool operator()()
+		{
+			return !(TEST_IN_BITS(On<iOPt>, On<iRPt>) || !TEST_IN_BITS(Off<iSQ1t>, Off<iSQ2t>));
+		}
+	};
+
 	template<class O, class P>struct __write_state__
 	{
 		void operator()(O &o)
 		{
-			using namespace AutomatN;
+			typedef typename TL::Inner<typename TL::Inner<O>::Result>::Result Z;
 			if(BST_CHECKED == Button_GetCheck(o.hWnd))
 			{
-				BitOn<TL::Inner<TL::Inner<O>::Result>::Result>()();
+				BitOn<Z>()();
 			}
 			else
 			{						
-				BitOff<TL::Inner<TL::Inner<O>::Result>::Result>()();
+				BitOff<Z>()();
 			}
+		}
+	};
+
+	template<class O, class P>struct __enable__
+	{
+		void operator()(O &o)
+		{
+			typedef typename TL::Inner<typename TL::Inner<O>::Result>::Result Z;
+			EnableWindow(o.hWnd,  BitTest<Z>()());
 		}
 	};
 
@@ -214,8 +233,11 @@ namespace
 		static VOID CALLBACK WaitOrTimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 		{
 			DlgW *dlg = (DlgW *)lpParameter;
-			typedef TL::ListToWapperList<__sel__<Position::items_list, Stat>::Result, DlgItem>::Result list;
-			TL::foreach<list, __read_state__>()(dlg->items, *dlg);
+			typedef TL::ListToWapperList<__sel__<Position::items_list, Stat>::Result, DlgItem>::Result read_list;
+			TL::foreach<read_list, __read_state__>()(dlg->items, *dlg);
+
+			typedef TL::ListToWapperList<__sel__<Position::items_list, Pos>::Result, DlgItem>::Result pos_list;
+			TL::foreach<pos_list, __enable__>()(dlg->items);
 		}
 	};
 }
