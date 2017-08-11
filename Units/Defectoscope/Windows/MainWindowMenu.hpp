@@ -4,7 +4,7 @@
 #include "window_tool/WindowsPosition.h"
 #include "Dialogs/Dialogs.h"
 #include "Compute\ComputeResult.h"
-//#include "window_tool\EmptyWindow.h"
+#include "Test502\Test502Window.h"
 
 namespace MainWindowMenu
 {
@@ -197,16 +197,25 @@ namespace MainWindowMenu
 	struct ModulePosition : ModulePositionDlg{};
     struct RotationScanningDevice_: RotationScanningDevice{};
 
+	struct ThicknessComTest_: ThicknessComTest{};
+	
+	struct Test502Window_: Test502Window{};
+
 	MENU_ITEM(L"Положение сканирующих устройств", ModulePosition)
 	MENU_ITEM(L"Вращение сканирующего устройства", RotationScanningDevice_)
+
+	MENU_ITEM(L"Тестирование саязи с АСУ", ThicknessComTest_)
+	MENU_ITEM(L"Тестирование саязи с модулем толщиномера", ASUComTest_)
 
 		template<>struct TopMenu<TestUnit>
 	{
 		typedef TL::MkTlst<
 			MenuItem<ModulePosition>
-			, MenuItem<IOportsView>
 			, MenuItem<RotationScanningDevice_>
+			, MenuItem<ThicknessComTest_>
+			, MenuItem<ASUComTest_>
 			, Separator<1>
+			, MenuItem<IOportsView>
 			, MenuItem<LaunchExternalProgram>
 		>::Result list;		
 	};
