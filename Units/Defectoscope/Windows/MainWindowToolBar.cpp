@@ -17,7 +17,7 @@ namespace
 	static void Click(HWND);\
 	static wchar_t *Text(){return text;}\
 	};
-	KEY(IDB_CycleBtn   , L"F4 Цикл")
+	KEY(IDB_CycleBtn   , L"F4 Контроль")
 	KEY(IDB_Reset      , L"Esc Стоп")
 	KEY(IDB_QueryBtn   , L"Тест")
 	KEY(IDB_arrow_down , L"F5 Вниз")
@@ -26,7 +26,9 @@ namespace
 	KEY(IDB_arrow_right, L"F8 Clear")
 	KEY(IDB_Continue, L"F11 Продолжить")
 	KEY(IDB_ExitTubeBtn, L"F9 Выгон")
-	KEY(IDB_SensorsUnit, L"F10 Возврат")
+	KEY(IDB_ReturnTubeBtn, L"F10 Возврат")
+	//KEY(IDB_ClampBtn, L"Установка")
+	//KEY(IDB_SensorsUnit, L"Вращение")
 #undef KEY
 #define BUTTON_KEY(ID)ButtonToolbar<ID, Key<ID> > 
 		typedef TL::MkTlst<
@@ -37,8 +39,11 @@ namespace
 		//, BUTTON_KEY(IDB_QueryBtn) 		
 		, SeparatorToolbar<1>
 		, BUTTON_KEY(IDB_ExitTubeBtn)
-		, BUTTON_KEY(IDB_SensorsUnit)
+		, BUTTON_KEY(IDB_ReturnTubeBtn)
 		, SeparatorToolbar<2>
+		//, BUTTON_KEY(IDB_ClampBtn)
+		//, BUTTON_KEY(IDB_SensorsUnit)
+		//, SeparatorToolbar<3>
 #ifdef DEBUG_ITEMS
 		, BUTTON_KEY(IDB_arrow_down) 
 		, BUTTON_KEY(IDB_arrow_up)
@@ -48,64 +53,22 @@ namespace
 #endif
 		>::Result tool_button_list;
 #undef BUTTON_KEY
-	//namespace closed_window
-	//{		
-	//	//typedef TL::MkTlst<
-	//	//	WindowClass<CrossWindow		>
-	//	//	, WindowClass<LongWindow		>
-	//	//	, WindowClass<ThickWindow	>
-	//	//	, WindowClass<ScanWindow		>
-	//	//>::Result window_list;
-	//	template<class O, class P>struct __close_window__
-	//	{
-	//		void operator()()
-	//		{
-	//			HWND hh = FindWindow(O()(), NULL);
-	//	    	if(NULL != hh) DestroyWindow(hh);
-	//		}
-	//	};
-	//
-	//	void close_window()
-	//	{
-	//		//TL::foreach<window_list, __close_window__>()();
-	//	}
-	//}
 //----------------------------------------------------------------------------------
 	static bool closed_packet_dialog = true;
 	static bool run_once_per_sycle = false;
 	void Key<IDB_CycleBtn>::Click(HWND h)
-	{
-		//HWND hh = NULL;
-		//for(int i = 0; i < dimention_of(closed_window::name); ++i)
-		//{
-		//	hh = FindWindow(closed_window::name[i], NULL);
-		//	if(NULL != hh) DestroyWindow(hh);
-		//}
-		//closed_window::close_window();
-		//
-		//if(closed_packet_dialog)
-		//{
-		//	closed_packet_dialog = false;
-		//	if(run_once_per_sycle || PacketWindowDlg(h)) 
-		//	{
-		//		CloseAllWindows();
-		//		run_once_per_sycle = true;
-		//		SetEvent(App::ProgrammRunEvent);
-		//		AppKeyHandler::Run();
-		//		AutomatAdditional::SetToBottomLabel();
-		//		MainWindow *w = (MainWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-		//		SetToolButtonText(w->toolBar.hWnd, IDB_CycleBtn, L"F4 Повтор");
-		//	}
-		//	closed_packet_dialog = true;
-		//}
+	{		
 		Automat::Start();
 	}
 	void Key<IDB_Continue>::Click(HWND h)
 	{
-	//	SetEvent(App::ProgrammContinueEvent);
-	//	AppKeyHandler::Run();
 	   Automat::Continue();
 	}
+	//void Key<IDB_ClampBtn>::Click(HWND h)
+	//{
+	//}
+	//void Key<IDB_SensorsUnit>::Click(HWND h)
+	//{}
 //-------------------------------------------------------------------------------
 	void Key<IDB_QueryBtn>::Click(HWND h)
 	{
@@ -144,18 +107,13 @@ namespace
 	{
 		Automat::ExitTube();
 	}
-	void Key<IDB_SensorsUnit>::Click(HWND h)
+	void Key<IDB_ReturnTubeBtn>::Click(HWND h)
 	{
 		Automat::ReturnTube();
 	}
 
 	void Key<IDB_Reset>::Click(HWND h)
 	{
-		//run_once_per_sycle = false;
-		//SetEvent(App::ProgrammStopEvent);
-		//MainWindow *w = (MainWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-		//SetToolButtonText(w->toolBar.hWnd, IDB_CycleBtn, L"F4 Цикл");
-		//AppKeyHandler::Stop();
 		Automat::Stop();
 	}
 }

@@ -44,6 +44,7 @@
 #define IDI_Exclam						216
 #define IDI_Cancel						217
 #define IDI_Add   						218
+#define IDB_ReturnTubeBtn               220
 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

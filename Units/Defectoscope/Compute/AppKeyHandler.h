@@ -25,6 +25,8 @@ namespace AppKeyHandler
 		, TL::IntToType<IDB_arrow_left>
 		, TL::IntToType<IDB_arrow_right>
 		, TL::IntToType<IDB_ExitTubeBtn>
-		, TL::IntToType<IDB_SensorsUnit>
+		, TL::IntToType<IDB_ReturnTubeBtn>
+		//, TL::IntToType<IDB_ClampBtn>
+	    //, TL::IntToType<IDB_SensorsUnit>
 	>::Result button_list;
 }

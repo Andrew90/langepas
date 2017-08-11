@@ -12,15 +12,17 @@ namespace
 	static const wchar_t *controlCircuit = L"цепи управления";
 	static const wchar_t *frequencyConverterSignalPCH_B = L"сигнал состояния частотного преобразователя(PCH_B)";
 	static const wchar_t *frequencyConverterSignalRun = L"сигнал состояния частотного преобразователя(Run)";
+	HFONT hFont;
 	template<class T>struct DlgItemsLabel
-	{
+	{		
 		HWND Init(HWND h, int &width, int &dy, T &)
-		{
+		{	
 			HWND hWnd = CreateWindow(L"static", turnOnControlCircuit
 				, WS_VISIBLE | WS_CHILD
-				, 30, dy, 600, 20, h, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
+				, 30, dy, 600, 30, h, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
 				);
 			dy += 30;
+			SendMessage(hWnd, WM_SETFONT, (WPARAM)hFont, TRUE);
 			return hWnd;
 		}
 	};
@@ -284,11 +286,14 @@ namespace
 void RotationScanningDevice::Do(HWND h)
 {
 	Rotation rotation;
-
+	hFont = CreateFont (26, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
+				OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+				DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"));
 	DlgR dlg(rotation);
 	TimeQueue timeQueue(&dlg);
 	if(dlg.Do(h, L"Вращение сканирующего устройства"))
 	{
 	}
 	OUT_BITS(Off<oSTF>, Off<oRL>, Off<oRM>, Off<oRH>);
+	DeleteObject(hFont); 
 }

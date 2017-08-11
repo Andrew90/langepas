@@ -134,7 +134,7 @@ namespace AppKeyHandler
 	template<>struct __is_key__<IDB_arrow_right>{static const unsigned value = VK_F8;};
 
 	template<>struct __is_key__<IDB_ExitTubeBtn >{static const unsigned value = VK_F9;};
-	template<>struct __is_key__<IDB_SensorsUnit>{static const unsigned value = VK_F10;};
+	template<>struct __is_key__<IDB_ReturnTubeBtn>{static const unsigned value = VK_F10;};
 
 	template<unsigned id, unsigned key>struct __sub_test_key__
 	{

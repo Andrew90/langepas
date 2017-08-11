@@ -57,6 +57,7 @@ IDB_MashCutBtn          BITMAP                  "..\\..\\Common\\Resource\\MashB
 IDB_Reset               BITMAP                  "..\\..\\Common\\Resource\\ResetBtn.bmp"
 IDB_OptionsBtn          BITMAP                  "..\\..\\Common\\Resource\\OptionsBtn.bmp"
 IDB_ExitTubeBtn         BITMAP                  "..\\..\\Common\\Resource\\ExitTubeBtn.bmp"
+IDB_ReturnTubeBtn       BITMAP                  "..\\..\\Common\\Resource\\ReturnTubeBtn.bmp"
 IDB_Clamp1OnBtn         BITMAP                  "..\\..\\Common\\Resource\\Clamp1OnBtn.bmp"
 IDB_Clamp2OnBtn         BITMAP                  "..\\..\\Common\\Resource\\Clamp2OnBtn.bmp"
 IDB_CycleBtn            BITMAP                  "..\\..\\Common\\Resource\\CycleBtn.bmp"

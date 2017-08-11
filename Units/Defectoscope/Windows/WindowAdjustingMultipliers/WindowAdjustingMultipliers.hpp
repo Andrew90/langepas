@@ -98,7 +98,7 @@ public:
 	LRESULT operator()(TCreate &l)
 	{
 		hEdit = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", L""
-			,  WS_CHILD | WS_VISIBLE
+			,  WS_CHILD | WS_VISIBLE | ES_READONLY
 			, 10, 10, Parent::width - 40, 25, l.hwnd, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
 			);
 

@@ -5,11 +5,9 @@
 #include "window_tool\TEvent.h"
 #include "SolidGroupAlgoritm\SolidBase.h"
 #include "DlgTemplates\ParamDlg.hpp"
-
+/// \brief окно коррекции коэффициентов сигнала
 class WindowAdjustingMultipliers
-{	
-	//typedef void (WindowAdjustingMultipliers::*Tptr)(TCommand &);
-	//Tptr ptrOk, ptrCancel;
+{		
 public:
 	class OkBtn: TEvent
 	{
