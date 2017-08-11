@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testMess", "Tests\testMess\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Messages", "Units\Messages\Messages.vcxproj", "{AB43774F-0155-4DAC-BF5C-47104F784830}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "debug_panel", "Units\panel_debug\debug_panel.vcxproj", "{5455AC9C-CBB3-4DCF-A4DA-A28166F4FEED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -77,6 +79,10 @@ Global
 		{AB43774F-0155-4DAC-BF5C-47104F784830}.Debug|Win32.Build.0 = Debug|Win32
 		{AB43774F-0155-4DAC-BF5C-47104F784830}.Release|Win32.ActiveCfg = Release|Win32
 		{AB43774F-0155-4DAC-BF5C-47104F784830}.Release|Win32.Build.0 = Release|Win32
+		{5455AC9C-CBB3-4DCF-A4DA-A28166F4FEED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5455AC9C-CBB3-4DCF-A4DA-A28166F4FEED}.Debug|Win32.Build.0 = Debug|Win32
+		{5455AC9C-CBB3-4DCF-A4DA-A28166F4FEED}.Release|Win32.ActiveCfg = Release|Win32
+		{5455AC9C-CBB3-4DCF-A4DA-A28166F4FEED}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

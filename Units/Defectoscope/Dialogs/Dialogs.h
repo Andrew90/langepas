@@ -90,4 +90,7 @@ DLG(Digital502Dlg)
 DLG(ModulePositionDlg)
 DLG(RotationScanningDevice)
 
+DLG(ThicknessComTest)
+DLG(ASUComTest)
+
 #undef DLG

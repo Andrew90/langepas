@@ -82,12 +82,12 @@ namespace
 
 	template<>struct DlgSubItems<Mess , bool>: DlgItemsLabel<Mess>{};
 
-	template<class O, class P>struct __ok_btn__
-	{
-		void operator()(O &o, P &p)
-		{
-		}
-	};
+	//template<class O, class P>struct __ok_btn__
+	//{
+	//	void operator()(O &o, P &p)
+	//	{
+	//	}
+	//};
 
 	struct StartBtnPos
 	{
@@ -288,7 +288,7 @@ void RotationScanningDevice::Do(HWND h)
 	Rotation rotation;
 	hFont = CreateFont (26, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
 				OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
-				DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"));
+				DEFAULT_PITCH | FF_DONTCARE, TEXT("Times New Roman"));
 	DlgR dlg(rotation);
 	TimeQueue timeQueue(&dlg);
 	if(dlg.Do(h, L"Вращение сканирующего устройства"))

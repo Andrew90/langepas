@@ -139,6 +139,9 @@
     <Filter Include="Dialogs\TestUnits">
       <UniqueIdentifier>{4328d424-8a92-4df8-9234-4cd06c1002e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\Test502">
+      <UniqueIdentifier>{1cffa5a4-d7d8-4e2c-abd1-4e2c21c10f11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Defectoscope.cpp">
@@ -554,6 +557,15 @@
     </ClCompile>
     <ClCompile Include="Dialogs\ModulePosition.cpp">
       <Filter>Dialogs\TestUnits</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogs\TestComPortDlg.cpp">
+      <Filter>Dialogs\TestUnits</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Test502\SignalViewer.cpp">
+      <Filter>Windows\Test502</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Test502\Test502Window.cpp">
+      <Filter>Windows\Test502</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1066,6 +1078,12 @@
     </ClInclude>
     <ClInclude Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.hpp">
       <Filter>Windows\WindowAdjustingMultipliers</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Test502\SignalViewer.h">
+      <Filter>Windows\Test502</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Test502\Test502Window.h">
+      <Filter>Windows\Test502</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

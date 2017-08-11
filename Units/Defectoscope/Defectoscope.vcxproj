@@ -176,6 +176,7 @@
     <ClCompile Include="Dialogs\RotationalSpeedDlg.cpp" />
     <ClCompile Include="Dialogs\RotationScanningDevice.cpp" />
     <ClCompile Include="Dialogs\StoredDlg.cpp" />
+    <ClCompile Include="Dialogs\TestComPortDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdDlg.cpp" />
     <ClCompile Include="Dialogs\ThresholdsDlg.cpp" />
     <ClCompile Include="Dialogs\TypeSizeDlg.cpp" />
@@ -219,6 +220,8 @@
     <ClCompile Include="Windows\MainWindowToolBar.cpp" />
     <ClCompile Include="Windows\ResultViewer.cpp" />
     <ClCompile Include="Windows\ScanWindow.cpp" />
+    <ClCompile Include="Windows\Test502\SignalViewer.cpp" />
+    <ClCompile Include="Windows\Test502\Test502Window.cpp" />
     <ClCompile Include="Windows\ThicknessViewer.cpp" />
     <ClCompile Include="Windows\TopLabelViewer.cpp" />
     <ClCompile Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.cpp" />
@@ -389,6 +392,8 @@
     <ClInclude Include="Windows\MainWindowToolBar.h" />
     <ClInclude Include="Windows\ResultViewer.h" />
     <ClInclude Include="Windows\ScanWindow.h" />
+    <ClInclude Include="Windows\Test502\SignalViewer.h" />
+    <ClInclude Include="Windows\Test502\Test502Window.h" />
     <ClInclude Include="Windows\ThicknessViewer.h" />
     <ClInclude Include="Windows\TopLabelViewer.h" />
     <ClInclude Include="Windows\ViewersMenu.hpp" />
