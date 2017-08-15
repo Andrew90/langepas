@@ -226,11 +226,11 @@ void Test502Window::operator()(TMouseWell &l)
 	}
 }
 
-LRESULT Test502Window::operator()(TActivate &l)
-{
-	//SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_ModeTest, MAKELONG(!App::measurementOfRunning, 0));
-	return 0;
-}
+//LRESULT Test502Window::operator()(TActivate &l)
+//{
+//	//SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_ModeTest, MAKELONG(!App::measurementOfRunning, 0));
+//	return 0;
+//}
 
 void Test502Window::Do(HWND)
 {
