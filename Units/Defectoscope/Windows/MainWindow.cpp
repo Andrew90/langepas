@@ -115,11 +115,11 @@ LRESULT MainWindow::operator()(TCreate &m)
 	TL::foreach<viewers_list, Common::__create_window__>()(&viewers, &m.hwnd);
 	return 0;
 }
-//------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
 void MainWindow::operator()(TDestroy &l)
 {
 	SetWindowLongPtr(l.hwnd, GWLP_USERDATA, 0);
-	topLabelViewer.backScreen = NULL;
 	PostQuitMessage(0);
 }
 void MainWindow::operator()(TClose &l)

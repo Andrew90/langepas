@@ -807,10 +807,10 @@ struct CountSubZonesTable
 	const wchar_t *name(){return L"CountSubZonesTable";}
 };
 //---------------------------------------------------------------------
-DEFINE_PARAM(PrimarySignalMin , double, -10)
-DEFINE_PARAM(PrimarySignalMax , double, 12)
-DEFINE_PARAM(OffsetPointsMin  , double, -10)
-DEFINE_PARAM(OffsetPointsMax  , double, 12)
+DEFINE_PARAM(PrimarySignalMin , double, -100)
+DEFINE_PARAM(PrimarySignalMax , double, 100)
+DEFINE_PARAM(OffsetPointsMin  , double, -100)
+DEFINE_PARAM(OffsetPointsMax  , double, 100)
 
 DEFINE_PARAM(PrimarySignalOffset  , int, 400)
 DEFINE_PARAM(PrimarySignalWidth  , int, 1200)
@@ -827,6 +827,19 @@ struct GraphAxesTable
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"GraphAxesTable";}
+ };
+//---------------------------------------------------------------
+struct TestGraphAxesTable
+ {
+	typedef TL::MkTlst<
+		PrimarySignalMin
+		, PrimarySignalMax
+		, PrimarySignalOffset
+		, PrimarySignalWidth
+	>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"TestGraphAxesTable";}
  };
 //---------------------------------------------------------------
 template<class T>struct SpeedBit;
@@ -956,6 +969,62 @@ struct AdjustingMultipliersTable
 	const wchar_t *name(){return L"AdjustingMultipliersTable";}
 };
 //-----------------------------------------------------------------
+template<int N>struct TestLineColor;
+DEFINE_PARAM_NUM(TestLineColor,  0, unsigned, 0xffffff00)
+DEFINE_PARAM_NUM(TestLineColor,  1, unsigned, 0xffffcc00)
+DEFINE_PARAM_NUM(TestLineColor,  2, unsigned, 0xffff9900)
+DEFINE_PARAM_NUM(TestLineColor,  3, unsigned, 0xffff6600)
+DEFINE_PARAM_NUM(TestLineColor,  4, unsigned, 0xffff3300)
+DEFINE_PARAM_NUM(TestLineColor,  5, unsigned, 0xffff0000)
+DEFINE_PARAM_NUM(TestLineColor,  6, unsigned, 0xff990000)
+DEFINE_PARAM_NUM(TestLineColor,  7, unsigned, 0xff993300)
+DEFINE_PARAM_NUM(TestLineColor,  8, unsigned, 0xff996600)
+DEFINE_PARAM_NUM(TestLineColor,  9, unsigned, 0xff999900)
+DEFINE_PARAM_NUM(TestLineColor, 10, unsigned, 0xff99cc00)
+DEFINE_PARAM_NUM(TestLineColor, 11, unsigned, 0xff99ff00)
+DEFINE_PARAM_NUM(TestLineColor, 12, unsigned, 0xff33ff00)
+DEFINE_PARAM_NUM(TestLineColor, 13, unsigned, 0xff33cc00)
+DEFINE_PARAM_NUM(TestLineColor, 14, unsigned, 0xff339900)
+DEFINE_PARAM_NUM(TestLineColor, 15, unsigned, 0xff336600)
+DEFINE_PARAM_NUM(TestLineColor, 16, unsigned, 0xff333300)
+DEFINE_PARAM_NUM(TestLineColor, 17, unsigned, 0xff330000)
+
+struct TestLineColorTable
+{
+	typedef TL::CreateNumList<TestLineColor, 0, 17>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"TestLineColorTable";}
+};
+
+template<int N>struct TestLineOn;
+DEFINE_PARAM_NUM(TestLineOn,  0, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  1, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  2, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  3, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  4, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  5, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  6, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  7, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  8, bool, true)
+DEFINE_PARAM_NUM(TestLineOn,  9, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 10, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 11, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 12, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 13, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 14, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 15, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 16, bool, true)
+DEFINE_PARAM_NUM(TestLineOn, 17, bool, true)
+
+struct TestLineOnTable
+{
+	typedef TL::CreateNumList<TestLineOn, 0, 17>::Result items_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"TestLineOnTable";}
+};
+//-----------------------------------------------------------------
  struct ParametersBase
  {
 	 typedef TL::MkTlst<
@@ -977,6 +1046,9 @@ struct AdjustingMultipliersTable
 		 , ComPortTable
 		 , OffsetSensorsTable
 		 , AdditionalParams502Table
+		 , TestGraphAxesTable
+		 , TestLineColorTable
+		 , TestLineOnTable
 	 >::Result one_row_table_list;
 
 	 typedef TL::MkTlst<

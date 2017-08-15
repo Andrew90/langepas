@@ -337,7 +337,6 @@ template<>struct __start__<on<Magn, 2>>
 	void operator()(SubLir &lir)
 	{
 		Singleton<ItemData<Solid>>::Instance().start = lir.samples[lir.index - 1];
-		dprint("offs <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< On %d\n", lir.samples[lir.index - 1]);
 	}
 };
 
@@ -346,7 +345,6 @@ template<>struct __start__<off<Magn, 1>>
 	void operator()(SubLir &lir)
 	{
 		Singleton<ItemData<Solid>>::Instance().stop = lir.samples[lir.index - 1];
-		dprint("offs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Off %d\n", lir.samples[lir.index - 1]);
 	}
 };
 
@@ -395,7 +393,7 @@ template<class T>void Module<T>::Start()
 	unsigned *samplesLen = lir.samplesLen;
 	int index = lir.index;
 	int i = 0;
-//	rem = 0;
+
 	for(; i < index; ++i)  /// смещение 1 зоны в отчётах
 	{
 		if(tick[i] > offs)
@@ -405,7 +403,6 @@ template<class T>void Module<T>::Start()
 			offset = zones[0];
 			zonesOffs = 1;
 			framesOffs = i;
-		//	rem = (1.0 - d) * (tick[i] - tick[i - 1]) * sq2.perSamples;
 
 			startLen = 	samplesLen[i - 1] + unsigned(d * (samplesLen[i] - samplesLen[i - 1]));
 

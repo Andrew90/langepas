@@ -12,7 +12,6 @@ TopLabelViewer::TopLabelViewer()
 	label.fontHeight =25;
 	label.top = 0;	
 }
-TopLabelViewer::~TopLabelViewer(){delete backScreen;}
 //----------------------------------------------------------------------------------------------------
 LRESULT TopLabelViewer::operator()(TSize &l)
 {
@@ -68,8 +67,8 @@ void TopLabelViewer::SetMessage(wchar_t *text)
 void TopLabelViewer::operator()(TDestroy &m)
 {
 	SetWindowLongPtr(m.hwnd, GWLP_USERDATA, NULL);
-	//delete backScreen;
-   // backScreen = NULL;
+	delete backScreen;
+	backScreen = NULL;
 }
 //------------------------------------------------------------------------------------------------
 

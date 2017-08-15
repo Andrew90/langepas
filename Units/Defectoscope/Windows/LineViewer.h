@@ -15,7 +15,6 @@ public:
 	Gdiplus::Bitmap *backScreen;
 public:
 	int offsetX;
-	//int maxOffset;
 public:
 	HWND hWnd;
 	ColorLabel label;

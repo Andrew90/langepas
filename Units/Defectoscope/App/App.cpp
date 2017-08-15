@@ -16,6 +16,8 @@
 
 #include "Dates\CounterTubes.h"
 
+#include "Windows\Test502\Test502Window.h"
+
 bool App::measurementOfRunning = false;
 bool App::isStandard = false;
 
@@ -84,6 +86,10 @@ void App::Init()
 	Singleton<ComputeSolidGroup>::Instance().Load(nameParam);
 }
 
+
+//------------------------------------------------------------------------
+
+//
 void App::Destroy()
 {
 	Automat::Exit();

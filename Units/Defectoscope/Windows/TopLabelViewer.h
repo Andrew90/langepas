@@ -11,7 +11,6 @@ public:
 public:
 	HWND hWnd;
 	TopLabelViewer();
-	~TopLabelViewer();
 	LRESULT operator()(TSize &);
 	LRESULT operator()(TPaint &);
 	LRESULT operator()(TUser &);

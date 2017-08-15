@@ -77,6 +77,7 @@ IDB_arrow_up            BITMAP                  "..\\..\\Common\\Resource\\arrow
 IDB_arrow_right         BITMAP                  "..\\..\\Common\\Resource\\arrow_right.bmp"
 IDB_arrow_left          BITMAP                  "..\\..\\Common\\Resource\\arrow_left.bmp"
 IDB_Continue            BITMAP                  "..\\..\\Common\\Resource\\continue.bmp"
+IDB_ModeTest            BITMAP                  "..\\..\\Common\\Resource\\mode_test.bmp"
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -92,6 +93,7 @@ IDI_Ok                  ICON                  "..\\..\\Common\\Resource\\Ok-icon
 IDI_Exclam              ICON                  "..\\..\\Common\\Resource\\Exclamation-icon.ico"
 IDI_Cancel              ICON                  "..\\..\\Common\\Resource\\Cancel.ico"
 IDI_Add                 ICON                  "..\\..\\Common\\Resource\\Add.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

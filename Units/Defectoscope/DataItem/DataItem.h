@@ -36,7 +36,7 @@ struct PrimaryThickData
 
 struct SolidGroupData
 {
-	static const int count_sensors = 2;
+	static const int count_sensors = App::count_solid_sensors;
 	int start, stop;
 	double ascan[count_sensors][App::count_frames];	
 };

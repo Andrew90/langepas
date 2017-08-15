@@ -222,6 +222,7 @@
     <ClCompile Include="Windows\ScanWindow.cpp" />
     <ClCompile Include="Windows\Test502\SignalViewer.cpp" />
     <ClCompile Include="Windows\Test502\Test502Window.cpp" />
+    <ClCompile Include="Windows\Test502\TestThresholdDlg.cpp" />
     <ClCompile Include="Windows\ThicknessViewer.cpp" />
     <ClCompile Include="Windows\TopLabelViewer.cpp" />
     <ClCompile Include="Windows\WindowAdjustingMultipliers\WindowAdjustingMultipliers.cpp" />

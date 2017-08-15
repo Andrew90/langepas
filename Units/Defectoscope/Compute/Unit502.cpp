@@ -42,7 +42,7 @@ namespace Unit502N
 	} initArr;
 
 }
-
+const double koef = 100.0 / 0x7fff; //16 - разрядный АЦП - приводим к 100 %
 void Unit502::Read()
 {
 	double data[L502::buffer_length];
@@ -58,7 +58,7 @@ void Unit502::Read()
 			if(k < App::count_frames)
 			{
 				int sens = startChannel + i;
-				Unit502N::arr[sens % Unit502N::length][k] = data[i];
+				Unit502N::arr[sens % Unit502N::length][k] = data[i] * koef;;
 				++offs;
 			}
 		}

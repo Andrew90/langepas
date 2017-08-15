@@ -118,7 +118,7 @@ bool L502::Read(unsigned &startChannel, double *data, unsigned &count)
 	if(cnt > 0)
 	{
 		L502_GetNextExpectedLchNum((t_l502_hnd)hnd, &startChannel);
-		int err = L502_ProcessData((t_l502_hnd)hnd, rcv_buf, cnt, L502_PROC_FLAGS_VOLT, data, &count, NULL, NULL);
+		int err = L502_ProcessData((t_l502_hnd)hnd, rcv_buf, cnt, 0/*L502_PROC_FLAGS_VOLT*/, data, &count, NULL, NULL);
 		if (err < 0)
 		{
 			dprint("error computing date: %s", L502_GetErrorString(err));

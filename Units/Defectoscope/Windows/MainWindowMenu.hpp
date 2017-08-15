@@ -198,6 +198,7 @@ namespace MainWindowMenu
     struct RotationScanningDevice_: RotationScanningDevice{};
 
 	struct ThicknessComTest_: ThicknessComTest{};
+	struct ASUComTest_: ASUComTest{};
 	
 	struct Test502Window_: Test502Window{};
 
@@ -207,6 +208,8 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Тестирование саязи с АСУ", ThicknessComTest_)
 	MENU_ITEM(L"Тестирование саязи с модулем толщиномера", ASUComTest_)
 
+	MENU_ITEM(L"Тестирование каналов платы 502", Test502Window_)
+
 		template<>struct TopMenu<TestUnit>
 	{
 		typedef TL::MkTlst<
@@ -214,6 +217,7 @@ namespace MainWindowMenu
 			, MenuItem<RotationScanningDevice_>
 			, MenuItem<ThicknessComTest_>
 			, MenuItem<ASUComTest_>
+			, MenuItem<Test502Window_>
 			, Separator<1>
 			, MenuItem<IOportsView>
 			, MenuItem<LaunchExternalProgram>

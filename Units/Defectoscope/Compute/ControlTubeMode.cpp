@@ -130,25 +130,17 @@ namespace Mode
 
 	struct ComputeZones
 	{
-		template<class T>static void Do(T &)//unsigned, unsigned)
+		template<class T>static void Do(T &)
 		{
-			//	TL::foreach<unit_bit_off_list, __test_bit_off__>()(unit_bit_off, bits);
 			static unsigned counter = 0;
 			if((++counter % 20) == 0) 
 			{
-				//dprint("time %d  %d\n", GetTickCount(), lir.moduleItems.get<Module<Cross>>().zonesOffs);
 				lir.Do();   //вызываться будет через ~100 м.сек.
 				if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
 				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
 			}
 		}
 	};
-
-	//ItemData<Cross> &crossData = Singleton<ItemData<Cross>>::Instance();
-	//ItemData<Long> &longData = Singleton<ItemData<Long>>::Instance();
-
-	//longData.currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
-	//crossData.currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
 
 	template<>struct __updata_window__<Cross>
 	{

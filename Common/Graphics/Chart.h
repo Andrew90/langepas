@@ -134,7 +134,7 @@ public:
 	int color;
 	void Draw();
 	void SetData(double *data, int countSamples, double minValue, double maxValue);
-	void LineSeries::SetData(double *d, int c);
+	void SetData(double *d, int c);
 };
 class Cursor
 {

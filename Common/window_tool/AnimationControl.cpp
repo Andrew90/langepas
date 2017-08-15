@@ -93,10 +93,6 @@ namespace AnimationWindow
 		return 0;
 	}
 
-	//void Prepare()
-	//{
-	//	//exchange = 0;
-	//}
 #pragma warning(disable : 4996)
 	void Init(HWND h, wchar_t *title)
 	{
@@ -112,10 +108,6 @@ namespace AnimationWindow
 
 	void Destroy()
 	{
-		//long t = InterlockedCompareExchange(&exchange, stop, 0);
-		//if(start == t)
-		//{
-	    	SendMessage(hDlg, WM_CLOSE, 0, 0);
-		//}
+		SendMessage(hDlg, WM_CLOSE, 0, 0);
 	}
 }
