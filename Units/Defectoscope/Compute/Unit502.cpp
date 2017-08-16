@@ -28,13 +28,13 @@ namespace Unit502N
 		InitArr()
 		{
 			int k = 0;
-			for(int i = 0; i < dimention_of(crossData.ascan); ++i)
-			{
-				arr[k++] = crossData.ascan[i];
-			}
 			for(int i = 0; i < dimention_of(longData.ascan); ++i)
 			{
 				arr[k++] = longData.ascan[i];
+			}
+			for(int i = 0; i < dimention_of(crossData.ascan); ++i)
+			{
+				arr[k++] = crossData.ascan[i];
 			}
 			for(int i = 0; i < dimention_of(solidData.ascan); ++i)
 			{
