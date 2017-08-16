@@ -43,7 +43,7 @@ namespace {
 		{			
 			TSize size = {o->hWnd, WM_SIZE, 0, p->width, p->height};
 			SendMessage(MESSAGE(size));
-			MoveWindow(o->hWnd , 0, p->y, p->width, p->height, true);
+			MoveWindow(o->hWnd , 0, p->y, p->width, p->height + 3, true);
 			p->y += p->height;
 		}
 	};

@@ -182,6 +182,7 @@ namespace LogMess
 		, error_crc    
 		, error_count  
 		, transferControlParametersThicknessGauge
+		//, repeatTransferControlParametersThicknessGauge
 		, waitingThicknessGauge
 		, waitingThicknessResult
 //		
@@ -227,6 +228,7 @@ namespace LogMess
 		, demagnetizationNotCorrect
 		, demagnetizationTesting
 		, unit502SetupParams
+		, emergencyExit
 //		    
 		, max_row
 	};
@@ -346,6 +348,7 @@ namespace LogMess
 	MESS(WaitMagneticOff, void, "Ожидание съезда трубы из модуля размагничивания", blue, white)
 //
 	MESS(transferControlParametersThicknessGauge, void, "Передача параметров контроля в толщиномер", blue, white)
+	//MESS(repeatTransferControlParametersThicknessGauge, void, "Повторить передачу параметров контроля в толщиномер",red, yellow)
 	MESS(waitingThicknessGauge, void, "Oжидание готовности толщиномера", blue, white)
 	MESS(waitingPipeEntranceRollerTable, void, "Ожидание трубы на входном рольганге", blue, white)
 	MESS(waitingThicknessResult, void, "Oжидание результатов измерений толщиномера", blue, white)
@@ -360,6 +363,8 @@ namespace LogMess
 	MESS(demagnetizationTesting, void, "Тестирование размагничивания", blue, white)
 
 	MESS(unit502SetupParams, void, "Плата L502 не инициализируется", red, yellow)
+
+    MESS(emergencyExit, void, "Выход по аварии", red, yellow)
 
 	class FactoryMessages
 	{

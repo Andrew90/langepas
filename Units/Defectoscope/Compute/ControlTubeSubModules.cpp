@@ -97,7 +97,7 @@ void CheckDemagnetizeModule()
 #ifndef EMUL
 		if(max < tresh || -min < tresh || t < 0.2)
 		{
-			
+
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить тест?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 			{
 				Log::Mess<LogMess::demagnetizationNotCorrect>(); 
@@ -119,13 +119,13 @@ void SettingWorkingPositionControlModules()
 	using namespace AutomatN;
 	/// \brief Проверка наличия трубы в модулях
 	TEST_MESS(iSQ1pr)
-	TEST_MESS(iSQ2pr)
-	TEST_MESS(iSQ1po)
-	TEST_MESS(iSQ2po)
-	TEST_MESS(iSQ1t	)
-	TEST_MESS(iSQ2t	)
+		TEST_MESS(iSQ2pr)
+		TEST_MESS(iSQ1po)
+		TEST_MESS(iSQ2po)
+		TEST_MESS(iSQ1t	)
+		TEST_MESS(iSQ2t	)
 
-	OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
+		OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
 
 	bool bLong = false, bThick = false;
 
@@ -194,30 +194,41 @@ void TransferParametersThicknessModule()
 
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value)
 	{
-		Log::Mess<LogMess::transferControlParametersThicknessGauge>();
-		OUT_BITS(On<oT_Work>);
-		it_does_not_work_without_it_Sleep(500);
-		ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
-		int res = Communication::Thick::TransferControlParameters(
-			comPort
-			, Singleton<ParametersTable>::Instance().items.get<DiametrTube>().value
-			, tresh.get<BorderDefect<Thick>>().value
-			, tresh.get<BorderKlass2<Thick>>().value
-			, tresh.get<BorderKlass3<Thick>>().value
-			);
-		switch(res)
+		for(;;)
 		{
-		case Communication::ok: return;
-		case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
-		case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
-		case Communication::error_count  :  Log::Mess<LogMess::error_count>();
-			throw AutomatN::ExceptionAlarm();
+			Log::Mess<LogMess::transferControlParametersThicknessGauge>();
+			OUT_BITS(On<oT_Work>);
+			it_does_not_work_without_it_Sleep(500);
+			ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
+			int res = Communication::Thick::TransferControlParameters(
+				comPort
+				, Singleton<ParametersTable>::Instance().items.get<DiametrTube>().value
+				, tresh.get<BorderDefect<Thick>>().value
+				, tresh.get<BorderKlass2<Thick>>().value
+				, tresh.get<BorderKlass3<Thick>>().value
+				);
+			switch(res)
+			{
+			case Communication::ok: 
+				{
+					Log::Mess<LogMess::waitingThicknessGauge>();
+					AND_BITS(
+						On<iReadyT>	  /// \brief ожидание готовности толщиномера
+						, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+						)(); //кнопка начала измерений
+				}
+				return;
+			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();break;
+			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();break;
+			case Communication::error_count  :  Log::Mess<LogMess::error_count>();break;
+			}
+			//Log::Mess<LogMess::repeatTransferControlParametersThicknessGauge>();
+			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить передачу?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+			{
+				Log::Mess<LogMess::emergencyExit>();
+				throw AutomatN::ExceptionAlarm();
+			}
 		}
-		Log::Mess<LogMess::waitingThicknessGauge>();
-		AND_BITS(
-			On<iReadyT>	  /// \brief ожидание готовности толщиномера
-			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			)(); //кнопка начала измерений
 	}
 }
 
