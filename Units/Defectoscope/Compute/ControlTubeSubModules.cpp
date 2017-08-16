@@ -240,7 +240,7 @@ void GetDataFromThicknessModule()
 		for(int i = 0; i < 99; ++i)
 		{
 			int res =  Communication::Thick::RequestControlResult(
-				comPort, data.brak, data.class2, data.class3, data.currentOffsetZones, zones 
+				comPort, brak, class2, class3, data.currentOffsetZones, zones 
 				);
 
 			switch(res)

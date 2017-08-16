@@ -20,7 +20,7 @@ namespace Unit502N
 	static const int length = App::count_cross_sensors + App::count_long_sensors + SolidGroupData::count_sensors;
 
 	double *arr[length];
-
+	double kor[length];
 	struct InitArr
 	{
 		InitArr()
@@ -57,8 +57,8 @@ void Unit502::Read()
 			int k = offs / Unit502N::length;
 			if(k < App::count_frames)
 			{
-				int sens = startChannel + i;
-				Unit502N::arr[sens % Unit502N::length][k] = data[i] * koef;;
+				int sens = (startChannel + i) % Unit502N::length;
+				Unit502N::arr[sens][k] = data[i];//(data[i] - 0x7fff) * koef;
 				++offs;
 			}
 		}
@@ -96,6 +96,13 @@ bool Unit502::SetupParams()
 {
 	return Unit502N::l502.SetupParams();
 }
+//L502RangeTable
+template<class O, class P>struct __koef__
+{
+	void operator()(O &o)
+	{
+	}
+};
 
 int Unit502::Start()
 {
