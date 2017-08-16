@@ -43,9 +43,6 @@ void SignalViewer::OffsetRight()
 SignalViewer::Series::Series(Chart &c): chart(c){}
 namespace
 {
-
-
-
 typedef TL::CreateNumList<SignalViewer::LineUnit, 0, SignalViewer::count_channels - 1>::Result sensors_list;
 struct DrawUnitData
 {
@@ -61,13 +58,26 @@ struct DrawUnitData
 		, color(Singleton<TestLineColorTable>::Instance().items)
 	{}
 };
+template<class T>struct layer_draw_unit
+{
+	typedef T Result;
+};
+template<>struct layer_draw_unit<Voltage>
+{
+	typedef Solid Result;
+};
+template<>struct layer_draw_unit<Current>
+{
+	typedef Solid Result;
+};
 template<class O, class P>struct draw_unit
 {
 	void operator()(P &p)
 	{
 		if(p.on.get<TestLineOn<O::NUM>>().value)
 		{
-			ItemData<typename O::type> &data = Singleton<ItemData<typename O::type>>::Instance();
+			typedef typename layer_draw_unit<typename O::type>::Result T;
+			ItemData<T> &data = Singleton<ItemData<T>>::Instance();
 			p.line.color = p.color.get<TestLineColor<O::NUM>>().value;
 
 			p.line.SetData(&data.ascan[O::sensor][p.offset], p.count);

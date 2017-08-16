@@ -141,7 +141,8 @@ namespace
 	template<class T>struct Name;
 	template<>struct Name<Cross>{wchar_t *operator()(){return L"Поп";}};
 	template<>struct Name<Long>{wchar_t *operator()(){return L"Прод";}};
-	template<>struct Name<Solid>{wchar_t *operator()(){return L"Груп";}};
+	template<>struct Name<Voltage>{wchar_t *operator()(){return L"Напр";}};
+	template<>struct Name<Current>{wchar_t *operator()(){return L"Ток";}};
 	struct __make_checkbox_data__
 	{
 		HWND hwnd;
@@ -226,12 +227,6 @@ void Test502Window::operator()(TMouseWell &l)
 	}
 }
 
-//LRESULT Test502Window::operator()(TActivate &l)
-//{
-//	//SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_ModeTest, MAKELONG(!App::measurementOfRunning, 0));
-//	return 0;
-//}
-
 void Test502Window::Do(HWND)
 {
 	HWND h = FindWindow(WindowClass<Test502Window>()(), 0);
@@ -264,11 +259,7 @@ void Test502Window::SetParam()
 void Test502Window::Thread()
 {
 	guard = true;
-//	SubLir &lir = Singleton<SubLir>::Instance();
-//	ComputeUnit<Cross>().Clear();
-//	ComputeUnit<Long>().Clear();
-	//SignalViewer &t = viewers.get<SignalViewer>();
-	
+
 	unit502.Start();
 	for(int i = 0; i < 10; ++i)
 	{

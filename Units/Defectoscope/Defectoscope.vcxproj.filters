@@ -1088,6 +1088,9 @@
     <ClInclude Include="Windows\Test502\Test502Window.h">
       <Filter>Windows\Test502</Filter>
     </ClInclude>
+    <ClInclude Include="App\SyncChannel.hpp">
+      <Filter>App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\Resource\Defectoscope.rc">

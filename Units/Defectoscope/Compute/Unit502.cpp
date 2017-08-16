@@ -7,6 +7,7 @@
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "App/App.h"
 #include "lir\SubLir.h"
+#include "App\SyncChannel.hpp"
 
 namespace Unit502N
 {
@@ -16,8 +17,9 @@ namespace Unit502N
 	ItemData<Solid> &solidData = Singleton<ItemData<Solid>>::Instance();
 	TimeLir &timeFrames = Singleton<TimeLir>::Instance();
 	SubLir &lir = Singleton<SubLir>::Instance();
+	typedef SYNC(L502RangeTable::items_list) range_list;
 
-	static const int length = App::count_cross_sensors + App::count_long_sensors + SolidGroupData::count_sensors;
+	static const int length = TL::Length<range_list>::value;//App::count_cross_sensors + App::count_long_sensors + SolidGroupData::count_sensors;
 
 	double *arr[length];
 	double kor[length];
@@ -42,7 +44,6 @@ namespace Unit502N
 	} initArr;
 
 }
-const double koef = 100.0 / 0x7fff; //16 - разрядный АЦП - приводим к 100 %
 void Unit502::Read()
 {
 	double data[L502::buffer_length];
@@ -58,7 +59,7 @@ void Unit502::Read()
 			if(k < App::count_frames)
 			{
 				int sens = (startChannel + i) % Unit502N::length;
-				Unit502N::arr[sens][k] = data[i];//(data[i] - 0x7fff) * koef;
+				Unit502N::arr[sens][k] = data[i] * Unit502N::kor[sens];
 				++offs;
 			}
 		}
@@ -96,19 +97,24 @@ bool Unit502::SetupParams()
 {
 	return Unit502N::l502.SetupParams();
 }
-//L502RangeTable
-template<class O, class P>struct __koef__
+namespace Unit502N
 {
-	void operator()(O &o)
+	const double k[] = {10.0, 5.0, 2.0, 1.0, 0.5, 0.2};
+	template<class O, class P>struct __koef__
 	{
-	}
-};
+		void operator()(O &o)
+		{
+			kor[TL::IndexOf<range_list, O>::value] = 100.0 / k[o.value];
+		}
+	};
+}
 
 int Unit502::Start()
 {
 	Unit502N::lir.currentSamples = 0;
 	Unit502N::lir.index = 0;
 	Unit502N::lir.tmpPerSamples = 0;
+	TL::foreach<Unit502N::range_list, Unit502N::__koef__>()(Singleton<L502RangeTable>::Instance().items);
 	return Unit502N::l502.Start();
 }
 

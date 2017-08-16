@@ -328,6 +328,7 @@
     <ClInclude Include="App\ChangeTypeSize.h" />
     <ClInclude Include="App\Config.h" />
     <ClInclude Include="App\MessageItems.h" />
+    <ClInclude Include="App\SyncChannel.hpp" />
     <ClInclude Include="Compute\AppKeyHandler.h" />
     <ClInclude Include="Compute\Automat.h" />
     <ClInclude Include="Compute\Automat.hpp" />

@@ -550,6 +550,7 @@ struct sinhro_d{};
 struct error_x{};
 struct start_x{};
 
+DEFINE_PARAM_WAPPER_NUM(Range, Cross, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 1, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 2, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 3, int, 0)
@@ -561,14 +562,13 @@ DEFINE_PARAM_WAPPER_NUM(Range, Cross, 8, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 9, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 10, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Cross, 11, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Range, Cross, 12, int, 0)
 
+DEFINE_PARAM_WAPPER_NUM(Range, Long, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Long, 1, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Long, 2, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Long, 3, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Range, Long, 4, int, 0)
 
-DEFINE_PARAM_WAPPER_NUM(Range, Current, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Range, Current, 1, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Range, Voltage, 0, int, 0)
 
 DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 0, int, 0)
@@ -576,27 +576,26 @@ DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 1, int, 0)
 
 DEFINE_PARAM_WAPPER_NUM(Range, MagneticField, 0, int, 0)
 
-
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 1, int, 7)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 2, int, 8)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 3, int, 9)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 4, int, 10)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 5, int, 11)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 6, int, 12)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 7, int, 13)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 8, int, 14)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 9, int, 15)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 10, int, 16)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 11, int,17)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 12, int,18)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 0, int, 7)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 1, int, 8)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 2, int, 9)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 3, int, 10)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 4, int, 11)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 5, int, 12)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 6, int, 13)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 7, int, 14)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 8, int, 15)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 9, int, 16)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 10, int, 17)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 11, int ,18)
 						
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 1, int, 0)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 2, int, 1)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 3, int, 2)
-DEFINE_PARAM_WAPPER_NUM(Offset, Long, 4, int, 3)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 0, int, 0)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 1, int, 1)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 2, int, 2)
+DEFINE_PARAM_WAPPER_NUM(Offset, Long, 3, int, 3)
 						
 DEFINE_PARAM_WAPPER_NUM(Offset, Voltage, 0, int, 4)
-DEFINE_PARAM_WAPPER_NUM(Offset, Current, 0, int, 6)
+DEFINE_PARAM_WAPPER_NUM(Offset, Current, 1, int, 6)
 
 DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 0, int, 21)
 DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 1, int, 22)
@@ -624,12 +623,13 @@ struct L502OffsetsDigitTable
 
 struct L502RangeTable
 {
-	typedef TL::MkTlst<		  
-        Range<Long , 1> 
+	typedef TL::MkTlst<	
+		Range<Long, 0> 
+        , Range<Long , 1> 
         , Range<Long , 2> 
         , Range<Long , 3> 
-		, Range<Long, 4> 
-
+		
+		, Range<Cross, 0> 
         , Range<Cross, 1> 
         , Range<Cross, 2> 
         , Range<Cross, 3> 
@@ -641,7 +641,6 @@ struct L502RangeTable
         , Range<Cross, 9> 
         , Range<Cross, 10>
         , Range<Cross, 11> 
-		, Range<Cross , 12> 
 		
 		, Range<MagneticField, 0>
 
@@ -649,7 +648,7 @@ struct L502RangeTable
 		, Range<Temperature, 1> 
 
 		, Range<Voltage, 0>
-        , Range<Current, 0>
+        , Range<Current, 1>
 		
 	>::Result items_list;
 	typedef NullType unique_list;
@@ -660,11 +659,12 @@ struct L502RangeTable
 struct L502OffsetsTable
 {
 	typedef TL::MkTlst<
-		Offset<Long, 1> 
+		Offset<Long, 0> 
+		, Offset<Long, 1> 
         , Offset<Long, 2> 
         , Offset<Long, 3> 
-		, Offset<Long, 4> 
 
+		, Offset<Cross, 0> 
         , Offset<Cross, 1> 
         , Offset<Cross, 2> 
         , Offset<Cross, 3> 
@@ -676,7 +676,6 @@ struct L502OffsetsTable
         , Offset<Cross, 9> 
         , Offset<Cross, 10>
         , Offset<Cross, 11> 
-		, Offset<Cross, 12> 
 
 		, Offset<MagneticField, 0>
 
@@ -684,7 +683,7 @@ struct L502OffsetsTable
 		, Offset<Temperature, 1> 
 
 		, Offset<Voltage, 0>
-        , Offset<Current, 0>
+        , Offset<Current, 1>
 		
 	>::Result items_list;
 	typedef NullType unique_list;
@@ -694,6 +693,7 @@ struct L502OffsetsTable
 };
 //-------------------------------------------------------------------
 template<class T, int>struct Mode502;
+DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 0, int, L502_LCH_MODE_COMM)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 1, int,  L502_LCH_MODE_COMM)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 2, int,  L502_LCH_MODE_COMM)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 3, int,  L502_LCH_MODE_COMM)
@@ -705,15 +705,14 @@ DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 8, int,  L502_LCH_MODE_COMM)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 9, int,  L502_LCH_MODE_COMM)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 10, int, L502_LCH_MODE_COMM)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 11, int, L502_LCH_MODE_COMM)
-DEFINE_PARAM_WAPPER_NUM(Mode502, Cross, 12, int, L502_LCH_MODE_COMM)
-					
+
+DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 0, int  , L502_LCH_MODE_DIFF)					
 DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 1, int  , L502_LCH_MODE_DIFF)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 2, int  , L502_LCH_MODE_DIFF)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 3, int  , L502_LCH_MODE_DIFF)
-DEFINE_PARAM_WAPPER_NUM(Mode502, Long, 4, int  , L502_LCH_MODE_DIFF)
 						
 DEFINE_PARAM_WAPPER_NUM(Mode502, Voltage, 0, int, L502_LCH_MODE_DIFF)
-DEFINE_PARAM_WAPPER_NUM(Mode502, Current, 0, int, L502_LCH_MODE_DIFF)
+DEFINE_PARAM_WAPPER_NUM(Mode502, Current, 1, int, L502_LCH_MODE_DIFF)
 						
 DEFINE_PARAM_WAPPER_NUM(Mode502, Temperature, 0, int, L502_LCH_MODE_COMM)
 DEFINE_PARAM_WAPPER_NUM(Mode502, Temperature, 1, int, L502_LCH_MODE_COMM)
@@ -723,11 +722,12 @@ DEFINE_PARAM_WAPPER_NUM(Mode502, MagneticField, 0, int, L502_LCH_MODE_COMM)
 struct L502ModeTable
 {
 	typedef TL::MkTlst<
-		  Mode502<Long, 1> 
+		 Mode502<Long, 0> 
+		, Mode502<Long, 1> 
         , Mode502<Long, 2> 
         , Mode502<Long, 3> 
-		, Mode502<Long, 4> 
-	
+		
+		, Mode502<Cross, 0> 
         , Mode502<Cross, 1> 
         , Mode502<Cross, 2> 
         , Mode502<Cross, 3> 
@@ -739,7 +739,6 @@ struct L502ModeTable
         , Mode502<Cross, 9> 
         , Mode502<Cross, 10>
         , Mode502<Cross, 11> 
-		, Mode502<Cross, 12> 
 		
 		, Mode502<MagneticField, 0>
 
@@ -747,7 +746,7 @@ struct L502ModeTable
 		, Mode502<Temperature, 1> 
 	
 		, Mode502<Voltage, 0>
-        , Mode502<Current, 0>
+        , Mode502<Current, 1>
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;

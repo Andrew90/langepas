@@ -43,7 +43,6 @@ public:
 	void operator()(TCommand &);
 	void operator()(TGetMinMaxInfo &);
 	void operator()(TMouseWell &);
-	//LRESULT operator()(TActivate &);
 	static void Do(HWND);
 	void SetParam();
 

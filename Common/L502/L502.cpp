@@ -8,6 +8,7 @@
 #pragma comment(lib, "../../Common/L502/l502api.lib")
 #include <stdio.h>
 #include "App/AppBase.h"
+#include "App/SyncChannel.hpp"
 
 L502::L502()
 	: READ_TIMEOUT(100)
@@ -55,16 +56,21 @@ namespace
 	};
 };
 
+#define SETUP(table, arr)TL::foreach<SYNC(table::items_list), __set_array__<SYNC(table::items_list)>::loc>()(&Singleton<table>::Instance().items, arr);
+
 bool L502::SetupParams()
 {
-	static const int buf_size = TL::Length<L502RangeTable::items_list>::value;
+	static const int buf_size = TL::Length<SYNC(L502RangeTable::items_list)>::value;
 	
 	int f_ch_ranges[buf_size];
-	TL::foreach<L502RangeTable::items_list, __set_array__<L502RangeTable::items_list>::loc>()(&Singleton<L502RangeTable>::Instance().items, f_ch_ranges);
 	int f_ch_modes[buf_size];
-	TL::foreach<L502ModeTable::items_list, __set_array__<L502ModeTable::items_list>::loc>()(&Singleton<L502ModeTable>::Instance().items, f_ch_modes);
 	int f_channels[buf_size];
-	TL::foreach<L502OffsetsTable::items_list, __set_array__<L502OffsetsTable::items_list>::loc>()(&Singleton<L502OffsetsTable>::Instance().items, f_channels);
+	//TL::foreach<SYNC(L502RangeTable::items_list)  , __set_array__<L502RangeTable::items_list>::loc>()(&Singleton<L502RangeTable>::Instance().items, f_ch_ranges);
+	//TL::foreach<SYNC(L502ModeTable::items_list)   , __set_array__<L502ModeTable::items_list>::loc>()(&Singleton<L502ModeTable>::Instance().items, f_ch_modes);
+	//TL::foreach<SYNC(L502OffsetsTable::items_list), __set_array__<L502OffsetsTable::items_list>::loc>()(&Singleton<L502OffsetsTable>::Instance().items, f_channels);
+	SETUP(L502RangeTable, f_ch_ranges)
+	SETUP(L502ModeTable, f_ch_modes)
+	SETUP(L502OffsetsTable, f_channels)
 	int err = L502_SetLChannelCount((t_l502_hnd)hnd, buf_size);
 	for (int i=0; (i < buf_size) && !err; i++)
         err = L502_SetLChannel((t_l502_hnd)hnd, i, f_channels[i], f_ch_modes[i], f_ch_ranges[i], 0);
@@ -92,6 +98,8 @@ bool L502::SetupParams()
 
     return 0 == err;
 }
+#undef SETUP
+
 int L502::Start()
 {
 	int err = L502_StreamsStart((t_l502_hnd)hnd);

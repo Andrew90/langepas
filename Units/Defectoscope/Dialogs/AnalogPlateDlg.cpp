@@ -8,14 +8,14 @@
 namespace
 {
 #if 1
-#define OFFS_CROSS(N)template<>struct ParamTitle<Offset<Cross, N> >{wchar_t *operator()(){\
+#define OFFS_CROSS(N)template<>struct ParamTitle<Offset<Cross, N - 1> >{wchar_t *operator()(){\
 	return L"смешение поперечного канала "##L#N;}};
-#define OFFS_LONG(N)template<>struct ParamTitle<Offset<Long, N> >{wchar_t *operator()(){\
+#define OFFS_LONG(N)template<>struct ParamTitle<Offset<Long, N - 1> >{wchar_t *operator()(){\
 	return L"смешение продольного канала "##L#N;}};
 
 	typedef Offset<Voltage, 0> OffsVoltage;
 	PARAM_TITLE(OffsVoltage, L"смещение канала напряжения для группы прочности")
-		typedef	Offset<Current, 0> OffsCurrent;
+		typedef	Offset<Current, 1> OffsCurrent;
 	PARAM_TITLE(OffsCurrent, L"смещение канала тока для группы прочности")
 
 		typedef	Offset<MagneticField, 0> OffsetMagneticField;
@@ -67,14 +67,14 @@ void OffsetsChannelDlg::Do(HWND h)
 
 namespace
 {
-#define RANGE_CROSS(N)template<>struct ParamTitle<Range<Cross, N> >{wchar_t *operator()(){\
+#define RANGE_CROSS(N)template<>struct ParamTitle<Range<Cross, N - 1> >{wchar_t *operator()(){\
 	return L"усиление поперечного канала "##L#N;}};
-#define RANGE_LONG(N)template<>struct ParamTitle<Range<Long, N> >{wchar_t *operator()(){\
+#define RANGE_LONG(N)template<>struct ParamTitle<Range<Long, N - 1> >{wchar_t *operator()(){\
 	return L"усиление продольного канала "##L#N;}};
 
 	typedef Range<Voltage, 0> RangeVoltage;
 	PARAM_TITLE(RangeVoltage, L"напряжение для группы прочности")
-		typedef	Range<Current, 0> RangeCurrent;
+		typedef	Range<Current, 1> RangeCurrent;
 	PARAM_TITLE(RangeCurrent, L"ток для группы прочности")
 
 		typedef	Range<MagneticField, 0> RangeMagneticField;
@@ -147,17 +147,17 @@ namespace
 	};
 
 	COMBO_ITEMS(RangeVoltage)
-		COMBO_ITEMS(RangeCurrent)
+	COMBO_ITEMS(RangeCurrent)
 
-		COMBO_ITEMS(RangeMagneticField)
-		COMBO_ITEMS(RangeTemperature1)
-		COMBO_ITEMS(RangeTemperature2)
+	COMBO_ITEMS(RangeMagneticField)
+	COMBO_ITEMS(RangeTemperature1)
+	COMBO_ITEMS(RangeTemperature2)
 #undef COMBO_ITEMS
 
 #define COMBO_ITEMS(TYPE, N)\
-	template<>struct FillComboboxList<Range<TYPE, N>>			 \
+	template<>struct FillComboboxList<Range<TYPE, N - 1>>			 \
 	{															 \
-	void operator()(HWND h, Range<TYPE, N> &)			 \
+	void operator()(HWND h, Range<TYPE, N - 1> &)			 \
 	{														 \
 	for(int i = 0; i < dimention_of(SyncGainData); ++i)	 \
 	{													 \
@@ -165,18 +165,18 @@ namespace
 	}													 \
 	}														 \
 	};	\
-	template<>struct CurrentValue<Range<TYPE, N>>				 \
+	template<>struct CurrentValue<Range<TYPE, N - 1>>				 \
 	{															 \
-	void operator()(HWND h, Range<TYPE, N> &)			 \
+	void operator()(HWND h, Range<TYPE, N - 1> &)			 \
 	{														 \
-	const int val = Singleton<L502RangeTable>::Instance().items.get<Range<TYPE, N>>().value;\
+	const int val = Singleton<L502RangeTable>::Instance().items.get<Range<TYPE, N - 1>>().value;\
 	ComboBox_SetCurSel(h, val);\
 	}\
 	};\
-	template<>struct DlgSubItems<Range<TYPE, N>, int>: ComboBoxSubItem<Range<TYPE, N>>{};\
-	template<class P>struct __ok_btn__<DlgItem<Range<TYPE, N>>, P>\
+	template<>struct DlgSubItems<Range<TYPE, N - 1>, int>: ComboBoxSubItem<Range<TYPE, N - 1>>{};\
+	template<class P>struct __ok_btn__<DlgItem<Range<TYPE, N - 1>>, P>\
 	{  \
-	typedef DlgItem<Range<TYPE, N>> O; \
+	typedef DlgItem<Range<TYPE, N - 1>> O; \
 	void operator()(O *o, P *p)	 \
 	{						   \
 	wchar_t s[128];					\
@@ -224,14 +224,14 @@ void AmplificationChannelDlg::Do(HWND h)
 namespace  
 {
 
-#define MODE_CROSS(N)template<>struct ParamTitle<Mode502<Cross, N> >{wchar_t *operator()(){\
+#define MODE_CROSS(N)template<>struct ParamTitle<Mode502<Cross, N - 1> >{wchar_t *operator()(){\
 	return L"режим подключения поперечного канала "##L#N;}};
-#define MODE_LONG(N)template<>struct ParamTitle<Mode502<Long, N> >{wchar_t *operator()(){\
+#define MODE_LONG(N)template<>struct ParamTitle<Mode502<Long, N - 1> >{wchar_t *operator()(){\
 	return L"режим подключения продольного канала "##L#N;}};
 
 	typedef Mode502<Voltage, 0> Mode502Voltage;
 	PARAM_TITLE(Mode502Voltage, L"режим подключения для напряжения группы прочности")
-		typedef	Mode502<Current, 0> Mode502Current;
+		typedef	Mode502<Current, 1> Mode502Current;
 	PARAM_TITLE(Mode502Current, L"режим подключения для тока группы прочности")
 
 		typedef	Mode502<MagneticField, 0> Mode502MagneticField;
@@ -268,9 +268,9 @@ namespace
 		const wchar_t *modeGainData[] ={L"с общей землёй", L"дифференциальный"};
 
 #define COMBO_ITEMS(TYPE, N)\
-	template<>struct FillComboboxList<Mode502<TYPE, N>>			 \
+	template<>struct FillComboboxList<Mode502<TYPE, N - 1>>			 \
 	{															 \
-	void operator()(HWND h, Mode502<TYPE, N> &)			 \
+	void operator()(HWND h, Mode502<TYPE, N - 1> &)			 \
 	{														 \
 	for(int i = 0; i < dimention_of(modeGainData); ++i)	 \
 	{													 \
@@ -278,18 +278,18 @@ namespace
 	}													 \
 	}														 \
 	};	\
-	template<>struct CurrentValue<Mode502<TYPE, N>>				 \
+	template<>struct CurrentValue<Mode502<TYPE, N - 1>>				 \
 	{															 \
-	void operator()(HWND h, Mode502<TYPE, N> &)			 \
+	void operator()(HWND h, Mode502<TYPE, N - 1> &)			 \
 	{														 \
-	const int val = Singleton<L502ModeTable>::Instance().items.get<Mode502<TYPE, N>>().value;\
+	const int val = Singleton<L502ModeTable>::Instance().items.get<Mode502<TYPE, N - 1>>().value;\
 	ComboBox_SetCurSel(h, val);\
 	}\
 	};\
-	template<>struct DlgSubItems<Mode502<TYPE, N>, int>: ComboBoxSubItem<Mode502<TYPE, N>>{};\
-	template<class P>struct __ok_btn__<DlgItem<Mode502<TYPE, N>>, P>\
+	template<>struct DlgSubItems<Mode502<TYPE, N - 1>, int>: ComboBoxSubItem<Mode502<TYPE, N - 1>>{};\
+	template<class P>struct __ok_btn__<DlgItem<Mode502<TYPE, N - 1>>, P>\
 	{  \
-	typedef DlgItem<Mode502<TYPE, N>> O; \
+	typedef DlgItem<Mode502<TYPE, N - 1>> O; \
 	void operator()(O *o, P *p)	 \
 	{						   \
 	wchar_t s[128];					\
@@ -305,22 +305,22 @@ namespace
 	};
 
 	COMBO_ITEMS(Cross, 1)
-		COMBO_ITEMS(Cross, 2)
-		COMBO_ITEMS(Cross, 3)
-		COMBO_ITEMS(Cross, 4)
-		COMBO_ITEMS(Cross, 5)
-		COMBO_ITEMS(Cross, 6)
-		COMBO_ITEMS(Cross, 7)
-		COMBO_ITEMS(Cross, 8)
-		COMBO_ITEMS(Cross, 9)
-		COMBO_ITEMS(Cross, 10)
-		COMBO_ITEMS(Cross, 11)
-		COMBO_ITEMS(Cross, 12)
+	COMBO_ITEMS(Cross, 2)
+	COMBO_ITEMS(Cross, 3)
+	COMBO_ITEMS(Cross, 4)
+	COMBO_ITEMS(Cross, 5)
+	COMBO_ITEMS(Cross, 6)
+	COMBO_ITEMS(Cross, 7)
+	COMBO_ITEMS(Cross, 8)
+	COMBO_ITEMS(Cross, 9)
+	COMBO_ITEMS(Cross, 10)
+	COMBO_ITEMS(Cross, 11)
+	COMBO_ITEMS(Cross, 12)
 
-		COMBO_ITEMS(Long, 1)
-		COMBO_ITEMS(Long, 2)
-		COMBO_ITEMS(Long, 3)
-		COMBO_ITEMS(Long, 4)
+	COMBO_ITEMS(Long, 1)
+	COMBO_ITEMS(Long, 2)
+	COMBO_ITEMS(Long, 3)
+	COMBO_ITEMS(Long, 4)
 #undef COMBO_ITEMS
 
 
@@ -380,11 +380,11 @@ void ModeChannelDlg::Do(HWND h)
 namespace 
 {
 	PARAM_TITLE(Inp502<sinhro_s>, L"Вход синхросигнала 1(SINHRO_S)")
-		PARAM_TITLE(Inp502<sinhro_d>, L"Вход синхросигнала 2(SINHRO_D)")
-		PARAM_TITLE(Inp502<error_x> , L"Вход состояния размагничивания(ERROR)")
-		PARAM_TITLE(Out502<start_x> , L"Включение размагничивания(START)")
+	PARAM_TITLE(Inp502<sinhro_d>, L"Вход синхросигнала 2(SINHRO_D)")
+	PARAM_TITLE(Inp502<error_x> , L"Вход состояния размагничивания(ERROR)")
+	PARAM_TITLE(Out502<start_x> , L"Включение размагничивания(START)")
 
-		template<>struct DlgSubItems<Inp502<sinhro_s>, int>: UpDownSubItem<Inp502<sinhro_s>, 16>{};
+	template<>struct DlgSubItems<Inp502<sinhro_s>, int>: UpDownSubItem<Inp502<sinhro_s>, 16>{};
 	template<>struct DlgSubItems<Inp502<sinhro_d>, int>: UpDownSubItem<Inp502<sinhro_d>, 16>{};
 	template<>struct DlgSubItems<Inp502<error_x> , int>: UpDownSubItem<Inp502<error_x> , 16>{};
 	template<>struct DlgSubItems<Out502<start_x> , int>: UpDownSubItem<Out502<start_x> , 16>{};

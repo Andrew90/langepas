@@ -1,39 +1,27 @@
 ﻿#pragma once
 #include "Windows\LineViewer.h"
 
+#include "App\SyncChannel.hpp"
+
 class SignalViewer: public LineViewer
 {
+	template<class>struct Inner;
+	template<template<class, int>class W, class T, int N>struct Inner<W<T, N>>
+	{
+		static const int NUM = N;
+		typedef T type;
+	};
 public:
-	template<int N>struct LineUnit;	
-#define CROSS(n)template<>struct LineUnit<n>{typedef Cross type;static const int NUM = n; static const int sensor = n;};
-#define LONG(n)template<>struct LineUnit<n>{typedef Long type;static const int NUM = n; static const int sensor = n - 12;};
-#define SOLID(n)template<>struct LineUnit<n>{typedef Solid type;static const int NUM = n; static const int sensor = n - 12 - 4;};
-CROSS(0)
-CROSS(1)
-CROSS(2)
-CROSS(3)
-CROSS(4)
-CROSS(5)
-CROSS(6)
-CROSS(7)
-CROSS(8)
-CROSS(9)
-CROSS(10)
-CROSS(11)
-
-LONG(12)
-LONG(13)
-LONG(14)
-LONG(15)
-
-SOLID(16)
-SOLID(17)
-
-#undef CROSS
-#undef LONG
-#undef SOLID
+	template<int N>class LineUnit
+	{
+		typedef typename TL::TypeAt<SYNC(L502OffsetsTable::items_list), N>::Result T;
+	public:
+		static const int NUM = N;
+		static const int sensor =  Inner<T>::NUM;
+		typedef typename Inner<T>::type type;
+	};
 public:
-	static const int count_channels = App::count_cross_sensors + App::count_long_sensors + App::count_solid_sensors;
+	static const int count_channels = TL::Length<SYNC(L502OffsetsTable::items_list)>::value;//App::count_cross_sensors + App::count_long_sensors + App::count_solid_sensors;
 	template<int N>struct SeriesOn
 	{
 		static const int NUM = N;
