@@ -260,7 +260,7 @@ namespace LogMess
 
 	MESS(InfoOnSycleBitIn               , void, "Ожидание сигнала \"Цикл\""					  , blue , white)
 
-	MESS(InfoUserStop					, void, "Оператор вышел из цикла"			  , red  , yellow)
+	MESS(InfoUserStop					, void, "Цикл завершен"			  , red  , yellow)
 
 	MESS(ModulesNotInOperation, void, "Модули не в положении обслуживания", red  , yellow) 
 	MESS(TransverseModuleClampsDidNotWork, void, "Не сработали зажимы поперечного модуля", red, yellow)

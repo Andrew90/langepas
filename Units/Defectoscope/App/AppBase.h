@@ -250,8 +250,8 @@ struct AdditionalSettingsTable
 	 const wchar_t *name(){return L"MedianFiltreTable";}
  };
  //---------------------------------------------------------------------------------------------------------
-STR_PARAM(NamePlate1730_1, 64, L"PCIE-1730,BID#0")
-STR_PARAM(NamePlate1730_2, 64, L"PCIE-1730,BID#1")
+STR_PARAM(NamePlate1730_1, 64, L"PCI-1730,BID#1")
+STR_PARAM(NamePlate1730_2, 64, L"PCI-1730,BID#2")
  struct NamePlate1730ParametersTable
  {
 	 typedef TL::MkTlst<
@@ -873,7 +873,7 @@ struct AdditionalParams502Table
 	const wchar_t *name(){return L"AdditionalParams502Table";}
 };
 //-----------------------------------------------------------------
-DEFINE_PARAM(NumberComPort, int, 3)
+DEFINE_PARAM(NumberComPort, int, 2)
 DEFINE_PARAM(Speed, int, 9600)
 
 DEFINE_PARAM(SubscriberThickness, int, 1)
