@@ -51,7 +51,7 @@ void LineViewer::operator()(TPaint &l)
 	{		
 		Graphics g(hdc);		
 		g.DrawCachedBitmap(&CachedBitmap(backScreen, &g), 0, 0);
-		cursor->VerticalCursor(storedMouseMove, PaintGraphics(g));
+		cursor->CrossCursor(storedMouseMove, PaintGraphics(g));
 	}
 	EndPaint(l.hwnd, &p);
 }
@@ -84,14 +84,14 @@ void LineViewer::operator()(TMouseWell &l)
 	
 	int currentY = 0;
 	chart->CellCoord(storedMouseMove.x, storedMouseMove.y, offsetX, currentY);
-	cursor->VerticalCursor(storedMouseMove, HDCGraphics(l.hwnd, backScreen));
+	cursor->CrossCursor(storedMouseMove, HDCGraphics(l.hwnd, backScreen));
 }
 //--------------------------------------------------------------------------
  void LineViewer::operator()(TMouseMove &l)
  {	 
 	 if(mouseMove)
 	 {
-		 if(cursor->VerticalCursor(l, HDCGraphics(l.hwnd, backScreen)))
+		 if(cursor->CrossCursor(l, HDCGraphics(l.hwnd, backScreen)))
 		 {
 			 storedMouseMove = l;
 			 int y;
@@ -110,7 +110,7 @@ void LineViewer::operator()(TMouseWell &l)
  void LineViewer::operator()(TLButtonDbClk &l)
 {
 	 mouseMove = true;
-	if(cursor->VerticalCursor(*(TMouseMove *)&l, HDCGraphics(l.hwnd, backScreen)))
+	if(cursor->CrossCursor(*(TMouseMove *)&l, HDCGraphics(l.hwnd, backScreen)))
 	{
 		int y;
 	    chart->CoordCell(l.x, l.y, offsetX, y);	
