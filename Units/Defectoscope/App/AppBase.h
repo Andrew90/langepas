@@ -527,7 +527,6 @@ struct L502ParametersTable
 	typedef TL::MkTlst<
 		ChannelSamplingRate
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"L502ParametersTable";}
@@ -615,7 +614,6 @@ struct L502OffsetsDigitTable
 	   , Inp502<error_x>
 	   , Out502<start_x>
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"L502OffsetsDigitTable";}
@@ -651,7 +649,6 @@ struct L502RangeTable
         , Range<Current, 1>
 		
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"L502RangeTable";}
@@ -686,7 +683,6 @@ struct L502OffsetsTable
         , Offset<Current, 1>
 		
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"L502OffsetsTable";}
@@ -748,7 +744,6 @@ struct L502ModeTable
 		, Mode502<Voltage, 0>
         , Mode502<Current, 1>
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"L502ModeTable";}
@@ -776,7 +771,6 @@ struct AnalogFilterTable
 		, CutoffFrequency<Voltage>
 		, CutoffFrequencyOn<Voltage>
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"AnalogFilterTable";}
@@ -788,7 +782,6 @@ struct CalculationAlgorithmTable
 	typedef TL::MkTlst<
 		CalculationAlgorithm
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"CalculationAlgorithmTable";}
@@ -800,7 +793,6 @@ struct CountSubZonesTable
 	typedef TL::MkTlst<
 		CountSubZones
 	>::Result items_list;
-	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name(){return L"CountSubZonesTable";}

@@ -24,10 +24,11 @@ void TestCoilTemperature()
 {
 	L502RangeTable::TItems &range = Singleton<L502RangeTable>::Instance().items;
 	L502OffsetsTable::TItems &offs = Singleton<L502OffsetsTable>::Instance().items;
+	L502ModeTable::TItems &mode = Singleton<L502ModeTable>::Instance().items;
 	double t1 = 0;
 	double t2 = 0;
-	if(!(unit502.ReadAsync(offs.get<Offset<Temperature, 0>>().value, range.get<Range<Temperature, 0>>().value, t1)
-		|| unit502.ReadAsync(offs.get<Offset<Temperature, 1>>().value, range.get<Range<Temperature, 1>>().value, t2))
+	if(!(unit502.ReadAsync(offs.get<Offset<Temperature, 0>>().value, mode.get<Mode502<Temperature, 0>>().value, range.get<Range<Temperature, 0>>().value, t1)
+		|| unit502.ReadAsync(offs.get<Offset<Temperature, 1>>().value, mode.get<Mode502<Temperature, 1>>().value, range.get<Range<Temperature, 1>>().value, t2))
 		)
 	{
 		Log::Mess<LogMess::AnalogBoardFailure>();

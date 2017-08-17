@@ -570,6 +570,9 @@
     <ClCompile Include="Windows\Test502\TestThresholdDlg.cpp">
       <Filter>Windows\Test502</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\Test502\AsyncChannel.cpp">
+      <Filter>Windows\Test502</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

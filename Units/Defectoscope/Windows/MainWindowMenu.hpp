@@ -201,6 +201,7 @@ namespace MainWindowMenu
 	struct ASUComTest_: ASUComTest{};
 	
 	struct Test502Window_: Test502Window{};
+    struct AsyncChannels_: AsyncChannels{};
 
 	MENU_ITEM(L"Положение сканирующих устройств", ModulePosition)
 	MENU_ITEM(L"Вращение сканирующего устройства", RotationScanningDevice_)
@@ -208,7 +209,8 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Тестирование саязи с АСУ", ThicknessComTest_)
 	MENU_ITEM(L"Тестирование саязи с модулем толщиномера", ASUComTest_)
 
-	MENU_ITEM(L"Тестирование каналов платы 502", Test502Window_)
+	MENU_ITEM(L"Тестирование синхронных каналов платы 502", Test502Window_)
+	MENU_ITEM(L"Тестирование асинхронных каналов платы 502", AsyncChannels_)
 
 		template<>struct TopMenu<TestUnit>
 	{
@@ -218,6 +220,7 @@ namespace MainWindowMenu
 			, MenuItem<ThicknessComTest_>
 			, MenuItem<ASUComTest_>
 			, MenuItem<Test502Window_>
+			, MenuItem<AsyncChannels_>
 			, Separator<1>
 			, MenuItem<IOportsView>
 			, MenuItem<LaunchExternalProgram>
