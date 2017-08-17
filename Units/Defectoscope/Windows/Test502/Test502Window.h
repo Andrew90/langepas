@@ -4,8 +4,10 @@
 #include "window_tool\message.h"
 #include "Windows\TopLabelViewer.h"
 #include "window_tool\TEvent.h"
+#include "window_tool\EmptyWindow.h"
 
 struct GraphicOptionsDlg{static void Do(HWND );};
+struct AsyncChannels{static void Do(HWND h);};
 
 class Test502Window
 {

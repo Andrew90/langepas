@@ -14,7 +14,8 @@ public:
 	int Start();
 	int Stop();
 	bool Read(unsigned &startChennel, double *data, unsigned &count);
-	bool ReadAsync(unsigned ch, int range, double &value);
+	bool ReadAsync(unsigned ch, int mode, int range, double &value);
+	bool ReadAsyncChannels(int count, unsigned *ch, int *mode, int *range, double *value);
 
 	bool BitOut(unsigned ch, bool value);
 };

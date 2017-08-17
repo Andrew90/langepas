@@ -135,14 +135,14 @@ bool L502::Read(unsigned &startChannel, double *data, unsigned &count)
 	}
 	return true;
 }
-bool L502::ReadAsync(unsigned ch, int range, double &value)
+bool L502::ReadAsync(unsigned ch, int mode, int range, double &value)
 {
 	/* устанавливаем 1 логический канал в управляющей таблице */
 	int32_t err = L502_SetLChannelCount((t_l502_hnd)hnd, 1);
 	if (err == L502_ERR_OK) {
-		/* логический канал соответствует измерению 7 канала
+		/* логический канал соответствует измерению 1 канала
 		в диф. режиме */
-		err = L502_SetLChannel((t_l502_hnd)hnd,0 ,ch,L502_LCH_MODE_COMM,range,0);
+		err = L502_SetLChannel((t_l502_hnd)hnd,0 ,ch,mode,range,0);
 	}
 	if (err == L502_ERR_OK) {
 		/* передаем настройки в модуль */
@@ -154,6 +154,58 @@ bool L502::ReadAsync(unsigned ch, int range, double &value)
 	}
 	return false;
 }
+
+bool L502::ReadAsyncChannels(int count, unsigned *ch, int *mode, int *range, double *value)
+{
+	/*
+	/* устанавливаем 3 логических канала
+int32_t err = X502_SetLChannelCount(hnd, 3);
+if (err == X502_ERR_OK) {
+/* первый логический канал соответствует измерению 1 канала
+относительно общей земли 
+err = X502_SetLChannel(hnd,0,0,X502_LCH_MODE_COMM,
+X502_ADC_RANGE_10,0);
+}
+if (err == X502_ERR_OK) {
+/* второй логический канал соответствует измерению 16 канала
+в диф. режиме 
+err = X502_SetLChannel(hnd,1,15,X502_LCH_MODE_DIFF,
+X502_ADC_RANGE_1, 0);
+}
+if (err == X502_ERR_OK) {
+/* третий логический канал - измерение 17-го канала
+относительно общей земли 
+err = X502_SetLChannel(hnd,2,16,X502_LCH_MODE_COMM,
+X502_ADC_RANGE_02, 0);
+}
+if (err == X502_ERR_OK) {
+/* установка других настроек 
+}
+if (err == X502_ERR_OK) {
+/* передаем настройки в модуль 
+err = X502_Configure(hnd,0);
+}
+if (err != X502_ERR_OK) {
+/* произошла ошибка при настройке параметров... 
+}
+	*/
+	int32_t err = L502_SetLChannelCount((t_l502_hnd)hnd, count);
+	if(err == L502_ERR_OK) 
+	{
+		for(int i = 0; i < count; ++i)
+		{
+			err = L502_SetLChannel((t_l502_hnd)hnd,i, ch[i],mode[i],range[i],0);
+			if(err != L502_ERR_OK)return err;
+		}
+		err = L502_Configure((t_l502_hnd)hnd,0);
+		if (err == L502_ERR_OK) {
+			/* Считываем кадр данных АЦП из одного отсчета */
+			return L502_ERR_OK == L502_AsyncGetAdcFrame((t_l502_hnd)hnd, L502_PROC_FLAGS_VOLT, 1000, value);
+		}
+	}
+	return err;
+}
+
 bool L502::BitOut(unsigned ch, bool value)
 {
 	unsigned bits = 1 << ch;

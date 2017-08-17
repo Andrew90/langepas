@@ -123,9 +123,13 @@ int Unit502::Stop()
 	return Unit502N::l502.Stop();
 }
 
-bool Unit502::ReadAsync(unsigned ch, int range, double &value)
+bool Unit502::ReadAsync(unsigned ch, int mode, int range, double &value)
 {
-	return Unit502N::l502.ReadAsync(ch, range, value);
+	return Unit502N::l502.ReadAsync(ch, mode, range, value);
+}
+bool Unit502::ReadAsyncChannels(int count, unsigned *ch, int *mode, int *range, double *value)
+{
+	return Unit502N::l502.ReadAsyncChannels(count, ch, mode, range, value);
 }
 
 bool Unit502::BitOut(unsigned ch, bool value)
