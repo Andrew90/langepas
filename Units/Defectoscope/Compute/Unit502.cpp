@@ -137,4 +137,9 @@ bool Unit502::BitOut(unsigned ch, bool value)
 	return Unit502N::l502.BitOut(ch, value);
 }
 
+bool Unit502::BitIn(unsigned &value)
+{
+	return Unit502N::l502.BitIn(value);
+}
+
 
