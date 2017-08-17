@@ -63,7 +63,7 @@ namespace
 		hFont = CreateFont (26, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
 			OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
 			DEFAULT_PITCH | FF_DONTCARE, TEXT("Times New Roman"));
-		TemplDialog<NullType, Label, DlgItem, TL::MkTlst<StartBtnPos<ptr>, CancelBtn>::Result>(Label()).Do(h, L"Тестирование саязи с АСУ");
+		TemplDialog<NullType, Label, DlgItem, TL::MkTlst<StartBtnPos<ptr>, CancelBtn>::Result>(Label()).Do(h, L"Тестирование связи с АСУ");
 		DeleteObject(hFont); 
 	}
 }
