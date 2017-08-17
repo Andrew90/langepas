@@ -8,6 +8,7 @@
 
 struct GraphicOptionsDlg{static void Do(HWND );};
 struct AsyncChannels{static void Do(HWND h);};
+struct Digit502Channel{static void Do(HWND h);};
 
 class Test502Window
 {

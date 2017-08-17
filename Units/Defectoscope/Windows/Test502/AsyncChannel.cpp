@@ -1,9 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Test502Window.h"
-//#include "Dialogs/Dialogs.h"
-//#include "DlgTemplates\ParamDlg.h"
 #include "DlgTemplates\ParamDlg.hpp"
-//#include "App/AppBase.h"
 #include "App/App.h"
 #include "Compute\Unit502.h"
 
@@ -105,7 +102,6 @@ PARAM_TITLE(Tst_Offset_Temperature_1, L"Датчик температуры 2")
 		{
 			DeleteTimerQueueTimer(NULL, hTimer, NULL);
 		}
-
 
 		static VOID CALLBACK WaitOrTimerCallback(TDlg *dlg, BOOLEAN TimerOrWaitFired)
 		{

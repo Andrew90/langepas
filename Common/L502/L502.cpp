@@ -211,6 +211,10 @@ bool L502::BitOut(unsigned ch, bool value)
 	unsigned bits = 1 << ch;
 	return L502_ERR_OK == L502_AsyncOutDig((t_l502_hnd)hnd, value ? bits: 0, ~bits);
 }
+bool L502::BitIn(unsigned &value)
+{
+	return L502_ERR_OK == L502_AsyncInDig((t_l502_hnd)hnd, &value);
+}
 #else
 #include "Emulator\Emulator.h"
 L502::L502(){}

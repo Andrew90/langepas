@@ -18,4 +18,5 @@ public:
 	bool ReadAsyncChannels(int count, unsigned *ch, int *mode, int *range, double *value);
 
 	bool BitOut(unsigned ch, bool value);
+	bool BitIn(unsigned &value);
 };

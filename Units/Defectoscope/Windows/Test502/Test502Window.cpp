@@ -33,7 +33,6 @@ namespace Test502WindowN
 
 	struct GraphicOptions:  GraphicOptionsDlg{};
 	MENU_ITEM(L"График", GraphicOptions)
-   
 
 	template<>struct TopMenu<Options>
 	{
