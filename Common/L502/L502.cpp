@@ -189,13 +189,13 @@ if (err != X502_ERR_OK) {
 /* произошла ошибка при настройке параметров... 
 }
 	*/
-	int32_t err = L502_SetLChannelCount((t_l502_hnd)hnd, count);
+	int err = L502_SetLChannelCount((t_l502_hnd)hnd, count);
 	if(err == L502_ERR_OK) 
 	{
 		for(int i = 0; i < count; ++i)
 		{
 			err = L502_SetLChannel((t_l502_hnd)hnd,i, ch[i],mode[i],range[i],0);
-			if(err != L502_ERR_OK)return err;
+			if(err != L502_ERR_OK) return false;
 		}
 		err = L502_Configure((t_l502_hnd)hnd,0);
 		if (err == L502_ERR_OK) {
@@ -203,7 +203,7 @@ if (err != X502_ERR_OK) {
 			return L502_ERR_OK == L502_AsyncGetAdcFrame((t_l502_hnd)hnd, L502_PROC_FLAGS_VOLT, 1000, value);
 		}
 	}
-	return err;
+	return L502_ERR_OK == err;
 }
 
 bool L502::BitOut(unsigned ch, bool value)

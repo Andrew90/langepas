@@ -77,7 +77,7 @@ PARAM_TITLE(Tst_Offset_Temperature_1, L"Датчик температуры 2")
 		void operator()(O &o, P &p)
 		{
 			static const int i = TL::IndexOf<TDlg::list, O>::value;
-			SetWindowText(o.hWnd, Wchar_from<double>(p.value[i])());
+			SetWindowText(o.hWnd, Wchar_from<double, 1>(p.value[i])());
 		}
 	};
 
