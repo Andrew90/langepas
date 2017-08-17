@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "stdafx.h"
 #include "Test502Window.h"
 #include "DlgTemplates\ParamDlg.hpp"
 #include "App/App.h"
@@ -20,13 +21,15 @@ namespace
 		}
 	};
 
-	PARAM_TITLE(Inp502<sinhro_s>, L"Вход синхросигнала 1(SINHRO_S)")
-	PARAM_TITLE(Inp502<sinhro_d>, L"Вход синхросигнала 2(SINHRO_D)")
-	PARAM_TITLE(Inp502<error_x> , L"Вход состояния размагничивания(ERROR)")
-	PARAM_TITLE(Out502<start_x> , L"Включение размагничивания(START)")
+	template<class T>struct dc;
 
-	template<class T>struct DlgSubItems<Inp502<T>, int>:  DlgSubItems<Inp502<T>, bool>{};
-	template<class T>struct DlgSubItems<Out502<T>, int>:  DlgItemsRadio<Out502<T>>{};
+	PARAM_TITLE(dc<Inp502<sinhro_s>>, L"Вход синхросигнала 1(SINHRO_S)")
+	PARAM_TITLE(dc<Inp502<sinhro_d>>, L"Вход синхросигнала 2(SINHRO_D)")
+	PARAM_TITLE(dc<Inp502<error_x> >, L"Вход состояния размагничивания(ERROR)")
+	PARAM_TITLE(dc<Out502<start_x> >, L"Включение размагничивания(START)")
+
+	//template<class T>struct DlgSubItems<dc<Inp502<T>>, int>:  DlgSubItems<Inp502<T>, bool>{};
+	template<class T>struct DlgSubItems<dc<Inp502<T>>, bool>:  DlgItemsRadio<dc<Inp502<T>>>{};
 
 	struct TstCloseBtn
 	{
@@ -40,13 +43,18 @@ namespace
 		}
 	};
 
+    DEFINE_PARAM_WAPPER2(dc, Inp502, sinhro_s, bool, false)
+    DEFINE_PARAM_WAPPER2(dc, Inp502, sinhro_d, bool, false)
+    DEFINE_PARAM_WAPPER2(dc, Inp502, error_x , bool, false)
+    DEFINE_PARAM_WAPPER2(dc, Out502, start_x , bool, false)
+
 	struct DigitTable
 	{
 		typedef TL::MkTlst<
-			Inp502<sinhro_s>
-			, Inp502<sinhro_d>
-			, Inp502<error_x> 
-			, Out502<start_x> 
+			  dc<Inp502<sinhro_s>>
+			, dc<Inp502<sinhro_d>>
+			, dc<Inp502<error_x> >
+			, dc<Out502<start_x> >
 		>::Result items_list;
 		typedef TL::Factory<items_list> TItems;
 		TItems items;
@@ -70,25 +78,25 @@ namespace
 		}
 
 		template<class O, class P>struct __set__;
-		template<class T, class P>struct __set__<DlgItem<Out502<T>>, P>
+		template<class T, class P>struct __set__<DlgItem<dc<Out502<T>>>, P>
 		{
-			typedef DlgItem<Out502<T>> O;
+			typedef DlgItem<dc<Out502<T>>> O;
 			void operator()(O &o, P &p)
 			{
 				unit502.BitOut(
-					o.value.value
+					p.bits.get<Out502<T>>().value
 					, BST_CHECKED == Button_GetCheck(o.hWnd) ? 1: 0
 					);
 			}
 		};
-		template<class T, class P>struct __set__<DlgItem<Inp502<T>>, P>
+		template<class T, class P>struct __set__<DlgItem<dc<Inp502<T>>>, P>
 		{
-			typedef DlgItem<Out502<T>> O;
+			typedef DlgItem<dc<Inp502<T>>> O;
 			void operator()(O &o, P &p)
 			{
 				Button_SetCheck(
 					o.hWnd
-					, 0 != (p->value & (1 << o.value.value)) ? BST_CHECKED: BST_UNCHECKED;
+					, 0 != (p.value & (1 << p.bits.get<Inp502<T>>().value)) ? BST_CHECKED: BST_UNCHECKED
 					);
 			}
 		};
@@ -96,13 +104,15 @@ namespace
 		static VOID CALLBACK WaitOrTimerCallback(TDlg *dlg, BOOLEAN TimerOrWaitFired)
 		{
 			unit502.BitIn(dlg->value);
-			TL::foreach<TDlg::list, __set__>()(dlg->bits, *dlg);
+			TL::foreach<TDlg::list, __set__>()(dlg->items, *dlg);
 		}
 	};
 }
 
 void Digit502Channel::Do(HWND h)
 {
-	TDlg(DigitTable()).Do(h, L"Асинхронные каналы");
-	unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x>>().value, 0);
+	DigitTable table;
+	TDlg dlg(table);
+	dlg.Do(h, L"Асинхронные каналы");
+	unit502.BitOut(dlg.bits.get<Out502<start_x>>().value, 0);
 }

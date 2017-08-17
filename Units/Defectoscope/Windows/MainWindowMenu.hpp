@@ -212,6 +212,10 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Тестирование синхронных каналов платы 502", Test502Window_)
 	MENU_ITEM(L"Тестирование асинхронных каналов платы 502", AsyncChannels_)
 
+	
+	struct Digit502Channel_: Digit502Channel{};
+	MENU_ITEM(L"Тестирование дискретных каналов платы 502", Digit502Channel_)
+
 		template<>struct TopMenu<TestUnit>
 	{
 		typedef TL::MkTlst<
@@ -221,6 +225,7 @@ namespace MainWindowMenu
 			, MenuItem<ASUComTest_>
 			, MenuItem<Test502Window_>
 			, MenuItem<AsyncChannels_>
+			, MenuItem<Digit502Channel_>
 			, Separator<1>
 			, MenuItem<IOportsView>
 			, MenuItem<LaunchExternalProgram>
