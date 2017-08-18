@@ -378,7 +378,7 @@ namespace Mode
 
 		if(job.get<OnTheJob<ViewInterrupt>>().value)
 		{
-			Log::Mess<LogMess::interruptView>();
+		//	Log::Mess<LogMess::interruptView>();
 			AppKeyHandler::Continue();	/// включили кнопку продолжить
 			AND_BITS(
 				Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп

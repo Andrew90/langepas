@@ -223,7 +223,6 @@ void TransferParametersThicknessModule()
 			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();break;
 			case Communication::error_count  :  Log::Mess<LogMess::error_count>();break;
 			}
-			//Log::Mess<LogMess::repeatTransferControlParametersThicknessGauge>();
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить передачу?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 			{
 				Log::Mess<LogMess::emergencyExit>();
@@ -242,7 +241,7 @@ void GetDataFromThicknessModule()
 		ItemData<Thick> &data = Singleton<ItemData<Thick>>::Instance();
 		Log::Mess<LogMess::waitingThicknessResult>();
 		unsigned short zones[65];
-		bool receiveDataOk = true;
+		bool receiveDataOk = false;
 		double brak = 0, class2 = 0, class3 = 0;
 #ifndef EMUL
 		AND_BITS(
@@ -257,18 +256,24 @@ void GetDataFromThicknessModule()
 
 			switch(res)
 			{
-			case Communication::ok: receiveDataOk = true; break;
-			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
-			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
-			case Communication::error_count  :  Log::Mess<LogMess::error_count>();
-				//throw AutomatN::ExceptionAlarm();
-				AND_BITS(
-					Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-					)(3000); 
-				receiveDataOk = false;
-				continue;
+			case Communication::ok: receiveDataOk = true; goto LOOP;
+			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();break;
+			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();break;
+			case Communication::error_count  :  Log::Mess<LogMess::error_count>();break;
+			}
+			if(!receiveDataOk)
+			{
+				//AND_BITS(
+				//	Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+				//	)(3000); 
+				if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+				{
+					Log::Mess<LogMess::emergencyExit>();
+					throw AutomatN::ExceptionAlarm();
+				}
 			}
 		}
+LOOP:
 #else
 		data.currentOffsetZones = 53;
 		short t = 42;
@@ -281,7 +286,6 @@ void GetDataFromThicknessModule()
 #endif
 		if(receiveDataOk)
 		{
-			//unsigned res[] = {0, -1};
 			for(int i = 0; i < App::count_zones; ++i)
 			{
 				double t = data.buffer[i] = 0.1 * zones[i];

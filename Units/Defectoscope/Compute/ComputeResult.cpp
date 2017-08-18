@@ -66,7 +66,7 @@ void CuttingZones()
 	resultData.cutZone1 = 1 + cutingZone[offs].cut1;
 
 	if(1 == resultData.cutZone0)  resultData.cutZone0 = 0;
-	if(resultData.currentOffsetZones - 1 == resultData.cutZone1)  resultData.cutZone1 = 0;
+	if(resultData.currentOffsetZones - 1 <= resultData.cutZone1)  resultData.cutZone1 = 0;
 }
 
 
