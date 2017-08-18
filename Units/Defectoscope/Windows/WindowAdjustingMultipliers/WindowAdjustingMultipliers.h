@@ -24,7 +24,7 @@ public:
 		CancelBtn(WindowAdjustingMultipliers &);
 		void Do(TCommand &);
 	};
-	static const int width = 300;
+	static const int width = 200;
 	static const int height = 120;
 public:
 	void(WindowAdjustingMultipliers::*ptrUpdate)(wchar_t *);

@@ -41,11 +41,11 @@ template<class List>struct AdjustStored
 template<class T>struct AdjustTitle;
 template<>struct AdjustTitle<Cross>
 {
-	wchar_t *operator()(){return L"Корректировка поперечного датчика";}
+	wchar_t *operator()(){return L"Поперечный датчик";}
 };
 template<>struct AdjustTitle<Long>
 {
-	wchar_t *operator()(){return L"Корректировка продольного датчика";}
+	wchar_t *operator()(){return L"Продольный датчик";}
 };
 
 struct AdjustXXXX
@@ -116,7 +116,6 @@ public:
 		return Parent::operator()(l);
 	}
 
-	//void operator()(TDestroy &l)
 	bool Destroy()
 	{
 		wchar_t buf[32];
