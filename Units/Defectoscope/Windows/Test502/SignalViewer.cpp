@@ -28,7 +28,9 @@ void SignalViewer::operator()(TLButtonUp &l)
 	if(dx > 0 && dy > 0)
 	{		
 		chartLoc.AxesValues(startX, startY, x0, y0);
+		x0 = floor(x0);
 		chartLoc.AxesValues(l.x, l.y, x1, y1);
+		x1 = floor(x1);
 		if(x1 - x0 > 0)
 		{
 			xWidth = int(x1 - x0);
@@ -49,6 +51,7 @@ void SignalViewer::operator()(TLButtonUp &l)
 		chartLoc.minAxesY = t.get<PrimarySignalMin>().value;
 		chartLoc.maxAxesY = t.get<PrimarySignalMax>().value;
 		x0 = chartLoc.minAxesX;
+		xOffset = (int)x0;
 		b = true;
 	}
 	if(b)
@@ -80,11 +83,16 @@ void SignalViewer::RightBtn(int x, int y)
 {
 	double x0, y0, x1, y1;
 	chartLoc.AxesValues(startX, startY, x0, y0);
+	x0 = floor(x0);
 	chartLoc.AxesValues(x, y, x1, y1);
+	x1 = floor(x1);
 
 	x1 -= x0;
-	chartLoc.minAxesX -= x1;
-	chartLoc.maxAxesX -= x1;	  
+	if(chartLoc.minAxesX - x1 > 0)
+	{
+		xOffset = chartLoc.minAxesX -= x1;
+		chartLoc.maxAxesX -= x1;	  
+	}
 
 	y0 -= y1;
 	chartLoc.minAxesY += y0;
