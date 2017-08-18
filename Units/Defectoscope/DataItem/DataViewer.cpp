@@ -54,6 +54,7 @@ void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2,
 			);	
 
 		if(len > bufSize) len = bufSize;
+		
 		startZone = &ascan[start - App::zone_filter_offset];
 		for(int i = 0; i < len + App::zone_filter_offset; ++i)
 		{
@@ -62,11 +63,13 @@ void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2,
 		startZone = &buf[App::zone_filter_offset];		
 	}
 
-	filtre.Init(widthFiltre,  startZone - widthFiltre);
+	filtre.AbsInit(widthFiltre,  startZone - widthFiltre);
 	double *s =  startZone;
 	for(int i = 0; i < len; ++i)
 	{
-		data[i] = filtre(s[i]);
+		double t = s[i];
+		if(t < 0) t = -t;
+		data[i] = filtre(t); 
 
 		if(data[i] > brackThreshold) status[i] = borderDefect;
 		else if(data[i] > klass2Threshold) status[i] = borderKlass2;

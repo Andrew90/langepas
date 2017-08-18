@@ -90,7 +90,8 @@ void SignalViewer::RightBtn(int x, int y)
 	x1 -= x0;
 	if(chartLoc.minAxesX - x1 > 0)
 	{
-		xOffset = chartLoc.minAxesX -= x1;
+		chartLoc.minAxesX -= x1;
+		xOffset = (int)chartLoc.minAxesX;
 		chartLoc.maxAxesX -= x1;	  
 	}
 

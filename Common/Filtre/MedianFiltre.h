@@ -11,6 +11,7 @@ struct MedianFiltre
 	void *data[16];
 	int ind[16];
 	void Init(int , double *);
+	void AbsInit(int width_, double *d);
 	void InitWidth(int);
 	void InitData(double *);
 	int Add(double);

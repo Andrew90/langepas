@@ -94,7 +94,7 @@ void Emulator::Read(unsigned &start, double *data, unsigned &count, int delay)
 	//start = map->start % 18;
 	for(unsigned i = 0; i < count; ++i)
 	{
-		short t = rand();
+		short t = rand() % 10;
 		data[i] = t & 1 ? t: -t;
 	}
 	start = 0;

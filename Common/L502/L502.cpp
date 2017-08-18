@@ -228,13 +228,23 @@ bool L502::Read(unsigned &startChennel, double *data, unsigned &count)
 	Singleton<Emulator>::Instance().Read(startChennel, data, count, 50);
 	return true;
 }
-bool L502::ReadAsync(unsigned ch, int, double &value)
+bool L502::ReadAsync(unsigned ch, int mode, int range, double &value)
 {
 	value = ch;
 	return true;
 }
 
+bool L502::ReadAsyncChannels(int count, unsigned *ch, int *mode, int *range, double *value)
+{
+	return true;
+}
+
 bool L502::BitOut(unsigned ch, bool value)
+{
+	return true;
+}
+
+bool L502::BitIn(unsigned &value)
 {
 	return true;
 }

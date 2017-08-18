@@ -114,7 +114,7 @@ template<class T>struct ComputeZone
 		if(filtreOn)
 		{
 			int width = filtreParam.get<MedianFiltreWidth<T>>().value;
-			filtre.Init(width, startZone - width);
+			filtre.AbsInit(width, startZone - width);
 			for(int i = 0; i < dimention_of(filtre.buf); ++i)
 			{
 				filtre.buf[i] *= adjust;
@@ -127,6 +127,7 @@ template<class T>struct ComputeZone
 
 			double val = filtreOn ? filtre(*i) : *i;
 			val *= adjust;
+			if(val < 0) val = -val;
 
 			if(borderDefect < val)st =  STATUS_ID(BorderDefect<T>);
 			else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>); 
@@ -195,21 +196,13 @@ template<class T>struct ComputeZoneBegin
 		if(filtreOn)
 		{
 			int width = filtreParam.get<MedianFiltreWidth<T>>().value;
-			filtre.Init(width, startZone - width);
+			filtre.AbsInit(width, startZone - width);
 			for(int i = 0; i < dimention_of(filtre.buf); ++i)
 			{
 				filtre.buf[i] *= adjust;
 			}
 		}
 
-		//if(filtreOn)
-		//{
-		//	for(double *i = startZone; i < stopZone; ++i)
-		//	{
-		//		filtre(*i);
-		//	}
-		//}
-		//   отлаживать здесь
 		char &statusResult =  item.status[sensor][full];
 		double &valueResult = item.buffer[sensor][full];	
 
