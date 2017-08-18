@@ -221,13 +221,16 @@ namespace MainWindowMenu
 		typedef TL::MkTlst<
 			MenuItem<ModulePosition>
 			, MenuItem<RotationScanningDevice_>
+			, Separator<0>
 			, MenuItem<ThicknessComTest_>
 			, MenuItem<ASUComTest_>
+			, Separator<1>
 			, MenuItem<Test502Window_>
 			, MenuItem<AsyncChannels_>
 			, MenuItem<Digit502Channel_>
-			, Separator<1>
+			, Separator<2>
 			, MenuItem<IOportsView>
+			, Separator<3>
 			, MenuItem<LaunchExternalProgram>
 		>::Result list;		
 	};

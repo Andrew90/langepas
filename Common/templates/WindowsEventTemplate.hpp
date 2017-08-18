@@ -1,10 +1,10 @@
-#pragma once
+п»ї#pragma once
 #include <windows.h>
 #include "message.h"
 #include "typelist.hpp"
 
 namespace{
-	///\brief в типе Т присутствует член-тип "Parent"
+	///\brief РІ С‚РёРїРµ Рў РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ С‡Р»РµРЅ-С‚РёРї "Parent"
 	template<class T>struct IsParent
 	{
 		template<bool, class Z>struct Ret
@@ -21,11 +21,11 @@ namespace{
 	};
 	template<class T>struct TypeToEvent
 	{
-		///\brief необходимо для типа Т сопоставить сообщение windows
+		///\brief РЅРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ С‚РёРїР° Рў СЃРѕРїРѕСЃС‚Р°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ windows
 		typedef typename T::_must_match_the_class_of_message_windows nonexist;
 	};
 
-	template<>struct TypeToEvent<TMouseMove>{static const int value = WM_MOUSEMOVE;};///<-------см. ниже комментарий
+	template<>struct TypeToEvent<TMouseMove>{static const int value = WM_MOUSEMOVE;};///<-------СЃРј. РЅРёР¶Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 	template<>struct TypeToEvent<TSize>{static const int value = WM_SIZE;};
 	template<>struct TypeToEvent<TPaint>{static const int value = WM_PAINT;};
 	template<>struct TypeToEvent<TActivate>{static const int value = WM_ACTIVATE;};
@@ -33,6 +33,7 @@ namespace{
 	template<>struct TypeToEvent<TDestroy>{static const int value = WM_DESTROY;};
 	template<>struct TypeToEvent<TLButtonDown>{static const int value = WM_LBUTTONDOWN;};
 	template<>struct TypeToEvent<TRButtonDown>{static const int value = WM_RBUTTONDOWN;};
+	template<>struct TypeToEvent<TRButtonUp>{static const int value = WM_RBUTTONUP;};
 	template<>struct TypeToEvent<TLButtonUp>{static const int value = WM_LBUTTONUP;};
 	template<>struct TypeToEvent<TCommand>{static const int value = WM_COMMAND;};
 	template<>struct TypeToEvent<TNotify>{static const int value = WM_NOTIFY;};
@@ -52,8 +53,8 @@ namespace{
 	template<class O, class P>class IsFuncExist
 	{
 		template<class T, T>struct Helper{};
-		///\bug Необходимо определить в классе unsigned operator()(XXX &){}, где XXX - TMouseMove, TSize ... TTimer(см выше) 
-		///\bug или необходимо определить в классе void operator()(XXX &){}, где XXX - TMouseMove, TSize ... TTimer(см выше) 
+		///\bug РќРµРѕР±С…РѕРґРёРјРѕ РѕРїСЂРµРґРµР»РёС‚СЊ РІ РєР»Р°СЃСЃРµ unsigned operator()(XXX &){}, РіРґРµ XXX - TMouseMove, TSize ... TTimer(СЃРј РІС‹С€Рµ) 
+		///\bug РёР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ РѕРїСЂРµРґРµР»РёС‚СЊ РІ РєР»Р°СЃСЃРµ void operator()(XXX &){}, РіРґРµ XXX - TMouseMove, TSize ... TTimer(СЃРј РІС‹С€Рµ) 
 		//template<class Z>static double Is(O *, Helper<unsigned(O::*)(Z &), &O::operator()> * = NULL);
 		template<class Z>static double Is(O *, Helper<void(O::*)(Z &), &O::operator()> * = NULL);
 		template<class Z>static double Is(O *, Helper<LRESULT(O::*)(Z &), &O::operator()> * = NULL);
@@ -123,10 +124,10 @@ namespace{
 		TMouseMove, TSize, TPaint, TActivate, TNotify
 		, TLButtonDown, TLButtonUp, TLButtonDbClk, TKeyDown 
 		, TUser, TCommand, TDestroy
-		, TGetMinMaxInfo, TMouseWell, TRButtonDown, TMoving, TSizing
+		, TGetMinMaxInfo, TMouseWell, TRButtonDown, TRButtonUp, TMoving, TSizing
 		, TMessage, TTimer, TClose
 		, TCopyData, TDropFiles	, TSysKeyDown
-	>::Result type_events_all_list; //<-------см. ниже комментарий
+	>::Result type_events_all_list; //<-------СЃРј. РЅРёР¶Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 
 	template<class T, class tmp>struct AddTypeEvent<NullType, T, tmp>
 	{
@@ -195,8 +196,8 @@ namespace{
 		};
 		template<class T>struct TestNotNullType<NullType, T>
 		{
-			///\brief класс должен иметь обработчик в виде- LRESULT T::operator()(XXX &) или void T::operator()(XXX &);
-			///где: XXX - TMouseMove, TSize, TPaint, TActivate(добавить при необходимости в список type_events_all_list, см. выше)
+			///\brief РєР»Р°СЃСЃ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє РІ РІРёРґРµ- LRESULT T::operator()(XXX &) РёР»Рё void T::operator()(XXX &);
+			///РіРґРµ: XXX - TMouseMove, TSize, TPaint, TActivate(РґРѕР±Р°РІРёС‚СЊ РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РІ СЃРїРёСЃРѕРє type_events_all_list, СЃРј. РІС‹С€Рµ)
 			typedef typename T::_class_does_not_have_any_handler nonexist;
 		};
 		typedef typename TestNotNullType<typename AddTypeEvent<type_events_all_list, T>::Result, T>::Result list_0;

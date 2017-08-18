@@ -47,6 +47,8 @@ private:
 	Cursor cursorLoc;
 	int xOffset;
 	int xWidth;
+	int startX, stopX, startY, stopY;
+	void(SignalViewer::*ptr)(int, int);
 public:
 	SignalViewer()
 		: chartLoc(backScreen)
@@ -58,8 +60,16 @@ public:
 	}
 	LRESULT operator()(TCreate &l);	
 
+	void operator()(TLButtonDown &);
+	void operator()(TLButtonUp &);
+
+	void operator()(TRButtonDown &);
+	void operator()(TRButtonUp &);
+	void operator()(TMouseMove &);
+
 	void SetParam();
 
 	void OffsetLeft();
 	void OffsetRight();
+	void RightBtn(int, int);
 };
