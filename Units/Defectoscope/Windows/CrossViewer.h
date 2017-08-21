@@ -18,7 +18,8 @@ public:
 	>::Result> TChart;
 	TChart tchart;
 
-	ItemData<Cross> &viewerData;
+	//ItemData<Cross> &viewerData;
+	ViewerData<Cross, Parent> viewerData;
 
 	CrossViewer();
 

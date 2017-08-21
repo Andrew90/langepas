@@ -286,7 +286,10 @@ template<class T>class NoSubMenu: public T
 {
 	public:
 	typedef T Parent;
-	explicit NoSubMenu(){}
+	explicit NoSubMenu()
+	{
+		zprint("vzvzvzvzv \n");
+	}
 	void operator()(TRButtonDown &){}
 };
 class Chart;
@@ -298,10 +301,6 @@ class LongWindow;
 
 namespace Common 
 {
-//template<class T>struct SetParamOpenWindow
-//{
-//	void operator()(HWND h){}
-//};
 template<>struct SetParamOpenWindow<CrossWindow>
 {
 	void operator()(HWND h);

@@ -59,6 +59,31 @@ template<>struct ItemData<Solid>: SolidGroupData{};
 
 template<>struct ItemData<Thick>: PrimaryThickData{};
 
+template<class T, class Z>struct ViewerData
+{
+	int &currentOffsetZones;
+	double buffer[ItemData<T>::count_sensors][App::count_zones];	 //значение в зоне
+	char status[ItemData<T>::count_sensors][App::count_zones];	 //статус в зоне
+	ViewerData(ItemData<T> &d)
+		: currentOffsetZones(d.currentOffsetZones)
+	{
+		memmove(buffer, d.buffer, sizeof(buffer));
+		memmove(status, d.status, sizeof(status));
+	}
+};
+class CommonViewer;
+template<class T>struct ViewerData<T, CommonViewer>
+{
+	int &currentOffsetZones;
+	double (&buffer)[ItemData<T>::count_sensors][App::count_zones];	 //значение в зоне
+	char (&status)[ItemData<T>::count_sensors][App::count_zones];	 //статус в зоне
+	ViewerData(ItemData<T> &d)
+		: currentOffsetZones(d.currentOffsetZones)
+		, buffer(d.buffer)
+		, status(d.status)
+	{}
+};
+
 
 
 
