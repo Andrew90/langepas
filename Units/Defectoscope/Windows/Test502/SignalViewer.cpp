@@ -17,6 +17,7 @@ void SignalViewer::operator()(TLButtonDown &l)
 {
 		startX = l.x;
 		startY = l.y;
+		ptr = &SignalViewer::LeftBtn;
 }
 
 void SignalViewer::operator()(TLButtonUp &l)
@@ -28,9 +29,7 @@ void SignalViewer::operator()(TLButtonUp &l)
 	if(dx > 0 && dy > 0)
 	{		
 		chartLoc.AxesValues(startX, startY, x0, y0);
-		x0 = floor(x0);
 		chartLoc.AxesValues(l.x, l.y, x1, y1);
-		x1 = floor(x1);
 		if(x1 - x0 > 0)
 		{
 			xWidth = int(x1 - x0);
@@ -58,9 +57,25 @@ void SignalViewer::operator()(TLButtonUp &l)
 	{
 		chartLoc.minAxesX = x0;
 		chartLoc.maxAxesX = x0 + xWidth;
+		xOffset = (int)x0;
 		RepaintWindow(l.hwnd);
-	}
+	}	
+	ptr = NULL;
 };
+
+void SignalViewer::LeftBtn(int x, int y)
+{
+	using namespace Gdiplus;
+	HDC hdc = GetDC(hWnd);
+	Graphics g(hdc);
+	chart->g = &g;
+	g.DrawCachedBitmap(&CachedBitmap(backScreen, &g), 0, 0);
+	Pen pen(-1, 1);
+	pen.SetDashStyle(DashStyleDash);
+	chart->g->DrawRectangle(&pen, startX, startY, x - startX, y - startY);
+
+	ReleaseDC(hWnd, hdc);
+}
 
 void SignalViewer::operator()(TRButtonDown &l)
 {
@@ -83,9 +98,7 @@ void SignalViewer::RightBtn(int x, int y)
 {
 	double x0, y0, x1, y1;
 	chartLoc.AxesValues(startX, startY, x0, y0);
-	x0 = floor(x0);
 	chartLoc.AxesValues(x, y, x1, y1);
-	x1 = floor(x1);
 
 	x1 -= x0;
 	if(chartLoc.minAxesX - x1 > 0)

@@ -72,4 +72,5 @@ public:
 	void OffsetLeft();
 	void OffsetRight();
 	void RightBtn(int, int);
+	void LeftBtn(int, int);
 };

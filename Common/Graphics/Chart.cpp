@@ -493,24 +493,28 @@ void LineSeries::Draw()
 			)),
 			CombineModeReplace
 			);
+	
 		double dY = (double) (chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop) / (chart.maxAxesY - chart.minAxesY);
 
 		double yOffs = chart.rect.bottom - chart.offsetAxesBottom;
 
 		int width = chart.rect.right - chart.rect.left - chart.offsetAxesRight - chart.offsetAxesLeft;
-		double dX = (double)width / (count - 1);
-		int x0 = chart.rect.left + chart.offsetAxesLeft;
+		double dX = (double)width / (chart.maxAxesX - chart.minAxesX);
+		double x0 = chart.rect.left + chart.offsetAxesLeft - dX;
 		double minY = chart.minAxesY;
 		int y0 = int(yOffs - (data[0] - minY) * dY);
+		
+		double z = -dX * fmod(chart.minAxesX, 1.0);
+		//dprint("%f %f %f\n", fmod(chart.minAxesX, dX), z, dX);
 		double x = x0;
 		int y = y0;
-		for(int i = 1; i < count; ++i)
+		for(int i = 0; i <= 1 + count; ++i)
 		{
 			x += dX;
 			y = int(yOffs - (data[i] - minY) * dY);
-			if(x0 != int(x) || y0 != y)
+			if(int(x0) != int(x) || y0 != y)
 			{
-				chart.g->DrawLine(&pen, x0, y0, (int)x, y);
+				chart.g->DrawLine(&pen, (Gdiplus::REAL)(z + x0), (Gdiplus::REAL)y0, (Gdiplus::REAL)(z + x), (Gdiplus::REAL)y);
 				x0 = int(x);
 				y0 = y;
 			}
