@@ -97,8 +97,8 @@ void SignalViewer::operator()(TMouseMove &l)
 void SignalViewer::RightBtn(int x, int y)
 {
 	double x0, y0, x1, y1;
-	chartLoc.AxesValues(startX, startY, x0, y0);
-	chartLoc.AxesValues(x, y, x1, y1);
+	if(!chartLoc.AxesValues(startX, startY, x0, y0))return;
+	if(!chartLoc.AxesValues(x, y, x1, y1))return;
 
 	x1 -= x0;
 	if(chartLoc.minAxesX - x1 > 0)
