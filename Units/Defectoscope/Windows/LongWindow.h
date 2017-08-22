@@ -16,10 +16,10 @@ public:
 public:
 	HWND hWnd;
 	bool drawZones;
-	
+	typedef NoSubMenu<LongViewer> MainChart;
 	typedef TL::CreateWapperNumList<Line, LongWindow, 0, App::count_long_sensors - 1>::Result line_list;
 	typedef TL::AppendList<
-		    TL::MkTlst<NoSubMenu<LongViewer>>::Result
+		    TL::MkTlst<MainChart>::Result
 		    , line_list
 	    >::Result viewers_list;
 	TL::Factory<viewers_list> viewers;
