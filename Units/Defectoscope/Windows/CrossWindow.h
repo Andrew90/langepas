@@ -16,10 +16,10 @@ public:
 public:
 	HWND hWnd;
 	bool drawZones;
-	
+	typedef NoSubMenu<CrossViewer> MainChart;
 	typedef TL::CreateWapperNumList<Line, CrossWindow, 0, App::count_cross_sensors - 1>::Result line_list;
 	typedef TL::AppendList<
-		    TL::MkTlst<NoSubMenu<CrossViewer>>::Result
+		    TL::MkTlst<MainChart>::Result
 		    , line_list
 	    >::Result viewers_list;
 	TL::Factory<viewers_list> viewers;

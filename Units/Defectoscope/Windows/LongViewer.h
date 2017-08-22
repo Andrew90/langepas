@@ -18,7 +18,7 @@ public:
 	>::Result> TChart;
 	TChart tchart;
 
-	ItemData<Long> &viewerData;
+	ViewerData<Long, Parent> viewerData;
 
 	LongViewer();
 

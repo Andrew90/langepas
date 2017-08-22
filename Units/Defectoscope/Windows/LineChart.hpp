@@ -33,7 +33,8 @@ template<>struct SignalWrapper<Thick>
 template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result>
 {
 	typedef LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result> Parent;
-	T *owner;		
+	typedef T Owner;
+	Owner *owner;		
 	DataViewer<typename T::sub_type> dataViewer;
 	Line()
 	{

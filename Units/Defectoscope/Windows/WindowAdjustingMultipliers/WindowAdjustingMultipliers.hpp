@@ -1,5 +1,7 @@
 ﻿#pragma once
+#include "Compute\Compute.hpp"
 #include "WindowAdjustingMultipliers\WindowAdjustingMultipliers.h"
+
 
 template<class O, class P>struct __desdroy_ajust_window__
 {
@@ -69,6 +71,23 @@ struct AdjustXXXX
 		}
 		return CallWindowProc(proc(), hwnd, msg, wParam, lParam);
 	}
+};
+
+struct AdjustM{};
+template<class T>struct ComputeZoneParams;
+template<>struct ComputeZoneParams<AdjustM>
+{
+	ThresholdsTable::TItems &thresholds;
+	AnalogFilterTable::TItems &flt;
+	MedianFiltreTable::TItems &filtreParam;
+	AdjustingMultipliersTable::TItems adjust;
+	DeadAreaTable::TItems &dead;
+	ComputeZoneParams()
+		: thresholds(Singleton<ThresholdsTable>::Instance().items)
+		, flt(Singleton<AnalogFilterTable>::Instance().items)
+		, filtreParam(Singleton<MedianFiltreTable>::Instance().items)
+		, dead(Singleton<DeadAreaTable>::Instance().items)
+	{}
 };
 
 template<class T>class AdjustingMultipliers: public WindowAdjustingMultipliers
@@ -200,6 +219,16 @@ public:
 		TLine &line = owner.viewers.get<TLine>();
 		line.dataViewer.Do(owner.lastZone, SubType<T>::NUM, owner.adjustItem.get<AdjustingMultipliers<TLine>>().val);
 		RepaintWindow(line.hWnd);
+
+		typedef typename SubType<T>::type::sub_type sub_type;
+		ComputeUnitSensor<sub_type, ViewerData<sub_type, CommonViewer>, AdjustM> x(
+			owner.viewer.viewerData
+			, SubType<T>::NUM
+			);
+		x.zone.params.adjust.get<Adjust<sub_type, SubType<T>::NUM>>().value = owner.adjustItem.get<AdjustingMultipliers<TLine>>().val;
+		x();
+
+		RepaintWindow(owner.viewers.get<typename SubType<T>::type::MainChart>().hWnd);
 	}
 };
 

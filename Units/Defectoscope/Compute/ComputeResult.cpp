@@ -16,7 +16,7 @@ namespace
 }
 void CuttingZones()
 {
-	int minimumLengthPipe = 1;//Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value;
+	int minimumLengthPipe = 1;
 	ResultData &resultData = Singleton<ResultData>::Instance();
 	char (&status)[App::count_zones] = resultData.status;
 	CutingZone cutingZone[10] = {};
@@ -72,7 +72,7 @@ void CuttingZones()
 
 void ComputeResult()
 {
-	bool isLong = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value;
+	bool isLong = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value;
 	bool isTick = Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value;
 	int countCrossSensors = Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value;
 	unsigned st[1 + App::count_cross_sensors + App::count_long_sensors + App::count_Thick_sensors];
@@ -104,10 +104,9 @@ void ComputeResult()
 
 	moduleCross.zonesOffs = len;
 	moduleLong.zonesOffs = len;
-	thickData.currentOffsetZones = len;
 
 	crossData.currentOffsetZones = len;
-	thickData.currentOffsetZones = len;
+	thickData.currentOffsetZones = isTick ? len : 0;
 	resultData.currentOffsetZones = len;
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
@@ -137,7 +136,7 @@ void ComputeResult()
 		{
 			for(int j = 0; j < App::count_long_sensors; ++j)
 			{
-				st[last++] = (i < thickData.currentOffsetZones) ? longData.status[j][i]: StatusId<Clr<Undefined>>();
+				st[last++] = (i < longData.currentOffsetZones) ? longData.status[j][i]: StatusId<Clr<Undefined>>();
 			}
 		}
 
@@ -178,10 +177,10 @@ void Recalculation()
 	crossX.Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs);
 	crossX.DeathZonesBegin();
 
+	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
+	longX.Clear();
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value)
 	{
-		ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
-		longX.Clear();
 		longX.Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
 		longX.DeathZonesBegin();
 	}

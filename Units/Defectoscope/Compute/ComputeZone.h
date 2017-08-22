@@ -72,75 +72,96 @@ template<class O, class P>struct __get_adjust__
 	}
 };
 
-template<class T>struct ComputeZone
+struct ComputeZoneParamsDefault{};
+template<class T>struct ComputeZoneParams;
+template<>struct ComputeZoneParams<ComputeZoneParamsDefault>
 {
-	bool operator()(unsigned zone, unsigned sensor, char *status, double *buffer)
-	{
-		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
-		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
-		double borderDefect = Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<T>>().value;
-
-		double *startZone = &item.ascan[sensor][item.offsets[zone - 1]];
-		double *stopZone = &item.ascan[sensor][item.offsets[zone]];
-
-		int samplesZone = stopZone - startZone;
-		if(samplesZone <= 0) return false;
-
-		if(samplesZone > AnalogFiltre_bufSize)
-		{
-			return false;
-		}
-
-		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
-		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
-
-		char &statusResult =  status[zone - 1];
-		double &valueResult = buffer[zone - 1];
-
-		statusResult =  STATUS_ID(Nominal);
-		valueResult = 0;
-
-		MedianFiltre filtre;
-		MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
-
-		double adjust = 1;
-		typedef __get_adjust_data__<T> Sub;
-		TL::find<Sub::List, __get_adjust__>()(
-			Singleton<AdjustingMultipliersTable>::Instance().items
-			, Sub(sensor, adjust)
-			);
-
-		bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
-		if(filtreOn)
-		{
-			int width = filtreParam.get<MedianFiltreWidth<T>>().value;
-			filtre.AbsInit(width, startZone - width);
-			for(int i = 0; i < dimention_of(filtre.buf); ++i)
-			{
-				filtre.buf[i] *= adjust;
-			}
-		}
-
-		for(double *i = startZone; i < stopZone; ++i)
-		{
-			int st = STATUS_ID(Nominal);
-
-			double val = filtreOn ? filtre(*i) : *i;
-			val *= adjust;
-			if(val < 0) val = -val;
-
-			if(borderDefect < val)st =  STATUS_ID(BorderDefect<T>);
-			else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>); 
-
-			if(val > valueResult)
-			{
-				valueResult = val;
-				statusResult = st;
-			}
-		}
-		return true;
-	}
+	ThresholdsTable::TItems &thresholds;
+	AnalogFilterTable::TItems &flt;
+	MedianFiltreTable::TItems &filtreParam;
+	AdjustingMultipliersTable::TItems &adjust;
+	DeadAreaTable::TItems &dead;
+	ComputeZoneParams()
+		: thresholds(Singleton<ThresholdsTable>::Instance().items)
+		, flt(Singleton<AnalogFilterTable>::Instance().items)
+		, filtreParam(Singleton<MedianFiltreTable>::Instance().items)
+		, adjust(Singleton<AdjustingMultipliersTable>::Instance().items)
+		, dead(Singleton<DeadAreaTable>::Instance().items)
+	{}
 };
+
+template<class T, class Data = ComputeZoneParamsDefault>struct ComputeZone
+{
+	ComputeZoneParams<Data> params;
+	bool Zone(unsigned zone, unsigned sensor, char *status, double *buffer);
+	bool Begin(unsigned sensor, char *status, double *buffer);
+	bool End(unsigned zone, unsigned sensor, char *status, double *buffer);
+};
+
+template<class T, class Data>bool ComputeZone<T, Data>::Zone(unsigned zone, unsigned sensor, char *status, double *buffer)
+{
+	ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
+	double borderKlass2 = params.thresholds.get<BorderKlass2<T>>().value;
+	double borderDefect = params.thresholds.get<BorderDefect<T>>().value;
+
+	double *startZone = &item.ascan[sensor][item.offsets[zone - 1]];
+	double *stopZone = &item.ascan[sensor][item.offsets[zone]];
+
+	int samplesZone = stopZone - startZone;
+	if(samplesZone <= 0) return false;
+
+	if(samplesZone > AnalogFiltre_bufSize)
+	{
+		return false;
+	}
+
+	AnalogFiltre()(startZone, stopZone, params.flt.get<CutoffFrequencyOn<T>>().value, params.flt.get<CutoffFrequency<T>>().value);
+
+	char &statusResult =  status[zone - 1];
+	double &valueResult = buffer[zone - 1];
+
+	statusResult =  STATUS_ID(Nominal);
+	valueResult = 0;
+
+	MedianFiltre filtre;
+	double adjust = 1;
+	typedef __get_adjust_data__<T> Sub;
+	TL::find<Sub::List, __get_adjust__>()(
+		params.adjust
+		, Sub(sensor, adjust)
+		);
+
+	bool filtreOn = params.filtreParam.get<MedianFiltreOn<T>>().value;
+	if(filtreOn)
+	{
+		int width = params.filtreParam.get<MedianFiltreWidth<T>>().value;
+		filtre.AbsInit(width, startZone - width);
+		for(int i = 0; i < dimention_of(filtre.buf); ++i)
+		{
+			filtre.buf[i] *= adjust;
+		}
+	}
+
+	for(double *i = startZone; i < stopZone; ++i)
+	{
+		int st = STATUS_ID(Nominal);
+
+		double val = filtreOn ? filtre(*i) : *i;
+		val *= adjust;
+		if(val < 0) val = -val;
+
+		if(borderDefect < val)st =  STATUS_ID(BorderDefect<T>);
+		else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>); 
+
+		if(val > valueResult)
+		{
+			valueResult = val;
+			statusResult = st;
+		}
+	}
+	return true;
+}
+
 
 template<class T>struct __stop__
 {
@@ -155,69 +176,146 @@ template<>struct __stop__ <Cross>
 	}
 };
 
-template<class T>struct ComputeZoneBegin
+template<class T, class Data>bool ComputeZone<T, Data>::Begin(unsigned sensor, char *status, double *buffer)
 {
-	bool operator()(unsigned sensor, char *status, double *buffer)
+	ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
+	double borderKlass2 = params.thresholds.get<BorderKlass2<T>>().value;
+	double borderDefect = params.thresholds.get<BorderDefect<T>>().value;
+
+	__stop__<T>()();
+
+	int dead = params.dead.get<DeadAreaMM0<T>>().value;
+
+	int full = dead / App::zone_length;
+	int remains = dead % App::zone_length;
+
+	int offs = full;
+	if(remains > 0) --offs;
+
+	double d = double(remains) / App::zone_length;
+
+	double *startZone = &item.ascan[sensor][item.offsets[full]] + int(d * ( &item.ascan[sensor][item.offsets[1 + full]] -  &item.ascan[sensor][item.offsets[full]]));
+	double *stopZone = &item.ascan[sensor][item.offsets[1 + full]];
+
+
+	//AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
+	AnalogFiltre()(startZone, stopZone, params.flt.get<CutoffFrequencyOn<T>>().value, params.flt.get<CutoffFrequency<T>>().value);
+
+	MedianFiltre filtre;
+	//MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
+
+	double adjust = 1;
+	typedef __get_adjust_data__<T> Sub;
+	TL::find<Sub::List, __get_adjust__>()(
+		//Singleton<AdjustingMultipliersTable>::Instance().items
+		params.adjust
+		, Sub(sensor, adjust)
+		);
+
+	bool filtreOn = params.filtreParam.get<MedianFiltreOn<T>>().value;
+	if(filtreOn)
 	{
-		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
-		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
-		double borderDefect = Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<T>>().value;
+		int width = params.filtreParam.get<MedianFiltreWidth<T>>().value;
+		filtre.AbsInit(width, startZone - width);
+		for(int i = 0; i < dimention_of(filtre.buf); ++i)
+		{
+			filtre.buf[i] *= adjust;
+		}
+	}
 
-		__stop__<T>()();
+	char &statusResult =  status[full];
+	double &valueResult = buffer[full];
 
-		int dead = Singleton<DeadAreaTable>::Instance().items.get<DeadAreaMM0<T>>().value;
+	statusResult = STATUS_ID(Nominal);
+	valueResult = 0;
 
-		int full = dead / App::zone_length;
-		int remains = dead % App::zone_length;
+	for(double *i = startZone; i < stopZone; ++i)
+	{
+		int st = STATUS_ID(Nominal); 
 
-		int offs = full;
-		if(remains > 0) --offs;
+		double val = filtreOn ? filtre(*i) : *i;
+		val *= adjust;
 
-		double d = double(remains) / App::zone_length;
+		if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
+		else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>);
 
-		double *startZone = &item.ascan[sensor][item.offsets[full]] + int(d * ( &item.ascan[sensor][item.offsets[1 + full]] -  &item.ascan[sensor][item.offsets[full]]));
-		double *stopZone = &item.ascan[sensor][item.offsets[1 + full]];
+		if(val > valueResult)
+		{
+			valueResult = val;
+			statusResult = st;
+		}
+	}
 
+	for(int i = 0; i < full; ++i)
+	{
+		item.status[sensor][i] = STATUS_ID(DeathZone);
+	}
 
-		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
-		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
+	return true;
+}
+
+template<class T, class Data>bool ComputeZone<T, Data>::End(unsigned zone, unsigned sensor, char *status, double *buffer)
+{
+	--zone;
+	ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
+	double borderKlass2 =  params.thresholds.get<BorderKlass2<T>>().value;
+	double borderDefect =  params.thresholds.get<BorderDefect<T>>().value;
+
+	int dead = params.dead.get<DeadAreaMM1<T>>().value;
+
+	int full = dead / App::zone_length;
+	int remains = dead % App::zone_length;
+
+	int offs = zone - full;
+	if(remains > 0)
+	{
+		--offs;
+
+		double d = 1.0 - double(remains) / App::zone_length;
+
+		double *startZone = &item.ascan[sensor][item.offsets[offs]];
+		double *stopZone = startZone + int(d *(&item.ascan[sensor][item.offsets[offs + 1]] - &item.ascan[sensor][item.offsets[offs]]));
+
+		//AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
+		AnalogFiltre()(startZone, stopZone, params.flt.get<CutoffFrequencyOn<T>>().value, params.flt.get<CutoffFrequency<T>>().value);
+
+		char &statusResult =  status[offs];
+		double &valueResult = buffer[offs];
+
+		statusResult = STATUS_ID(Nominal);
+		valueResult = 0;
 
 		MedianFiltre filtre;
-		MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
+		//MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
+		bool filtreOn = params.filtreParam.get<MedianFiltreOn<T>>().value;
 
 		double adjust = 1;
 		typedef __get_adjust_data__<T> Sub;
 		TL::find<Sub::List, __get_adjust__>()(
-			Singleton<AdjustingMultipliersTable>::Instance().items
+			//Singleton<AdjustingMultipliersTable>::Instance().items
+			params.adjust
 			, Sub(sensor, adjust)
 			);
 
-		bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
 		if(filtreOn)
 		{
-			int width = filtreParam.get<MedianFiltreWidth<T>>().value;
-			filtre.AbsInit(width, startZone - width);
+			int width = params.filtreParam.get<MedianFiltreWidth<T>>().value;
+			filtre.Init(width, startZone - width);
 			for(int i = 0; i < dimention_of(filtre.buf); ++i)
 			{
 				filtre.buf[i] *= adjust;
 			}
 		}
 
-		char &statusResult =  status[full];
-		double &valueResult = buffer[full];
-
-		statusResult = STATUS_ID(Nominal);
-		valueResult = 0;
-
 		for(double *i = startZone; i < stopZone; ++i)
 		{
 			int st = STATUS_ID(Nominal); 
 
-			double val = filtreOn ? filtre(*i) : *i;
+			double val = filtreOn ? filtre(*i): *i;
 			val *= adjust;
 
 			if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
-			else if(borderKlass2 < val)st = STATUS_ID(BorderKlass2<T>);
+			else if(borderKlass2 < *i)st = STATUS_ID(BorderKlass2<T>);
 
 			if(val > valueResult)
 			{
@@ -225,96 +323,15 @@ template<class T>struct ComputeZoneBegin
 				statusResult = st;
 			}
 		}
-
-		for(int i = 0; i < full; ++i)
-		{
-			item.status[sensor][i] = STATUS_ID(DeathZone);
-		}
-
-		return true;
+		++offs;
 	}
-};
 
-template<class T>struct ComputeZoneEnd
-{
-	bool operator()(unsigned zone, unsigned sensor, char *status, double *buffer)
+	for(int i = offs; i < (int)zone; ++i)
 	{
-		--zone;
-		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
-		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
-		double borderDefect = Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<T>>().value;
-
-		int dead = Singleton<DeadAreaTable>::Instance().items.get<DeadAreaMM1<T>>().value;
-
-		int full = dead / App::zone_length;
-		int remains = dead % App::zone_length;
-
-		int offs = zone - full;
-		if(remains > 0)
-		{
-			--offs;
-
-			double d = 1.0 - double(remains) / App::zone_length;
-
-			double *startZone = &item.ascan[sensor][item.offsets[offs]];
-			double *stopZone = startZone + int(d *(&item.ascan[sensor][item.offsets[offs + 1]] - &item.ascan[sensor][item.offsets[offs]]));
-
-			AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
-			AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
-
-			char &statusResult =  status[offs];
-			double &valueResult = buffer[offs];
-
-			statusResult = STATUS_ID(Nominal);
-			valueResult = 0;
-
-			MedianFiltre filtre;
-			MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
-			bool filtreOn = filtreParam.get<MedianFiltreOn<T>>().value;
-
-			double adjust = 1;
-			typedef __get_adjust_data__<T> Sub;
-			TL::find<Sub::List, __get_adjust__>()(
-				Singleton<AdjustingMultipliersTable>::Instance().items
-				, Sub(sensor, adjust)
-				);
-
-			if(filtreOn)
-			{
-				int width = filtreParam.get<MedianFiltreWidth<T>>().value;
-				filtre.Init(width, startZone - width);
-				for(int i = 0; i < dimention_of(filtre.buf); ++i)
-				{
-					filtre.buf[i] *= adjust;
-				}
-			}
-
-			for(double *i = startZone; i < stopZone; ++i)
-			{
-				int st = STATUS_ID(Nominal); 
-
-				double val = filtreOn ? filtre(*i): *i;
-				val *= adjust;
-
-				if(borderDefect < val)st = STATUS_ID(BorderDefect<T>);
-				else if(borderKlass2 < *i)st = STATUS_ID(BorderKlass2<T>);
-
-				if(val > valueResult)
-				{
-					valueResult = val;
-					statusResult = st;
-				}
-			}
-			++offs;
-		}
-
-		for(int i = offs; i < (int)zone; ++i)
-		{
-			item.status[sensor][i] = STATUS_ID(DeathZone);
-		}
-		return true;
+		item.status[sensor][i] = STATUS_ID(DeathZone);
 	}
-};
+	return true;
+}
 
 
 

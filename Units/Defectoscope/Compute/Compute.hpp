@@ -4,6 +4,7 @@ template<class T, class Data>class ComputeUnitX
 {
 	Data &data;
 	unsigned lastZone;
+	ComputeZone<T> zone;
 public:
 	ComputeUnitX(Data &data): data(data){}
 	void Clear()
@@ -19,7 +20,7 @@ public:
 			{
 				for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 				{
-					 ComputeZone<T>()(i, j, data.status[j], data.buffer[j]);
+					 zone.Zone(i, j, data.status[j], data.buffer[j]);
 				}
 			}
 			lastZone = currentZone;
@@ -31,15 +32,33 @@ public:
 	{
 		for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 		{
-			ComputeZoneBegin<T>()(j, data.status[j], data.buffer[j]);
+			zone.Begin(j, data.status[j], data.buffer[j]);
 		}
 	}
 	void DeathZonesEnd(unsigned currentZone)
 	{
 		for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 		{
-			ComputeZoneEnd<T>()(currentZone, j, data.status[j], data.buffer[j]);
+			zone.End(currentZone, j, data.status[j], data.buffer[j]);
 		}
+	}
+} ;
+
+template<class T, class Data, class Default = ComputeZoneParamsDefault>struct ComputeUnitSensor
+{
+	Data &data;
+	int sensor;
+	ComputeZone<T, Default> zone;
+public:
+	ComputeUnitSensor(Data &data, int sensor): data(data), sensor(sensor){}
+	void operator()()
+	{
+		for(int i = 0; i < data.currentOffsetZones; ++i)
+		{
+			 zone.Zone(i, sensor, data.status[sensor], data.buffer[sensor]);
+		}
+		zone.Begin(sensor, data.status[sensor], data.buffer[sensor]);
+		zone.End(data.currentOffsetZones, sensor, data.status[sensor], data.buffer[sensor]);
 	}
 } ;
 
