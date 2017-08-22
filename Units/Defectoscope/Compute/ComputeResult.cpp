@@ -110,12 +110,14 @@ void ComputeResult()
 	thickData.currentOffsetZones = len;
 	resultData.currentOffsetZones = len;
 
-	ComputeUnit<Cross>::Zones(len);
-	ComputeUnit<Cross>().DeathZonesEnd(len);
+	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
+	crossX.Zones(len);
+	crossX.DeathZonesEnd(len);
+	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
 	if(isLong)
 	{
-		ComputeUnit<Long>::Zones(len);
-		ComputeUnit<Long>().DeathZonesEnd(len);
+		longX.Zones(len);
+		longX.DeathZonesEnd(len);
 	}
 
 	for(int i = 0; i < len; ++i)
@@ -171,19 +173,24 @@ void Recalculation()
 {
 	SubLir &lir = Singleton<SubLir>::Instance();
 
-	ComputeUnit<Cross>::Clear();
-	ComputeUnit<Cross>::Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs);
-	ComputeUnit<Cross>::DeathZonesBegin();
+	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance());
+	crossX.Clear();
+	crossX.Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs);
+	crossX.DeathZonesBegin();
 
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value)
 	{
-		ComputeUnit<Long>::Clear();
-		ComputeUnit<Long>::Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
-		ComputeUnit<Long>::DeathZonesBegin();
+		ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
+		longX.Clear();
+		longX.Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
+		longX.DeathZonesBegin();
 	}
 
 	ComputeResult();
 
 	RepaintWindow(app.mainWindow.hWnd);
 }
+
+
+
 

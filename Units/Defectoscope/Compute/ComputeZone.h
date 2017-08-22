@@ -74,7 +74,7 @@ template<class O, class P>struct __get_adjust__
 
 template<class T>struct ComputeZone
 {
-	bool operator()(unsigned zone, unsigned sensor)
+	bool operator()(unsigned zone, unsigned sensor, char *status, double *buffer)
 	{
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
@@ -94,8 +94,8 @@ template<class T>struct ComputeZone
 		AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 		AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
 
-		char &statusResult =  item.status[sensor][zone - 1];
-		double &valueResult = item.buffer[sensor][zone - 1];
+		char &statusResult =  status[zone - 1];
+		double &valueResult = buffer[zone - 1];
 
 		statusResult =  STATUS_ID(Nominal);
 		valueResult = 0;
@@ -157,7 +157,7 @@ template<>struct __stop__ <Cross>
 
 template<class T>struct ComputeZoneBegin
 {
-	bool operator()(unsigned sensor)
+	bool operator()(unsigned sensor, char *status, double *buffer)
 	{
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
 		double borderKlass2 = Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T>>().value;
@@ -203,8 +203,8 @@ template<class T>struct ComputeZoneBegin
 			}
 		}
 
-		char &statusResult =  item.status[sensor][full];
-		double &valueResult = item.buffer[sensor][full];	
+		char &statusResult =  status[full];
+		double &valueResult = buffer[full];
 
 		statusResult = STATUS_ID(Nominal);
 		valueResult = 0;
@@ -237,7 +237,7 @@ template<class T>struct ComputeZoneBegin
 
 template<class T>struct ComputeZoneEnd
 {
-	bool operator()(unsigned zone, unsigned sensor)
+	bool operator()(unsigned zone, unsigned sensor, char *status, double *buffer)
 	{
 		--zone;
 		ItemData<T>	&item = Singleton<ItemData<T>>::Instance();
@@ -262,8 +262,8 @@ template<class T>struct ComputeZoneEnd
 			AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 			AnalogFiltre()(startZone, stopZone, flt.get<CutoffFrequencyOn<T>>().value, flt.get<CutoffFrequency<T>>().value);
 
-			char &statusResult =  item.status[sensor][offs];
-			double &valueResult = item.buffer[sensor][offs];
+			char &statusResult =  status[offs];
+			double &valueResult = buffer[offs];
 
 			statusResult = STATUS_ID(Nominal);
 			valueResult = 0;

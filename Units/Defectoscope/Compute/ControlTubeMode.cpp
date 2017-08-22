@@ -122,6 +122,8 @@ namespace Mode
 	};
 
 	SubLir &lir = Singleton<SubLir>::Instance();
+	ComputeUnitX<Cross, ItemData<Cross>>CrossX(Singleton<ItemData<Cross>>::Instance()); 
+	ComputeUnitX<Long, ItemData<Long>>LongX(Singleton<ItemData<Long>>::Instance()); 
 
 	template<class T>struct __updata_window__
 	{
@@ -133,11 +135,12 @@ namespace Mode
 		template<class T>static void Do(T &)
 		{
 			static unsigned counter = 0;
+
 			if((++counter % 20) == 0) 
 			{
 				lir.Do();   //вызываться будет через ~100 м.сек.
-				if(ComputeUnit<Cross>().Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
-				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && ComputeUnit<Long>().Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
+				if(CrossX.Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
+				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && LongX.Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
 			}
 		}
 	};
@@ -164,16 +167,22 @@ namespace Mode
 	//template<class T>struct __compute_unit__{void operator()(SubLir &){}};
 	template<class T>struct __compute_unit__
 	{
-		void operator()(SubLir &lir)
+		void operator()(SubLir &lir, ComputeUnitX<T, ItemData<T>> &x)
 		{
-			if(ComputeUnit<T>().Zones(lir.moduleItems.get<Module<T>>().zonesOffs))
+			if(x.Zones(lir.moduleItems.get<Module<T>>().zonesOffs))
 			{
 				__updata_window__<T>()();
 			}
 		}
 	};
-	template<>struct __compute_unit__<Thick>{void operator()(SubLir &){}};
-	template<>struct __compute_unit__<Magn>{void operator()(SubLir &){}};
+
+	template<>struct ComputeUnitX<Thick, int>{};
+	template<>struct ComputeUnitX<Magn, int>{};
+
+	template<>struct __compute_unit__<Thick>{void operator()(SubLir &, ComputeUnitX<Thick, int>&){}};
+	template<>struct __compute_unit__<Magn>{void operator()(SubLir &, ComputeUnitX<Magn, int> &){}};
+
+	
 
 
 #define ZZZ(sb, n, c) lir.sqItems.get<SQ<sb<n, c>>>().Do();
@@ -183,7 +192,7 @@ namespace Mode
  
 #define WAIT_COMPUTE(inp, on, sen) AND_BITS(inp, Proc<AllarmBits>, Proc<Collection>, Ex<ExceptionStop>)(60000);\
 	lir.sqItems.get<SQ<on<sen, 2>>>().Do();\
-	__compute_unit__<sen>()(lir);
+	__compute_unit__<sen>()(lir, sen##X);
 
 	void ControlTube(Data &)
 	{
@@ -237,8 +246,9 @@ namespace Mode
 		OUT_BITS(Off<oReloc1>, Off<oReloc2>, Off<oDefect>);
 
 		lir.Start();
-		ComputeUnit<Cross>().Clear();
-		ComputeUnit<Long>().Clear();
+		
+		CrossX.Clear();
+		LongX.Clear();
 		CleaningScreen();	///Очистка экрана
 
 		OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
@@ -302,10 +312,12 @@ namespace Mode
 		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
 		WAIT_COMPUTE(On<iSQ2po>, on, Cross)
 
+		ComputeUnitX<Thick, int>ThickX;
+		ComputeUnitX<Magn, int>MagnX;
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOn>();
-			WAIT(On<iSQ1t>, on, Thick)
+			WAIT(On<iSQ1t>, on, Thick)			
 			WAIT_COMPUTE(On<iSQ2t>, on, Thick)
 		}
 		if(job.get<OnTheJob<Long>>().value)
@@ -332,10 +344,10 @@ namespace Mode
 		WAIT_COMPUTE(Off<iSQ2po>, off, Cross)
 
 		///Расчёт мёртвой зоны начало
-		ComputeUnit<Cross>().DeathZonesBegin();
+		CrossX.DeathZonesBegin();
 		if(job.get<OnTheJob<Long>>().value)
 		{
-			ComputeUnit<Long>().DeathZonesBegin();
+			LongX.DeathZonesBegin();
 		}
 
 		if(job.get<OnTheJob<Thick>>().value)

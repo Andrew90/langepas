@@ -1,14 +1,16 @@
 #pragma once
 #include "Compute\ComputeZone.h"
-template<class T>class ComputeUnit
+template<class T, class Data>class ComputeUnitX
 {
-	static unsigned lastZone;
+	Data &data;
+	unsigned lastZone;
 public:
-	static void Clear()
+	ComputeUnitX(Data &data): data(data){}
+	void Clear()
 	{
 		lastZone = 1;
 	}
-	static bool Zones(unsigned currentZone)
+	bool Zones(unsigned currentZone)
 	{
 		
 		if(lastZone != currentZone)
@@ -17,7 +19,7 @@ public:
 			{
 				for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 				{
-					 ComputeZone<T>()(i, j);
+					 ComputeZone<T>()(i, j, data.status[j], data.buffer[j]);
 				}
 			}
 			lastZone = currentZone;
@@ -25,20 +27,19 @@ public:
 		}
 		return false;
 	}
-	static void DeathZonesBegin()
+	void DeathZonesBegin()
 	{
 		for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 		{
-			ComputeZoneBegin<T>()(j);
+			ComputeZoneBegin<T>()(j, data.status[j], data.buffer[j]);
 		}
 	}
-	static void DeathZonesEnd(unsigned currentZone)
+	void DeathZonesEnd(unsigned currentZone)
 	{
 		for(unsigned j = 0; j < ItemData<T>::count_sensors; ++j)
 		{
-			ComputeZoneEnd<T>()(currentZone, j);
+			ComputeZoneEnd<T>()(currentZone, j, data.status[j], data.buffer[j]);
 		}
 	}
 } ;
 
-template<class T>unsigned ComputeUnit<T>::lastZone = 0;
