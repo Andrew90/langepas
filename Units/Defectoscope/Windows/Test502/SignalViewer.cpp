@@ -28,8 +28,8 @@ void SignalViewer::operator()(TLButtonUp &l)
 	double x0, y0, x1, y1;
 	if(dx > 0 && dy > 0)
 	{		
-		chartLoc.AxesValues(startX, startY, x0, y0);
-		chartLoc.AxesValues(l.x, l.y, x1, y1);
+		if(!chartLoc.AxesValues(startX, startY, x0, y0)) return;
+		if(!chartLoc.AxesValues(l.x, l.y, x1, y1)) return;
 		if(x1 - x0 > 0)
 		{
 			xWidth = int(x1 - x0);
