@@ -172,7 +172,6 @@
     <ClCompile Include="Dialogs\ModulePosition.cpp" />
     <ClCompile Include="Dialogs\OffsetSensorDlg.cpp" />
     <ClCompile Include="Dialogs\PacketDlg.cpp" />
-    <ClCompile Include="Dialogs\PipeThicknessDlg.cpp" />
     <ClCompile Include="Dialogs\RotationalSpeedDlg.cpp" />
     <ClCompile Include="Dialogs\RotationScanningDevice.cpp" />
     <ClCompile Include="Dialogs\StoredDlg.cpp" />

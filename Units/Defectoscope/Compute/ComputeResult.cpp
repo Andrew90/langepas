@@ -65,8 +65,54 @@ void CuttingZones()
 	resultData.cutZone0 = cutingZone[offs].cut0;
 	resultData.cutZone1 = 1 + cutingZone[offs].cut1;
 
+	/*
+	static const int ResultBrak = 0;
+static const int ResultNorma = 1;
+static const int ResultKlass2 = 2;
+static const int ResultKlass3 = 3;
+	*/
+
 	if(1 == resultData.cutZone0)  resultData.cutZone0 = 0;
 	if(resultData.currentOffsetZones - 1 <= resultData.cutZone1)  resultData.cutZone1 = 0;
+
+	resultData.resultCommon = ResultNorma;
+	int tubeLength =  resultData.cutZone1 - resultData.cutZone0;
+	if(tubeLength < Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value)
+	{
+		resultData.resultCommon = ResultBrak;
+	}
+	else
+	{
+		int start = resultData.cutZone0;
+		int stop = 1 + resultData.cutZone1;
+		if(0 == resultData.cutZone0 && 0 == resultData.cutZone1)
+		{
+			start = 0;
+			stop = resultData.currentOffsetZones;
+		}
+		else if(0 == resultData.cutZone0)
+		{
+		   start = 0;
+		}
+		else if(0 == resultData.cutZone1)
+		{
+			stop = resultData.currentOffsetZones - 1;
+		}
+
+		for(int i = start; i < stop; ++i)
+		{
+			unsigned res = IsKlass((unsigned)resultData.status[i]);
+			if(res == ResultKlass3) 
+			{
+				resultData.resultCommon = res;
+				break;
+			}
+			if(res == ResultKlass2) 
+			{
+				resultData.resultCommon = res;
+			}
+		}
+	}
 }
 
 

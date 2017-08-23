@@ -52,8 +52,6 @@ DLG(ThresholdCrossDlg)
 DLG(ThresholdLongDlg)
 DLG(ThresholdThickDlg)
 
-DLG(PipeThicknessDlg)
-
 DLG(AcfCutOffBordersDlg)
 
 DLG(FilderDlg)
@@ -79,7 +77,7 @@ DLG(AdditionalParamsDlg)
 DLG(LoadDlg)
 DLG(SaveDlg)
 
-DLG(MinimalTubeLength)
+DLG(MinimalTubeLengthDlg)
 
 DLG(LaunchExternalProgramDlg)
 
@@ -92,7 +90,6 @@ DLG(RotationScanningDevice)
 
 DLG(ThicknessComTest)
 DLG(ASUComTest)
-
 
 
 #undef DLG

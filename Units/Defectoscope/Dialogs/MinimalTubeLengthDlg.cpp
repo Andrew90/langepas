@@ -9,7 +9,7 @@ PARAM_TITLE(MinimumLengthPipe, L"Длина трубы в зонах")
 MIN_EQUAL_VALUE(MinimumLengthPipe, 30)
 MAX_EQUAL_VALUE(MinimumLengthPipe, 60)
 
-void MinimalTubeLength::Do(HWND h)
+void MinimalTubeLengthDlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase, MinimumLengthPipeTable, DlgItem>(Singleton<MinimumLengthPipeTable>::Instance()).Do(h, L"Мининальная длина трубы в зонах"))
 	{

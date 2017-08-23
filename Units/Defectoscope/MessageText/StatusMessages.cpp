@@ -226,5 +226,39 @@ bool IsDefect(unsigned id)
 	return false;
 }
 
+namespace StatusMessages
+{
+	static const unsigned IsKlass3 = TL::IndexOf<status_list, BorderKlass3<Thick> >::value;
+
+	template<class List>struct __klass__;
+	template<class Head, class Tail>struct __klass__<Tlst<Head, Tail>>
+	{
+		static const unsigned value = __klass__<Tail>::value;
+	};
+	template<class T, class Tail>struct __klass__<Tlst<BorderKlass2<T>, Tail>>
+	{
+		static const unsigned value = (1 << TL::IndexOf<status_list, BorderKlass2<T>>::value) | __klass__<Tail>::value;
+	};
+	template<>struct __klass__<NullType>
+	{
+		static const unsigned value = 0;
+	};
+
+	static const unsigned IsKlass2 = __klass__<status_list>::value;
+}
+
+int IsKlass(unsigned id)
+{
+	if(id < dimention_of(StatusMessages::bits))
+	{
+	   unsigned res = StatusMessages::bits[id].bits;
+	   if(StatusMessages::IsKlass3 & res) return 3;
+	   if(StatusMessages::IsKlass2 & res) return 2;
+	}
+	return -1;
+}
+
+
+
 
 

@@ -24,3 +24,5 @@ struct StatusColor
 };
 
 bool IsDefect(unsigned);
+
+int IsKlass(unsigned id);

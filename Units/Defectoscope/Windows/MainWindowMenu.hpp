@@ -50,9 +50,8 @@ namespace MainWindowMenu
 	struct LongThresholdWindow__     : ThresholdLongDlg{};
 	struct ThickThresholdWindow__: ThresholdThickDlg{};
 	struct MedianFiltre              : MedianFiltreDlg{};
-	struct PipeThicknes  : PipeThicknessDlg{};
 	struct RotationSpeed: RotationSpeedDlg{};
-//	struct AcfCutOffBorders  : AcfCutOffBordersDlg{};
+	struct MinimalTubeLength  : MinimalTubeLengthDlg{};
 	struct Filter_: FilderDlg{}; 
 
 	MENU_ITEM(L"Поперечные пороги", CrossThresholdWindow__)
@@ -63,10 +62,9 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Удалить типоразмер", MainDeleteTypeSize)
 	MENU_ITEM(L"Медианный фильтр", MedianFiltre)
 
-	MENU_ITEM(L"Минимальная и максимальная стенки трубы", PipeThicknes)
-//	MENU_ITEM(L"Границы отсечения в частотной области", AcfCutOffBorders)
 	MENU_ITEM(L"Настройки цифрового фильтра", Filter_)
 	MENU_ITEM(L"Скорость вращения", RotationSpeed)
+	MENU_ITEM(L"Минимальная длина трубы в зонах", MinimalTubeLength)
 
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
@@ -74,12 +72,11 @@ namespace MainWindowMenu
 			MenuItem<CrossThresholdWindow__>
 			, MenuItem<LongThresholdWindow__>
 			, MenuItem<ThickThresholdWindow__>
+			, MenuItem<MinimalTubeLength>
 			, Separator<1>
 			, MenuItem<DeadZones>
 			, MenuItem<MedianFiltre>
 			, MenuItem<Filter_>
-			, MenuItem<PipeThicknes>
-		//	, MenuItem<AcfCutOffBorders>
 			, MenuItem<RotationSpeed>
 			, Separator<0>
 			, MenuItem<MainCreateTypesize>

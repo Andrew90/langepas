@@ -360,9 +360,6 @@
     <ClCompile Include="..\..\Common\Emulator\Emulator.cpp">
       <Filter>Common\Devices\Emulator</Filter>
     </ClCompile>
-    <ClCompile Include="Dialogs\PipeThicknessDlg.cpp">
-      <Filter>Dialogs</Filter>
-    </ClCompile>
     <ClCompile Include="Dialogs\AcfCutOffBordersDlg.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
