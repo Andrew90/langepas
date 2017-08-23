@@ -158,6 +158,10 @@ void Emulator::Group::Do(double &ref, double &sig){}
 	
 int loop = 0;
 int lastLoop = 0;
+	unsigned bits0 = -1;
+		unsigned bits1 = -1;
+		unsigned outs0 = -1;
+		unsigned outs1 = -1;
 #define OUTS(...) !TL::find<TL::MkTlst<__VA_ARGS__>::Result, __out_bits__>()(&map->outs0)
 void Emulator::Do()
 {
@@ -169,7 +173,24 @@ void Emulator::Do()
 		XBITS(On<iPCH_B>, On<iPCH_RUN>);
 		XBITS(On<iReadyR1>);
 		XBITS(On<iReadyT>, On<iControlT>, Off<iResultT>);
-		while(!rp) Sleep(50);
+		while(!rp)
+		{
+			Sleep(50);
+			/*
+			unsigned bits0;
+		unsigned bits1;
+		unsigned outs0;
+		unsigned outs1;
+			*/
+			if(map->bits0 != bits0 || map->bits1 != bits1 || map->outs0 != outs0 || map->outs1 != outs1)
+			{
+				bits0 = map->bits0;
+				bits1 = map->bits1;
+				outs0 = map->outs0;
+				outs1 = map->outs1;
+				printf("%0x %0x %0x %0x\n", bits0, bits1, outs0, outs1);
+			}
+		}
 	//	{
 			printf("Sleep\n");
 			 while(OUTS(Off<oCooling>)) Sleep(50);
