@@ -49,12 +49,10 @@ template<class O, class P>struct __sq_do__
 	{
 		Module<O> &module = p.lir.moduleItems.get<Module<O>>();
 		unsigned t = Performance::Counter();
-	//	zprint(" start module rem %f\n", module.rem);
-		Zones::Do(p.lir, t/*p.sq.time*/, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
+		Zones::Do(p.lir, t, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
 			, module.startLen
 			, module.offset
 			);
-	//	dprint("stop module rem %f\n", module.rem);
 	}
 };
 
@@ -211,15 +209,9 @@ template<template<class, int>class W, int N>struct Stop<W<Cross, N>>
 struct Zones
 {
 	static void Do(SubLir &lir, unsigned sq_time
-		
-		
-		
 		, double sq_perSamples
 		, int  &module_zonesOffs, unsigned *module_zones
-		, int &module_framesOffs_//, double &module_rem
-
-
-
+		, int &module_framesOffs_
 		, unsigned startLen
 		, double &offset
 		)
@@ -274,7 +266,6 @@ struct Zones
 				{
 					offset += d * App::zone_length;
 					module_zones[module_zonesOffs] = (unsigned )offset;
-					//module_zones[module_zonesOffs] = module_zones[module_zonesOffs - 1] + unsigned(d * App::zone_length);
 				}
 			}
 		}
@@ -291,7 +282,6 @@ template<class T>struct __sq__
 		sq.time = Performance::Counter();
 		lir.offset[lir.timeIndex] = sq.offs - lir.lastOffs;
 		lir.tmpPerSamples = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
-		dprint("tmpPerSamples %f\n", lir.tmpPerSamples);
 		++lir.timeIndex;
 		lir.lastTime = sq.time;
 		lir.lastOffs = sq.offs;

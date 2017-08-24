@@ -76,24 +76,15 @@ namespace Mode
 			, iPCH_B        
 			, iPCH_RUN      
 			, iPCH_A        
-			//, iCycle        
-			//, iReadyR1      
-			//, iDone         
-			//, iReserve0     
-			//, iEtalon       
 			, iWork_pnevmo  
 			, iRevers_pnevmo
 			, iError_pnevmo 
-			//, iReserve1     
-			//, iReserve2     
-			//, iSQ1DM        
-			//, iSQ2DM         
 		>::Result list2;
 		static unsigned bits1;
 		static unsigned bits2;
 		static unsigned msk1;
 		static unsigned msk2;
-		template<class T>static void Do(T &t)//unsigned inp1, unsigned inp2)
+		template<class T>static void Do(T &t)
 		{
 			if(bits1 != (t.val1 & msk1) || bits2 != (t.val2 & msk2))
 			{
@@ -111,7 +102,7 @@ namespace Mode
 
 	struct Collection
 	{
-		template<class T>static void Do(T &t)//unsigned, unsigned)
+		template<class T>static void Do(T &t)
 		{
 			static unsigned counter = 0;
 			if((++counter % 20) == 0)
@@ -164,7 +155,6 @@ namespace Mode
 		}
 	};	
 
-	//template<class T>struct __compute_unit__{void operator()(SubLir &){}};
 	template<class T>struct __compute_unit__
 	{
 		void operator()(SubLir &lir, ComputeUnitX<T, ItemData<T>> &x)
@@ -314,6 +304,7 @@ namespace Mode
 
 		ComputeUnitX<Thick, int>ThickX;
 		ComputeUnitX<Magn, int>MagnX;
+
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WaitThickOn>();

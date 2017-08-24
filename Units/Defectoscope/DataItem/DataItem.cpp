@@ -70,5 +70,5 @@ struct test_test
 			 d.cutZone1 = 45;
 		 }
 	 }
-} xxxxx;
+};// xxxxx;
 ////test////////////////////////////////

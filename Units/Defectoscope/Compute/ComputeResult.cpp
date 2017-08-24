@@ -141,11 +141,11 @@ void ComputeResult()
 
 	if(isTick) if(thickData.currentOffsetZones < len) len = thickData.currentOffsetZones;
 
-	moduleCross.zonesOffs = len;
-	moduleLong.zonesOffs = len;
-
 	crossData.currentOffsetZones = len;
+
+	longData.currentOffsetZones = isLong ? len : 0;
 	thickData.currentOffsetZones = isTick ? len : 0;
+
 	resultData.currentOffsetZones = len;
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
