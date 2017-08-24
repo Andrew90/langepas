@@ -53,7 +53,7 @@ void CommonViewer::operator()(TPaint &l)
 	{		
 		Graphics g(hdc);		
 		g.DrawCachedBitmap(&CachedBitmap(backScreen, &g), 0, 0);
-		cursor.VerticalCursor(storedMouseMove, PaintGraphics(g));
+		cursor.CrossCursor(storedMouseMove, PaintGraphics(g));
 	}
 	EndPaint(l.hwnd, &p);
 }

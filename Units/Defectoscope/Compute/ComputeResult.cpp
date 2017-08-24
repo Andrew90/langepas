@@ -65,13 +65,6 @@ void CuttingZones()
 	resultData.cutZone0 = cutingZone[offs].cut0;
 	resultData.cutZone1 = 1 + cutingZone[offs].cut1;
 
-	/*
-	static const int ResultBrak = 0;
-static const int ResultNorma = 1;
-static const int ResultKlass2 = 2;
-static const int ResultKlass3 = 3;
-	*/
-
 	if(1 == resultData.cutZone0)  resultData.cutZone0 = 0;
 	if(resultData.currentOffsetZones - 1 <= resultData.cutZone1)  resultData.cutZone1 = 0;
 
@@ -210,6 +203,14 @@ void ComputeResult()
 	{
 		s += wcslen(s);
 		wsprintf(s, L"<ff>\"Зона реза 2\"<ff0000>%d ", resultData.cutZone1); 
+	}
+	s += wcslen(s);
+	switch(resultData.resultCommon)
+	{
+	case 0:	wsprintf(s, L"<ff0000> Брак "); break;
+	case 1: wsprintf(s, L"<ff00> Норма ");break;
+	case 2: wsprintf(s, L"<ffff00> Класс 2 ");break;
+	case 3: wsprintf(s, L"<ff00ff> Класс 3 ");break;
 	}
 	app.mainWindow.topLabelViewer.SetMessage(txt);
 }

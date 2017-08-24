@@ -6,6 +6,7 @@
 #include "Common.h"
 #include "tools_debug\DebugMess.h"
 #include "App/App.h"
+#include "MainWindow.h"
 
 LongWindow::LongWindow()
     : viewer(viewers.get<NoSubMenu<LongViewer>>())
