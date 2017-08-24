@@ -120,7 +120,7 @@ LRESULT CommonViewer::operator()(TCreate &l)
 	chart->minAxesX = 0;
 	chart->maxAxesX = App::count_zones;
 	chart->rect.top = 17;
-	mouseMove = true;
+	mouseMove = false;
 	label.fontHeight = 12;
 	label.top = 0;
 

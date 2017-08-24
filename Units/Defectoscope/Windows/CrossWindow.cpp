@@ -9,7 +9,7 @@
 #include "MessageText\StatusMessages.h"
 
 CrossWindow::CrossWindow()
-    : viewer(viewers.get<NoSubMenu<CrossViewer>>())
+    : viewer(viewers.get<NoSubMenu<CrossViewer, CrossWindow>>())
 	, adjustItem(*this)
 	, count_sensors(Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value)
 {
@@ -36,6 +36,7 @@ void CrossWindow::operator()(TGetMinMaxInfo &m)
 VIEWERS_MENU(CrossWindow)
 LRESULT CrossWindow::operator()(TCreate &l)
 {
+	viewers.get<MainChart>().owner = this;
 	TL::foreach<line_list, Common::__set_border_color__>()(&viewers, this);
 	lastZone = -1;
 	Menu<ViewersMenuCrossWindow::MainMenu>().Init(l.hwnd);

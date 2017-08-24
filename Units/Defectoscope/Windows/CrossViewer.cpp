@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Windows\CrossViewer.h"
 #include "DataItem/ConstData.h"
-//#include "MessageText/SelectMessage.h"
 #include "MessageText\StatusMessages.h"
 #include "templates/templates.hpp"
 #include "App/AppBase.h"

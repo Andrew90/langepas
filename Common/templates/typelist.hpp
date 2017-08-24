@@ -414,6 +414,11 @@ namespace TL
 	{
 		typedef T Result;
 	};
+	template<class T>struct Inner1;
+	template<template<class, class>class Wapper, class T, class X>struct Inner1<Wapper<T, X>>
+	{
+		typedef T Result;
+	};
 //-------------------------------------------------------------------------------------------
 	template<class List, class T>struct TypeInList;
 	template<class Head, class Tail, class T>struct TypeInList<Tlst<Head, Tail>, T>

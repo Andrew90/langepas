@@ -9,7 +9,7 @@
 #include "MainWindow.h"
 
 LongWindow::LongWindow()
-    : viewer(viewers.get<NoSubMenu<LongViewer>>())
+    : viewer(viewers.get<NoSubMenu<LongViewer, LongWindow>>())
 	, adjustItem(*this)
 	, count_sensors(App::count_long_sensors)
 {
@@ -36,6 +36,7 @@ void LongWindow::operator()(TGetMinMaxInfo &m)
 VIEWERS_MENU(LongWindow)
 LRESULT LongWindow::operator()(TCreate &l)
 {
+	viewers.get<MainChart>().owner = this;
 	TL::foreach<line_list, Common::__set_border_color__>()(&viewers, this);
 	lastZone = -1;
 	Menu<ViewersMenuLongWindow::MainMenu>().Init(l.hwnd);

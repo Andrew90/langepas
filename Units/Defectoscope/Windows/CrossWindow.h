@@ -16,7 +16,7 @@ public:
 public:
 	HWND hWnd;
 	bool drawZones;
-	typedef NoSubMenu<CrossViewer> MainChart;
+	typedef NoSubMenu<CrossViewer, CrossWindow> MainChart;
 	typedef TL::CreateWapperNumList<Line, CrossWindow, 0, App::count_cross_sensors - 1>::Result line_list;
 	typedef TL::AppendList<
 		    TL::MkTlst<MainChart>::Result

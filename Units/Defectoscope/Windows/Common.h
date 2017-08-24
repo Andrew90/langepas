@@ -3,6 +3,7 @@
 #include "App\AppBase.h"
 #include "window_tool\EmptyWindow.h"
 #include "window_tool\WindowsPosition.h"
+#include "Windows\MainWindow.h"
 
 
 namespace Common
@@ -282,15 +283,30 @@ namespace Common
 
 void CloseAllWindows();
 
-template<class T>class NoSubMenu: public T
+template<class T, class OWNER>class NoSubMenu: public T
 {
-	public:
+public:
+	typedef OWNER Owner;
 	typedef T Parent;
-	explicit NoSubMenu()
-	{
-		zprint("vzvzvzvzv \n");
-	}
+	Owner *owner;
 	void operator()(TRButtonDown &){}
+	//LRESULT operator()(TCreate &l)
+	//{
+	//	(*(Parent::Parent *)this)(l);
+	//	//Owner::MainChart &cv = owner->viewers.get<Owner::MainChart>();
+	//	//HWND h = FindWindow(WindowClass<MainWindow>()(), 0);
+	//	//TL::Inner1<Owner::MainChart>::Result &mv = ((MainWindow *)GetWindowLongPtr(h, GWLP_USERDATA))->viewers.get<TL::Inner1<Owner::MainChart>::Result>();
+	//	//cv.mouseMove = false;
+	//	//cv.storedMouseMove.x = mv.storedMouseMove.x;
+	//	//cv.storedMouseMove.y = mv.storedMouseMove.y;
+	//	//cv.currentX = mv.currentX;
+	//	//cv.currentY = mv.currentY;
+	//	//
+	//	//TLButtonDown lb = {l.hwnd, 0,  mv.storedMouseMove.x,  mv.storedMouseMove.y};
+	//	//(*(Parent::Parent *)&cv)(lb);
+	//
+	//	return 0;
+	//}
 };
 class Chart;
 void ZoneToCoord(Chart &, int zone, int sens, WORD &x, WORD &y);
