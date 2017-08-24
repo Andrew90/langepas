@@ -285,28 +285,32 @@ void CloseAllWindows();
 
 template<class T, class OWNER>class NoSubMenu: public T
 {
+	static VOID CALLBACK WaitOrTimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
+	{
+		NoSubMenu *self = (NoSubMenu *)lpParameter;
+		HWND h = FindWindow(WindowClass<MainWindow>()(), 0);
+		TL::Inner1<Owner::MainChart>::Result &mv = ((MainWindow *)GetWindowLongPtr(h, GWLP_USERDATA))->viewers.get<TL::Inner1<Owner::MainChart>::Result>();
+		self->mouseMove = false;
+		self->currentX = mv.currentX;
+		self->currentY = mv.currentY;
+		SendMessage(self->hWnd, WM_MOUSEWHEEL, 0, 0);
+	}
 public:
 	typedef OWNER Owner;
 	typedef T Parent;
 	Owner *owner;
+	HANDLE hTimer;
+	~NoSubMenu()
+	{
+		DeleteTimerQueueTimer(NULL, hTimer, NULL);
+	}
 	void operator()(TRButtonDown &){}
-	//LRESULT operator()(TCreate &l)
-	//{
-	//	(*(Parent::Parent *)this)(l);
-	//	//Owner::MainChart &cv = owner->viewers.get<Owner::MainChart>();
-	//	//HWND h = FindWindow(WindowClass<MainWindow>()(), 0);
-	//	//TL::Inner1<Owner::MainChart>::Result &mv = ((MainWindow *)GetWindowLongPtr(h, GWLP_USERDATA))->viewers.get<TL::Inner1<Owner::MainChart>::Result>();
-	//	//cv.mouseMove = false;
-	//	//cv.storedMouseMove.x = mv.storedMouseMove.x;
-	//	//cv.storedMouseMove.y = mv.storedMouseMove.y;
-	//	//cv.currentX = mv.currentX;
-	//	//cv.currentY = mv.currentY;
-	//	//
-	//	//TLButtonDown lb = {l.hwnd, 0,  mv.storedMouseMove.x,  mv.storedMouseMove.y};
-	//	//(*(Parent::Parent *)&cv)(lb);
-	//
-	//	return 0;
-	//}
+	LRESULT operator()(TCreate &l)
+	{
+		(*(Parent::Parent *)this)(l);
+		CreateTimerQueueTimer(&hTimer, NULL, WaitOrTimerCallback, this, 50, 0, WT_EXECUTEONLYONCE);
+		return 0;
+	}	
 };
 class Chart;
 void ZoneToCoord(Chart &, int zone, int sens, WORD &x, WORD &y);
