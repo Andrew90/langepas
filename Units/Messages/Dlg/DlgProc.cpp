@@ -32,12 +32,12 @@ void SaveDateFile::Do(HWND h)
 		, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec
 		);	
 	HANDLE hFile = CreateFile(path,                // name of the write
-                       GENERIC_WRITE,          // open for writing
-                       0,                      // do not share
-                       NULL,                   // default security
-                       CREATE_NEW,             // create new file only
-                       FILE_ATTRIBUTE_NORMAL,  // normal file
-                       NULL);                  // no attr. template
+		GENERIC_WRITE,          // open for writing
+		0,                      // do not share
+		NULL,                   // default security
+		CREATE_NEW,             // create new file only
+		FILE_ATTRIBUTE_NORMAL,  // normal file
+		NULL);                  // no attr. template
 
 	if(hFile != INVALID_HANDLE_VALUE)
 	{
@@ -56,10 +56,6 @@ void SaveDateFile::Do(HWND h)
 				strcat(c, "\n");
 				len = strlen(c);
 				MultiByteToWideChar( CP_ACP, 0, c,  -1, w, 512);
-			//	fwrite(w, sizeof(wchar_t), len, f);
-				//wsprintf(w, L"%S\n", c);
-				//fputws (w, f);
-				//fwprintf(f, L"%s\n", w);
 				DWORD dwBytesWritten = 0;
 				BOOL bErrorFlag = WriteFile( 
 					hFile,           // open file handle
@@ -74,8 +70,7 @@ void SaveDateFile::Do(HWND h)
 				}
 			}
 		}
-		//fclose(f);
-		 CloseHandle(hFile);
+		CloseHandle(hFile);
 	}
 	wchar_t buf[1024];
 	wsprintf(buf, L"Данные сохранены в файле:\n%s", path);
