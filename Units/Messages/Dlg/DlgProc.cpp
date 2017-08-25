@@ -31,13 +31,20 @@ void SaveDateFile::Do(HWND h)
 		, timeinfo->tm_year - 100, 1 + timeinfo->tm_mon, timeinfo->tm_mday
 		, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec
 		);	
-	FILE *f = _wfopen(path, L"w+");
+	HANDLE hFile = CreateFile(path,                // name of the write
+                       GENERIC_WRITE,          // open for writing
+                       0,                      // do not share
+                       NULL,                   // default security
+                       CREATE_NEW,             // create new file only
+                       FILE_ATTRIBUTE_NORMAL,  // normal file
+                       NULL);                  // no attr. template
 
-	if(NULL != f)
+	if(hFile != INVALID_HANDLE_VALUE)
 	{
 		Log::TData *d = NULL;
 		Log::TData *d0 = NULL;
 		char c[512];
+		wchar_t w[512];
 		for(int i = 0; i < 1024; ++i)
 		{
 			if(Log::IsRow(i, d))
@@ -47,10 +54,28 @@ void SaveDateFile::Do(HWND h)
 				int len = strlen(c);
 				LogMess::FactoryMessages::Instance().Text(d->id, &c[len], d->value);	
 				strcat(c, "\n");
-				fwrite(c, sizeof(char), strlen(c), f);
+				len = strlen(c);
+				MultiByteToWideChar( CP_ACP, 0, c,  -1, w, 512);
+			//	fwrite(w, sizeof(wchar_t), len, f);
+				//wsprintf(w, L"%S\n", c);
+				//fputws (w, f);
+				//fwprintf(f, L"%s\n", w);
+				DWORD dwBytesWritten = 0;
+				BOOL bErrorFlag = WriteFile( 
+					hFile,           // open file handle
+					w,      // start of data to write
+					len * sizeof(wchar_t),  // number of bytes to write
+					&dwBytesWritten, // number of bytes that were written
+					NULL);            // no overlapped structure
+
+				if (FALSE == bErrorFlag)
+				{
+					break;
+				}
 			}
 		}
-		fclose(f);
+		//fclose(f);
+		 CloseHandle(hFile);
 	}
 	wchar_t buf[1024];
 	wsprintf(buf, L"Данные сохранены в файле:\n%s", path);
