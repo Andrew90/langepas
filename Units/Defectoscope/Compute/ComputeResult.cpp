@@ -125,14 +125,14 @@ void ComputeResult()
 
 	//Расчёт мёртвой зоны конец
 	Module<Cross> &moduleCross = lir.moduleItems.get<Module<Cross>>();
-	moduleCross.Stop();
+	//moduleCross.Stop();
 	
 	int len = moduleCross.zonesOffs;
 	
 	Module<Long> &moduleLong = lir.moduleItems.get<Module<Long>>();
 	if(isLong)
 	{
-		moduleLong.Stop();
+	//	moduleLong.Stop();
 		if(moduleLong.zonesOffs < len) len = moduleLong.zonesOffs;
 	}
 
@@ -148,15 +148,19 @@ void ComputeResult()
 
 	resultData.currentOffsetZones = len;
 
-	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
-	crossX.Zones(len);
-	crossX.DeathZonesEnd(len);
 	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
 	if(isLong)
 	{
 		longX.Zones(len);
+		moduleLong.Stop();
 		longX.DeathZonesEnd(len);
 	}
+
+	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
+	crossX.Zones(len);
+	moduleCross.Stop();
+	crossX.DeathZonesEnd(len);
+	
 
 	for(int i = 0; i < len; ++i)
 	{

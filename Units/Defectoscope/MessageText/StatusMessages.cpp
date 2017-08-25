@@ -228,7 +228,7 @@ bool IsDefect(unsigned id)
 
 namespace StatusMessages
 {
-	static const unsigned IsKlass3 = TL::IndexOf<status_list, BorderKlass3<Thick> >::value;
+	static const unsigned IsKlass3 = 1 << TL::IndexOf<status_list, BorderKlass3<Thick> >::value;
 
 	template<class List>struct __klass__;
 	template<class Head, class Tail>struct __klass__<Tlst<Head, Tail>>

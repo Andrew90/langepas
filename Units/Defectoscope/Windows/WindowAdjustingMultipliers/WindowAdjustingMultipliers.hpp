@@ -143,7 +143,7 @@ public:
 		if(value != val)
 		{
 			wchar_t txt[128];
-			wsprintf(txt,  L"\"%s %d\" изменена!\nСохранить?", AdjustTitle<SubType<T>::sub_type>()(), 1 + SubType<T>::NUM);
+			wsprintf(txt,  L"Значение параметра \"%s %d\" изменено!\nСохранить?", AdjustTitle<SubType<T>::sub_type>()(), 1 + SubType<T>::NUM);
 			if(IDYES ==  MessageBox(GetParent(hEdit), txt, L"Сообщение", MB_ICONQUESTION | MB_YESNO))
 			{
 				if(val < 0) val = 0.0;
