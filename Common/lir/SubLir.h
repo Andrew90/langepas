@@ -232,31 +232,31 @@ struct Zones
 				return;
 			}
 			// 
-			if(0 == samplesLen[0] && 0.0 != lir.tmpPerSamples)
-			{
-				int z = index - 1;
-				if(samplesLen[z] == 100000) return;
-
-				
-				for(; z > 0; --z)
-				{
-					if(samplesLen[z] == 100000) break;
-				}
-
-				if(index - z < 3) break;
-
-				unsigned d = samplesLen[z + 2] - samplesLen[z + 1];
-
-				unsigned start = samplesLen[z + 1];
-
-				for(int k = z; k >= 0; --k)
-				{
-					start -= d;
-					samplesLen[k] = start;
-				}
-
-				lir.moduleItems.get<Module<Cross>>().Start();
-			}
+			//if(0 == samplesLen[0] && 0.0 != lir.tmpPerSamples)
+			//{
+			//	int z = index - 1;
+			////	if(samplesLen[z] == 100000) return;
+			//
+			//	
+			//	//for(; z > 0; --z)
+			//	//{
+			//	//	if(samplesLen[z] == 100000) break;
+			//	//}
+			//
+			//	if(index - z < 3) break;
+			//
+			//	unsigned d = samplesLen[z + 2] - samplesLen[z + 1];
+			//
+			//	unsigned start = samplesLen[z + 1];
+			//
+			//	for(int k = z; k >= 0; --k)
+			//	{
+			//		start -= d;
+			//		samplesLen[k] = start;
+			//	}
+			//
+			//	lir.moduleItems.get<Module<Cross>>().Start();
+			//}
 			int t = lir.samplesLen[i] - startLen;
 			int j = t / App::zone_length;
 			if(j > module_zonesOffs)
@@ -346,24 +346,32 @@ template<>struct __start__<on<Long, 2>>
 	}
 };
 
-template<class T>struct __stop_0_
+template<>struct __start__<on<Cross, 2>>
 {
-	void operator()(){};
-};
-
-template<>struct __stop_0_<off<Cross, 2>>
-{
-	void operator()()
+	void operator()(SubLir &lir)
 	{
-		zprint("\n");
+		lir.moduleItems.get<Module<Cross>>().Start();
 	}
 };
+
+//template<class T>struct __stop_0_
+//{
+//	void operator()(){};
+//};
+//
+//template<>struct __stop_0_<off<Cross, 2>>
+//{
+//	void operator()()
+//	{
+//		zprint("\n");
+//	}
+//};
 
 template<class T>void SQ<T>::Do()
 {
 	__sq__<T>()(lir);	 //сохранение времени срабатывания датчика
 	__start__<T>()(lir);  //смещение начала отчёта данных в модуле
-	__stop_0_<T>()();
+	//__stop_0_<T>()();
 	TL::foreach<__zones_do__<T>::Result, __sq_do__>()(__sq_do_data__<T>(lir));
 }
 
@@ -371,7 +379,7 @@ template<class T>Module<T>::Module(SubLir &lir)
 	: lir(lir)
 	, zones( Singleton<ItemData<T>>::Instance().offsets)
 {}
-
+/// начало измерений модуля(смещение центра)
 template<class T>void Module<T>::Start()
 {
 	SQ<on<T,1>> &sq1 = lir.sqItems.get<SQ<on<T,1>>>();
@@ -382,9 +390,8 @@ template<class T>void Module<T>::Start()
 	unsigned *samples = lir.samples;
 	unsigned *samplesLen = lir.samplesLen;
 	int index = lir.index;
-	int i = 0;
 
-	for(; i < index; ++i)  /// смещение 1 зоны в отчётах
+	for(int i = 0; i < index; ++i)  /// смещение 1 зоны в отчётах
 	{
 		if(tick[i] > offs)
 		{
@@ -393,9 +400,7 @@ template<class T>void Module<T>::Start()
 			offset = zones[0];
 			zonesOffs = 1;
 			framesOffs = i;
-
 			startLen = 	samplesLen[i - 1] + unsigned(d * (samplesLen[i] - samplesLen[i - 1]));
-
 			break;
 		}
 	}	

@@ -72,11 +72,11 @@ void Unit502::Read()
 			   Unit502N::lir.samplesLenMax += Unit502N::lir.tmpPerSamples * (Unit502N::lir.tick[Unit502N::lir.index] - Unit502N::lir.tick[Unit502N::lir.index - 1]);
 			   Unit502N::lir.samplesLen[Unit502N::lir.index] = (unsigned)Unit502N::lir.samplesLenMax;
 			}
-			else
-			{
-				Unit502N::lir.samplesLenMax = 100000;
-				Unit502N::lir.samplesLen[Unit502N::lir.index] = 0;
-			}
+			//else
+			//{
+			//	Unit502N::lir.samplesLenMax = 100000;
+			//	Unit502N::lir.samplesLen[Unit502N::lir.index] = 0;
+			//}
 			++Unit502N::lir.index;
 		}
 		Unit502N::lir.currentSamples = offs;
