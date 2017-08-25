@@ -156,11 +156,11 @@ void MainWindow::operator()(TUser &l)
 //--------------------------------------------------------------------------------
 void MainWindow::CheckBoxStateStoreInBase()
 {
-	///CBase base(ParametersBase().name());
-	///if(base.IsOpen())
-	///{
-	///	UpdateWhere<OnTheJobTable>(Singleton<OnTheJobTable>::Instance(), base).ID(1).Execute();
-	///}
+	CBase base(ParametersBase().name());
+	if(base.IsOpen())
+	{
+		UpdateWhere<OnTheJobTable>(Singleton<OnTheJobTable>::Instance(), base).ID(1).Execute();
+	}
 }
 //------------------------------------------------------------------
 namespace
