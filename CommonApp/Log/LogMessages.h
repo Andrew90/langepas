@@ -229,6 +229,7 @@ namespace LogMess
 		, demagnetizationTesting
 		, unit502SetupParams
 		, emergencyExit
+		, tubeExit
 //		    
 		, max_row
 	};
@@ -365,6 +366,8 @@ namespace LogMess
 	MESS(unit502SetupParams, void, "Плата L502 не инициализируется", red, yellow)
 
     MESS(emergencyExit, void, "Выход по аварии", red, yellow)
+
+	MESS(tubeExit, void, "Труба вышла из установки", blue, white)
 
 	class FactoryMessages
 	{

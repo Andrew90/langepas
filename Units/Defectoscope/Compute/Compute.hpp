@@ -3,7 +3,9 @@
 template<class T, class Data>class ComputeUnitX
 {
 	Data &data;
+public:
 	unsigned lastZone;
+private:
 	ComputeZone<T> zone;
 public:
 	ComputeUnitX(Data &data): data(data){}

@@ -69,12 +69,12 @@ void CuttingZones()
 	if(resultData.currentOffsetZones - 1 <= resultData.cutZone1)  resultData.cutZone1 = 0;
 
 	resultData.resultCommon = ResultNorma;
-	int tubeLength =  resultData.cutZone1 - resultData.cutZone0;
-	if(tubeLength < Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value)
-	{
-		resultData.resultCommon = ResultBrak;
-	}
-	else
+	
+	//if(tubeLength < Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value)
+	//{
+	//	resultData.resultCommon = ResultBrak;
+	//}
+	//else
 	{
 		int start = resultData.cutZone0;
 		int stop = 1 + resultData.cutZone1;
@@ -105,6 +105,12 @@ void CuttingZones()
 				resultData.resultCommon = res;
 			}
 		}
+
+		int tubeLength =  stop - start;
+		if(tubeLength < Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value)
+		{
+			resultData.resultCommon = ResultBrak;
+		}
 	}
 }
 
@@ -125,14 +131,12 @@ void ComputeResult()
 
 	//Расчёт мёртвой зоны конец
 	Module<Cross> &moduleCross = lir.moduleItems.get<Module<Cross>>();
-	//moduleCross.Stop();
 	
 	int len = moduleCross.zonesOffs;
 	
 	Module<Long> &moduleLong = lir.moduleItems.get<Module<Long>>();
 	if(isLong)
 	{
-	//	moduleLong.Stop();
 		if(moduleLong.zonesOffs < len) len = moduleLong.zonesOffs;
 	}
 
@@ -151,17 +155,18 @@ void ComputeResult()
 	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
 	if(isLong)
 	{
-		longX.Zones(len);
+		longX.lastZone = len - 5;
+		longX.Zones(len );
 		moduleLong.Stop();
 		longX.DeathZonesEnd(len);
 	}
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
-	crossX.Zones(len);
+	crossX.lastZone = len - 5;
+	crossX.Zones(len);	
 	moduleCross.Stop();
 	crossX.DeathZonesEnd(len);
 	
-
 	for(int i = 0; i < len; ++i)
 	{
 		int last = 0;
@@ -196,8 +201,9 @@ void ComputeResult()
 
 	ComputeSolid::Recalculation(res, group, color);
 	wchar_t txt[1024];
+	txt[0] = 0;
 	wchar_t *s = txt;
-	wsprintf(s, L"<ff>\"Группа прочности\"<%x>%s ", color & 0xFFFFFF, group);
+	if(0 != *group)wsprintf(s, L"<ff>\"Группа прочности\"<%x>%s ", color & 0xFFFFFF, group);
 	if(0 != resultData.cutZone0)
 	{
 		s += wcslen(s);

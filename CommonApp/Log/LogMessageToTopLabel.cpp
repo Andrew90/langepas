@@ -8,7 +8,7 @@
 LogMessageToTopLabel::LogMessageToTopLabel()
 	: hTimer(INVALID_HANDLE_VALUE)
 {
-	CreateTimerQueueTimer(&hTimer, NULL, WaitOrTimerCallback, this, 3000, 1000, WT_EXECUTEINTIMERTHREAD);
+	CreateTimerQueueTimer(&hTimer, NULL, WaitOrTimerCallback, this, 3000, 100, WT_EXECUTEINTIMERTHREAD);
 }
 
 LogMessageToTopLabel::~LogMessageToTopLabel()

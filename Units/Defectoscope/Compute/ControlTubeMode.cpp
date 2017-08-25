@@ -358,12 +358,15 @@ namespace Mode
 
 		Log::Mess<LogMess::WaitMagneticOff>();
 		WAIT(Off<iSQ1DM>, off, Magn)
+		Log::Mess<LogMess::tubeExit>();
 		WAIT_COMPUTE(Off<iSQ2DM>, off, Magn)
+		
 		OUT_BITS(Off<oT_Base>, Off<oSTF>, Off<oPowerSU>, Off<oMagnet>, Off<oRP>);
 		DisableDemagnetization();
 		unit502.Stop();
 //---------------------------------------------------------------	
 		GetDataFromThicknessModule();
+
 		ComputeResult();
 		UpdateScreen();
 #ifdef EMUL
