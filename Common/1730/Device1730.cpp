@@ -73,7 +73,7 @@ bool Device1730::IsOpen()
 #ifndef DEBUG_ITEMS
 unsigned Device1730::Read()
 {
-	unsigned input;
+	unsigned input = 0;
 	instantDiCtrl->Read(startPoint, 2, (BYTE *)&input);
 	return input;
 }
@@ -85,7 +85,7 @@ void Device1730::Write(unsigned output)
 //--------------------------------------------------------------------------
 unsigned Device1730::ReadOutput()
 {
-	unsigned res;
+	unsigned res = 0;
 	instantDoCtrl->Read(startPoint, 2, (BYTE *)&res);
 	return res;
 }

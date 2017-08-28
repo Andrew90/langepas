@@ -199,14 +199,18 @@ namespace
 		void operator()(O &o)
 		{
 			typedef typename TL::Inner<typename TL::Inner<O>::Result>::Result Z;
-			if(BST_CHECKED == Button_GetCheck(o.hWnd))
+			if(BitTest<Z>()())
 			{
-				BitOn<Z>()();
+				if(BST_CHECKED == Button_GetCheck(o.hWnd))
+				{
+					BitOn<Z>()();
+				}
+				else
+				{						
+					BitOff<Z>()();
+				}
 			}
-			else
-			{						
-				BitOff<Z>()();
-			}
+			//zprint(" push button\n");
 		}
 	};
 
