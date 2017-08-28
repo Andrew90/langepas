@@ -163,18 +163,18 @@ template<class T, class Data>bool ComputeZone<T, Data>::Zone(unsigned zone, unsi
 }
 
 
-template<class T>struct __stop__
-{
-	void operator()(){}
-};
-
-template<>struct __stop__ <Cross>
-{
-	void operator()()
-	{
-		dprint("__stop__\n");
-	}
-};
+//template<class T>struct __stop__
+//{
+//	void operator()(){}
+//};
+//
+//template<>struct __stop__ <Cross>
+//{
+//	void operator()()
+//	{
+//		dprint("__stop__\n");
+//	}
+//};
 
 template<class T, class Data>bool ComputeZone<T, Data>::Begin(unsigned sensor, char *status, double *buffer)
 {
@@ -182,7 +182,7 @@ template<class T, class Data>bool ComputeZone<T, Data>::Begin(unsigned sensor, c
 	double borderKlass2 = params.thresholds.get<BorderKlass2<T>>().value;
 	double borderDefect = params.thresholds.get<BorderDefect<T>>().value;
 
-	__stop__<T>()();
+	//__stop__<T>()();
 
 	int dead = params.dead.get<DeadAreaMM0<T>>().value;
 
