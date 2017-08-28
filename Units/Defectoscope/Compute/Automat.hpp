@@ -10,7 +10,6 @@
 namespace AutomatN
 {
 	struct ExceptionTimeOut{};
-	//struct ExceptionRun{};
 	struct Exception—ontrol—ircuitsOff{};
 	struct Exception—ycleOff{};
 
@@ -209,7 +208,7 @@ namespace AutomatN
 	{
 		void operator()(P &p)
 		{
-			O::Do(p);//p.val1, p.val2);
+			O::Do(p);
 		}
 	};
 
@@ -327,14 +326,10 @@ namespace AutomatN
 			typedef typename SelectItem<InputBit2Table::items_list, List>::Result List2;
 
 			typedef typename Filt<List1, On>::Result list_on1;
-			//	dprint("~~%s\n", typeid(list_on1).name());
 			typedef typename Filt<List1, Off>::Result list_off1;
-			//	dprint("~~%s\n", typeid(list_off1).name());
 
 			typedef typename Filt<List2, On>::Result list_on2;
-			//		dprint("~~%s\n", typeid(list_on2).name());
 			typedef typename Filt<List2, Off>::Result list_off2;
-			//		dprint("~~%s\n", typeid(list_off2).name());
 
 			static const bool bitsNotEmpty1 = __all_lists_not_empty__<list_on1, list_off1>::value;
 			static const bool bitsNotEmpty2 = __all_lists_not_empty__<list_on2, list_off2>::value;

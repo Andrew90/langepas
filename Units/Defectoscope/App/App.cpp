@@ -8,7 +8,6 @@
 #include "ChangeTypeSize.h"
 #include "Compute/AppKeyHandler.h"
 #include "Compute\Automat.h"
-//#include "Compute/Compute.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "App/Config.h"
 #include "SolidGroupAlgoritm\ComputeSolidGroup.h"
@@ -85,11 +84,7 @@ void App::Init()
 	NameParam::type_value &nameParam = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
 	Singleton<ComputeSolidGroup>::Instance().Load(nameParam);
 }
-
-
 //------------------------------------------------------------------------
-
-//
 void App::Destroy()
 {
 	Automat::Exit();

@@ -197,17 +197,13 @@ template<class T, class Data>bool ComputeZone<T, Data>::Begin(unsigned sensor, c
 	double *startZone = &item.ascan[sensor][item.offsets[full]] + int(d * ( &item.ascan[sensor][item.offsets[1 + full]] -  &item.ascan[sensor][item.offsets[full]]));
 	double *stopZone = &item.ascan[sensor][item.offsets[1 + full]];
 
-
-	//AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 	AnalogFiltre()(startZone, stopZone, params.flt.get<CutoffFrequencyOn<T>>().value, params.flt.get<CutoffFrequency<T>>().value);
 
 	MedianFiltre filtre;
-	//MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
 
 	double adjust = 1;
 	typedef __get_adjust_data__<T> Sub;
 	TL::find<Sub::List, __get_adjust__>()(
-		//Singleton<AdjustingMultipliersTable>::Instance().items
 		params.adjust
 		, Sub(sensor, adjust)
 		);
@@ -276,7 +272,6 @@ template<class T, class Data>bool ComputeZone<T, Data>::End(unsigned zone, unsig
 		double *startZone = &item.ascan[sensor][item.offsets[offs]];
 		double *stopZone = startZone + int(d *(&item.ascan[sensor][item.offsets[offs + 1]] - &item.ascan[sensor][item.offsets[offs]]));
 
-		//AnalogFilterTable::TItems &flt = Singleton<AnalogFilterTable>::Instance().items;
 		AnalogFiltre()(startZone, stopZone, params.flt.get<CutoffFrequencyOn<T>>().value, params.flt.get<CutoffFrequency<T>>().value);
 
 		char &statusResult =  status[offs];
@@ -286,13 +281,11 @@ template<class T, class Data>bool ComputeZone<T, Data>::End(unsigned zone, unsig
 		valueResult = 0;
 
 		MedianFiltre filtre;
-		//MedianFiltreTable::TItems &filtreParam = Singleton<MedianFiltreTable>::Instance().items;
 		bool filtreOn = params.filtreParam.get<MedianFiltreOn<T>>().value;
 
 		double adjust = 1;
 		typedef __get_adjust_data__<T> Sub;
 		TL::find<Sub::List, __get_adjust__>()(
-			//Singleton<AdjustingMultipliersTable>::Instance().items
 			params.adjust
 			, Sub(sensor, adjust)
 			);
