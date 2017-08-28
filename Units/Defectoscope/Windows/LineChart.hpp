@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include "App/AppBase.h"
 #include "ScanWindow.h"
 #include "window_tool/ItemIni.h"
@@ -10,9 +10,9 @@
 namespace
 {
 	template<class T>struct Title;
-	template<>struct Title<Cross>{wchar_t *operator()(){return L"Поперечный";}};
-	template<>struct Title<Long>{wchar_t *operator()(){return L"Продольный";}};
-	template<>struct Title<Thick>{wchar_t *operator()(){return L"Толщина";}};
+	template<>struct Title<Cross>{wchar_t *operator()(){return L"РџРѕРїРµСЂРµС‡РЅС‹Р№";}};
+	template<>struct Title<Long>{wchar_t *operator()(){return L"РџСЂРѕРґРѕР»СЊРЅС‹Р№";}};
+	template<>struct Title<Thick>{wchar_t *operator()(){return L"РўРѕР»С‰РёРЅР°";}};
 };
 
 template<class T>struct DefVal
@@ -79,16 +79,18 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 
 			if(!no)
 			{
-				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d  величина %s   %s    <ff00>%d   %d  %d"
-					, 1 + owner->lastZone, 1 + N, 1 + offsetX, Wchar_from<double, 1>(valY)(), s, dataViewer.status[offsetX]
-					, Test<T, 0>()(dataViewer, offsetX)
-					, Test<T, 1>()(dataViewer, offsetX)
+				wsprintf(label.buffer, L"<ff>Р—РѕРЅР° <ff0000>%d <ff>РґР°С‚С‡РёРє <ff0000>%d <ff>СЃРјРµС‰РµРЅРёРµ %d  РІРµР»РёС‡РёРЅР° %s   %s"//    <ff00>%d   %d  %d"
+					, 1 + owner->lastZone, 1 + N, 1 + offsetX, Wchar_from<double, 1>(valY)(), s
+					//, dataViewer.status[offsetX]
+					//, Test<T, 0>()(dataViewer, offsetX)
+					//, Test<T, 1>()(dataViewer, offsetX)
 					);
 			}
 			else
 			{
-				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d   %s    <ff00>%d "
-					, 1 + owner->lastZone, 1 + N, 1 + offsetX, s, dataViewer.status[offsetX]);
+				wsprintf(label.buffer, L"<ff>Р—РѕРЅР° <ff0000>%d <ff>РґР°С‚С‡РёРє <ff0000>%d <ff>СЃРјРµС‰РµРЅРёРµ %d   %s"//    <ff00>%d "
+					, 1 + owner->lastZone, 1 + N, 1 + offsetX, s//, dataViewer.status[offsetX]
+					);
 			}
 		}
 		else
@@ -122,8 +124,8 @@ template<class T, void(T::*X)()>struct TopMenu<MenuNum<T, X> >
 	typedef NullType list;	
 };
 
-template<class T>struct NameMenu<TopMenu<MenuNum<T, &T::MenuItemScan> > >{wchar_t *operator()(HWND){return L"Просмотр сигнала";}};
-template<class T>struct NameMenu<TopMenu<MenuNum<T, &T::MenuZoneDisable> > >{wchar_t *operator()(HWND){return L"Корректирующий множитель";}};
+template<class T>struct NameMenu<TopMenu<MenuNum<T, &T::MenuItemScan> > >{wchar_t *operator()(HWND){return L"РџСЂРѕСЃРјРѕС‚СЂ СЃРёРіРЅР°Р»Р°";}};
+template<class T>struct NameMenu<TopMenu<MenuNum<T, &T::MenuZoneDisable> > >{wchar_t *operator()(HWND){return L"РљРѕСЂСЂРµРєС‚РёСЂСѓСЋС‰РёР№ РјРЅРѕР¶РёС‚РµР»СЊ";}};
 
 template<class T, void(T::*X)()>struct Event<TopMenu<MenuNum<T, X> >> 	
 {										

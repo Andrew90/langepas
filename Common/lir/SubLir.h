@@ -145,7 +145,7 @@ public:
 	TL::Factory<sq_list> sqItems;
 	static const int buf_size = TL::Length<sq_list>::value - 2;
 	int timeIndex;
-	int offset[buf_size];
+	//int offset[buf_size];
 	double tmpPerSamples;
 	typedef TL::MkTlst<Module<Cross>, Module<Long>>::Result module_list;
 	TL::Factory<module_list> moduleItems;
@@ -280,7 +280,7 @@ template<class T>struct __sq__
 	{
 		O &sq = lir.sqItems.get<O>();
 		sq.time = Performance::Counter();
-		lir.offset[lir.timeIndex] = sq.offs - lir.lastOffs;
+//		lir.offset[lir.timeIndex] = sq.offs - lir.lastOffs;
 		lir.tmpPerSamples = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
 		++lir.timeIndex;
 		lir.lastTime = sq.time;

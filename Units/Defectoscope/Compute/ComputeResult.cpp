@@ -204,15 +204,18 @@ void ComputeResult()
 	txt[0] = 0;
 	wchar_t *s = txt;
 	if(0 != *group)wsprintf(s, L"<ff>\"Группа прочности\"<%x>%s ", color & 0xFFFFFF, group);
-	if(0 != resultData.cutZone0)
+	if(0 != resultData.resultCommon)
 	{
-		s += wcslen(s);
-		wsprintf(s, L"<ff>\"Зона реза 1\"<ff0000>%d ", resultData.cutZone0); 
-	}
-	if(0 != resultData.cutZone1)
-	{
-		s += wcslen(s);
-		wsprintf(s, L"<ff>\"Зона реза 2\"<ff0000>%d ", resultData.cutZone1); 
+		if(0 != resultData.cutZone0)
+		{
+			s += wcslen(s);
+			wsprintf(s, L"<ff>\"Зона реза 1\"<ff0000>%d ", resultData.cutZone0); 
+		}
+		if(0 != resultData.cutZone1)
+		{
+			s += wcslen(s);
+			wsprintf(s, L"<ff>\"Зона реза 2\"<ff0000>%d ", resultData.cutZone1); 
+		}
 	}
 	s += wcslen(s);
 	switch(resultData.resultCommon)
