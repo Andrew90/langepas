@@ -399,7 +399,7 @@ void Digital502Dlg::Do(HWND h)
 {
 	if(TemplDialog<ParametersBase
 		, L502OffsetsDigitTable, DlgItem
-	>(Singleton<L502OffsetsDigitTable>::Instance()).Do(h, L"Дискретные каналы аналоговой платы"))
+	>(Singleton<L502OffsetsDigitTable>::Instance()).Do(h, L"Дискретные каналы платы 502"))
 	{
 	}
 }

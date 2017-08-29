@@ -156,7 +156,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"СОМ-порт", ComPort__)
 	MENU_ITEM(L"Смещение датчиков наличия трубы в модуле", OffsetsSens)
 	MENU_ITEM(L"Дополнительные параметры", AdditionalParams)
-	MENU_ITEM(L"Дискретные каналы аналоговой платы", Digital502)
+	MENU_ITEM(L"Дискретные каналы платы 502", Digital502)
 	
 	template<>struct SubMenu<AnalogPlate__>
 	{

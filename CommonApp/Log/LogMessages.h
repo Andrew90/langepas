@@ -306,7 +306,7 @@ namespace LogMess
 	MESS1(TemperatureCoilSolenoidExceeded0, double, "Превышена температура обмотки соленоида 1", red, yellow)
 	MESS1(TemperatureCoilSolenoidExceeded1, double, "Превышена температура обмотки соленоида 2", red, yellow)
 //
-	MESS(AnalogBoardFailure, void, "Авария аналоговой платы", red, yellow)
+	MESS(AnalogBoardFailure, void, "Авария платы 502", red, yellow)
 //
 	MESS(SettingOperatingPositionControl, void , "Установка рабочего положения модулей контроля", blue, white)
 	MESS(ModulesInNon_OperatingPosition, void, "Модули в нерабочем положении", red, yellow)
