@@ -138,9 +138,21 @@ void IOportsViewer::Start()
 	CreateTimerQueueTimer(&hTimer, NULL, __Update__, this, 2000, 500, WT_EXECUTEDEFAULT);
 }
 //------------------------------------------------------------------------------------------
+template<class O, class P>struct __stop__
+{
+	void operator()(O &o, P &p)
+	{
+		p.WriteOutput(0, ~o.value);
+	}
+};
 void IOportsViewer::Stop()
 {
 	if(hTimer)DeleteTimerQueueTimer( NULL, hTimer, NULL );
+	if(!App::measurementOfRunning)
+	{
+		TL::foreach<OutputBit1Table::items_list, __stop__>()(Singleton<OutputBit1Table>::Instance().items, device1730_1);
+		TL::foreach<OutputBit2Table::items_list, __stop__>()(Singleton<OutputBit2Table>::Instance().items, device1730_2);
+	}
 }
 //--------------------------------------------------------------------------------------------
 struct __mouse_down_data__
