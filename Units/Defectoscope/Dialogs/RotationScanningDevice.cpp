@@ -82,13 +82,6 @@ namespace
 
 	template<>struct DlgSubItems<Mess , bool>: DlgItemsLabel<Mess>{};
 
-	//template<class O, class P>struct __ok_btn__
-	//{
-	//	void operator()(O &o, P &p)
-	//	{
-	//	}
-	//};
-
 	struct StartBtnPos
 	{
 		static const int width = 120;
