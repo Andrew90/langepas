@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "window_tool\message.h"
 #include "window_tool\MenuApi.h"
@@ -14,7 +14,7 @@
 namespace FrameWindowMenu
 {
 	struct MainFile{};
-	MENU_TEXT(L"Файл", TopMenu<MainFile>)
+	MENU_TEXT(L"Р¤Р°Р№Р»", TopMenu<MainFile>)
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	struct MainExit
 	{
@@ -34,8 +34,8 @@ namespace FrameWindowMenu
 			RepaintWindow(f.frameViewer.hWnd);
 		}
 	};
-	MENU_ITEM(L"Выход", MainExit)
-	MENU_ITEM(L"Перерасчёт", Compute__)
+	MENU_ITEM(L"Р’С‹С…РѕРґ", MainExit)
+	MENU_ITEM(L"РџРµСЂРµСЂР°СЃС‡С‘С‚", Compute__)
 
 		template<>struct TopMenu<MainFile>
 	{
@@ -47,16 +47,16 @@ namespace FrameWindowMenu
 	};
 
 	struct MainOptionUnits{};
-	MENU_TEXT(L"Настройки", TopMenu<MainOptionUnits>)
+	MENU_TEXT(L"РќР°СЃС‚СЂРѕР№РєРё", TopMenu<MainOptionUnits>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	struct ThresholdsMenuItem{static void Do(HWND){AddThresholdWindow::Show();}};
 	struct OffsetsMenuItem{static void Do(HWND){TreshWindow::Show();}};
 	struct SolidDlg_: SolidDlg{};
 
-	MENU_ITEM(L"Пороги", ThresholdsMenuItem)
-	MENU_ITEM(L"Смещения", OffsetsMenuItem)
-	MENU_ITEM(L"Сохранить координаты окна", WindowPositionDlg<FrameWindow>)
-	MENU_ITEM(L"Аналоговый фильтр", SolidDlg_)
+	MENU_ITEM(L"РџРѕСЂРѕРіРё", ThresholdsMenuItem)
+	MENU_ITEM(L"РЎРјРµС‰РµРЅРёСЏ", OffsetsMenuItem)
+	MENU_ITEM(L"РЎРѕС…СЂР°РЅРёС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕРєРЅР°", WindowPositionDlg<FrameWindow>)
+	MENU_ITEM(L"Р¦РёС„СЂРѕРІРѕР№ С„РёР»СЊС‚СЂ", SolidDlg_)
 
 	template<>struct TopMenu<MainOptionUnits>
 	{
@@ -71,16 +71,16 @@ namespace FrameWindowMenu
 	};
 
 	struct GraphUnits{};
-	MENU_TEXT(L"График", TopMenu<GraphUnits>)
+	MENU_TEXT(L"Р“СЂР°С„РёРє", TopMenu<GraphUnits>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	struct PointsOffsets: ThresholdDlg{};//{static void Do(HWND){}};
 	struct FirstSignal: PrimarySignalDlg{};//{static void Do(HWND){}};
 	struct PointsWindowDlg  {static void Do(){PointsWindow::Show();}};
 
-	MENU_ITEM(L"Точки смещения", PointsOffsets)
-	MENU_ITEM(L"Первичный сигнал", FirstSignal)
+	MENU_ITEM(L"РўРѕС‡РєРё СЃРјРµС‰РµРЅРёСЏ", PointsOffsets)
+	MENU_ITEM(L"РџРµСЂРІРёС‡РЅС‹Р№ СЃРёРіРЅР°Р»", FirstSignal)
 
-	MENU_ITEM(L"Точки", PointsWindowDlg)
+	MENU_ITEM(L"РўРѕС‡РєРё", PointsWindowDlg)
 
 	template<>struct TopMenu<GraphUnits>
 	{

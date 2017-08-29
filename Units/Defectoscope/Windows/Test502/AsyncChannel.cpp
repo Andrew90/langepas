@@ -114,5 +114,5 @@ PARAM_TITLE(Tst_Offset_Temperature_1, L"Датчик температуры 2")
 
 void AsyncChannels::Do(HWND h)
 {
-	TDlg(TstTable()).Do(h, L"Асинхронные каналы");
+	TDlg(TstTable()).Do(h, L"Дополнительные каналы 502 платы");
 }

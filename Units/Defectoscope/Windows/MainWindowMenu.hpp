@@ -203,11 +203,11 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Положение сканирующих устройств", ModulePosition)
 	MENU_ITEM(L"Вращение сканирующего устройства", RotationScanningDevice_)
 
-	MENU_ITEM(L"Тестирование связи с АСУ", ThicknessComTest_)
-	MENU_ITEM(L"Тестирование связи с модулем толщиномера", ASUComTest_)
+	MENU_ITEM(L"Тестирование связи с АСУ", ASUComTest_)
+	MENU_ITEM(L"Тестирование связи с модулем толщиномера", ThicknessComTest_)
 
-	MENU_ITEM(L"Тестирование синхронных каналов платы 502", Test502Window_)
-	MENU_ITEM(L"Тестирование асинхронных каналов платы 502", AsyncChannels_)
+	MENU_ITEM(L"Тестирование измерительных каналов платы 502", Test502Window_)
+	MENU_ITEM(L"Тестирование дополнительных каналов платы 502", AsyncChannels_)
 
 	
 	struct Digit502Channel_: Digit502Channel{};

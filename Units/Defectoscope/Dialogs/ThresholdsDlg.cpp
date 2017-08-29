@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Dialogs/Dialogs.h"
 #include "DlgTemplates\ParamDlg.h"
 #include "DlgTemplates\ParamDlg.hpp"
@@ -29,25 +29,25 @@ MAX_EQUAL_VALUE(BorderKlass3<Thick>, 40)
 MAX_EQUAL_VALUE(BorderDefect<Thick>, 40)
 
 
-PARAM_TITLE(BorderKlass2<Long>, L"Продольный 2 класс")
-PARAM_TITLE(BorderDefect<Long>, L"Продольный дефект")
+PARAM_TITLE(BorderKlass2<Long>, L"РџРѕСЂРѕРі РїСЂРѕРґРѕР»СЊРЅС‹Р№ 2 РєР»Р°СЃСЃ")
+PARAM_TITLE(BorderDefect<Long>, L"РџРѕСЂРѕРі РїСЂРѕРґРѕР»СЊРЅС‹Р№ РґРµС„РµРєС‚")
 
-PARAM_TITLE(BorderKlass2<Cross>, L"Поперечный 2 класс")
-PARAM_TITLE(BorderDefect<Cross>, L"Поперечный дефект")
+PARAM_TITLE(BorderKlass2<Cross>, L"РџРѕСЂРѕРі РїРѕРїРµСЂРµС‡РЅС‹Р№ 2 РєР»Р°СЃСЃ")
+PARAM_TITLE(BorderDefect<Cross>, L"РџРѕСЂРѕРі РїРѕРїРµСЂРµС‡РЅС‹Р№ РґРµС„РµРєС‚")
 
-//PARAM_TITLE(BorderAbove<Thick>, L"Макс.отклонение толщины вверх(мм)")
-//PARAM_TITLE(BorderLower<Thick>, L"Макс.отклонение толщины вниз(мм)")
-//PARAM_TITLE(BorderNominal<Thick>, L"Номинальная толщина(mm)")
+//PARAM_TITLE(BorderAbove<Thick>, L"РњР°РєСЃ.РѕС‚РєР»РѕРЅРµРЅРёРµ С‚РѕР»С‰РёРЅС‹ РІРІРµСЂС…(РјРј)")
+//PARAM_TITLE(BorderLower<Thick>, L"РњР°РєСЃ.РѕС‚РєР»РѕРЅРµРЅРёРµ С‚РѕР»С‰РёРЅС‹ РІРЅРёР·(РјРј)")
+//PARAM_TITLE(BorderNominal<Thick>, L"РќРѕРјРёРЅР°Р»СЊРЅР°СЏ С‚РѕР»С‰РёРЅР°(mm)")
 
-PARAM_TITLE(BorderKlass2<Thick>, L"Толщина 2 класс")
-PARAM_TITLE(BorderKlass3<Thick>, L"Толщина 3 класс")
-PARAM_TITLE(BorderDefect<Thick>, L"Толщина дефект")
+PARAM_TITLE(BorderKlass2<Thick>, L"РџРѕСЂРѕРі С‚РѕР»С‰РёРЅР° 2 РєР»Р°СЃСЃ")
+PARAM_TITLE(BorderKlass3<Thick>, L"РџРѕСЂРѕРі С‚РѕР»С‰РёРЅР° 3 РєР»Р°СЃСЃ")
+PARAM_TITLE(BorderDefect<Thick>, L"РџРѕСЂРѕРі С‚РѕР»С‰РёРЅР° РґРµС„РµРєС‚")
 
 void ThresholdCrossDlg::Do(HWND h)
 {
 	if(TemplDialogList<ParametersBase, ThresholdsTable
 		, TL::MkTlst<BorderKlass2<Cross>, BorderDefect<Cross>>::Result
-	>(Singleton<ThresholdsTable>::Instance()).Do(h, L"Поперечные пороги"))
+	>(Singleton<ThresholdsTable>::Instance()).Do(h, L"РџРѕРїРµСЂРµС‡РЅС‹Рµ РїРѕСЂРѕРіРё"))
 	{}
 }
 
@@ -55,7 +55,7 @@ void ThresholdLongDlg::Do(HWND h)
 {
 	if(TemplDialogList<ParametersBase, ThresholdsTable
 		, TL::MkTlst<BorderKlass2<Long>, BorderDefect<Long>>::Result
-	>(Singleton<ThresholdsTable>::Instance()).Do(h, L"Продольные пороги"))
+	>(Singleton<ThresholdsTable>::Instance()).Do(h, L"РџСЂРѕРґРѕР»СЊРЅС‹Рµ РїРѕСЂРѕРіРё"))
 	{}
 }
 
@@ -63,6 +63,6 @@ void ThresholdThickDlg::Do(HWND h)
 {
 	if(TemplDialogList<ParametersBase, ThresholdsTable
 		, TL::MkTlst<BorderKlass2<Thick>, BorderKlass3<Thick>, BorderDefect<Thick>>::Result
-	>(Singleton<ThresholdsTable>::Instance()).Do(h, L"Пороги толщины"))
+	>(Singleton<ThresholdsTable>::Instance()).Do(h, L"РџРѕСЂРѕРіРё С‚РѕР»С‰РёРЅС‹"))
 	{}
 }

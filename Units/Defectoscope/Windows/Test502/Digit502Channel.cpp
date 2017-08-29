@@ -113,6 +113,6 @@ void Digit502Channel::Do(HWND h)
 {
 	DigitTable table;
 	TDlg dlg(table);
-	dlg.Do(h, L"Асинхронные каналы");
+	dlg.Do(h, L"Дискретные каналы 502 платы");
 	unit502.BitOut(dlg.bits.get<Out502<start_x>>().value, 0);
 }

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Dialogs/Dialogs.h"
 #include "DlgTemplates\ParamDlg.h"
 #include "DlgTemplates\ParamDlg.hpp"
@@ -13,13 +13,13 @@ DO_NOT_CHECK(Tresh_Temperature_0)
 DO_NOT_CHECK(Tresh_Temperature_1)
 DO_NOT_CHECK(Tresh_Magn_0)
 
-PARAM_TITLE(Tresh_Temperature_0, L"Температура соленоида 1")
-PARAM_TITLE(Tresh_Temperature_1, L"Температура соленоида 2")
-PARAM_TITLE(Tresh_Magn_0    , L"Порог амплитуды для тестирования размагничивания")
+PARAM_TITLE(Tresh_Temperature_0, L"РџРѕСЂРѕРі РґР°С‚С‡РёРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 1")
+PARAM_TITLE(Tresh_Temperature_1, L"РџРѕСЂРѕРі РґР°С‚С‡РёРєР° С‚РµРјРїРµСЂР°С‚СѓСЂС‹ 2")
+PARAM_TITLE(Tresh_Magn_0    , L"РџРѕСЂРѕРі Р°РјРїР»РёС‚СѓРґС‹ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂР°Р·РјР°РіРЅРёС‡РёРІР°РЅРёСЏ")
 
 void AdditionalParamsDlg::Do(HWND h)
 {
-	if(TemplDialog<ParametersBase, AdditionalParams502Table, DlgItem>(Singleton<AdditionalParams502Table>::Instance()).Do(h, L"Дополнительные параметры"))
+	if(TemplDialog<ParametersBase, AdditionalParams502Table, DlgItem>(Singleton<AdditionalParams502Table>::Instance()).Do(h, L"Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹"))
 	{
 	}
 }

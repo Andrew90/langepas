@@ -241,7 +241,7 @@ void Test502Window::Do(HWND)
 		Test502Window &o = Singleton<Test502Window>::Instance();
 		RECT r;
 		WindowPosition::Get<Test502Window>(r);
-		HWND h = WindowTemplate(&o, L"Тестирование каналов аналоговой платы", r.left, r.top, r.right, r.bottom, IDI_Add);
+		HWND h = WindowTemplate(&o, L"Тестирование измерительных каналов платы 502", r.left, r.top, r.right, r.bottom, IDI_Add);
 		SetWindowPos(h, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		
 		ShowWindow(h, SW_SHOWNORMAL);

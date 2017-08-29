@@ -50,30 +50,30 @@ namespace
 			switch(ret)
 			{
 			case ok			  : txt = L"Тест прошёл успешно"					;break;
-			case time_overflow: txt = L"Ошибка! Превышено время ожидания"		;break;
-			case error_crc    : txt = L"Ошибка! Не совпадает контрольная сумма"	;break;
-			case error_count  : txt = L"Ошибка! Длина сообщения"				;break;				
+			case time_overflow: //txt = L"Ошибка! Превышено время ожидания"		;break;
+			case error_crc    : //txt = L"Ошибка! Не совпадает контрольная сумма"	;break;
+			case error_count  : txt = L"Нет связи с модулем";/*L"Ошибка! Длина сообщения"*/				;break;				
 			}
 
 			SetWindowText(owner.items.get<DlgItem<Mess>>().hWnd, txt);
 		}
 	};
-	template<int(*ptr)(ComPort &)>void __Do__(HWND h)
+	template<int(*ptr)(ComPort &)>void __Do__(HWND h, wchar_t *title)
 	{
 		hFont = CreateFont (26, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, 
 			OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
 			DEFAULT_PITCH | FF_DONTCARE, TEXT("Times New Roman"));
-		TemplDialog<NullType, Label, DlgItem, TL::MkTlst<StartBtnPos<ptr>, CancelBtn>::Result>(Label()).Do(h, L"Тестирование связи с АСУ");
+		TemplDialog<NullType, Label, DlgItem, TL::MkTlst<StartBtnPos<ptr>, CancelBtn>::Result>(Label()).Do(h, title);
 		DeleteObject(hFont); 
 	}
 }
 
 void ThicknessComTest::Do(HWND h)
 {
-	__Do__<Communication::Thick::Test>(h);
+	__Do__<Communication::Thick::Test>(h, L"Тестирование с связи с толщиномером");
 }
 
 void ASUComTest::Do(HWND h)
 {
-	__Do__<Communication::Asu::Test>(h);
+	__Do__<Communication::Asu::Test>(h, L"Тестирование с связи с АСУ");
 }
