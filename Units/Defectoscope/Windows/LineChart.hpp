@@ -76,13 +76,11 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			StatusText()(dataViewer.status[offsetX], color, b, s);
 			bool no = TL::IndexOf<ColorTable::items_list, Clr<Undefined>>::value == status;
 
-			double koef = Singleton<AdjustingMultipliersTable>::Instance().items.get<Adjust<typename T::sub_type, N>>().value;
-
 			if(!no)
 			{
 				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d  величина %s   %s <7514f6>коэф. %s"
 					, 1 + owner->lastZone, 1 + N, 1 + offsetX, Wchar_from<double, 1>(valY)(), s
-					, Wchar_from<double, 1>(koef)()
+					, Wchar_from<double, 1>(Singleton<AdjustingMultipliersTable>::Instance().items.get<Adjust<typename T::sub_type, N>>().value)()
 					);
 			}
 			else

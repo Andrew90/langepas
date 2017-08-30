@@ -139,11 +139,17 @@ bool ThickViewer::Draw(TMouseMove &l, VGraphics &g)
 		{
 			buf[0] = 0;
 		}
-		wsprintf(label.buffer, L"<ff>толщины зона <ff00>%d <%6x>%s %s"
+
+		ThresholdsTable::TItems &tt = Singleton<ThresholdsTable>::Instance().items;
+
+		wsprintf(label.buffer, L"<ff>толщины зона %d <%6x>%s %s <7514f6>\"класс 2\" %s \"класс 3\" %s \"брак\" %s"
 			, 1 + x
 			, color
 			, s
 			, buf
+			, Wchar_from<double, 1>(tt.get<BorderKlass2<Thick>>().value)()
+			, Wchar_from<double, 1>(tt.get<BorderKlass3<Thick>>().value)()
+			, Wchar_from<double, 1>(tt.get<BorderDefect<Thick>>().value)()
 			);
 		label.Draw(g());
 	}
