@@ -58,4 +58,7 @@ public:
 	static void CheckBoxStateStoreInBase();
 
 	void ClearCharts();
+
+	void EnableTool();
+	void DisableTool();
 };

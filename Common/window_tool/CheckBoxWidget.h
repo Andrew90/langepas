@@ -9,6 +9,7 @@
 */
 template<class T>class CheckBoxWidget : public T, public TEvent
 {
+public:
 	HWND hWnd;
 public:
 	CheckBoxWidget(){}

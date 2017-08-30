@@ -6,7 +6,8 @@
 #include "window_tool/InitToolBar.hpp"
 #include "Compute/Automat.h"
 #include "StoredData\StoredBase.h"
-//#include "Compute\AppKeyHandler.h"
+#include "App/App.h"
+#include "Windows/MainWindow.h"
 using namespace Gdiplus;
 namespace 
 {
@@ -59,6 +60,7 @@ namespace
 	void Key<IDB_CycleBtn>::Click(HWND h)
 	{		
 		Automat::Start();
+		app.mainWindow.DisableTool();
 	}
 	void Key<IDB_Continue>::Click(HWND h)
 	{
@@ -115,6 +117,7 @@ namespace
 	void Key<IDB_Reset>::Click(HWND h)
 	{
 		Automat::Stop();
+		app.mainWindow.EnableTool();
 	}
 }
 //--------------------------------------------------------------------------------------------
