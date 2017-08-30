@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{41D60A8B-B4FE-476F-A92B-9CD736AAEE82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Units", "Units", "{E57922AA-961C-445E-BA4E-FEC7FDC4C850}"
+	ProjectSection(SolutionItems) = preProject
+		Units\Defectoscope\Windows\TopLabelViewer.cpp = Units\Defectoscope\Windows\TopLabelViewer.cpp
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGenList", "Tests\TestGenList\TestGenList.vcxproj", "{27488C0C-87EE-4CB1-B450-768140DCCEA3}"
 EndProject

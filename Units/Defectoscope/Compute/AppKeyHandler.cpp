@@ -39,7 +39,7 @@ namespace AppKeyHandler
 	template<class List, class T>struct InList;
 	template<class Head, class Tail, class T>struct InList<Tlst<Head, Tail>, T>
 	{
-		static const bool value = false;
+		static const bool value = InList<Tail, T>::value;
 	};
 	template<class Tail, class T>struct InList<Tlst<T, Tail>, T>
 	{
@@ -71,7 +71,7 @@ namespace AppKeyHandler
 		__btn__<
 			__all_button_OnOff__<
 			  button_list
-			  , TL::MkTlst<TL::IntToType<IDB_Continue>>::Result
+			  , TL::MkTlst<TL::IntToType<IDB_Reset>, TL::IntToType<IDB_Continue>>::Result
 			  , Off, On
 			>::Result
 		>()();
