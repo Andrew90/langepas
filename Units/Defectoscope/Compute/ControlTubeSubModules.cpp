@@ -317,8 +317,11 @@ void FrequencyInverterPreparation()
 	using namespace AutomatN;
 	/// проверить биты
 #ifndef EMUL
-	if(TEST_IN_BITS(Off<iPCH_B>)){Log::Mess<LogMess::iPCH_B_OFF>();throw AutomatN::ExceptionAlarm();}
-	if(TEST_IN_BITS(Off<iPCH_RUN>)){Log::Mess<LogMess::iPCH_RUN_OFF>();throw AutomatN::ExceptionAlarm();}	
+	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value)
+	{
+		if(TEST_IN_BITS(Off<iPCH_B>)){Log::Mess<LogMess::iPCH_B_OFF>();throw AutomatN::ExceptionAlarm();}
+		if(TEST_IN_BITS(Off<iPCH_RUN>)){Log::Mess<LogMess::iPCH_RUN_OFF>();throw AutomatN::ExceptionAlarm();}
+	}
 #endif
 }
 
