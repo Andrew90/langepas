@@ -59,8 +59,8 @@ namespace
 	static bool run_once_per_sycle = false;
 	void Key<IDB_CycleBtn>::Click(HWND h)
 	{		
-		Automat::Start();
 		app.mainWindow.DisableTool();
+		Automat::Start();		
 	}
 	void Key<IDB_Continue>::Click(HWND h)
 	{
@@ -116,8 +116,8 @@ namespace
 
 	void Key<IDB_Reset>::Click(HWND h)
 	{
-		Automat::Stop();
 		app.mainWindow.EnableTool();
+		Automat::Stop();		
 	}
 }
 //--------------------------------------------------------------------------------------------
