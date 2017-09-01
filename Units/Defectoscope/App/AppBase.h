@@ -896,16 +896,16 @@ struct ComPortTable
 template<class T, int N>struct OffsSQ;
 
 DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 1, int, 0)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 2, int, 600)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 2, int, 620)
 
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 1, int, 800)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 2, int, 1400)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 1, int, 1230)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 2, int, 1950)
 
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 1, int, 1600)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 2, int, 2200)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 1, int, 2600)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 2, int, 3960)
 
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 1, int, 2400)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 2, int, 3000)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 1, int, 4510)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 2, int, 4940)
 
 struct OffsetSensorsTable
 {
