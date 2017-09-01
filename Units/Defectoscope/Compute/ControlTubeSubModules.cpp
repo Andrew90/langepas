@@ -343,7 +343,20 @@ void FrequencyInverterRun()
 		| (speed.get<SpeedBit<oRM>>().value ? outputBit.get<oRM>().value: 0)
 		| (speed.get<SpeedBit<oRH>>().value ? outputBit.get<oRH>().value: 0)
 		| outputBit.get<oSTF>().value
-		//	| outputBit.get<oRP>().value	 
+		;
+	device1730_1.AddBits(outBits);
+}
+
+void FrequencyInverterRunWork()
+{
+	/// включить частотник
+	OutputBit1Table::TItems &outputBit = Singleton<OutputBit1Table>::Instance().items;
+	RotationalSpeedTable::TItems &speed = Singleton<RotationalSpeedTable>::Instance().items;
+	unsigned outBits = outputBit.get<oPowerPCH>().value
+		| (speed.get<SpeedBitWork<oRL>>().value ? outputBit.get<oRL>().value: 0)
+		| (speed.get<SpeedBitWork<oRM>>().value ? outputBit.get<oRM>().value: 0)
+		| (speed.get<SpeedBitWork<oRH>>().value ? outputBit.get<oRH>().value: 0)
+		| outputBit.get<oSTF>().value
 		;
 	device1730_1.AddBits(outBits);
 }

@@ -302,6 +302,8 @@ namespace Mode
 		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
 		WAIT_COMPUTE(On<iSQ2po>, on, Cross)
 
+		FrequencyInverterRunWork(); // включение рабочей скорости вращения
+
 		ComputeUnitX<Thick, int>ThickX;
 		ComputeUnitX<Magn, int>MagnX;
 
