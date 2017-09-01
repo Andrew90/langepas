@@ -60,26 +60,26 @@ namespace TL
 	{		
 		template<class O, class P>bool operator()(O *o, P *p)
 		{
-			int buf[TL::Length<list>::value];
-			TL::foreach<list, __set_buf__>()((TL::Factory<list> &)o, buf);
-			for(int i = 0; i < TL::Length<list>::value - 1; ++i)
-				for(int j = 1; j < TL::Length<list>::value; ++j)
-				{
-					if(buf[i] >= buf[j])
-					{
-						__data__ data1 = {i, NULL};
-						TL::find<list, __param__>()(data1);
-						__data__ data2 = {j, NULL};
-						TL::find<list, __param__>()(data2);
-						wchar_t txt[128];
-						wsprintf(txt, L"Некорректные параметры \"%s\" и \"%s\""
-							, data1.txt
-							, data2.txt
-							);
-						MessageBox(*p, txt, L"Ошибка!!!", MB_ICONERROR);
-						return false;
-					}
-				}
+			//int buf[TL::Length<list>::value];
+			//TL::foreach<list, __set_buf__>()((TL::Factory<list> &)o, buf);
+			//for(int i = 0; i < TL::Length<list>::value - 1; ++i)
+			//	for(int j = 1; j < TL::Length<list>::value; ++j)
+			//	{
+			//		if(buf[i] >= buf[j])
+			//		{
+			//			__data__ data1 = {i, NULL};
+			//			TL::find<list, __param__>()(data1);
+			//			__data__ data2 = {j, NULL};
+			//			TL::find<list, __param__>()(data2);
+			//			wchar_t txt[128];
+			//			wsprintf(txt, L"Некорректные параметры \"%s\" и \"%s\""
+			//				, data1.txt
+			//				, data2.txt
+			//				);
+			//			MessageBox(*p, txt, L"Ошибка!!!", MB_ICONERROR);
+			//			return false;
+			//		}
+			//	}
 				return true;
 		} 
 	};
