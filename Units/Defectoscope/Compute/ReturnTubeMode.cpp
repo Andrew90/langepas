@@ -19,23 +19,48 @@ namespace Mode
 	   TEST_MESS(iSQ1t	)
 	   TEST_MESS(iSQ2t	)
 
-	   OUT_BITS(On<oPR_OP>, On<oPO_OP>, On<oT_OP>);
+	   OUT_BITS(On<oPR_OP>);
 	   Sleep(500);
-	   OUT_BITS(Off<oPR_OP>, Off<oPO_OP>, Off<oT_OP>);
+	   OUT_BITS(Off<oPR_OP>);
 	   try
 	   {
-		   AND_BITS(On<iOPpr>, On<iOPpo>, On<iOPt>, Ex<ExceptionStop>)(20000);
+		   AND_BITS(On<iOPpr>, Ex<ExceptionStop>)(30000);
 	   }
 	   catch(ExceptionTimeOut)
 	   {
-		   Log::Mess<LogMess::ModulesNotInOperation>();
-		   //throw ExceptionAlarm();
+		   Log::Mess<LogMess::ModulesNotInOperationLong>();
+		   return;
+	   }
+
+	   OUT_BITS(On<oPO_OP>);
+	   Sleep(500);
+	   OUT_BITS(Off<oPO_OP>);
+	   try
+	   {
+		   AND_BITS(On<iOPpo>, Ex<ExceptionStop>)(30000);
+	   }
+	   catch(ExceptionTimeOut)
+	   {
+		   Log::Mess<LogMess::ModulesNotInOperationCross>();
 		   return;
 	   }
 
 	    OUT_BITS(Off<oWorkPR>, Off<oWorkPO>, Off<oWorkT>);
 		Sleep(2000);
 		OUT_BITS(On<oWorkT>);
+
+	   OUT_BITS(On<oT_OP>);
+	   Sleep(500);
+	   OUT_BITS(Off<oT_OP>);
+	   try
+	   {
+		   AND_BITS(On<iOPt>, Ex<ExceptionStop>)(30000);
+	   }
+	   catch(ExceptionTimeOut)
+	   {
+		   Log::Mess<LogMess::ModulesNotInOperationThick>();
+		   return;
+	   }
 
 		try
 		{
@@ -77,6 +102,7 @@ namespace Mode
 				 //throw ExceptionAlarm();
 				 return;
 			 }
+			 Sleep(500);
 		 }
 		 Log::Mess<LogMess::PipeReturnTimeExceeded>();
 	}
