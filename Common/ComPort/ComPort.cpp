@@ -60,8 +60,8 @@ bool ComPort::Open(int numberComPort, int speed, int parity, int stopBits)
 
 	COMMTIMEOUTS t;
 	GetCommTimeouts(hCom,&t);
-	t.ReadIntervalTimeout         = 1;
-	t.ReadTotalTimeoutMultiplier  = 0;
+	t.ReadIntervalTimeout         = 20;
+	t.ReadTotalTimeoutMultiplier  = 50;
 	t.ReadTotalTimeoutConstant    = 10;
 	t.WriteTotalTimeoutMultiplier = 1;
 	t.WriteTotalTimeoutConstant   = 1;
@@ -126,38 +126,39 @@ void ComPort::_SetReceiveHandler(ComPort::TObj *o, void(ComPort::TObj::*ptr)(uns
 void ComPort::Do()
 {	
 	DWORD mask;
-	int current = 0;
+	//int current = 0;
 	while(true)
 	{
 		WaitCommEvent(hCom, &mask, &inputOverlapped);
-		switch(WaitForSingleObject(inputOverlapped.hEvent, 50))
+		switch(WaitForSingleObject(inputOverlapped.hEvent, INFINITE))
 		{
 		case WAIT_OBJECT_0:
 			{
 				if(mask & EV_RXCHAR)
 				{
 					DWORD toRead;
-					int count = sizeof(input) - current;
-					if(count < 0)
-					{
-						current = 0;
-						count = sizeof(input);
-					}
-					ReadFile(hCom, &input[current], count, &toRead, &inputOverlapped);					
+					int count = sizeof(input);// - current;
+					//if(count < 0)
+					//{
+					//	current = 0;
+					//	count = sizeof(input);
+					//}
+					ReadFile(hCom, &input[0], count, &toRead, &inputOverlapped);					
 					GetOverlappedResult(hCom, &inputOverlapped, &toRead, TRUE);
 					if(obj && ptrProc && toRead > 0)
 					{	
-						current += toRead;
+						//current += toRead;
+						(obj->*ptrProc)(input, toRead);
 					}
 				}
 			}
 			break;
-		case WAIT_TIMEOUT:
-			{
-				if(obj && ptrProc)(obj->*ptrProc)(input, current);
-				current = 0;
-			}
-			break;
+		//case WAIT_TIMEOUT:
+		//	{
+		//		if(obj && ptrProc)(obj->*ptrProc)(input, current);
+		//		current = 0;
+		//	}
+		//	break;
 		}
 	}	
 }

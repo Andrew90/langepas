@@ -72,14 +72,16 @@ namespace Communication
 			if(count >= countBytes)
 			{
 				err = ok;
-				if(0 != Crc16(buf, countBytes))	err = error_crc;
+				int ret = Crc16(buf, countBytes);
+				dprint("com port %x\n", ret);
+				if(0 != ret)	err = error_crc;
 			}
 			SetEvent(hEvent);
 		}
 
 		int ReceivingData()
 		{
-			if(WAIT_TIMEOUT == WaitForSingleObject(hEvent, 1000)) err = time_overflow; 
+			if(WAIT_TIMEOUT == WaitForSingleObject(hEvent, 4000)) err = time_overflow; 
 			return err;
 		}
 	};
@@ -154,7 +156,7 @@ namespace Communication
 			comPort.Write(buf, sizeof(buf));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret) break;
-			Sleep(1000);
+			Sleep(5000);
 		}
 
 		return ret;
