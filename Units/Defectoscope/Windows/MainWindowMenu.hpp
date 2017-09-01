@@ -134,6 +134,7 @@ namespace MainWindowMenu
 	struct Digital502: Digital502Dlg{};
 
 	struct AdditionalParams: AdditionalParamsDlg{};
+	struct ChannelSamplingRate__: ChannelSamplingRateDlg{};
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
 	MENU_ITEM(L"Входные сигналы(IDI) платы 1", DiscretePlateInputs)
@@ -149,6 +150,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Номера каналов", OffsetChannels)
 	MENU_ITEM(L"Усиление каналов", AmplificationChannels)
 	MENU_ITEM(L"Режим подключения каналов", ModeChannel)
+	MENU_ITEM(L"Частота сбора кадров", ChannelSamplingRate__)
 
 	MENU_ITEM(L"Параметры сигнала", Signal)
 	MENU_ITEM(L"Границы АЧХ", ACFBorder)
@@ -157,11 +159,15 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Смещение датчиков наличия трубы в модуле", OffsetsSens)
 	MENU_ITEM(L"Дополнительные параметры", AdditionalParams)
 	MENU_ITEM(L"Дискретные каналы платы 502", Digital502)
+
+	
 	
 	template<>struct SubMenu<AnalogPlate__>
 	{
 		typedef TL::TypeToTypeLst<
-			typename TL::MkTlst<OffsetChannels, AmplificationChannels, ModeChannel, Digital502>::Result 
+			typename TL::MkTlst<OffsetChannels, AmplificationChannels, ModeChannel, Digital502
+			, ChannelSamplingRate__
+			>::Result 
 			, MenuItem
 		>::Result list;
 	};

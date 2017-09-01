@@ -834,15 +834,23 @@ struct TestGraphAxesTable
  };
 //---------------------------------------------------------------
 template<class T>struct SpeedBit;
+template<class T>struct SpeedBitWork;
 DEFINE_PARAM_WAPPER(SpeedBit, oRL, bool, false)
 DEFINE_PARAM_WAPPER(SpeedBit, oRM, bool, true)
 DEFINE_PARAM_WAPPER(SpeedBit, oRH, bool, false)
+
+DEFINE_PARAM_WAPPER(SpeedBitWork, oRL, bool, false)
+DEFINE_PARAM_WAPPER(SpeedBitWork, oRM, bool, true)
+DEFINE_PARAM_WAPPER(SpeedBitWork, oRH, bool, false)
 struct RotationalSpeedTable
 {
 	typedef TL::MkTlst<
 		  SpeedBit<oRL>
 		, SpeedBit<oRM>
 		, SpeedBit<oRH>
+		, SpeedBitWork<oRL>
+		, SpeedBitWork<oRM>
+		, SpeedBitWork<oRH>
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
@@ -1040,6 +1048,7 @@ struct TestLineOnTable
 		 , TestGraphAxesTable
 		 , TestLineColorTable
 		 , TestLineOnTable
+		 , L502ParametersTable
 	 >::Result one_row_table_list;
 
 	 typedef TL::MkTlst<

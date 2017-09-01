@@ -160,6 +160,7 @@
     <ClCompile Include="Dialogs\AcfCutOffBordersDlg.cpp" />
     <ClCompile Include="Dialogs\AdditionalParams502Dlg.cpp" />
     <ClCompile Include="Dialogs\AnalogPlateDlg.cpp" />
+    <ClCompile Include="Dialogs\ChannelSamplingRateDlg.cpp" />
     <ClCompile Include="Dialogs\ColorItemsDlg.cpp" />
     <ClCompile Include="Dialogs\ComPortDlg.cpp" />
     <ClCompile Include="Dialogs\DeadZonesDlg.cpp" />
