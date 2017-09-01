@@ -81,7 +81,7 @@ namespace Communication
 
 		int ReceivingData()
 		{
-			if(WAIT_TIMEOUT == WaitForSingleObject(hEvent, 4000)) err = time_overflow; 
+			if(WAIT_TIMEOUT == WaitForSingleObject(hEvent, 1000)) err = time_overflow; 
 			return err;
 		}
 	};
@@ -156,7 +156,7 @@ namespace Communication
 			comPort.Write(buf, sizeof(buf));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret) break;
-			Sleep(5000);
+			Sleep(1000);
 		}
 
 		return ret;
