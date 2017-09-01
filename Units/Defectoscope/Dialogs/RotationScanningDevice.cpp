@@ -206,6 +206,22 @@ namespace
 				return true;
 			}
 		};
+
+		template<class P>struct __alarm_bits__<DlgItem<Stat<iPCH_RUN>>, P>
+		{
+			bool operator()(P *p)
+			{
+				if(TEST_IN_BITS(On<iPCH_RUN>))
+				{
+					wchar_t buf[128];
+					wsprintf(buf, L"сигнал включен \"%s\"", ParamTitle<Stat<iPCH_RUN>>()());
+					SetWindowText(*p, buf);
+					return false;
+				}
+				return true;
+			}
+		};
+
 		void ControlAlarmBits()
 		{
 			unsigned tick = GetTickCount();
