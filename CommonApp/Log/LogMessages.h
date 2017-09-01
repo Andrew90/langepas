@@ -135,7 +135,9 @@ namespace LogMess
 //		, OffiSolid
 //
 //		, TubeOnPosition
-		, ModulesNotInOperation
+		, ModulesNotInOperationCross
+		, ModulesNotInOperationLong
+		, ModulesNotInOperationThick
 		, TransverseModuleClampsDidNotWork 
 		, PipeReturnAllowed
 //		
@@ -265,7 +267,9 @@ namespace LogMess
 
 	MESS(InfoUserStop					, void, "."			  , red  , yellow)
 
-	MESS(ModulesNotInOperation, void, "Модули не в положении обслуживания", red  , yellow) 
+	MESS(ModulesNotInOperationCross, void, "Поперечный модуль не в положении обслуживания", red  , yellow) 
+	MESS(ModulesNotInOperationLong, void, "Продольный модуль не в положении обслуживания", red  , yellow) 
+	MESS(ModulesNotInOperationThick, void, "Модуль толщины не в положении обслуживания", red  , yellow) 
 	MESS(TransverseModuleClampsDidNotWork, void, "Не сработали зажимы поперечного модуля", red, yellow)
 	MESS(PipeReturnAllowed, void , "МОДУЛИ в ОП. Возврат трубы разрещен", blue , white)
 //
