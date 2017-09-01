@@ -434,12 +434,12 @@ struct InputBit2Table
 	const wchar_t *name(){return L"InputBit2Table";}
  };
 
-DEFINE_PARAM(oPR_OP   , unsigned, 1 << 0)
-DEFINE_PARAM(oPR_RP   , unsigned, 1 << 1)
-DEFINE_PARAM(oPO_OP   , unsigned, 1 << 2)
-DEFINE_PARAM(oPO_RP   , unsigned, 1 << 3)
-DEFINE_PARAM(oT_OP    , unsigned, 1 << 4)
-DEFINE_PARAM(oT_RP    , unsigned, 1 << 5)
+DEFINE_PARAM(oPR_OP   , unsigned, 1 << 1)
+DEFINE_PARAM(oPR_RP   , unsigned, 1 << 0)
+DEFINE_PARAM(oPO_OP   , unsigned, 1 << 3)
+DEFINE_PARAM(oPO_RP   , unsigned, 1 << 2)
+DEFINE_PARAM(oT_OP    , unsigned, 1 << 5)
+DEFINE_PARAM(oT_RP    , unsigned, 1 << 4)
 DEFINE_PARAM(oReserve0, unsigned, 1 << 6)
 DEFINE_PARAM(oReserve1, unsigned, 1 << 7)
 DEFINE_PARAM(oT_Work  , unsigned, 1 << 8)
