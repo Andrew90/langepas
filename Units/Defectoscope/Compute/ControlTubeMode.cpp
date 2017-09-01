@@ -302,8 +302,6 @@ namespace Mode
 		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
 		WAIT_COMPUTE(On<iSQ2po>, on, Cross)
 
-		FrequencyInverterRunWork(); // включение рабочей скорости вращения
-
 		ComputeUnitX<Thick, int>ThickX;
 		ComputeUnitX<Magn, int>MagnX;
 
@@ -317,7 +315,8 @@ namespace Mode
 		{
 			Log::Mess<LogMess::WaitLongOn>();
 			WAIT(On<iSQ1pr>, on, Long)
-			WAIT_COMPUTE(On<iSQ2pr>, on, Long)			
+			WAIT_COMPUTE(On<iSQ2pr>, on, Long)	
+			FrequencyInverterRunWork(); // включение рабочей скорости вращения
 		}
 				
 		Log::Mess<LogMess::WaitMagneticOn>();
