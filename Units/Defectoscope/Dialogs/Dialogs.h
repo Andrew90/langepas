@@ -91,5 +91,7 @@ DLG(RotationScanningDevice)
 DLG(ThicknessComTest)
 DLG(ASUComTest)
 
+DLG(ChannelSamplingRateDlg)
+
 
 #undef DLG
