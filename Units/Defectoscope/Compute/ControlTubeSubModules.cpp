@@ -69,6 +69,7 @@ void CheckDemagnetizeModule()
 		Log::Mess<LogMess::demagnetizationTesting>();
 		unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x>>().value, true);
 		unit502.Start();
+		Sleep(1000);
 		for(int i = 0; i < 5; ++i)
 		{
 			Sleep(200);
@@ -86,7 +87,8 @@ void CheckDemagnetizeModule()
 
 		double *d = Singleton<ItemData<Solid>>::Instance().ascan[1];
 
-		for(int i = offs; i < lir.currentSamples - offs; ++i)
+		//for(int i = offs; i < lir.currentSamples - offs; ++i)
+		for(int i = 0; i < offs; ++i)
 		{
 			if(d[i] > max) max = d[i];
 			else if(d[i] < min) min = d[i];
@@ -177,7 +179,7 @@ void SettingWorkingPositionControlModules()
 	unsigned t = 0;
 	for(int i = 0; i < 300; ++i)
 	{
-		unsigned t = device1730_1.Read();
+		t = device1730_1.Read();
 		if(inp == (t & inp)) break;
 		Sleep(100);
 	}
