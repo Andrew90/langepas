@@ -166,7 +166,7 @@ namespace Communication
 	{
 		unsigned char buf[] = {5
 			, Singleton<ComPortTable>::Instance().items.get<SubscriberASU>().value
-			, 1, 0, 0};
+			, 2, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
 
 		HandleComPort handleComPort;
