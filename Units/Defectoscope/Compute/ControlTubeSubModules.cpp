@@ -102,7 +102,7 @@ void CheckDemagnetizeModule()
 		double t = (z > 0) ? 0.5 * (max + min) / z : 0;
 
 		double tresh = Singleton<AdditionalParams502Table>::Instance().items.get<Tresh<Magn, 0>>().value;
-		///если амплитуда меньше порога, либо отличие больше 20 процентов
+		///если амплитуда меньше порога, либо отличие больше 20 процентов test
 #ifndef EMUL
 		if(max < tresh || -min < tresh || t < 0.2)
 		{
