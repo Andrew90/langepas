@@ -97,6 +97,19 @@ namespace
 	template<>struct DlgSubItems<Stat<iSQ1t > , bool>: DlgItemsRadio<Stat<iSQ1t >>{};
 	template<>struct DlgSubItems<Stat<iSQ2t > , bool>: DlgItemsRadio<Stat<iSQ2t >>{};
 
+	//void (*ptrPnevmo)(unsigned &) = NULL;
+	//
+	//void SetPnevmoWorkT(unsigned &currentTime)
+	//{
+    //    OUT_BITS(On<oWorkT>);
+	//}
+	//void ClearPnevmoBits(unsigned &currentTime)
+	//{
+	//	OUT_BITS(Off<oWorkPR>, Off<oWorkPO>, Off<oWorkT>);
+	//	currentTime = 500 + GetTickCount();
+	//	ptrPnevmo = SetPnevmoWorkT;
+	//}
+
 	struct OkBtnPos
 	{
 		static const int width = 120;
@@ -156,19 +169,20 @@ namespace
 			{
 				p.currentTime = 0;
 				OUT_BITS(Off<oPO_OP>, Off<oPO_RP>, Off<oPR_RP>, Off<oPR_OP>, Off<oT_RP>, Off<oT_OP>);
+				//if(NULL != ptrPnevmo)(*ptrPnevmo)(p.currentTime);
 			}
 		}
 	};
 
 	template<class T>struct BitOn{void operator()(){}};
-	template<>struct BitOn<Cross>{void operator()(){OUT_BITS(On<oPO_RP>);}};
-	template<>struct BitOn<Long>{void operator()(){OUT_BITS(On<oPR_RP>);}};
-	template<>struct BitOn<Thick>{void operator()(){OUT_BITS(On<oT_RP>);}};
+	template<>struct BitOn<Cross>{void operator()(){OUT_BITS(On<oPO_RP>, On<oWorkPR>);}};
+	template<>struct BitOn<Long>{void operator()(){OUT_BITS(On<oPR_RP>, On<oWorkPO>);}};
+	template<>struct BitOn<Thick>{void operator()(){OUT_BITS(On<oT_RP>, On<oWorkT>);}};
 
 	template<class T>struct BitOff{void operator()(){}};
-	template<>struct BitOff<Cross>{void operator()(){OUT_BITS(On<oPO_OP>);}};
-	template<>struct BitOff<Long>{void operator()(){OUT_BITS(On<oPR_OP>);}};
-	template<>struct BitOff<Thick>{void operator()(){OUT_BITS(On<oT_OP>);}};
+	template<>struct BitOff<Cross>{void operator()(){OUT_BITS(On<oPO_OP>, Off<oWorkPR>);}};
+	template<>struct BitOff<Long>{void operator()(){OUT_BITS(On<oPR_OP>, Off<oWorkPO>);}};
+	template<>struct BitOff<Thick>{void operator()(){OUT_BITS(On<oT_OP>, Off<oWorkT>);}};
 
 	template<class T>struct BitTest{bool operator()(){return false;}};
 
@@ -212,6 +226,46 @@ namespace
 			}
 		}
 	};
+
+	//template<class O, class P>struct __title__
+	//{
+	//	void operator()(O &o)
+	//	{
+	//		typedef typename TL::Inner<typename TL::Inner<O>::Result>::Result Z;
+	//		if(BitTest<Z>()())
+	//		{
+	//			if(BST_CHECKED == Button_GetCheck(o.hWnd))
+	//			{
+	//				BitOn<Z>()();
+	//			}
+	//			else
+	//			{						
+	//				BitOff<Z>()();
+	//			}
+	//		}
+	//	}
+	//};
+
+	//template<class P>struct __write_state__<DlgItem<Pos<Cross>>, P>
+	//{
+	//	typedef DlgItem<Pos<Cross>> O;
+	//	void operator()(O &o)
+	//	{
+	//		typedef typename TL::Inner<typename TL::Inner<O>::Result>::Result Z;
+	//		if(BitTest<Z>()())
+	//		{
+	//			if(BST_CHECKED == Button_GetCheck(o.hWnd))
+	//			{
+	//				BitOn<Z>()();
+	//			}
+	//			else
+	//			{						
+	//				BitOff<Z>()();
+	//				ptrPnevmo = ClearPnevmoBits;
+	//			}
+	//		}
+	//	}
+	//};
 
 	template<class O, class P>struct __enable__
 	{
