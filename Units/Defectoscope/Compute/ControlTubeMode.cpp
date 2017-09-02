@@ -112,7 +112,7 @@ namespace Mode
 		}
 	};
 
-	SubLir &lir = Singleton<SubLir>::Instance();
+	//SubLir &lir = Singleton<SubLir>::Instance();
 	ComputeUnitX<Cross, ItemData<Cross>>CrossX(Singleton<ItemData<Cross>>::Instance()); 
 	ComputeUnitX<Long, ItemData<Long>>LongX(Singleton<ItemData<Long>>::Instance()); 
 
@@ -129,6 +129,7 @@ namespace Mode
 
 			if((++counter % 20) == 0) 
 			{
+				SubLir &lir = Singleton<SubLir>::Instance();
 				lir.Do();   //вызываться будет через ~100 м.сек.
 				if(CrossX.Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
 				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && LongX.Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
@@ -140,6 +141,7 @@ namespace Mode
 	{
 		void operator()()
 		{
+			SubLir &lir = Singleton<SubLir>::Instance();
 			unsigned z = Singleton<ItemData<Cross>>::Instance().currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
 			dprint("cross zones %d\n", z);
 			RepaintWindow(app.mainWindow.viewers.get<CrossViewer>().hWnd);
@@ -149,6 +151,7 @@ namespace Mode
 	{
 		void operator()()
 		{
+			SubLir &lir = Singleton<SubLir>::Instance();
 			unsigned z = Singleton<ItemData<Long>>::Instance().currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
 			dprint("long zones %d\n", z);
 			RepaintWindow(app.mainWindow.viewers.get<LongViewer>().hWnd);
@@ -186,6 +189,7 @@ namespace Mode
 
 	void ControlTube(Data &)
 	{
+		SubLir &lir = Singleton<SubLir>::Instance();
 		ItemData<Long> &dataLong = Singleton<ItemData<Long>>::Instance();
 		ItemData<Cross> &dataCross = Singleton<ItemData<Cross>>::Instance();
 
@@ -399,6 +403,43 @@ namespace Mode
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 	}
-}
+//////////////////////////////////////////////test 
+
+void TestRUN___()
+	{
+		ItemData<Cross> &dataCross = Singleton<ItemData<Cross>>::Instance();
+		   
+		SubLir &lir = Singleton<SubLir>::Instance();
+
+		Module<Cross> &cl = lir.moduleItems.get<Module<Cross>>();
+		
+		CrossX.Clear();
+
+		__compute_unit__<Cross>()(lir, CrossX);
+
+		ComputeUnitX<Magn, int>MagnX;
+
+		__compute_unit__<Magn>()(lir, MagnX);
+//.................................................................		
+		
+		ZZZ(off, Cross, 1)
+		WAIT_COMPUTE(Off<iSQ2po>, off, Cross)
+
+		///Расчёт мёртвой зоны начало
+		CrossX.DeathZonesBegin();
+		
+
+		WAIT(Off<iSQ1DM>, off, Magn)
+		WAIT_COMPUTE(Off<iSQ2DM>, off, Magn)
+		
+		
+
+		ComputeResult();
+		UpdateScreen();
+
+	}
+	}
+
+///////////////////////////////////////////////
 #undef ZZZ
 #undef WAIT

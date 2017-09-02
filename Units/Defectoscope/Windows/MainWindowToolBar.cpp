@@ -8,6 +8,7 @@
 #include "StoredData\StoredBase.h"
 #include "App/App.h"
 #include "Windows/MainWindow.h"
+#include "Compute\ControlMode.h"
 using namespace Gdiplus;
 namespace 
 {
@@ -21,7 +22,7 @@ namespace
 	KEY(IDB_CycleBtn   , L"F4 Контроль")
 	KEY(IDB_Reset      , L"Esc Стоп")
 	KEY(IDB_QueryBtn   , L"Тест")
-	KEY(IDB_arrow_down , L"F5 Вниз")
+	KEY(IDB_arrow_down , L"F5 Вниз test")
 	KEY(IDB_arrow_up   , L"F6 БАЗА")
 	KEY(IDB_arrow_left , L"F7 Влево")
 	KEY(IDB_arrow_right, L"F8 Clear")
@@ -79,9 +80,12 @@ namespace
 	  Stored::Do(123, L"test");
 	}
 //------------------------------------------------------------------------------
+
+	extern void Mode::TestRUN___();
 	void Key<IDB_arrow_down>::Click(HWND h)
 	{
-	//	LogUSPCWindow::Open();		
+	//	LogUSPCWindow::Open();	
+       Mode::TestRUN___();
 	}
 //------------------------------------------------------------------------------
 	void Key<IDB_arrow_up>::Click(HWND h)

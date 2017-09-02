@@ -14,12 +14,11 @@ class SubLir;
 
 template<class T>class SQ
 {
-	SubLir &lir;
 public:
 	unsigned time;
 	double perSamples;
 	const int &offs;	
-	SQ(SubLir &lir);
+	SQ();
 	void Do();
 };
 
@@ -161,8 +160,7 @@ public:
 	unsigned startTime;
 	int currentSamples;
 	SubLir()
-		: sqItems(*this)
-		, moduleItems(*this)
+		: moduleItems(*this)
 	{ }
 	void Start()
 	{
@@ -191,9 +189,8 @@ template<template<class, int>class W, class T, int NUM>struct SQ_SubType<W<T, NU
 	static const int value = NUM;
 };
 
-template<class T>SQ<T>::SQ(SubLir &lir)
-	: lir(lir)
-	, offs(Singleton<OffsetSensorsTable>::Instance().items.get<typename OffsSQ<typename SQ_SubType<T>::Result, SQ_SubType<T>::value>>().value)
+template<class T>SQ<T>::SQ()
+	: offs(Singleton<OffsetSensorsTable>::Instance().items.get<typename OffsSQ<typename SQ_SubType<T>::Result, SQ_SubType<T>::value>>().value)
 {}
 
 template<class T>struct Stop{void operator()(){}};
@@ -369,6 +366,7 @@ template<>struct __start__<on<Cross, 2>>
 
 template<class T>void SQ<T>::Do()
 {
+	SubLir &lir = Singleton<SubLir>::Instance();
 	__sq__<T>()(lir);	 //сохранение времени срабатывания датчика
 	__start__<T>()(lir);  //смещение начала отчёта данных в модуле
 	//__stop_0_<T>()();
