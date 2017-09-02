@@ -99,12 +99,13 @@ void CheckDemagnetizeModule()
 
 		//z = z > 0? z: -z;
 
-		double t = (z > 0) ? 0.5 * (max + min) / z : 0;
+		double t = (z > 0) ? (max + min) / z : 0;
 
 		double tresh = Singleton<AdditionalParams502Table>::Instance().items.get<Tresh<Magn, 0>>().value;
 		///если амплитуда меньше порога, либо отличие больше 20 процентов test
 #ifndef EMUL
-		if(max < tresh || -min < tresh || t < 0.2)
+		if(t < 0) t = -t;
+		if(max < tresh || -min < tresh || t > 0.2)
 		{
 
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить тест?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
