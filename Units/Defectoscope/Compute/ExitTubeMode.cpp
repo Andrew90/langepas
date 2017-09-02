@@ -6,12 +6,11 @@
 namespace Mode
 {
 	using namespace AutomatN;
-	
+
 	void ExitTube(Data &)
 	{
 		dprint("ExitTube\n");
 		Log::Mess<LogMess::ExitTube>();
-
 		{
 			unsigned t = device1730_2.Read();
 			InputBit2Table::TItems &inputBit2 = Singleton<InputBit2Table>::Instance().items;
@@ -126,7 +125,10 @@ namespace Mode
 				return;
 			}
 
-			Sleep(100);
+			if(WAIT_TIMEOUT != WaitForSingleObject(Ex<ExceptionStop>::handle , 100))
+			{
+				throw ExceptionStop();//выход  по кнопке стоп
+			}
 		}
 	}
 }
