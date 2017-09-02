@@ -167,7 +167,7 @@ public:
 	void Start()
 	{
 		timeIndex = 0;
-		tmpPerSamples = 0;
+		tmpPerSamples = 100;
 		lastTime = 0;
 		lastOffs = 0;
 		index = 0;
