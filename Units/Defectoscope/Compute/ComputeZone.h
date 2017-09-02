@@ -107,6 +107,13 @@ template<class T, class Data>bool ComputeZone<T, Data>::Zone(unsigned zone, unsi
 	double *startZone = &item.ascan[sensor][item.offsets[zone - 1]];
 	double *stopZone = &item.ascan[sensor][item.offsets[zone]];
 
+	//if(0 == (sensor & 1))
+	//{
+	//	double offs = 45.0 * (stopZone - startZone) / 200;
+	//	startZone -= int(offs);
+	//	stopZone -= int(offs);
+	//}
+
 	int samplesZone = stopZone - startZone;
 	if(samplesZone <= 0) return false;
 

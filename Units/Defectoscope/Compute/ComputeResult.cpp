@@ -110,6 +110,8 @@ void CuttingZones()
 		if(tubeLength < Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value)
 		{
 			resultData.resultCommon = ResultBrak;
+			resultData.cutZone0 = 0;
+		    resultData.cutZone1 = 0;
 		}
 	}
 }
