@@ -195,9 +195,9 @@ namespace Mode
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 		//TODO Проверка модуля размагничивания
-//TODO Удалён на время отладки		CheckDemagnetizeModule();
+		CheckDemagnetizeModule();
 		//TODO Установка рабочего положения модулей контроля
-//TODO Удалён на время отладки		SettingWorkingPositionControlModules();
+		SettingWorkingPositionControlModules();
 		//TODO Если толщиномер используется передать параметры
 		TransferParametersThicknessModule();
 		//TODO Подготовка частотного преобразователя продольного модуля

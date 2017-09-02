@@ -12,6 +12,16 @@ namespace Mode
 		dprint("ExitTube\n");
 		Log::Mess<LogMess::ExitTube>();
 
+		{
+			unsigned t = device1730_2.Read();
+			InputBit2Table::TItems &inputBit2 = Singleton<InputBit2Table>::Instance().items;
+			if(0 == (t & inputBit2.get<iZU>().value))
+			{
+				Log::Mess<LogMess::AlarmExitControlCircuitBitIn>();
+				return;
+			}
+		}
+
 		bool isCross = TEST_IN_BITS(On<iSQ1pr>) || TEST_IN_BITS(On<iSQ2pr>);
 		bool isLong = TEST_IN_BITS (On<iSQ1po>) || TEST_IN_BITS(On<iSQ2po>);
 		bool isThick = TEST_IN_BITS(On<iSQ1t> ) || TEST_IN_BITS(On<iSQ2t>);
@@ -81,9 +91,12 @@ namespace Mode
 			| inputBit2.get<iSQ2DM>().value
 			;
 
+		unsigned t = device1730_1.Read();
+		positionModules1 = t & positionModules1;
+
 		for(int i = 0; i < 900; ++i)
 		{
-			unsigned t = device1730_2.Read();
+			t = device1730_2.Read();
 			if(statesUnit2 != (t & statesUnit2))
 			{
 				if(0 == (t & inputBit2.get<iZU>().value))Log::Mess<LogMess::AlarmExitControlCircuitBitIn>();

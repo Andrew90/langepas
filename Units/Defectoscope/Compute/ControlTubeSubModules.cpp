@@ -67,6 +67,7 @@ void CheckDemagnetizeModule()
 	for(;b;)
 	{
 		Log::Mess<LogMess::demagnetizationTesting>();
+		unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x>>().value, true);
 		unit502.Start();
 		for(int i = 0; i < 5; ++i)
 		{
@@ -74,6 +75,7 @@ void CheckDemagnetizeModule()
 			unit502.Read();
 		}
 		unit502.Stop();
+		unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x>>().value, false);
 
 		SubLir &lir = Singleton<SubLir>::Instance();
 
@@ -90,7 +92,13 @@ void CheckDemagnetizeModule()
 			else if(d[i] < min) min = d[i];
 		}
 
+	//	max = max > 0 ? max: -max;
+	//	max = min > 0 ? min: -min;
+
 		double z = max - min;
+
+		//z = z > 0? z: -z;
+
 		double t = (z > 0) ? 0.5 * (max + min) / z : 0;
 
 		double tresh = Singleton<AdditionalParams502Table>::Instance().items.get<Tresh<Magn, 0>>().value;
