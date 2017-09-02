@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Windows\LongViewer.h"
 #include "DataItem/ConstData.h"
 #include "MessageText\StatusMessages.h"
@@ -42,9 +42,9 @@ bool LongViewer::Draw(TMouseMove &l, VGraphics &g)
 		wchar_t s[256];
 		StatusText()(viewerData.status[y][x], color, b, s);
 		wchar_t buf[128];
-		if(b)
+		if(false && b)
 		{
-			wsprintf(buf, L"<ff>значение <ff0000>%s", Wchar_from<double, 1>(viewerData.buffer[y][x])());
+			wsprintf(buf, L"<ff>Р·РЅР°С‡РµРЅРёРµ <ff0000>%s", Wchar_from<double, 1>(viewerData.buffer[y][x])());
 		}
 		else
 		{
@@ -53,7 +53,7 @@ bool LongViewer::Draw(TMouseMove &l, VGraphics &g)
 
 		ThresholdsTable::TItems &tt = Singleton<ThresholdsTable>::Instance().items;
 
-		wsprintf(label.buffer, L"<ff>продольный зона %d  датчик %d   <%6x>%s %s <7514f6>\"класс 2\" %s \"брак\" %s"
+		wsprintf(label.buffer, L"<ff>РїСЂРѕРґРѕР»СЊРЅС‹Р№ Р·РѕРЅР° %d  РґР°С‚С‡РёРє %d   <%6x>%s %s <7514f6>\"РєР»Р°СЃСЃ 2\" %s \"Р±СЂР°Рє\" %s"
 			, 1 + x
 			, 1 + y
 			, color

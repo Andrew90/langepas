@@ -251,7 +251,7 @@ namespace Common
 		}
 	};
 
-	static const int window_height = 200;
+	static const int window_height = 100;
 	struct __data__
 	{
 		int y, width, height;
@@ -269,13 +269,17 @@ namespace Common
 		typedef L<W, N> O;
 		void operator()(O *o, P *p)
 		{
-			bool b = N % 2 == 0;
-			int x = b 
-				? 0
-				: p->width / 2
-				;
-			 MoveWindow(o->hWnd, x, p->y, p->width / 2, p->height, TRUE);
-			 if(!b) p->y += p->height;
+			//bool b = N % 4 == 0;
+			//int x = b 
+			//	? 0
+			//	: p->width / 4
+			//	;
+
+			int i = N % 4;
+			int offs = p->width / 4;
+
+			 MoveWindow(o->hWnd, offs * i, p->y, offs, p->height * 2, TRUE);
+			 if(3 == i) p->y += p->height * 2;
 		}
 	};
 }

@@ -78,14 +78,18 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 
 			if(!no)
 			{
-				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d  величина %s   %s <7514f6>коэф. %s"
-					, 1 + owner->lastZone, 1 + N, 1 + offsetX, Wchar_from<double, 1>(valY)(), s
+			//	wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>дат.<ff0000>%d <ff>смещ.%d вел.%s %s <7514f6>коэф.%s"
+			//		, 1 + owner->lastZone, 1 + N, 1 + offsetX, Wchar_from<double, 1>(valY)(), s
+			//		, Wchar_from<double, 1>(Singleton<AdjustingMultipliersTable>::Instance().items.get<Adjust<typename T::sub_type, N>>().value)()
+			//		);
+					wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>дат.<ff0000>%d <ff>вел.%s %s <7514f6>коэф.%s"
+					, 1 + owner->lastZone, 1 + N, Wchar_from<double, 1>(valY)(), s
 					, Wchar_from<double, 1>(Singleton<AdjustingMultipliersTable>::Instance().items.get<Adjust<typename T::sub_type, N>>().value)()
 					);
 			}
 			else
 			{
-				wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>датчик <ff0000>%d <ff>смещение %d   %s"
+				wsprintf(label.buffer, L"<ff>Зона<ff0000>%d <ff>дат.<ff0000>%d <ff>смещ.%d %s"
 					, 1 + owner->lastZone, 1 + N, 1 + offsetX, s
 					);
 			}
