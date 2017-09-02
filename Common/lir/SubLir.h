@@ -24,14 +24,13 @@ public:
 
 template<class T>class Module
 {
-	SubLir &lir;
 public:
 	int framesOffs;
 	int zonesOffs;
 	double offset;
 	unsigned startLen;
 	unsigned (&zones)[1 + App::count_zones];
-	Module(SubLir &lir);
+	Module();
 	void Start();
 	void Stop();
 };
@@ -159,9 +158,6 @@ public:
 	int index;
 	unsigned startTime;
 	int currentSamples;
-	SubLir()
-		: moduleItems(*this)
-	{ }
 	void Start()
 	{
 		timeIndex = 0;
@@ -373,13 +369,13 @@ template<class T>void SQ<T>::Do()
 	TL::foreach<__zones_do__<T>::Result, __sq_do__>()(__sq_do_data__<T>(lir));
 }
 
-template<class T>Module<T>::Module(SubLir &lir)
-	: lir(lir)
-	, zones( Singleton<ItemData<T>>::Instance().offsets)
+template<class T>Module<T>::Module()
+	: zones( Singleton<ItemData<T>>::Instance().offsets)
 {}
 /// начало измерений модуля(смещение центра)
 template<class T>void Module<T>::Start()
 {
+	SubLir &lir = Singleton<SubLir>::Instance();
 	SQ<on<T,1>> &sq1 = lir.sqItems.get<SQ<on<T,1>>>();
 	SQ<on<T,2>> &sq2 = lir.sqItems.get<SQ<on<T,2>>>();
 	unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
@@ -406,6 +402,7 @@ template<class T>void Module<T>::Start()
 
 template<class T>void Module<T>::Stop()
 {
+	SubLir &lir = Singleton<SubLir>::Instance();
 	SQ<off<T,1>> &sq1 = lir.sqItems.get<SQ<off<T,1>>>();
 	SQ<off<T,2>> &sq2 = lir.sqItems.get<SQ<off<T,2>>>();
 	unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
