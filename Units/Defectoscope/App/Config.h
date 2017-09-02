@@ -5,7 +5,7 @@
 #undef DEBUG_ITEMS
 
 #ifndef DEBUG_ITEMS
-#pragma message("подключены платы 1730, USPC")
+#pragma message("подключены платы 1730")
 #endif
 
 #define THREAD_PRIORITY
