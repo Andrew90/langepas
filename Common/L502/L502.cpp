@@ -60,7 +60,7 @@ namespace
 
 bool L502::SetupParams()
 {
-	static const int buf_size = TL::Length<SYNC(L502RangeTable::items_list)>::value;
+	static const int buf_size = App::count_analog_sensors;//TL::Length<SYNC(L502RangeTable::items_list)>::value;
 	
 	int f_ch_ranges[buf_size];
 	int f_ch_modes[buf_size];
