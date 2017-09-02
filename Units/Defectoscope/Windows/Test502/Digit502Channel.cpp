@@ -25,7 +25,7 @@ namespace
 
 	PARAM_TITLE(dc<Inp502<sinhro_s>>, L"Вход синхросигнала 1(SINHRO_S)")
 	PARAM_TITLE(dc<Inp502<sinhro_d>>, L"Вход синхросигнала 2(SINHRO_D)")
-	PARAM_TITLE(dc<Inp502<error_x> >, L"Вход состояния размагничивания(ERROR)")
+	PARAM_TITLE(dc<Inp502<error_x> >, L"Вход состояния размагничивания(РАБОТА)")
 	PARAM_TITLE(dc<Out502<start_x> >, L"Включение размагничивания(START)")
 
 	//template<class T>struct DlgSubItems<dc<Inp502<T>>, int>:  DlgSubItems<Inp502<T>, bool>{};
@@ -96,7 +96,7 @@ namespace
 			{
 				Button_SetCheck(
 					o.hWnd
-					, 0 != (p.value & (1 << p.bits.get<Inp502<T>>().value)) ? BST_CHECKED: BST_UNCHECKED
+					, 0 != (p.value & (1 << (p.bits.get<Inp502<T>>().value - 1))) ? BST_CHECKED: BST_UNCHECKED
 					);
 			}
 		};
@@ -104,6 +104,7 @@ namespace
 		static VOID CALLBACK WaitOrTimerCallback(TDlg *dlg, BOOLEAN TimerOrWaitFired)
 		{
 			unit502.BitIn(dlg->value);
+			dprint("inp diskr 502 %x\n", dlg->value);
 			TL::foreach<TDlg::list, __set__>()(dlg->items, *dlg);
 		}
 	};

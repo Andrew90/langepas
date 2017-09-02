@@ -208,7 +208,7 @@ if (err != X502_ERR_OK) {
 
 bool L502::BitOut(unsigned ch, bool value)
 {
-	unsigned bits = 1 << ch;
+	unsigned bits = 1 << (ch - 1);
 	return L502_ERR_OK == L502_AsyncOutDig((t_l502_hnd)hnd, value ? bits: 0, ~bits);
 }
 bool L502::BitIn(unsigned &value)

@@ -381,7 +381,7 @@ namespace
 {
 	PARAM_TITLE(Inp502<sinhro_s>, L"Вход синхросигнала 1(SINHRO_S)")
 	PARAM_TITLE(Inp502<sinhro_d>, L"Вход синхросигнала 2(SINHRO_D)")
-	PARAM_TITLE(Inp502<error_x> , L"Вход состояния размагничивания(ERROR)")
+	PARAM_TITLE(Inp502<error_x> , L"Вход состояния размагничивания(РАБОТА)")
 	PARAM_TITLE(Out502<start_x> , L"Включение размагничивания(START)")
 
 	template<>struct DlgSubItems<Inp502<sinhro_s>, int>: UpDownSubItem<Inp502<sinhro_s>, 16>{};
