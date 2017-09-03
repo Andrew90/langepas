@@ -315,9 +315,9 @@ namespace LogMess
 	MESS(SettingOperatingPositionControl, void , "Установка рабочего положения модулей контроля", blue, white)
 	MESS(ModulesInNon_OperatingPosition, void, "Модули в нерабочем положении", red, yellow)
 //
-	MESS(time_overflow, void, "Ошибка КОМ-порта: превышено время ожидания", red, yellow)
-	MESS(error_crc    , void, "Ошибка КОМ-порта: ошибка CRC", red, yellow)
-	MESS(error_count  , void, "Ошибка КОМ-порта: принято 0 байт", red, yellow)
+	MESS(time_overflow, void, "Ошибка COM-порта: превышено время ожидания", red, yellow)
+	MESS(error_crc    , void, "Ошибка COM-порта: ошибка CRC", red, yellow)
+	MESS(error_count  , void, "Ошибка COM-порта: принято 0 байт", red, yellow)
 //
 	MESS(iWork_pnevmoWait, void, "Ожидание готовности контроллера пневмооборудования", blue , white)
 	MESS(iWork_pnevmAlarm, void, "Авария контроллера пневмооборудования", red, yellow)
