@@ -266,7 +266,7 @@ namespace
 					return;
 				}
 			}
-			if(tick > currentTime + 30000)
+			if(tick > currentTime + 300000)
 			{
 				OUT_BITS(Off<oSTF>, Off<oRL>, Off<oRM>, Off<oRH>);
 				SetWindowText(hMess, L"Отключение по таймауту");
