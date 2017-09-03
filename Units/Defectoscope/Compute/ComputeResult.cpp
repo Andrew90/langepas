@@ -252,6 +252,26 @@ void Recalculation()
 	RepaintWindow(app.mainWindow.hWnd);
 }
 
+void ToZones()
+{
+	SubLir &lir = Singleton<SubLir>::Instance();
+
+	SQ<on<Cross,1>> &sqOnCross1 = lir.sqItems.get<SQ<on<Cross,1>>>();
+	SQ<on<Cross,2>> &sqOnCross2 = lir.sqItems.get<SQ<on<Cross,2>>>();
+					   
+	SQ<on<Magn, 1>> &sqOnMagn1 = lir.sqItems.get<SQ<on<Magn,1>>>();
+	SQ<on<Magn, 2>> &sqOnMagn2 = lir.sqItems.get<SQ<on<Magn,2>>>();
+
+	SQ<off<Cross,1>> &sqOffCross1 = lir.sqItems.get<SQ<off<Cross,1>>>();
+	SQ<off<Cross,2>> &sqOffCross2 = lir.sqItems.get<SQ<off<Cross,2>>>();
+			  
+	SQ<off<Magn, 1>> &sqOffMagn1 = lir.sqItems.get<SQ<off<Magn,1>>>();
+	SQ<off<Magn, 2>> &sqOffMagn2 = lir.sqItems.get<SQ<off<Magn,2>>>();
+
+
+	
+}
+
 
 
 

@@ -9,3 +9,5 @@ void ComputeResult();
 void CuttingZones();
 
 void Recalculation();
+
+void ToZones();
