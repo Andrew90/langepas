@@ -157,14 +157,14 @@ void ComputeResult()
 	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
 	if(isLong)
 	{
-		longX.lastZone = len - 5;
+		longX.lastZone = 0;
 		longX.Zones(len );
 		moduleLong.Stop();
 		longX.DeathZonesEnd(len);
 	}
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
-	crossX.lastZone = len - 5;
+	crossX.lastZone = 0;
 	crossX.Zones(len);	
 	moduleCross.Stop();
 	crossX.DeathZonesEnd(len);
