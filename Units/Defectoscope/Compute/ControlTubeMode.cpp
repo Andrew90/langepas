@@ -279,6 +279,7 @@ namespace Mode
 		if(job.get<OnTheJob<Thick>>().value)
 		{
 			Log::Mess<LogMess::WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE>();
+			Sleep(5000);
 			if(!TEST_IN_BITS(On<iReadyT>, On<iControlT>, Off<iResultT>))
 			{
 				Log::Mess<LogMess::ThicknessModuleNotReady>();

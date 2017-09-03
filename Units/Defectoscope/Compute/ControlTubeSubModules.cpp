@@ -210,7 +210,7 @@ void TransferParametersThicknessModule()
 		{
 			Log::Mess<LogMess::transferControlParametersThicknessGauge>();
 			OUT_BITS(On<oT_Work>);
-			it_does_not_work_without_it_Sleep(500);
+			it_does_not_work_without_it_Sleep(3500);
 			ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
 			int res = Communication::Thick::TransferControlParameters(
 				comPort
