@@ -2,6 +2,8 @@
 
 class Unit502
 {
+	HANDLE hThread;
+	void ReadTresh();
 public:
 	void Read();
 	bool Init();

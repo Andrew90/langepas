@@ -21,6 +21,8 @@ namespace Unit502N
 
 	static const int length = TL::Length<range_list>::value;
 
+	double bigBuffer[18 * 600000];
+
 	double *arr[length];
 	double kor[length];
 	struct InitArr
@@ -45,6 +47,40 @@ namespace Unit502N
 
 }
 void Unit502::Read()
+{
+	double data[L502::buffer_length];
+	unsigned startChannel;
+	unsigned count = dimention_of(data);
+
+	if(Unit502N::l502.Read(startChannel, data, count))
+	{
+		int offs = Unit502N::lir.currentSamples;
+		for(int i = 0; i < (int)count; ++i)
+		{
+			int k = offs / Unit502N::length;
+			if(k < App::count_frames)
+			{
+				int sens = (startChannel + i) % Unit502N::length;
+				Unit502N::arr[sens][k] = data[i] * Unit502N::kor[sens];
+				++offs;
+			}
+		}
+		if(dimention_of(Unit502N::lir.samples) > Unit502N::lir.index)
+		{
+			Unit502N::lir.samples[Unit502N::lir.index] = offs / Unit502N::length;
+			Unit502N::lir.tick[Unit502N::lir.index] = Performance::Counter();
+			if(Unit502N::lir.index > 0)
+			{
+			   Unit502N::lir.samplesLenMax += Unit502N::lir.tmpPerSamples * (Unit502N::lir.tick[Unit502N::lir.index] - Unit502N::lir.tick[Unit502N::lir.index - 1]);
+			   Unit502N::lir.samplesLen[Unit502N::lir.index] = (unsigned)Unit502N::lir.samplesLenMax;
+			}
+			++Unit502N::lir.index;
+		}
+		Unit502N::lir.currentSamples = offs;
+	}
+}
+
+void Unit502::ReadTresh()
 {
 	double data[L502::buffer_length];
 	unsigned startChannel;

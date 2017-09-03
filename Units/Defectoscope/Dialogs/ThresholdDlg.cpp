@@ -9,19 +9,19 @@ namespace
 	PARAM_TITLE(OffsetPointsMin, L"Ось Y минимум")
 	PARAM_TITLE(OffsetPointsMax, L"Ось Y максимум")
 
-	MIN_EQUAL_VALUE(OffsetPointsMin, -100)
-    MAX_EQUAL_VALUE(OffsetPointsMin, 100)
+	MIN_EQUAL_VALUE(OffsetPointsMin, -200)
+    MAX_EQUAL_VALUE(OffsetPointsMin, 200)
 
-	MIN_EQUAL_VALUE(OffsetPointsMax, -100)
-    MAX_EQUAL_VALUE(OffsetPointsMax, 100)
+	MIN_EQUAL_VALUE(OffsetPointsMax, -200)
+    MAX_EQUAL_VALUE(OffsetPointsMax, 200)
 
 	PARAM_TITLE(PrimarySignalMin   , L"Ось Y минимум")
-	MIN_EQUAL_VALUE(PrimarySignalMin, -100)
-    MAX_EQUAL_VALUE(PrimarySignalMin, 100)
+	MIN_EQUAL_VALUE(PrimarySignalMin, -200)
+    MAX_EQUAL_VALUE(PrimarySignalMin, 200)
 
 	PARAM_TITLE(PrimarySignalMax   , L"Ось Y максимум")
-	MIN_EQUAL_VALUE(PrimarySignalMax, -100)
-    MAX_EQUAL_VALUE(PrimarySignalMax, 100)
+	MIN_EQUAL_VALUE(PrimarySignalMax, -200)
+    MAX_EQUAL_VALUE(PrimarySignalMax, 200)
 
 	PARAM_TITLE(PrimarySignalOffset, L"Смещение по оси X")
 	MIN_EQUAL_VALUE(PrimarySignalOffset, 50)
