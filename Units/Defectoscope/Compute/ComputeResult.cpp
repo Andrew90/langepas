@@ -146,12 +146,15 @@ void ComputeResult()
 	crossData.currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
 
 	if(isTick) if(thickData.currentOffsetZones < len) len = thickData.currentOffsetZones;
-
+#if 0
 	crossData.currentOffsetZones = len;
 
 	longData.currentOffsetZones = isLong ? len : 0;
 	thickData.currentOffsetZones = isTick ? len : 0;
-
+#else
+	if(!isLong)longData.currentOffsetZones = 0;
+	if(!isTick)thickData.currentOffsetZones = 0;
+#endif
 	resultData.currentOffsetZones = len;
 
 	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
