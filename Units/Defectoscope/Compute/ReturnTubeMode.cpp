@@ -11,7 +11,7 @@ namespace Mode
 	{
 	   dprint("ReturnTube\n");
 	   Log::Mess<LogMess::ReturnPipe>();
-
+if(!TestControlCircuit())return;
 	   TEST_MESS(iSQ1pr	)
 	   TEST_MESS(iSQ2pr	)
 	   TEST_MESS(iSQ1po	)
