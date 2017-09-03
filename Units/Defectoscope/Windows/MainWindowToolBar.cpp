@@ -81,11 +81,8 @@ namespace
 	}
 //------------------------------------------------------------------------------
 
-	extern void Mode::TestRUN___();
 	void Key<IDB_arrow_down>::Click(HWND h)
 	{
-	//	LogUSPCWindow::Open();	
-       Mode::TestRUN___();
 	}
 //------------------------------------------------------------------------------
 	void Key<IDB_arrow_up>::Click(HWND h)

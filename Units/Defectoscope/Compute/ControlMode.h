@@ -13,7 +13,5 @@ namespace Mode
 
 	void ExitTube(Data &);
 
-	void TestRUN___(); //test
-
 	bool TestControlCircuit();
 }
