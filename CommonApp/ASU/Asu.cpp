@@ -132,6 +132,8 @@ namespace Communication
 		int ret = 0;
 		for(int i = 0; i < 3; ++i)
 		{
+			unsigned char *buf = (unsigned char *)&func;
+			dprint("transmit count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
 			comPort.Write((unsigned char *)&func, sizeof(func));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret) break;
@@ -154,6 +156,7 @@ namespace Communication
 		int ret = 0;
 		for(int i = 0; i < 3; ++i)
 		{
+			dprint("transmit count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
 			comPort.Write(buf, sizeof(buf));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret) break;
@@ -176,6 +179,7 @@ namespace Communication
 		int ret = 0;
 		for(int i = 0; i < 3; ++i)
 		{
+			dprint("transmit count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
 			comPort.Write(buf, sizeof(buf));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret)
@@ -205,6 +209,7 @@ namespace Communication
 		int ret = 0;
 		for(int i = 0; i < 3; ++i)
 		{
+			dprint("transmit count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
 			comPort.Write(buf, sizeof(buf));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret) break;
@@ -251,7 +256,7 @@ namespace Communication
 			 , 2, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
 
-		dprint("transmit count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
+		
 
 		HandleComPort handleComPort;
 		comPort.SetReceiveHandler(&handleComPort, &HandleComPort::Do);
@@ -259,6 +264,7 @@ namespace Communication
 		int ret = 0;
 		for(int i = 0; i < 3; ++i)
 		{
+			dprint("transmit count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
 			comPort.Write((unsigned char *)&buf, sizeof(buf));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret)
@@ -324,6 +330,8 @@ namespace Communication
 		int ret = 0;
 		for(int i = 0; i < 3; ++i)
 		{
+			unsigned char *tbuf = (unsigned char *)&buf;
+			dprint("transmit count %d abon %d func %d\n", tbuf[0], tbuf[1], tbuf[2]);
 			comPort.Write((unsigned char *)&buf, sizeof(buf));
 			ret = handleComPort.ReceivingData();
 			if(ok == ret)
