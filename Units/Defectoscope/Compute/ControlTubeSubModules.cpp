@@ -316,9 +316,10 @@ LOOP:
 				{
 					data.status[i] =  STATUS_ID(Nominal);//StatusId<Clr<Nominal>>();
 				}
-				//data.status[i] = ResultMessageId(res);
+				dprint("thick %d   stat %d val %f\n", i, data.status[i], data.buffer[i]);
 			}
 		}
+		dprint("len tube %d\n", data.currentOffsetZones);
 	}
 }
 
