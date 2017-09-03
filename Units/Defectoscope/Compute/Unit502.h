@@ -3,6 +3,7 @@
 class Unit502
 {
 	HANDLE hThread;
+public:
 	void ReadTresh();
 public:
 	void Read();

@@ -21,6 +21,8 @@ namespace Unit502N
 
 	static const int length = TL::Length<range_list>::value;
 
+	int bigBufferCount;
+	int bigBufferCountLast;
 	double bigBuffer[18 * 600000];
 
 	double *arr[length];
@@ -44,40 +46,57 @@ namespace Unit502N
 			}
 		}
 	} initArr;
-
+	DWORD WINAPI Run(PVOID p)
+	{
+		while(true)((Unit502 *)p)->ReadTresh();
+		return 0;
+	}
 }
 void Unit502::Read()
 {
-	double data[L502::buffer_length];
-	unsigned startChannel;
-	unsigned count = dimention_of(data);
+	//double data[L502::buffer_length];
+	//unsigned startChannel;
+	//unsigned count = dimention_of(data);
+	//
+	//if(Unit502N::l502.Read(startChannel, data, count))
+	//{
+	//	int offs = Unit502N::lir.currentSamples;
+	//	for(int i = 0; i < (int)count; ++i)
+	//	{
+	//		int k = offs / Unit502N::length;
+	//		if(k < App::count_frames)
+	//		{
+	//			int sens = (startChannel + i) % Unit502N::length;
+	//			Unit502N::arr[sens][k] = data[i] * Unit502N::kor[sens];
+	//			++offs;
+	//		}
+	//	}
+	//	if(dimention_of(Unit502N::lir.samples) > Unit502N::lir.index)
+	//	{
+	//		Unit502N::lir.samples[Unit502N::lir.index] = offs / Unit502N::length;
+	//		Unit502N::lir.tick[Unit502N::lir.index] = Performance::Counter();
+	//		if(Unit502N::lir.index > 0)
+	//		{
+	//		   Unit502N::lir.samplesLenMax += Unit502N::lir.tmpPerSamples * (Unit502N::lir.tick[Unit502N::lir.index] - Unit502N::lir.tick[Unit502N::lir.index - 1]);
+	//		   Unit502N::lir.samplesLen[Unit502N::lir.index] = (unsigned)Unit502N::lir.samplesLenMax;
+	//		}
+	//		++Unit502N::lir.index;
+	//	}
+	//	Unit502N::lir.currentSamples = offs;
+	//}
+	int stop = Unit502N::bigBufferCount; 
+	int start = Unit502N::bigBufferCountLast;
 
-	if(Unit502N::l502.Read(startChannel, data, count))
-	{
-		int offs = Unit502N::lir.currentSamples;
-		for(int i = 0; i < (int)count; ++i)
+		for(int i = start; i < stop; ++i)
 		{
-			int k = offs / Unit502N::length;
+			int k = i / Unit502N::length;
 			if(k < App::count_frames)
 			{
-				int sens = (startChannel + i) % Unit502N::length;
-				Unit502N::arr[sens][k] = data[i] * Unit502N::kor[sens];
-				++offs;
+				int sens = i % Unit502N::length;
+				Unit502N::arr[sens][k] = Unit502N::bigBuffer[i] * Unit502N::kor[sens];
 			}
 		}
-		if(dimention_of(Unit502N::lir.samples) > Unit502N::lir.index)
-		{
-			Unit502N::lir.samples[Unit502N::lir.index] = offs / Unit502N::length;
-			Unit502N::lir.tick[Unit502N::lir.index] = Performance::Counter();
-			if(Unit502N::lir.index > 0)
-			{
-			   Unit502N::lir.samplesLenMax += Unit502N::lir.tmpPerSamples * (Unit502N::lir.tick[Unit502N::lir.index] - Unit502N::lir.tick[Unit502N::lir.index - 1]);
-			   Unit502N::lir.samplesLen[Unit502N::lir.index] = (unsigned)Unit502N::lir.samplesLenMax;
-			}
-			++Unit502N::lir.index;
-		}
-		Unit502N::lir.currentSamples = offs;
-	}
+		Unit502N::bigBufferCountLast = stop;
 }
 
 void Unit502::ReadTresh()
@@ -88,20 +107,22 @@ void Unit502::ReadTresh()
 
 	if(Unit502N::l502.Read(startChannel, data, count))
 	{
-		int offs = Unit502N::lir.currentSamples;
-		for(int i = 0; i < (int)count; ++i)
-		{
-			int k = offs / Unit502N::length;
-			if(k < App::count_frames)
-			{
-				int sens = (startChannel + i) % Unit502N::length;
-				Unit502N::arr[sens][k] = data[i] * Unit502N::kor[sens];
-				++offs;
-			}
-		}
+		//int offs = Unit502N::lir.currentSamples;
+		//for(int i = 0; i < (int)count; ++i)
+		//{
+		//	int k = offs / Unit502N::length;
+		//	if(k < App::count_frames)
+		//	{
+		//		int sens = (startChannel + i) % Unit502N::length;
+		//		Unit502N::arr[sens][k] = data[i] * Unit502N::kor[sens];
+		//		++offs;
+		//	}
+		//}
+		memmove(&Unit502N::bigBuffer[Unit502N::bigBufferCount], data, sizeof(double)* count);
+		Unit502N::bigBufferCount += count;
 		if(dimention_of(Unit502N::lir.samples) > Unit502N::lir.index)
 		{
-			Unit502N::lir.samples[Unit502N::lir.index] = offs / Unit502N::length;
+			Unit502N::lir.samples[Unit502N::lir.index] = count / Unit502N::length;
 			Unit502N::lir.tick[Unit502N::lir.index] = Performance::Counter();
 			if(Unit502N::lir.index > 0)
 			{
@@ -110,17 +131,19 @@ void Unit502::ReadTresh()
 			}
 			++Unit502N::lir.index;
 		}
-		Unit502N::lir.currentSamples = offs;
+		Unit502N::lir.currentSamples += count;
 	}
 }
 
 bool Unit502::Init()
 {
+	hThread = CreateThread(NULL, 0, Unit502N::Run, this, CREATE_SUSPENDED, NULL);
 	return Unit502N::l502.Init();
 }
 
 void Unit502::Destroy()
 {
+	SuspendThread(hThread);
 	Unit502N::l502.Destroy();
 }
 
@@ -142,15 +165,20 @@ namespace Unit502N
 
 int Unit502::Start()
 {
+	Unit502N::bigBufferCount = 0;
+	Unit502N::bigBufferCountLast = 0;
 	Unit502N::lir.currentSamples = 0;
 	Unit502N::lir.index = 0;
 	Unit502N::lir.tmpPerSamples = 0;
 	TL::foreach<Unit502N::range_list, Unit502N::__koef__>()(Singleton<L502RangeTable>::Instance().items);
-	return Unit502N::l502.Start();
+	Unit502N::l502.Start();
+	while(ResumeThread(hThread));
+	return 0;
 }
 
 int Unit502::Stop()
 {
+	SuspendThread(hThread);
 	return Unit502N::l502.Stop();
 }
 
