@@ -361,7 +361,15 @@ void FrequencyInverterRunWork()
 		| (speed.get<SpeedBitWork<oRH>>().value ? outputBit.get<oRH>().value: 0)
 		| outputBit.get<oSTF>().value
 		;
-	device1730_1.AddBits(outBits);
+
+	unsigned msk =
+		  (speed.get<SpeedBit<oRL>>().value ? outputBit.get<oRL>().value: 0)
+		| (speed.get<SpeedBit<oRM>>().value ? outputBit.get<oRM>().value: 0)
+		| (speed.get<SpeedBit<oRH>>().value ? outputBit.get<oRH>().value: 0)
+		;
+
+	//device1730_1.AddBits(outBits);
+	device1730_1.WriteOutput(outBits, msk);
 }
 
 ///TODO Установка режима работы контроллера пневмооборудования
