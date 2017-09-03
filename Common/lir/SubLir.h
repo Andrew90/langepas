@@ -326,7 +326,8 @@ template<>struct __start__<on<Magn, 2>>
 {
 	void operator()(SubLir &lir)
 	{
-		Singleton<ItemData<Solid>>::Instance().start = lir.samples[lir.index - 1];
+		//посмотреть чтобы было смещение для гр пр
+		Singleton<ItemData<Solid>>::Instance().start = lir.samples[lir.index + 1] + 5000;
 	}
 };
 
