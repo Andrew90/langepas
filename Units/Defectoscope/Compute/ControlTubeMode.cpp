@@ -324,7 +324,13 @@ namespace Mode
 			Log::Mess<LogMess::WaitLongOn>();
 			WAIT(On<iSQ1pr>, on, Long)
 			WAIT_COMPUTE(On<iSQ2pr>, on, Long)	
+
+			//-----------------------------------------------------------
+#pragma message("писать востановление отслеживания")
+			//убрать отслеж бит контроля ав
+			AllarmBits::msk2 &= ~Singleton<InputBit2Table>::Instance().items.get<iPCH_RUN>().value;
 			FrequencyInverterRunWork(); // включение рабочей скорости вращения
+			//-----------------------------------------------------------------
 		}
 				
 		Log::Mess<LogMess::WaitMagneticOn>();
