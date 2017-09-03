@@ -14,4 +14,6 @@ namespace Mode
 	void ExitTube(Data &);
 
 	bool TestControlCircuit();
+
+	void ExitButtonTime(unsigned = INFINITE);// при нажатии кнопки крест выходит по исключению
 }

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "ControlMode.h"
 #include "Automat.hpp"
 #include "Log\LogBuffer.h"
@@ -17,6 +17,14 @@ namespace Mode
 			return false;
 		}
 		return true;
+	}
+
+	void ExitButtonTime(unsigned time)
+	{
+		if(WAIT_TIMEOUT != WaitForSingleObject(Ex<ExceptionStop>::handle , time))
+		{
+			throw ExceptionStop();//выход  по кнопке стоп
+		}
 	}
 
 	void ExitTube(Data &)
@@ -141,7 +149,7 @@ namespace Mode
 
 			if(WAIT_TIMEOUT != WaitForSingleObject(Ex<ExceptionStop>::handle , 100))
 			{
-				throw ExceptionStop();//�����  �� ������ ����
+				throw ExceptionStop();//выход  по кнопке стоп
 			}
 		}
 	}
