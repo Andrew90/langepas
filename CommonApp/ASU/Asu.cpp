@@ -82,7 +82,7 @@ namespace Communication
 
 		int ReceivingData()
 		{
-			if(WAIT_TIMEOUT == WaitForSingleObject(hEvent, 1000)) err = time_overflow; 
+			if(WAIT_TIMEOUT == WaitForSingleObject(hEvent, 3000)) err = time_overflow; 
 			return err;
 		}
 	};
@@ -338,7 +338,7 @@ namespace Communication
 			{				
 				break;
 			}
-			Sleep(1000);
+			Sleep(3000);
 		}
 
 		return ret;
