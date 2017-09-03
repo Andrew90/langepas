@@ -70,7 +70,6 @@ if(!TestControlCircuit())return;
 		{
 			Log::Mess<LogMess::TransverseModuleClampsDidNotWork>();
 			OUT_BITS(Off<oWorkPR>, Off<oWorkPO>, Off<oWorkT>);
-			//throw ExceptionAlarm();
 			return;
 		}
 
@@ -78,7 +77,7 @@ if(!TestControlCircuit())return;
 
 		 Log::Mess<LogMess::PipeReturnAllowed>();
 
-		 Sleep(5000);
+		 ExitButtonTime(60000);
 
 		 for(int i = 0; i < 50; ++i)
 		 {
