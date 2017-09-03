@@ -145,6 +145,9 @@ void ComputeResult()
 	longData.currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
 	crossData.currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
 
+	dprint("long zones %d\n", lir.moduleItems.get<Module<Long>>().zonesOffs);
+	dprint("Cross zones %d\n", lir.moduleItems.get<Module<Cross>>().zonesOffs);
+
 	if(isTick) if(thickData.currentOffsetZones < len) len = thickData.currentOffsetZones;
 #if 0
 	crossData.currentOffsetZones = len;
@@ -160,17 +163,18 @@ void ComputeResult()
 	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
 	if(isLong)
 	{
-		longX.lastZone = 0;
-		longX.Zones(len );
 		moduleLong.Stop();
-		longX.DeathZonesEnd(len);
+		longX.lastZone = 0;
+		longX.Zones(longData.currentOffsetZones );
+		
+		longX.DeathZonesEnd(longData.currentOffsetZones);
 	}
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
-	crossX.lastZone = 0;
-	crossX.Zones(len);	
 	moduleCross.Stop();
-	crossX.DeathZonesEnd(len);
+	crossX.lastZone = 0;
+	crossX.Zones(crossData.currentOffsetZones);	
+	crossX.DeathZonesEnd(crossData.currentOffsetZones);
 	
 	for(int i = 0; i < len; ++i)
 	{

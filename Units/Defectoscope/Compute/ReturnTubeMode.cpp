@@ -78,11 +78,15 @@ if(!TestControlCircuit())return;
 		 Log::Mess<LogMess::PipeReturnAllowed>();
 
 		 AND_BITS(Off<iSQ1DM>, Ex<ExceptionStop>)(120000);
+		 dprint("\n0  ");
 		 AND_BITS(On<iSQ1DM>, Ex<ExceptionStop>)(120000);
+		  dprint("1  ");
 		 AND_BITS(On<iSQ1po>, Ex<ExceptionStop>)(120000);
+		  dprint("2  ");
 		 AND_BITS(Off<iSQ1po>, Ex<ExceptionStop>)(120000);
-
+		  dprint("3\n  ");
 		// ExitButtonTime(60000);
+		  throw ExceptionStop();
 
 		 //for(int i = 0; i < 50; ++i)
 		 //{
