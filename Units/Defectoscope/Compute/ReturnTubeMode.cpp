@@ -77,33 +77,38 @@ if(!TestControlCircuit())return;
 
 		 Log::Mess<LogMess::PipeReturnAllowed>();
 
-		 ExitButtonTime(60000);
+		 AND_BITS(Off<iSQ1DM>, Ex<ExceptionStop>)(120000);
+		 AND_BITS(On<iSQ1DM>, Ex<ExceptionStop>)(120000);
+		 AND_BITS(On<iSQ1po>, Ex<ExceptionStop>)(120000);
+		 AND_BITS(Off<iSQ1po>, Ex<ExceptionStop>)(120000);
 
-		 for(int i = 0; i < 50; ++i)
-		 {
-			 if(TEST_IN_BITS(Off<iWork_pnevmo>, On<iRevers_pnevmo>, Off<iError_pnevmo>, Ex<ExceptionStop>))
-			 {
-				 if(TEST_IN_BITS(
-					 Off<iSQ1pr>, Off<iSQ2pr>	
-					 , Off<iSQ1po>, Off<iSQ2po>	
-					 , Off<iSQ1t>, Off<iSQ2t>
-					 ))
-				 {
+		// ExitButtonTime(60000);
 
-					 Log::Mess<LogMess::ReturnPipeCompleted>();
-					 return;
-				 }
-			 }
-			 else
-			 {
-				 Log::Mess<LogMess::TransverseModuleClampsDidNotWork>();
-				 OUT_BITS(Off<oWorkPR>, Off<oWorkPO>, Off<oWorkT>);
-				 //throw ExceptionAlarm();
-				 return;
-			 }
-			 Sleep(500);
-		 }
-		 Log::Mess<LogMess::PipeReturnTimeExceeded>();
+		 //for(int i = 0; i < 50; ++i)
+		 //{
+		//	 if(TEST_IN_BITS(Off<iWork_pnevmo>, On<iRevers_pnevmo>, Off<iError_pnevmo>, Ex<ExceptionStop>))
+		//	 {
+		//		 if(TEST_IN_BITS(
+		//			 Off<iSQ1pr>, Off<iSQ2pr>	
+		//			 , Off<iSQ1po>, Off<iSQ2po>	
+		//			 , Off<iSQ1t>, Off<iSQ2t>
+		//			 ))
+		//		 {
+		 //
+		//			 Log::Mess<LogMess::ReturnPipeCompleted>();
+		//			 return;
+		//		 }
+		//	 }
+		//	 else
+		//	 {
+		//		 Log::Mess<LogMess::TransverseModuleClampsDidNotWork>();
+		//		 OUT_BITS(Off<oWorkPR>, Off<oWorkPO>, Off<oWorkT>);
+		//		 //throw ExceptionAlarm();
+		//		 return;
+		//	 }
+		//	 Sleep(500);
+		 //}
+		 //Log::Mess<LogMess::PipeReturnTimeExceeded>();
 	}
 }
 
