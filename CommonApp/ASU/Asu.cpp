@@ -69,6 +69,7 @@ namespace Communication
 			err = error_count;
 			receiveBuffer = buf;
 			countBytes = buf[0]; 
+			dprint("receive count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
 			if(count >= countBytes)
 			{
 				err = ok;
@@ -243,10 +244,14 @@ namespace Communication
 		, unsigned short (&zones)[65]
 	)
 	{
+		
+		int numAbonent = Singleton<ComPortTable>::Instance().items.get<SubscriberThickness>().value;
 		 unsigned char buf[] = {5
-			 , Singleton<ComPortTable>::Instance().items.get<SubscriberThickness>().value
+			 , numAbonent
 			 , 2, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
+
+		dprint("transmit count %d abon %d func %d\n", buf[0], buf[1], buf[2]);
 
 		HandleComPort handleComPort;
 		comPort.SetReceiveHandler(&handleComPort, &HandleComPort::Do);
