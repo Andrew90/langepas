@@ -521,7 +521,7 @@ struct OnTheJobTable
 	const wchar_t *name(){return L"OnTheJobTable";}
 };
 //-----------------------------------------------------------------
-DEFINE_PARAM(ChannelSamplingRate, int, 10000)
+DEFINE_PARAM(ChannelSamplingRate, int, 2000)
 struct L502ParametersTable
 {
 	typedef TL::MkTlst<

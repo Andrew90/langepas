@@ -186,6 +186,13 @@ namespace Mode
 
 	void ControlTube(Data &)
 	{
+		if(!TestControlCircuit())
+		{
+			if(WAIT_TIMEOUT != WaitForSingleObject(Ex<ExceptionStop>::handle , INFINITE))
+			{
+				throw ExceptionStop();//выход  по кнопке стоп
+			}
+		}
 		ItemData<Long> &dataLong = Singleton<ItemData<Long>>::Instance();
 		ItemData<Cross> &dataCross = Singleton<ItemData<Cross>>::Instance();
 
