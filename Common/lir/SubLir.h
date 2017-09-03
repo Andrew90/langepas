@@ -167,7 +167,7 @@ public:
 	void Start()
 	{
 		timeIndex = 0;
-		tmpPerSamples = 100;
+		tmpPerSamples = 0;
 		lastTime = 0;
 		lastOffs = 0;
 		index = 0;
@@ -285,6 +285,7 @@ template<class T>struct __sq__
 		++lir.timeIndex;
 		lir.lastTime = sq.time;
 		lir.lastOffs = sq.offs;
+		zprint(" tmpPerSamples %f\n", lir.tmpPerSamples);
 	}
 };
 
@@ -299,6 +300,7 @@ template<>struct __sq__<on<Cross, 1>>
 		lir.lastOffs = 0;
 		lir.startTime = sq.time;
 		sq.perSamples = lir.tmpPerSamples;
+		zprint(" tmpPerSamples %f\n", lir.tmpPerSamples);
 	}
 };
 
@@ -312,6 +314,7 @@ template<>struct __sq__<off<Cross, 1>>
 		lir.lastTime = sq.time;
 		lir.lastOffs = 0;
 		sq.perSamples = lir.tmpPerSamples;
+		zprint(" tmpPerSamples %f\n", lir.tmpPerSamples);
 	}
 };
 
