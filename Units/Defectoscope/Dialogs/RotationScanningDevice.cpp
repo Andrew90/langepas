@@ -125,15 +125,27 @@ namespace
 
 		void Noop(){}
 
-		template<class O, class P>struct __set_speed__{void operator()(O &, P &){}};
+		template<class O, class P>struct __set_speed__{void operator()(O &){}};
 		template<class T, class P>struct __set_speed__<DlgItem<Pos<T>>, P>
+		{
+			typedef DlgItem<Pos<T>> O;
+			void operator()(O &o)
+			{
+				if(BST_CHECKED == Button_GetCheck(o.hWnd))
+				{
+					OUT_BITS(On<T>);
+				}
+			}
+		};
+
+		template<class O, class P>struct __test_set_speed__{void operator()(O &, P &){}};
+		template<class T, class P>struct __test_set_speed__<DlgItem<Pos<T>>, P>
 		{
 			typedef DlgItem<Pos<T>> O;
 			void operator()(O &o, P &p)
 			{
 				if(BST_CHECKED == Button_GetCheck(o.hWnd))
 				{
-					OUT_BITS(On<T>);
 					p |= true;
 				}
 			}
@@ -149,7 +161,7 @@ namespace
 			{
 				SetWindowText(hMess, L"");	
 				bool b = false;
-				TL::foreach<list, __set_speed__>()(items, b);
+				TL::foreach<list, __test_set_speed__>()(items, b);
 				if(b)
 				{
 					currentTime = 1000 + GetTickCount();
@@ -157,7 +169,7 @@ namespace
 				}
 				else
 				{
-					SetWindowText(hMess, L"Выберете скорость вращения");
+					SetWindowText(hMess, L"Выберите скорость вращения");
 				}
 			}
 			else
@@ -171,6 +183,15 @@ namespace
 			{
 				OUT_BITS(On<oPowerPCH>);
 				currentTime = 1000 + GetTickCount();
+				ptr = &DlgR::SetBits;
+			}
+		}
+		void SetBits()
+		{
+			if(currentTime < GetTickCount())
+			{
+				TL::foreach<list, __set_speed__>()(items);
+				currentTime = 1000 + GetTickCount();
 				ptr = &DlgR::STF_ON;
 			}
 		}
@@ -179,9 +200,20 @@ namespace
 			if(currentTime < GetTickCount())
 			{
 				OUT_BITS(On<oSTF>);
-				currentTime = 500 + GetTickCount();
-				ptr = &DlgR::ControlAlarmBits;
+				currentTime = 5000 + GetTickCount();
+				ptr = &DlgR::DELAY_ON;
 				SetWindowText(hMess, L"Вращение включено");	
+			}
+		}
+
+		void DELAY_ON()
+		{
+			if(currentTime < GetTickCount())
+			{
+			//	OUT_BITS(On<oSTF>);
+			//	currentTime = 500 + GetTickCount();
+				ptr = &DlgR::ControlAlarmBits;
+			//	SetWindowText(hMess, L"Вращение включено");	
 			}
 		}
 
