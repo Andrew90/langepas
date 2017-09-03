@@ -227,9 +227,9 @@ namespace Communication
 
 		unsigned short brakTreshold;
 		unsigned short class2Treshold;
-		unsigned short class3Treshold;
 		unsigned short lengthTube;
-		char reserve[4];
+		unsigned short class3Treshold;
+		char reserve[4 - sizeof(unsigned short)];
 		unsigned short zones[65];
 		unsigned short crc	   ;
 	};
