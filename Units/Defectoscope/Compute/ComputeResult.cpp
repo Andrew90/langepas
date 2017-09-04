@@ -170,7 +170,7 @@ void ComputeResult()
 	}
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
-//	crossData.currentOffsetZones += 5;
+	//crossData.currentOffsetZones += 5;
 	crossX.lastZone = 0;
 	crossX.Zones(crossData.currentOffsetZones);	
 	//moduleCross.Stop();
