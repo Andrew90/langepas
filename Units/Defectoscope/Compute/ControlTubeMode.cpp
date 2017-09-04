@@ -350,6 +350,8 @@ namespace Mode
 		ZZZ(off, Cross, 1)
 		WAIT_COMPUTE(Off<iSQ2po>, off, Cross)
 
+		OUT_BITS(Off<oMagnet>);
+
 		///Расчёт мёртвой зоны начало
 		CrossX.DeathZonesBegin();
 		if(job.get<OnTheJob<Long>>().value)
