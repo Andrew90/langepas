@@ -137,18 +137,15 @@ void ComputeResult()
 	int len = moduleCross.zonesOffs;
 	
 	Module<Long> &moduleLong = lir.moduleItems.get<Module<Long>>();
-	if(isLong)
-	{
-		if(moduleLong.zonesOffs < len) len = moduleLong.zonesOffs;
-	}
-
-	longData.currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
-	crossData.currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
+	
+	
+	////longData.currentOffsetZones = lir.moduleItems.get<Module<Long>>().zonesOffs;
+	///crossData.currentOffsetZones = lir.moduleItems.get<Module<Cross>>().zonesOffs;
 
 	dprint("long zones %d\n", lir.moduleItems.get<Module<Long>>().zonesOffs);
 	dprint("Cross zones %d\n", lir.moduleItems.get<Module<Cross>>().zonesOffs);
 
-	if(isTick) if(thickData.currentOffsetZones < len) len = thickData.currentOffsetZones;
+	
 #if 0
 	crossData.currentOffsetZones = len;
 
@@ -158,23 +155,31 @@ void ComputeResult()
 	if(!isLong)longData.currentOffsetZones = 0;
 	if(!isTick)thickData.currentOffsetZones = 0;
 #endif
-	resultData.currentOffsetZones = len;
+	
 
 	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
 	if(isLong)
 	{
-		moduleLong.Stop();
+		
 		longX.lastZone = 0;
 		longX.Zones(longData.currentOffsetZones );
-		
-		longX.DeathZonesEnd(longData.currentOffsetZones);
+		moduleLong.Stop();
+		longX.DeathZonesEnd(longData.currentOffset);
+		longX.DeathZonesBegin();
 	}
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
-	moduleCross.Stop();
+	
 	crossX.lastZone = 0;
 	crossX.Zones(crossData.currentOffsetZones);	
-	crossX.DeathZonesEnd(crossData.currentOffsetZones);
+	moduleCross.Stop();
+	crossX.DeathZonesEnd(crossData.currentOffset);
+	crossX.DeathZonesBegin();
+
+	len = crossData.currentOffset; 
+	if(isLong)if(longData.currentOffset < len) len = longData.currentOffset;
+	if(isTick) if(thickData.currentOffsetZones < len) len = thickData.currentOffsetZones;
+	resultData.currentOffsetZones = len;
 	
 	for(int i = 0; i < len; ++i)
 	{
@@ -244,14 +249,14 @@ void Recalculation()
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance());
 	crossX.Clear();
 	crossX.Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs);
-	crossX.DeathZonesBegin();
+	//crossX.DeathZonesBegin();
 
 	ComputeUnitX<Long, ItemData<Long>> longX(Singleton<ItemData<Long>>::Instance());
 	longX.Clear();
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value)
 	{
 		longX.Zones(lir.moduleItems.get<Module<Long>>().zonesOffs);
-		longX.DeathZonesBegin();
+		//longX.DeathZonesBegin();
 	}
 
 	ComputeResult();
