@@ -162,22 +162,23 @@ void ComputeResult()
 	{
 		
 		longX.lastZone = 0;
+	//	longData.currentOffsetZones += 5;
 		longX.Zones(longData.currentOffsetZones );
-		moduleLong.Stop();
-		longX.DeathZonesEnd(longData.currentOffset);
+		//moduleLong.Stop();
+		longX.DeathZonesEnd(longData.currentOffsetZones);
 		longX.DeathZonesBegin();
 	}
 
 	ComputeUnitX<Cross, ItemData<Cross>> crossX(Singleton<ItemData<Cross>>::Instance()); 
-	
+//	crossData.currentOffsetZones += 5;
 	crossX.lastZone = 0;
 	crossX.Zones(crossData.currentOffsetZones);	
-	moduleCross.Stop();
-	crossX.DeathZonesEnd(crossData.currentOffset);
+	//moduleCross.Stop();
+	crossX.DeathZonesEnd(crossData.currentOffsetZones);
 	crossX.DeathZonesBegin();
 
-	len = crossData.currentOffset; 
-	if(isLong)if(longData.currentOffset < len) len = longData.currentOffset;
+	len = crossData.currentOffsetZones; 
+	if(isLong)if(crossData.currentOffsetZones < len) len = crossData.currentOffsetZones;
 	if(isTick) if(thickData.currentOffsetZones < len) len = thickData.currentOffsetZones;
 	resultData.currentOffsetZones = len;
 	
