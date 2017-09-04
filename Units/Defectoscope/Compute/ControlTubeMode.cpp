@@ -286,7 +286,7 @@ namespace Mode
 				throw ExceptionAlarm();
 			}
 		}
-		//OUT_BITS(On<oMagnet>);
+		OUT_BITS(On<oMagnet>);
 		OUT_BITS(On<oRP>);
 		Log::Mess<LogMess::PIPE_CONTROL_IMPLEMENTED>();
 

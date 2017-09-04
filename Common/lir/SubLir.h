@@ -50,7 +50,7 @@ template<class O, class P>struct __sq_do__
 	{
 		Module<O> &module = p.lir.moduleItems.get<Module<O>>();
 		unsigned t = Performance::Counter();
-		Zones::Do(p.lir, t, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
+	Zones::Do(p.lir, t, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
 			, module.startLen
 			, module.offset
 			);
@@ -237,11 +237,13 @@ struct Zones
 			int j = t / App::zone_length;
 			if(j > module_zonesOffs)
 			{
+				dprint("j > module_zonesOffs not doubled %d\n", j);
 				double d = double(samples[i] - samples[i - 1]) / (samplesLen[i] -  samplesLen[i - 1]); 
-				for(; module_zonesOffs < j; ++module_zonesOffs)
+				for(int i = module_zonesOffs; i < j; ++i)
 				{
 					offset += d * App::zone_length;
-					module_zones[module_zonesOffs] = (unsigned )offset;
+					module_zones[i] = int(1.088 * offset);
+					++module_zonesOffs;
 				}
 			}
 		}
@@ -437,7 +439,7 @@ template<class T>void Module<T>::Stop()
 		if(tick[i] < offs)
 		{
 			double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
-			unsigned offs1 = samples[i] + unsigned(d * (samples[i + 1] - samples[i]));
+			double offs1 = 1.088 * (samples[i] + unsigned(d * (samples[i + 1] - samples[i])));
 			//for(int k = index - 1; k > 0; --k)
 			int dZone = zones[zonesOffs - 1] - zones[zonesOffs - 2];
 			for(int i = zonesOffs; i < 1 + App::count_zones; ++i)
@@ -447,6 +449,10 @@ template<class T>void Module<T>::Stop()
 					++zonesOffs;
 					zones[i] = zones[i - 1] + dZone;
 					zprint(" <<>>>><>> module stop zonesOffs %d\n", zonesOffs);
+				}
+				else
+				{
+					return;
 				}
 			}
 		}
