@@ -168,7 +168,7 @@ public:
 	void Start()
 	{
 		timeIndex = 0;
-		tmpPerSamples = 0;
+		tmpPerSamples = 0.25;
 		lastTime = 0;
 		lastOffs = 0;
 		index = 0;
@@ -249,6 +249,12 @@ struct Zones
 	}
 };
 
+//if(Unit502N::lir.index > 0)
+			//{
+			//   Unit502N::lir.samplesLenMax += Unit502N::lir.tmpPerSamples * (Unit502N::lir.tick[Unit502N::lir.index] - Unit502N::lir.tick[Unit502N::lir.index - 1]);
+			//   Unit502N::lir.samplesLen[Unit502N::lir.index] = (unsigned)Unit502N::lir.samplesLenMax;
+			//}
+
 template<class T>struct __sq__
 {
 	typedef SQ<T> O;
@@ -256,11 +262,20 @@ template<class T>struct __sq__
 	{
 		O &sq = lir.sqItems.get<O>();
 		sq.time = Performance::Counter();
-		lir.tmpPerSamples = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
-		++lir.timeIndex;
+		double t = lir.tmpPerSamples = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
+
+		int stop = lir.index - 1;
+        for(int i = lir.timeIndex; i < stop; ++i)
+		{
+			lir.samplesLenMax += t * (lir.tick[1 + i] - lir.tick[i]);
+			lir.samplesLen[i] = (unsigned)lir.samplesLenMax;
+		}
+
+		lir.timeIndex = stop;
+	
 		lir.lastTime = sq.time;
 		lir.lastOffs = sq.offs;
-		zprint(" tmpPerSamples %f\n", lir.tmpPerSamples);
+		zprint(" tmpPerSamples %f offs %d\n", lir.tmpPerSamples, sq.offs);
 	}
 };
 
@@ -272,7 +287,7 @@ template<>struct __sq__<on<Cross, 1>>
 		O &sq = lir.sqItems.get<O>();
 		sq.time = Performance::Counter();
 		lir.lastTime = sq.time;
-		lir.lastOffs = 0;
+		lir.lastOffs = sq.offs;
 		lir.startTime = sq.time;
 		sq.perSamples = lir.tmpPerSamples;
 		zprint(" tmpPerSamples %f\n", lir.tmpPerSamples);
@@ -287,7 +302,7 @@ template<>struct __sq__<off<Cross, 1>>
 		O &sq = lir.sqItems.get<O>();
 		sq.time = Performance::Counter();
 		lir.lastTime = sq.time;
-		lir.lastOffs = 0;
+		lir.lastOffs = sq.offs;
 		sq.perSamples = lir.tmpPerSamples;
 		zprint(" tmpPerSamples %f\n", lir.tmpPerSamples);
 	}
