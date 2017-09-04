@@ -78,7 +78,7 @@ template<class T>struct ViewerData<T, CommonViewer>
 	double (&buffer)[ItemData<T>::count_sensors][App::count_zones];	 //значение в зоне
 	char (&status)[ItemData<T>::count_sensors][App::count_zones];	 //статус в зоне
 	ViewerData(ItemData<T> &d)
-		: currentOffsetZones(d.currentOffset)
+		: currentOffsetZones(d.currentOffsetZones)
 		, buffer(d.buffer)
 		, status(d.status)
 	{}
