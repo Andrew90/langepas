@@ -83,10 +83,11 @@ if(!TestControlCircuit())return;
 		  dprint("1  ");
 		 AND_BITS(On<iSQ1po>, Ex<ExceptionStop>)(120000);
 		  dprint("2  ");
-		 AND_BITS(Off<iSQ1po>, Ex<ExceptionStop>)(120000);
+		 AND_BITS(Off<iSQ1po>, Off<iWork_pnevmo>, On<iRevers_pnevmo>, Off<iError_pnevmo>, Ex<ExceptionStop>)();
 		  dprint("3\n  ");
+		  Log::Mess<LogMess::ReturnPipeCompleted>();
 		// ExitButtonTime(60000);
-		  throw ExceptionStop();
+		//  throw ExceptionStop();
 
 		 //for(int i = 0; i < 50; ++i)
 		 //{
@@ -99,7 +100,7 @@ if(!TestControlCircuit())return;
 		//			 ))
 		//		 {
 		 //
-		//			 Log::Mess<LogMess::ReturnPipeCompleted>();
+		//			 
 		//			 return;
 		//		 }
 		//	 }
@@ -112,7 +113,7 @@ if(!TestControlCircuit())return;
 		//	 }
 		//	 Sleep(500);
 		 //}
-		 //Log::Mess<LogMess::PipeReturnTimeExceeded>();
+		// Log::Mess<LogMess::PipeReturnTimeExceeded>();
 	}
 }
 
