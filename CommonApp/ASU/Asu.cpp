@@ -227,9 +227,10 @@ namespace Communication
 
 		unsigned short brakTreshold;
 		unsigned short class2Treshold;
-		unsigned short lengthTube;
 		unsigned short class3Treshold;
-		char reserve[4 - sizeof(unsigned short)];
+		unsigned short lengthTube;
+		
+		char reserve[4];// - sizeof(unsigned short)];
 		unsigned short zones[65];
 		unsigned short crc	   ;
 	};
@@ -273,7 +274,7 @@ namespace Communication
 				brak = 0.1 * b->brakTreshold;
 				class2 = 0.1 * b->class2Treshold;
 				class3 = 0.1 * b->class3Treshold;
-				lengthTube = b->lengthTube;
+				lengthTube = 1 + b->lengthTube;
 				memmove(zones, b->zones, 65 * sizeof(short));
 				break;
 			}
