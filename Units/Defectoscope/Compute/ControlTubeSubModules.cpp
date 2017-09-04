@@ -300,17 +300,25 @@ LOOP:
 			for(int i = 0; i < App::count_zones; ++i)
 			{
 				double t = data.buffer[i] = 0.1 * zones[i];
-				if(brak > t)
+				if(0 == zones[i])
+				{
+					data.status[i] = STATUS_ID(Undefined);//StatusId<Clr<BorderDefect<Thick>>>();
+				}
+				else if(brak >= t)
 				{
 					data.status[i] = STATUS_ID(BorderDefect<Thick>);//StatusId<Clr<BorderDefect<Thick>>>();
 				}
-				else if(class3 > t)
+				else if(class3 >= t)
 				{
 					data.status[i] = STATUS_ID(BorderKlass3<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
 				}
-				else if(class2 > t)
+				else if(class2 >= t)
 				{
 					data.status[i] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass2<Thick>>>();
+				}
+				else if(100 < t)
+				{
+					data.status[i] = STATUS_ID(DeathZone);//StatusId<Clr<BorderKlass2<Thick>>>();
 				}
 				else
 				{
