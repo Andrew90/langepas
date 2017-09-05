@@ -19,14 +19,14 @@ struct CurrentParametersTable
 };
 //------------------------------------------------------------------------------------------
 DEFINE_PARAM_WAPPER(BorderKlass2, Long, double, 106)
-DEFINE_PARAM_WAPPER(BorderDefect, Long, double, 45)
+DEFINE_PARAM_WAPPER(BorderDefect, Long, double, 22)
 
-DEFINE_PARAM_WAPPER(BorderKlass2, Cross, double, 106)
-DEFINE_PARAM_WAPPER(BorderDefect, Cross, double, 70)
+DEFINE_PARAM_WAPPER(BorderKlass2, Cross, double, 70)
+DEFINE_PARAM_WAPPER(BorderDefect, Cross, double, 30)
 
-DEFINE_PARAM_WAPPER(BorderKlass2, Thick, double, 5.7)
-DEFINE_PARAM_WAPPER(BorderKlass3, Thick, double, 5.3)
-DEFINE_PARAM_WAPPER(BorderDefect, Thick, double, 4.8)
+DEFINE_PARAM_WAPPER(BorderKlass2, Thick, double, 5.5)
+DEFINE_PARAM_WAPPER(BorderKlass3, Thick, double, 5.0)
+DEFINE_PARAM_WAPPER(BorderDefect, Thick, double, 4.7)
 
 struct ThresholdsTable
 {
@@ -226,10 +226,10 @@ struct AdditionalSettingsTable
  template<class>struct MedianFiltreWidth;
  template<class>struct MedianFiltreOn;
 
- DEFINE_PARAM_WAPPER(MedianFiltreWidth, Cross, int, 5)
- DEFINE_PARAM_WAPPER(MedianFiltreOn, Cross, bool, true)
+ DEFINE_PARAM_WAPPER(MedianFiltreWidth, Cross, int, 3)
+ DEFINE_PARAM_WAPPER(MedianFiltreOn, Cross, bool, false)
 
- DEFINE_PARAM_WAPPER(MedianFiltreWidth, Long, int, 5)
+ DEFINE_PARAM_WAPPER(MedianFiltreWidth, Long, int, 7)
  DEFINE_PARAM_WAPPER(MedianFiltreOn, Long, bool, true)
 
  DEFINE_PARAM_WAPPER(MedianFiltreWidth, Thick, int, 5)
@@ -272,7 +272,7 @@ DEFINE_PARAM_ID(ThresholdsTable            , int, 1)
 DEFINE_PARAM_ID(DeadAreaTable			   , int, 1)
 DEFINE_PARAM_ID(AxesTable	   , int, 1)
 DEFINE_PARAM_ID(MedianFiltreTable, int, 1)
-STR_PARAM(NameParam, 128, L"NONAME")
+STR_PARAM(NameParam, 128, L"73")
 DEFINE_PARAM(CrossCountSensors, int, 12)
 DEFINE_PARAM_ID(RecalculationFactorTable, int, 1)
 DEFINE_PARAM_ID(MinMaxThresholdsTable, int, 1)
@@ -575,18 +575,18 @@ DEFINE_PARAM_WAPPER_NUM(Range, Temperature, 1, int, 0)
 
 DEFINE_PARAM_WAPPER_NUM(Range, MagneticField, 0, int, 0)
 
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 0, int, 7)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 1, int, 8)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 2, int, 9)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 3, int, 10)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 4, int, 11)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 5, int, 12)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 6, int, 13)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 7, int, 14)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 8, int, 15)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 9, int, 16)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 10, int, 17)
-DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 11, int ,18)
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 0, int, 7)    //7
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 1, int, 8)	 //8
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 2, int, 9)	 //9
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 3, int, 10)	 //10
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 4, int, 11)	 //11
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 5, int, 12)	 //12
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 6, int, 13)	 //13
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 7, int, 14)	 //14
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 8, int, 15)	 //15
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 9, int, 23)	 //23
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 10, int, 24)	 //24
+DEFINE_PARAM_WAPPER_NUM(Offset, Cross, 11, int ,25)	  //25
 						
 DEFINE_PARAM_WAPPER_NUM(Offset, Long, 0, int, 0)
 DEFINE_PARAM_WAPPER_NUM(Offset, Long, 1, int, 1)
@@ -596,10 +596,10 @@ DEFINE_PARAM_WAPPER_NUM(Offset, Long, 3, int, 3)
 DEFINE_PARAM_WAPPER_NUM(Offset, Voltage, 0, int, 4)
 DEFINE_PARAM_WAPPER_NUM(Offset, Current, 1, int, 6)
 
-DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 0, int, 21)
-DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 1, int, 22)
+DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 0, int, 28)
+DEFINE_PARAM_WAPPER_NUM(Offset, Temperature, 1, int, 29)
 					
-DEFINE_PARAM_WAPPER_NUM(Offset, MagneticField, 0, int, 20)
+DEFINE_PARAM_WAPPER_NUM(Offset, MagneticField, 0, int, 27)
 
 DEFINE_PARAM_WAPPER(Inp502, sinhro_s, int, 1)
 DEFINE_PARAM_WAPPER(Inp502, sinhro_d, int, 5)
@@ -622,31 +622,31 @@ struct L502OffsetsDigitTable
 struct L502RangeTable
 {
 	typedef TL::MkTlst<	
-		Range<Long, 0> 
-        , Range<Long , 1> 
-        , Range<Long , 2> 
-        , Range<Long , 3> 
+		Range<Long, 0>              
+        , Range<Long , 1>           
+        , Range<Long , 2>           
+        , Range<Long , 3>           
 		
-		, Range<Cross, 0> 
-        , Range<Cross, 1> 
-        , Range<Cross, 2> 
-        , Range<Cross, 3> 
-        , Range<Cross, 4> 
-        , Range<Cross, 5> 
-        , Range<Cross, 6> 
-        , Range<Cross, 7> 
-        , Range<Cross, 8> 
-        , Range<Cross, 9> 
-        , Range<Cross, 10>
-        , Range<Cross, 11> 
+		, Range<Cross, 0>			
+        , Range<Cross, 1>			
+        , Range<Cross, 2>			
+        , Range<Cross, 3>			
+        , Range<Cross, 4>			
+        , Range<Cross, 5>			
+        , Range<Cross, 6>			
+        , Range<Cross, 7>			
+        , Range<Cross, 8>			
+        , Range<Cross, 9>			
+        , Range<Cross, 10>			
+        , Range<Cross, 11>		    
 		
-		, Range<MagneticField, 0>
+		, Range<MagneticField, 0>   
 
-		, Range<Temperature, 0> 
-		, Range<Temperature, 1> 
+		, Range<Temperature, 0>     
+		, Range<Temperature, 1>     
 
-		, Range<Voltage, 0>
-        , Range<Current, 1>
+		, Range<Voltage, 0>  
+        , Range<Current, 1>  
 		
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
@@ -656,31 +656,31 @@ struct L502RangeTable
 struct L502OffsetsTable
 {
 	typedef TL::MkTlst<
-		Offset<Long, 0> 
-		, Offset<Long, 1> 
-        , Offset<Long, 2> 
-        , Offset<Long, 3> 
+		Offset<Long, 0>						//0
+		, Offset<Long, 1> 					//1
+        , Offset<Long, 2> 					//2 
+        , Offset<Long, 3> 					//3
 
-		, Offset<Cross, 0> 
-        , Offset<Cross, 1> 
-        , Offset<Cross, 2> 
-        , Offset<Cross, 3> 
-        , Offset<Cross, 4> 
-        , Offset<Cross, 5> 
-        , Offset<Cross, 6> 
-        , Offset<Cross, 7> 
-        , Offset<Cross, 8> 
-        , Offset<Cross, 9> 
-        , Offset<Cross, 10>
-        , Offset<Cross, 11> 
+		, Offset<Cross, 0> 					//7
+        , Offset<Cross, 1> 					//8
+        , Offset<Cross, 2> 					//9
+        , Offset<Cross, 3> 					//10
+        , Offset<Cross, 4> 					//11
+        , Offset<Cross, 5> 					//12
+        , Offset<Cross, 6> 					//13
+        , Offset<Cross, 7> 					//14
+        , Offset<Cross, 8> 					//15
+        , Offset<Cross, 9> 					//23
+        , Offset<Cross, 10>					//24
+        , Offset<Cross, 11> 				//25
 
-		, Offset<MagneticField, 0>
+		, Offset<MagneticField, 0>			//27
 
-		, Offset<Temperature, 0> 
-		, Offset<Temperature, 1> 
+		, Offset<Temperature, 0> 			//28
+		, Offset<Temperature, 1> 			//29
 
-		, Offset<Voltage, 0>
-        , Offset<Current, 1>
+		, Offset<Voltage, 0>				//4
+        , Offset<Current, 1>				//6
 		
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
@@ -858,8 +858,8 @@ struct RotationalSpeedTable
 };
 //-----------------------------------------------------------------
 template<class, int>struct Tresh;
-DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 0, double, 10)
-DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 1, double, 10)
+DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 0, double, 7.8)
+DEFINE_PARAM_WAPPER_NUM(Tresh, Temperature, 1, double, 7.8)
 DEFINE_PARAM_WAPPER_NUM(Tresh, Magn, 0, double, 5)
 struct AdditionalParams502Table
 {
@@ -896,16 +896,16 @@ struct ComPortTable
 template<class T, int N>struct OffsSQ;
 
 DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 1, int, 0)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 2, int, 620)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Cross, 2, int, 610)
 
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 1, int, 1230)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 2, int, 1950)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 1, int, 1210)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Thick, 2, int, 1970)
 
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 1, int, 2600)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 2, int, 3960)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 1, int, 2590)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Long, 2, int, 3310)
 
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 1, int, 4510)
-DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 2, int, 4940)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 1, int, 3840)
+DEFINE_PARAM_WAPPER_NUM(OffsSQ, Magn, 2, int, 4270)
 
 struct OffsetSensorsTable
 {
