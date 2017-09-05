@@ -53,7 +53,7 @@ void DefectData::Set(int start, int stop, double *ascan, const int borderKlass2,
 			, 40
 			);	
 
-		if(len > bufSize) len = bufSize;
+		if(len > bufSize - App::zone_filter_offset) len = bufSize - App::zone_filter_offset;
 		
 		startZone = &ascan[start - App::zone_filter_offset];
 		for(int i = 0; i < len + App::zone_filter_offset; ++i)
