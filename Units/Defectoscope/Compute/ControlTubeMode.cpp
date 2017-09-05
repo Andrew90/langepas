@@ -351,7 +351,7 @@ namespace Mode
 		ZZZ(off, Cross, 1)
 		WAIT_COMPUTE(Off<iSQ2po>, off, Cross)
 
-		OUT_BITS(Off<oMagnet>);
+		
 
 		///Расчёт мёртвой зоны начало
 		CrossX.DeathZonesBegin();
@@ -379,9 +379,11 @@ namespace Mode
 		WAIT(Off<iSQ1DM>, off, Magn)
 		Log::Mess<LogMess::tubeExit>();
 		WAIT_COMPUTE(Off<iSQ2DM>, off, Magn)
+			OUT_BITS(Off<oMagnet>);
 		
 		OUT_BITS(Off<oT_Base>, Off<oSTF>, Off<oPowerSU>, Off<oMagnet>, Off<oRP>);
 		DisableDemagnetization();
+		Sleep(500);
 		unit502.Stop();
 //---------------------------------------------------------------	
 		GetDataFromThicknessModule();

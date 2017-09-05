@@ -25,6 +25,7 @@ public:
 
 template<class T>class Module
 {
+public:
 	SubLir &lir;
 public:
 	int framesOffs;
@@ -232,7 +233,7 @@ struct Zones
 				if(i != module_framesOffs_)module_framesOffs_ = i - 1;
 				return;
 			}
-			
+
 			int t = lir.samplesLen[i] - startLen;
 			int j = t / App::zone_length;
 			if(j > module_zonesOffs)
@@ -250,36 +251,26 @@ struct Zones
 	}
 };
 
-//if(Unit502N::lir.index > 0)
-			//{
-			//   Unit502N::lir.samplesLenMax += Unit502N::lir.tmpPerSamples * (Unit502N::lir.tick[Unit502N::lir.index] - Unit502N::lir.tick[Unit502N::lir.index - 1]);
-			//   Unit502N::lir.samplesLen[Unit502N::lir.index] = (unsigned)Unit502N::lir.samplesLenMax;
-			//}
-
-template<class T>struct __sq__
+template<class T>struct __sq__;
+template<class X, int N, template<class, int>class W>struct __sq__<W<X, N>>
 {
-	typedef SQ<T> O;
+	typedef SQ<W<X, N>> O;
 	void operator()(SubLir &lir)
 	{
 		O &sq = lir.sqItems.get<O>();
+		SQ<W<Cross, 1>> &sqC = lir.sqItems.get<SQ<W<Cross, 1>>>();
 		sq.time = Performance::Counter();
-		double t = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
-		zprint(" sq.offs %d, lir.lastOffs %d, sq.time %d, lir.lastTime %d\n", sq.offs,  lir.lastOffs, sq.time, lir.lastTime);
-		double delta = t;
-		if(lir.tmpPerSamples != 0.0)
-		{
-			delta += lir.tmpPerSamples;
-			delta *= 0.5;
-		}
+		double t = sq.perSamples = double(sq.offs - sqC.offs) / (sq.time - sqC.time);
+
 		int stop = lir.index - 1;
-        for(int i = lir.timeIndex; i < stop; ++i)
+		for(int i = lir.timeIndex; i < stop; ++i)
 		{
-			lir.samplesLenMax += delta * (lir.tick[1 + i] - lir.tick[i]);
+			lir.samplesLenMax += t * (lir.tick[1 + i] - lir.tick[i]);
 			lir.samplesLen[i] = (unsigned)lir.samplesLenMax;
 		}
 
 		lir.timeIndex = stop;
-	
+
 		lir.lastTime = sq.time;
 		lir.lastOffs = sq.offs;
 		lir.tmpPerSamples = t;
@@ -335,7 +326,7 @@ template<>struct __start__<on<Magn, 2>>
 	void operator()(SubLir &lir)
 	{
 		//посмотреть чтобы было смещение для гр пр
-		Singleton<ItemData<Solid>>::Instance().start = lir.samples[lir.index + 1] + 5000;
+		Singleton<ItemData<Solid>>::Instance().start = lir.samples[lir.index + 1] + 5000;	
 	}
 };
 
@@ -343,11 +334,18 @@ template<>struct __start__<off<Magn, 1>>
 {
 	void operator()(SubLir &lir)
 	{
-		Singleton<ItemData<Solid>>::Instance().stop = lir.samples[lir.index - 1];
-		lir.moduleItems.get<Module<Cross>>().Stop();
-		lir.moduleItems.get<Module<Long>>().Stop();
+		Singleton<ItemData<Solid>>::Instance().stop = lir.samples[lir.index - 1];		
 	}
 };
+
+template<>struct __start__<off<Magn, 2>>
+{
+	void operator()(SubLir &lir)
+	{
+
+	}
+};
+
 
 template<>struct __start__<on<Long, 2>>
 {
@@ -357,22 +355,6 @@ template<>struct __start__<on<Long, 2>>
 	}
 };
 
-//template<>struct __start__<off<Long, 2>>
-//{
-//	void operator()(SubLir &lir)
-//	{
-//		lir.moduleItems.get<Module<Long>>().Stop();
-//	}
-//};
-//
-//template<>struct __start__<off<Cross, 2>>
-//{
-//	void operator()(SubLir &lir)
-//	{
-//		lir.moduleItems.get<Module<Cross>>().Stop();
-//	}
-//};
-
 template<>struct __start__<on<Cross, 2>>
 {
 	void operator()(SubLir &lir)
@@ -381,24 +363,26 @@ template<>struct __start__<on<Cross, 2>>
 	}
 };
 
-//template<class T>struct __stop_0_
-//{
-//	void operator()(){};
-//};
-//
-//template<>struct __stop_0_<off<Cross, 2>>
-//{
-//	void operator()()
-//	{
-//		zprint("\n");
-//	}
-//};
+template<>struct __start__<off<Cross, 2>>
+{
+	void operator()(SubLir &lir)
+	{
+		lir.moduleItems.get<Module<Cross>>().Stop();
+	}
+};
+
+template<>struct __start__<off<Long, 2>>
+{
+	void operator()(SubLir &lir)
+	{
+		lir.moduleItems.get<Module<Long>>().Stop();
+	}
+};
 
 template<class T>void SQ<T>::Do()
 {
 	__sq__<T>()(lir);	 //сохранение времени срабатывания датчика
 	__start__<T>()(lir);  //смещение начала отчёта данных в модуле
-	//__stop_0_<T>()();
 	TL::foreach<__zones_do__<T>::Result, __sq_do__>()(__sq_do_data__<T>(lir));
 }
 
@@ -439,39 +423,70 @@ template<class T>void Module<T>::Start()
 #endif
 }
 
-template<class T>void Module<T>::Stop()
+template<class T>struct __module_stop__;
+template<class T>struct __module_stop__<Module<T>>
 {
-	SQ<off<T,1>> &sq1 = lir.sqItems.get<SQ<off<T,1>>>();
-	SQ<off<T,2>> &sq2 = lir.sqItems.get<SQ<off<T,2>>>();
-	unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
-	unsigned *tick = lir.tick;
-	unsigned *samples = lir.samples;
-	int index = lir.index - 1;
-	for(int i = index; i > 0; --i)
+	void operator()(Module<T> &p)
 	{
-		if(tick[i] < offs)
+		SQ<off<T,1>> &sq1 = p.lir.sqItems.get<SQ<off<T,1>>>();
+		SQ<off<T,2>> &sq2 = p.lir.sqItems.get<SQ<off<T,2>>>();
+		unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
+		unsigned *tick = p.lir.tick;
+		unsigned *samples = p.lir.samples;
+		int index = p.lir.index - 1;
+		for(int i = index; i > 0; --i)
 		{
-			double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
-			unsigned offs1 = (samples[i] + unsigned(d * (samples[i + 1] - samples[i])));
-
-			for(int i = 0; i < 62; ++i)
+			if(tick[i] < offs)
 			{
-				if(0 == zones[i])
+				double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
+				unsigned offs1 = samples[i] + unsigned(d * (samples[i + 1] - samples[i]));
+				unsigned dZone = p.zones[1] - p.zones[0];
+				for(int i = 0; i < 62; ++i)
 				{
-					zones[i] = zones[i - 1] + zones[i - 1] - zones[i - 2];
-					zprint("last zero zone %d offs1 < zones[i] %d %d\n", i, zones[i], offs1);
-				}
-				if(offs1 < zones[i])
-				{
-					zprint("last zone %d offs1 < zones[i] %d %f\n", i, zones[i], offs1);
-					zonesOffs = 1 + i;
-					ItemData<T> &module = Singleton<ItemData<T>>::Instance();
-					module.currentOffsetZones = zonesOffs; 
-					return;
+					if(0 == p.zones[i])
+					{
+						p.zones[i] = p.zones[i - 1] + dZone;
+					}
+					if(offs1 < p.zones[i])
+					{
+						for(int k = i + 1, j = 0; j < 4 && k < 62; ++k, ++j)
+						{
+							p.zones[k] = p.zones[k - 1] + dZone;
+						}
+						p.zonesOffs = 4 + i;
+						ItemData<T> &module = Singleton<ItemData<T>>::Instance();
+						module.currentOffsetZones = p.zonesOffs; 
+						return;
+					}
 				}
 			}
 		}
 	}
+};
+
+template<>struct __module_stop__<Module<Long>>
+{
+	void operator()(Module<Long> &p)
+	{
+		typedef Long T;
+		unsigned dZone = p.zones[1] - p.zones[0];
+
+		for(int i = 0; i < 62; ++i)
+		{
+			if(0 == p.zones[i])
+			{
+				p.zones[i] = p.zones[i - 1] + dZone;
+			}
+		}
+		p.zonesOffs = Singleton<ItemData<Cross>>::Instance().currentOffsetZones;
+		Singleton<ItemData<T>>::Instance().currentOffsetZones = p.zonesOffs;
+	}
+};
+
+template<class T>void Module<T>::Stop()
+{
+	__module_stop__<Module<T>>()(*this);
 }
+
 
 
