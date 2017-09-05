@@ -168,7 +168,7 @@ public:
 	void Start()
 	{
 		timeIndex = 0;
-		tmpPerSamples = 0.25;
+		tmpPerSamples = 0;
 		lastTime = 0;
 		lastOffs = 0;
 		index = 0;
@@ -263,12 +263,18 @@ template<class T>struct __sq__
 	{
 		O &sq = lir.sqItems.get<O>();
 		sq.time = Performance::Counter();
-		double t = lir.tmpPerSamples = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
+		double t = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
 		zprint(" sq.offs %d, lir.lastOffs %d, sq.time %d, lir.lastTime %d\n", sq.offs,  lir.lastOffs, sq.time, lir.lastTime);
+		double delta = t;
+		if(lir.tmpPerSamples != 0.0)
+		{
+			delta += lir.tmpPerSamples;
+			delta *= 0.5;
+		}
 		int stop = lir.index - 1;
         for(int i = lir.timeIndex; i < stop; ++i)
 		{
-			lir.samplesLenMax += t * (lir.tick[1 + i] - lir.tick[i]);
+			lir.samplesLenMax += delta * (lir.tick[1 + i] - lir.tick[i]);
 			lir.samplesLen[i] = (unsigned)lir.samplesLenMax;
 		}
 
@@ -276,6 +282,7 @@ template<class T>struct __sq__
 	
 		lir.lastTime = sq.time;
 		lir.lastOffs = sq.offs;
+		lir.tmpPerSamples = t;
 		zprint(" tmpPerSamples %f offs %d\n", lir.tmpPerSamples, sq.offs);
 	}
 };
@@ -306,6 +313,13 @@ template<>struct __sq__<off<Cross, 1>>
 		lir.lastOffs = sq.offs;
 		sq.perSamples = lir.tmpPerSamples;
 		zprint(" tmpPerSamples %f\n", lir.tmpPerSamples);
+	}
+};
+
+template<template<class, int>class W>struct __sq__<W<Magn, 2>>
+{
+	void operator()(SubLir &lir)
+	{	
 	}
 };
 
@@ -427,40 +441,32 @@ template<class T>void Module<T>::Start()
 
 template<class T>void Module<T>::Stop()
 {
-
-	zprint(" <<>>qqqqqoi00rejij>><>> module stop  \n");
-
 	SQ<off<T,1>> &sq1 = lir.sqItems.get<SQ<off<T,1>>>();
 	SQ<off<T,2>> &sq2 = lir.sqItems.get<SQ<off<T,2>>>();
-	unsigned offs = sq2.time;//sq1.time + (sq2.time - sq1.time) / 2;
-	//
+	unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
 	unsigned *tick = lir.tick;
 	unsigned *samples = lir.samples;
-	int index = lir.index;
+	int index = lir.index - 1;
 	for(int i = index; i > 0; --i)
 	{
-		zprint(" tick[i] < offs %d %d\n", tick[i], offs);
 		if(tick[i] < offs)
 		{
 			double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
-			double offs1 = (double)(samples[i + 1] + unsigned(d * (samples[i + 2] - samples[i + 1])));
-			//for(int k = index - 1; k > 0; --k)
-			int dZone = zones[zonesOffs] - zones[zonesOffs - 1];
-			zprint("dZone %d  zonesOffs %d\n", dZone, zonesOffs);
-			for(int i = zonesOffs - 1; i < 1 + App::count_zones; ++i)
+			unsigned offs1 = (samples[i] + unsigned(d * (samples[i + 1] - samples[i])));
+
+			for(int i = 0; i < 62; ++i)
 			{
-				if(offs1 > zones[i - 1])
+				if(0 == zones[i])
 				{
-					++zonesOffs;
-					zones[i] = zones[i - 1] + dZone;
-					zprint(" ADDED  module stop zonesOffs %d  zones %d\n", i, zones[i]);
+					zones[i] = zones[i - 1] + zones[i - 1] - zones[i - 2];
+					zprint("last zero zone %d offs1 < zones[i] %d %d\n", i, zones[i], offs1);
 				}
-				else
+				if(offs1 < zones[i])
 				{
-					for(int i = 0; i < zonesOffs; ++i)
-					{
-						zprint(" <<>>>><>> module stop zonesOffs %d  zones %d\n", i, zones[i]);
-					}
+					zprint("last zone %d offs1 < zones[i] %d %f\n", i, zones[i], offs1);
+					zonesOffs = 1 + i;
+					ItemData<T> &module = Singleton<ItemData<T>>::Instance();
+					module.currentOffsetZones = zonesOffs; 
 					return;
 				}
 			}

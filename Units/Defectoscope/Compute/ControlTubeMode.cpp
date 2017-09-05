@@ -125,14 +125,14 @@ namespace Mode
 	{
 		template<class T>static void Do(T &)
 		{
-			static unsigned counter = 0;
-
-			if((++counter % 20) == 0) 
-			{
-				lir.Do();   //вызываться будет через ~100 м.сек.
-				if(CrossX.Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
-				if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && LongX.Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
-			}
+			//static unsigned counter = 0;
+			//
+			//if((++counter % 20) == 0) 
+			//{
+			//	lir.Do();   //вызываться будет через ~100 м.сек.
+			//	if(CrossX.Zones(lir.moduleItems.get<Module<Cross>>().zonesOffs)) __updata_window__<Cross>()();
+			//	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Long>>().value && LongX.Zones(lir.moduleItems.get<Module<Long>>().zonesOffs))__updata_window__<Long>()();
+			//}
 		}
 	};
 
