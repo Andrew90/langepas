@@ -50,7 +50,7 @@ template<class O, class P>struct __sq_do__
 	{
 		Module<O> &module = p.lir.moduleItems.get<Module<O>>();
 		unsigned t = Performance::Counter();
-	Zones::Do(p.lir, t, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
+		Zones::Do(p.lir, t, p.sq.perSamples, module.zonesOffs, module.zones, module.framesOffs//, module.rem
 			, module.startLen
 			, module.offset
 			);
@@ -237,12 +237,11 @@ struct Zones
 			int j = t / App::zone_length;
 			if(j > module_zonesOffs)
 			{
-				dprint("j > module_zonesOffs not doubled %d\n", j);
 				double d = double(samples[i] - samples[i - 1]) / (samplesLen[i] -  samplesLen[i - 1]); 
 				for(int i = module_zonesOffs; i < j; ++i)
 				{
 					offset += d * App::zone_length;
-					module_zones[i] = int(1.088 * offset);
+					module_zones[i] = int(offset);
 					++module_zonesOffs;
 				}
 			}
@@ -265,7 +264,7 @@ template<class T>struct __sq__
 		O &sq = lir.sqItems.get<O>();
 		sq.time = Performance::Counter();
 		double t = lir.tmpPerSamples = sq.perSamples = double(sq.offs - lir.lastOffs) / (sq.time - lir.lastTime);
-
+		zprint(" sq.offs %d, lir.lastOffs %d, sq.time %d, lir.lastTime %d\n", sq.offs,  lir.lastOffs, sq.time, lir.lastTime);
 		int stop = lir.index - 1;
         for(int i = lir.timeIndex; i < stop; ++i)
 		{
@@ -331,6 +330,8 @@ template<>struct __start__<off<Magn, 1>>
 	void operator()(SubLir &lir)
 	{
 		Singleton<ItemData<Solid>>::Instance().stop = lir.samples[lir.index - 1];
+		lir.moduleItems.get<Module<Cross>>().Stop();
+		lir.moduleItems.get<Module<Long>>().Stop();
 	}
 };
 
@@ -342,21 +343,21 @@ template<>struct __start__<on<Long, 2>>
 	}
 };
 
-template<>struct __start__<off<Long, 2>>
-{
-	void operator()(SubLir &lir)
-	{
-		lir.moduleItems.get<Module<Long>>().Stop();
-	}
-};
-
-template<>struct __start__<off<Cross, 2>>
-{
-	void operator()(SubLir &lir)
-	{
-		lir.moduleItems.get<Module<Cross>>().Stop();
-	}
-};
+//template<>struct __start__<off<Long, 2>>
+//{
+//	void operator()(SubLir &lir)
+//	{
+//		lir.moduleItems.get<Module<Long>>().Stop();
+//	}
+//};
+//
+//template<>struct __start__<off<Cross, 2>>
+//{
+//	void operator()(SubLir &lir)
+//	{
+//		lir.moduleItems.get<Module<Cross>>().Stop();
+//	}
+//};
 
 template<>struct __start__<on<Cross, 2>>
 {
@@ -426,32 +427,40 @@ template<class T>void Module<T>::Start()
 
 template<class T>void Module<T>::Stop()
 {
-	zprint(" <<>>>><>> module stop  \n");
+
+	zprint(" <<>>qqqqqoi00rejij>><>> module stop  \n");
+
 	SQ<off<T,1>> &sq1 = lir.sqItems.get<SQ<off<T,1>>>();
 	SQ<off<T,2>> &sq2 = lir.sqItems.get<SQ<off<T,2>>>();
-	unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
+	unsigned offs = sq2.time;//sq1.time + (sq2.time - sq1.time) / 2;
 	//
 	unsigned *tick = lir.tick;
 	unsigned *samples = lir.samples;
 	int index = lir.index;
-	for(int i = index - 1; i > 0; --i)
+	for(int i = index; i > 0; --i)
 	{
+		zprint(" tick[i] < offs %d %d\n", tick[i], offs);
 		if(tick[i] < offs)
 		{
 			double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
-			double offs1 = 1.088 * (samples[i] + unsigned(d * (samples[i + 1] - samples[i])));
+			double offs1 = (double)(samples[i + 1] + unsigned(d * (samples[i + 2] - samples[i + 1])));
 			//for(int k = index - 1; k > 0; --k)
-			int dZone = zones[zonesOffs - 1] - zones[zonesOffs - 2];
-			for(int i = zonesOffs; i < 1 + App::count_zones; ++i)
+			int dZone = zones[zonesOffs] - zones[zonesOffs - 1];
+			zprint("dZone %d  zonesOffs %d\n", dZone, zonesOffs);
+			for(int i = zonesOffs - 1; i < 1 + App::count_zones; ++i)
 			{
 				if(offs1 > zones[i - 1])
 				{
 					++zonesOffs;
 					zones[i] = zones[i - 1] + dZone;
-					zprint(" <<>>>><>> module stop zonesOffs %d\n", zonesOffs);
+					zprint(" ADDED  module stop zonesOffs %d  zones %d\n", i, zones[i]);
 				}
 				else
 				{
+					for(int i = 0; i < zonesOffs; ++i)
+					{
+						zprint(" <<>>>><>> module stop zonesOffs %d  zones %d\n", i, zones[i]);
+					}
 					return;
 				}
 			}
