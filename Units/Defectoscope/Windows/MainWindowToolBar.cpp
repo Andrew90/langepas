@@ -87,8 +87,9 @@ namespace
 	{
 		/////////////////////////////////////////////
 		/////////////////////////////////////////////////////test_lir
-		SubLir &lir = Singleton<SubLir>::Instance();
-		lir.moduleItems.get<Module<Cross>>().Stop();
+		//SubLir &lir = Singleton<SubLir>::Instance();
+		//lir.moduleItems.get<Module<Cross>>().Stop();
+		dprint("%s\n", typeid(__zones_do__<__zones_do__<on<Magn,2>>>::Result).name());
 		////////////////////////////////////////////////////////////
 	}
 //------------------------------------------------------------------------------
