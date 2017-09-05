@@ -86,7 +86,7 @@ bool L502::SetupParams()
     /* записываем настройки в модуль */
     if (!err)
 	{
-		dprint("frequency adc = %0.0f frequency chenell = %0.0f", f_adc, f_frame);
+		dprint("frequency adc = %0.0f frequency chenell = %0.0f\n", f_adc, f_frame);
         err = L502_Configure((t_l502_hnd)hnd, 0);
 	}
 
