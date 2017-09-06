@@ -11,7 +11,7 @@
 #include "App/SyncChannel.hpp"
 
 L502::L502()
-	: READ_TIMEOUT(100)
+	: READ_TIMEOUT(250)
 {}
 
 bool L502::Init()
@@ -126,7 +126,7 @@ int L502::Stop()
 
 bool L502::Read(unsigned &startChannel, double *data, unsigned &count)
 {
-	unsigned rcv_buf[buffer_length];
+	unsigned rcv_buf[buffer_length] = {};
 	int err = 0;
 	int cnt = L502_Recv((t_l502_hnd)hnd, rcv_buf, buffer_length, READ_TIMEOUT);
 	if(cnt > 0)

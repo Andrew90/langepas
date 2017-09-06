@@ -105,7 +105,7 @@ namespace Mode
 		template<class T>static void Do(T &t)
 		{
 			static unsigned counter = 0;
-			if((++counter % 10) == 0)
+			if((++counter % 5) == 0)
 			{
 				unit502.Read();   //вызываться будет через ~100 м.сек.
 			}
@@ -391,12 +391,13 @@ namespace Mode
 		WAIT(Off<iSQ1DM>, off, Magn)
 		Log::Mess<LogMess::tubeExit>();
 		WAIT_COMPUTE(Off<iSQ2DM>, off, Magn)
-			OUT_BITS(Off<oMagnet>);
+		OUT_BITS(Off<oMagnet>);
+		unit502.Read();
+		unit502.Stop();
 		
 		OUT_BITS(Off<oT_Base>, Off<oSTF>, Off<oPowerSU>, Off<oMagnet>, Off<oRP>);
 		DisableDemagnetization();
-		Sleep(500);
-		unit502.Stop();
+		
 //---------------------------------------------------------------	
 		GetDataFromThicknessModule();
 

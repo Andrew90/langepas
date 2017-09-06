@@ -50,7 +50,7 @@ void Unit502::Read()
 	unsigned startChannel;
 	unsigned count = dimention_of(Unit502N::data);
 
-	if(Unit502N::l502.Read(startChannel, Unit502N::data, count))
+	if(start && Unit502N::l502.Read(startChannel, Unit502N::data, count))
 	{
 		int offs = Unit502N::lir.currentSamples;
 		for(int i = 0; i < (int)count; ++i)
@@ -106,6 +106,8 @@ namespace Unit502N
 
 int Unit502::Start()
 {
+	SetupParams();
+	start = true;
 	Unit502N::InitArr()();
 	Unit502N::lir.currentSamples = 0;
 	Unit502N::lir.index = 0;
@@ -116,7 +118,13 @@ int Unit502::Start()
 
 int Unit502::Stop()
 {
-	return Unit502N::l502.Stop();
+	if(start)
+	{
+		Unit502::Read();
+		start = false;
+		return Unit502N::l502.Stop();
+	}
+	return -1;
 }
 
 bool Unit502::ReadAsync(unsigned ch, int mode, int range, double &value)

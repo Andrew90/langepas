@@ -444,8 +444,8 @@ template<class T>struct __module_stop__<Module<T>>
 		{
 			if(tick[i] < offs)
 			{
-				//double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
-				unsigned offs1 = samples[1 + i];//samples[i] + unsigned(d * (samples[i + 1] - samples[i]));
+				double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
+				unsigned offs1 = samples[i] + unsigned(d * (samples[i + 1] - samples[i]));
 				unsigned dZone = p.zones[1] - p.zones[0];
 				for(int i = 0; i < 62; ++i)
 				{
@@ -459,7 +459,7 @@ template<class T>struct __module_stop__<Module<T>>
 						{
 							p.zones[k] = p.zones[k - 1] + dZone;
 						}
-						p.zonesOffs = 3 + i;
+						p.zonesOffs = 1 + i;
 						ItemData<T> &module = Singleton<ItemData<T>>::Instance();
 						module.currentOffsetZones = p.zonesOffs; 
 						return;

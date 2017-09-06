@@ -3,6 +3,7 @@
 class Unit502
 {
 	HANDLE hThread;
+	bool start;
 public:
 	void ReadTresh();
 public:
