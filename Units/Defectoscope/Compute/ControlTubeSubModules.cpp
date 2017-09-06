@@ -300,32 +300,67 @@ LOOP:
 #endif
 		if(receiveDataOk)
 		{
+			ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
+			double brak =   10 * tresh.get<BorderDefect<Thick>>().value;
+			double class2 = 10 * tresh.get<BorderKlass2<Thick>>().value;
+			double class3 = 10 * tresh.get<BorderKlass3<Thick>>().value;
+
+			//brak   /= 10;
+			//class2 /= 10;
+			//class3 /= 10;
+
+			dprint(
+				"brak    %f\n"\
+				"class2	 %f\n"\
+				"class3	 %f\n"
+
+				, brak  
+				, class2
+				, class3
+				);
+
+
+
 			for(int i = 0; i < App::count_zones; ++i)
 			{
 				double t = data.buffer[i] = 0.1 * zones[i];
 				if(0 == zones[i])
 				{
 					data.status[i] = STATUS_ID(Undefined);//StatusId<Clr<BorderDefect<Thick>>>();
+					data.buffer[i] = 10;
 				}
-				else if(brak >= t)
-				{
-					data.status[i] = STATUS_ID(BorderDefect<Thick>);//StatusId<Clr<BorderDefect<Thick>>>();
-				}
-				else if(class3 >= t)
-				{
-					data.status[i] = STATUS_ID(BorderKlass3<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
-				}
-				else if(class2 >= t)
-				{
-					data.status[i] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass2<Thick>>>();
-				}
-				else if(100 < t)
+				//else if(brak >= t)
+				//{
+				//	data.status[i] = STATUS_ID(BorderDefect<Thick>);//StatusId<Clr<BorderDefect<Thick>>>();
+				//}
+				//else if(class3 >= t)
+				//{
+				//	data.status[i] = STATUS_ID(BorderKlass3<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
+				//}
+				//else if(class2 >= t)
+				//{
+				//	data.status[i] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass2<Thick>>>();
+				//}
+				else if(100 < zones[i])
 				{
 					data.status[i] = STATUS_ID(DeathZone);//StatusId<Clr<BorderKlass2<Thick>>>();
 				}
+				else if(class2 < zones[i])
+				{
+					data.status[i] =  STATUS_ID(Nominal);
+				}
+				else if(class3 < zones[i])
+				{
+					data.status[i] = STATUS_ID(BorderKlass2<Thick>);//StatusId<Clr<BorderKlass3<Thick>>>();
+				}
+				else if(brak < zones[i])
+				{
+					data.status[i] = STATUS_ID(BorderKlass3<Thick>);
+				}
 				else
 				{
-					data.status[i] =  STATUS_ID(Nominal);//StatusId<Clr<Nominal>>();
+					//data.status[i] =  STATUS_ID(Nominal);//StatusId<Clr<Nominal>>();
+					data.status[i] = STATUS_ID(BorderDefect<Thick>);
 				}
 			//	dprint("thick %d   stat %d val %f\n", i, data.status[i], data.buffer[i]);
 			}

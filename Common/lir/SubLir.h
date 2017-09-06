@@ -453,7 +453,7 @@ template<class T>struct __module_stop__<Module<T>>
 						{
 							p.zones[k] = p.zones[k - 1] + dZone;
 						}
-						p.zonesOffs = 4 + i;
+						p.zonesOffs = 3 + i;
 						ItemData<T> &module = Singleton<ItemData<T>>::Instance();
 						module.currentOffsetZones = p.zonesOffs; 
 						return;
