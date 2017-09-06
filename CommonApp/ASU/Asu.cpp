@@ -342,9 +342,21 @@ namespace Communication
 
 		buf.typeSizeTube = typeSize;
 
-		buf.brakTreshold = (unsigned short)(brakTresh / 0.1);
-		buf.class2Treshold =  (unsigned short)(class2Tresh / 0.1);
-		buf.class3Treshold =  (unsigned short)(class3Tresh / 0.1);
+		buf.brakTreshold = (unsigned short)(brakTresh * 10);
+		buf.class2Treshold =  (unsigned short)(class2Tresh * 10);
+		buf.class3Treshold =  (unsigned short)(class3Tresh * 10);
+
+		dprint(
+			"buf.typeSizeTube   %d\n"\
+			"buf.brakTreshold 	%d\n"\
+			"buf.class2Treshold	%d\n"\
+			"buf.class3Treshold	%d\n"
+
+			, buf.typeSizeTube 
+			, buf.brakTreshold 
+			, buf.class2Treshold
+			, buf.class3Treshold
+			);
 
 
 		buf.crc = Crc16((unsigned char *)&buf,  sizeof(buf) - sizeof(short));

@@ -36,7 +36,7 @@ namespace Unit502N
 			{
 				arr[k++] = crossData.ascan[i];
 			}
-			for(int i = 0; i < dimention_of(solidData.ascan); ++i)
+			for(int i = dimention_of(solidData.ascan) - 1; i >= 0; i--)
 			{
 				arr[k++] = solidData.ascan[i];
 			}

@@ -212,12 +212,15 @@ void TransferParametersThicknessModule()
 			OUT_BITS(On<oT_Work>);
 			it_does_not_work_without_it_Sleep(3500);
 			ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
+			double defect = tresh.get<BorderDefect<Thick>>().value;
+			double klass2 = tresh.get<BorderKlass2<Thick>>().value;
+			double klass3 = tresh.get<BorderKlass3<Thick>>().value;
 			int res = Communication::Thick::TransferControlParameters(
 				comPort
 				, Singleton<ParametersTable>::Instance().items.get<DiametrTube>().value
-				, tresh.get<BorderDefect<Thick>>().value
-				, tresh.get<BorderKlass2<Thick>>().value
-				, tresh.get<BorderKlass3<Thick>>().value
+				, defect
+				, klass2
+				, klass3
 				);
 			switch(res)
 			{

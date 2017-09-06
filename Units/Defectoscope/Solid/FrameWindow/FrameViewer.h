@@ -46,7 +46,7 @@ public:
 		, BottomAxes  
 		, Signal
 		, Reference
-		, SumSig
+		//, SumSig
 		, Grid	
 		, VThreshold
 	>::Result> TChart;

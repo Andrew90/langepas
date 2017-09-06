@@ -152,11 +152,11 @@ void FrameWindow::IncDecFrame()
 			memmove(frameViewer.points, offsets, sizeof(frameViewer.points));
 		}		
 		
-		frameViewer.chart.items.get<FrameViewer::SumSig>().SetData(
-			&solidData.reference[ frameViewer.x]
-			, &solidData.signal[ frameViewer.x]
-			, frameViewer.width
-			);
+		//frameViewer.chart.items.get<FrameViewer::SumSig>().SetData(
+		//	&solidData.reference[ frameViewer.x]
+		//	, &solidData.signal[ frameViewer.x]
+		//	, frameViewer.width
+		//	);
 
 		RepaintWindow(thresholdsViewer.hWnd);
 		RepaintWindow(frameViewer.hWnd);
