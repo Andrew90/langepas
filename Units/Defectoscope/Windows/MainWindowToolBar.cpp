@@ -47,9 +47,9 @@ namespace
 		//, BUTTON_KEY(IDB_ClampBtn)
 		//, BUTTON_KEY(IDB_SensorsUnit)
 		//, SeparatorToolbar<3>
-//#ifdef DEBUG_ITEMS
-		, BUTTON_KEY(IDB_arrow_down) 
 #ifdef DEBUG_ITEMS
+		, BUTTON_KEY(IDB_arrow_down) 
+//#ifdef DEBUG_ITEMS
 		, BUTTON_KEY(IDB_arrow_up)
 		, BUTTON_KEY(IDB_arrow_left) 
 		, BUTTON_KEY(IDB_arrow_right)
