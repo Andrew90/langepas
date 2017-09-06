@@ -67,9 +67,9 @@ namespace
 		template<>struct TopMenu<Options>						   
 	{														   
 		typedef TL::MkTlst<
-			MenuItem<EnableStandard>
-			, Separator<0>
-			, MenuItem<WindowPos>						   
+		//	MenuItem<EnableStandard>
+		//	, Separator<0>
+			 MenuItem<WindowPos>						   
 		>::Result list;										   
 	};														   
 
