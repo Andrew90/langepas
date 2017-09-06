@@ -803,9 +803,9 @@ bool ComputeSolidGroup::Frames(double* signal, double *reference, int start, int
 			double y1 = signal[offs];
 			points[j] = y0 + dY * (y1 - y0);
 
-			y0 = reference[offs - 1];
-			y1 = reference[offs];
-			points[j] -= y0 + dY * (y1 - y0);
+			//y0 = reference[offs - 1];
+			//y1 = reference[offs];
+			//points[j] -= y0 + dY * (y1 - y0);
 		}
 
 		double root = 0;
@@ -1022,9 +1022,9 @@ bool ComputeSolidGroup::FramesOne(double(&points)[count_points], int(&offsets)[c
 			double y1 = signal[offs];
 			points[j] = y0 + dY * (y1 - y0);
 
-			y0 = reference[offs - 1];
-			y1 = reference[offs];
-			points[j] -= y0 + dY * (y1 - y0);
+			//y0 = reference[offs - 1];
+			//y1 = reference[offs];
+			//points[j] -= y0 + dY * (y1 - y0);
 		}
 
 		double root = 0;
