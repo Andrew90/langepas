@@ -176,6 +176,11 @@ public:
 		startTime = 0;
 		currentSamples = 0;
 		samplesLenMax = 0;
+
+		ZeroMemory(tick, sizeof(tick));
+		ZeroMemory(samples, sizeof(samples));
+		ZeroMemory(samplesLen, sizeof(samplesLen));
+
 		TL::foreach<module_list, __init_modules__>()(moduleItems);
 	}
 	void Do()
@@ -393,6 +398,7 @@ template<class T>Module<T>::Module(SubLir &lir)
 /// начало измерений модуля(смещение центра)
 template<class T>void Module<T>::Start()
 {
+	ZeroMemory(zones, sizeof(zones));
 	zprint(" <<>>>><>> module start\n");
 	SQ<on<T,1>> &sq1 = lir.sqItems.get<SQ<on<T,1>>>();
 	SQ<on<T,2>> &sq2 = lir.sqItems.get<SQ<on<T,2>>>();
@@ -438,8 +444,8 @@ template<class T>struct __module_stop__<Module<T>>
 		{
 			if(tick[i] < offs)
 			{
-				double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
-				unsigned offs1 = samples[i] + unsigned(d * (samples[i + 1] - samples[i]));
+				//double d = 1.0 - double(offs - tick[i]) / (tick[i + 1] - tick[i]);
+				unsigned offs1 = samples[1 + i];//samples[i] + unsigned(d * (samples[i + 1] - samples[i]));
 				unsigned dZone = p.zones[1] - p.zones[0];
 				for(int i = 0; i < 62; ++i)
 				{
