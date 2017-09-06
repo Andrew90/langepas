@@ -344,6 +344,7 @@ LOOP:
 				else if(100 < zones[i])
 				{
 					data.status[i] = STATUS_ID(DeathZone);//StatusId<Clr<BorderKlass2<Thick>>>();
+					data.buffer[i] = 10;
 				}
 				else if(class2 < zones[i])
 				{
