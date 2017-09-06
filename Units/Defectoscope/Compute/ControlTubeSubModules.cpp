@@ -343,7 +343,7 @@ LOOP:
 				//}
 				else if(100 < zones[i])
 				{
-					data.status[i] = STATUS_ID(DeathZone);//StatusId<Clr<BorderKlass2<Thick>>>();
+					data.status[i] = STATUS_ID(Undefined);//StatusId<Clr<BorderKlass2<Thick>>>();
 					data.buffer[i] = 10;
 				}
 				else if(class2 < zones[i])
@@ -365,8 +365,9 @@ LOOP:
 				}
 			//	dprint("thick %d   stat %d val %f\n", i, data.status[i], data.buffer[i]);
 			}
+			OUT_BITS(Off<oT_Cycle>);
 		}
-		dprint("len tube %d\n", data.currentOffsetZones);
+		dprint("len tube %d\n", data.currentOffsetZones);		
 	}
 }
 
@@ -539,7 +540,7 @@ void WorkACS(char (&numberTube)[9])
 
 			switch(res)
 			{
-			case Communication::ok: break;
+			case Communication::ok: return;
 			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
 				throw AutomatN::ExceptionAlarm();
 			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
@@ -547,12 +548,16 @@ void WorkACS(char (&numberTube)[9])
 			case Communication::error_count  :  Log::Mess<LogMess::error_count>();
 				if(++attempt < 2)
 				{
+					Sleep(2000);
+					dprint("ASU contine\n");
 					continue;
 				}
 				else
 				{
+					dprint("push button\n");
 					Log::Mess<LogMess::contineRun>();
 					AppKeyHandler::RunContine();	/// включили кнопку продолжить
+					dprint("AppKeyHandler::RunContine();\n");
 					int pushButton = AND_BITS(
 						Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 						, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить

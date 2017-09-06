@@ -184,8 +184,8 @@ namespace Mode
 	lir.sqItems.get<SQ<on<sen, 2>>>().Do();\
 	__compute_unit__<sen>()(lir, sen##X);
 
-	void ControlTube(Data &)
-	{
+	void ControlTube(Data &gData)
+	{		
 		if(!TestControlCircuit())
 		{
 			if(WAIT_TIMEOUT != WaitForSingleObject(Ex<ExceptionStop>::handle , INFINITE))
@@ -202,11 +202,19 @@ namespace Mode
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 		//TODO Проверка модуля размагничивания
-		CheckDemagnetizeModule();
+		if(gData.firstRun)CheckDemagnetizeModule();
 		//TODO Установка рабочего положения модулей контроля
-		SettingWorkingPositionControlModules();
+		if(gData.firstRun)SettingWorkingPositionControlModules();
 		//TODO Если толщиномер используется передать параметры
-		TransferParametersThicknessModule();
+		if(gData.firstRun)
+		{
+				TransferParametersThicknessModule();
+		}
+		//else
+		//{
+		//	OUT_BITS(On<oT_Work>);
+		//	Sleep(2000);
+		//}
 		//TODO Подготовка частотного преобразователя продольного модуля
 		FrequencyInverterPreparation();
 		///TODO Установка режима работы контроллера пневмооборудования
@@ -306,7 +314,11 @@ namespace Mode
 			, Proc<AllarmBits>
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 			)(60000); 
-		unit502.Start();
+		if(unit502.Start())
+		{
+			Log::Mess<LogMess::unit502RunErr>();
+			throw AutomatN::ExceptionAlarm();
+		}
 		GUARD{unit502.Stop();};	  /// \brief выключает 502 при досрочном выходе из цикла 
 		ZZZ(on, Cross, 1)  /// сохранение времени наезда на датчик поперечный 
 		WAIT_COMPUTE(On<iSQ2po>, on, Cross)
@@ -414,10 +426,11 @@ namespace Mode
 		}
 		
 		WorkACS(numberTube); //передача в асу
-		StoredData(!sop); // сохранение в базе
+	//	StoredData(!sop); // сохранение в базе
 //---------------------------------------------------------------
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
+		gData.firstRun = false;
 	}
 }
 #undef ZZZ

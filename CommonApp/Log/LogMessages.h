@@ -230,6 +230,7 @@ namespace LogMess
 		, demagnetizationNotCorrect
 		, demagnetizationTesting
 		, unit502SetupParams
+		, unit502RunErr
 		, emergencyExit
 		, tubeExit
 //		    
@@ -368,6 +369,7 @@ namespace LogMess
 	MESS(demagnetizationTesting, void, "Тестирование размагничивания", blue, white)
 
 	MESS(unit502SetupParams, void, "Плата L502 не инициализируется", red, yellow)
+	MESS(unit502RunErr, void, "Плата L502 не запускается", red, yellow)
 
     MESS(emergencyExit, void, "Выход по аварии", red, yellow)
 

@@ -349,7 +349,7 @@ namespace AutomatN
 
 			while(true)
 			{
-				unsigned ev = WaitForMultipleObjects(dimention_of(arrEvents.h), arrEvents.h, FALSE, 1);
+				unsigned ev = WaitForMultipleObjects(dimention_of(arrEvents.h), arrEvents.h, FALSE, 20);
 
 				unsigned res1 = device1730_1.Read();
 				unsigned res2 = device1730_2.Read();

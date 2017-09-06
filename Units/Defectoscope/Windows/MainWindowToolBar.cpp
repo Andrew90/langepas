@@ -10,6 +10,7 @@
 #include "Windows/MainWindow.h"
 #include "Compute\ControlMode.h"
 #include "lir\SubLir.h"
+#include <typeinfo.h>
 using namespace Gdiplus;
 namespace 
 {

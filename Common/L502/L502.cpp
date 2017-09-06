@@ -95,7 +95,8 @@ bool L502::SetupParams()
     {
         err = L502_StreamsEnable((t_l502_hnd)hnd, L502_STREAM_ADC);
     }
-
+    if (err)
+		zprint("error collections date: %d!\n", err);//L502_GetErrorString(err));
     return 0 == err;
 }
 #undef SETUP
@@ -104,7 +105,7 @@ int L502::Start()
 {
 	int err = L502_StreamsStart((t_l502_hnd)hnd);
 	if (err)
-		dprint("error collections date: %s!", L502_GetErrorString(err));
+		zprint("error collections date: %d!\n", err);//L502_GetErrorString(err));
 	return err;
 }
 
@@ -114,7 +115,7 @@ int L502::Stop()
 	int err = L502_StreamsStop((t_l502_hnd)hnd);
 	if (err)
 	{
-		dprint("error colecton date: %s", L502_GetErrorString(err));
+		zprint("error colecton date: %d\n", err);//L502_GetErrorString(err));
 	}
 	return err;
 }
@@ -129,7 +130,7 @@ bool L502::Read(unsigned &startChannel, double *data, unsigned &count)
 		int err = L502_ProcessData((t_l502_hnd)hnd, rcv_buf, cnt, L502_PROC_FLAGS_VOLT, data, &count, NULL, NULL);
 		if (err < 0)
 		{
-			dprint("error computing date: %s", L502_GetErrorString(err));
+			zprint("error computing date: %d\n", err);//L502_GetErrorString(err));
 			return false;
 		}		
 	}

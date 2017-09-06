@@ -109,6 +109,9 @@ namespace AutomatN
 		LogMess::FactoryMessages &f = LogMess::FactoryMessages::Instance();
 		char c[128];
 		f.Text(d->id, c, d->value);
+		device1730_1.Write(0);
+		device1730_2.Write(0);
+		DisableDemagnetization();
 		MessageBoxA(app.mainWindow.hWnd, c, "Сообщение!!!", MB_ICONINFORMATION);
 	}
 	//----------------------------------------------------------------------------
@@ -122,6 +125,7 @@ namespace AutomatN
 
 		Mode::Data data;
 		data.packet = true;
+		data.firstRun = true;
 		while(true)
 		{
 			try
@@ -145,6 +149,7 @@ namespace AutomatN
 				DisableDemagnetization();
 				AppKeyHandler::Stop();
 				data.packet = true;
+				data.firstRun = true;
 			}
 			catch(ExceptionTimeOut)
 			{
@@ -155,6 +160,7 @@ namespace AutomatN
 				DisableDemagnetization();
 			//	AppKeyHandler::Stop();
 				data.packet = true;
+				data.firstRun = true;
 			}
 			catch(ExceptionAlarm)
 			{
@@ -164,6 +170,7 @@ namespace AutomatN
 				DisableDemagnetization();
 			//	AppKeyHandler::Stop();
 				data.packet = true;
+				data.firstRun = true;
 			}
 			catch(ExceptionExit)
 			{			

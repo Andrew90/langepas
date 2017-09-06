@@ -239,28 +239,28 @@ namespace
 
 void MainWindow::EnableTool()
 {
-	__enable_data__ data = {true, hWnd};
-	TL::foreach<MainMenu_Enable, __enable__>()(data);
-
-	//TL::foreach<file_list, __enable_parent__>()(data);
-
-	EnableWindow(acsCheckBox.hWnd, TRUE);
-	EnableWindow(longCheckBox.hWnd, TRUE);
-	EnableWindow(ThickCheckBox.hWnd, TRUE);
-	EnableWindow(select.hWnd, TRUE);
+//	__enable_data__ data = {true, hWnd};
+//	TL::foreach<MainMenu_Enable, __enable__>()(data);
+//
+//	//TL::foreach<file_list, __enable_parent__>()(data);
+//
+//	EnableWindow(acsCheckBox.hWnd, TRUE);
+//	EnableWindow(longCheckBox.hWnd, TRUE);
+//	EnableWindow(ThickCheckBox.hWnd, TRUE);
+//	EnableWindow(select.hWnd, TRUE);
 }
 
 void MainWindow::DisableTool()
 {
-	__enable_data__ data = {false, hWnd};
-	TL::foreach<MainMenu_Enable, __enable__>()(data);
-
-	///TL::foreach<file_list, __enable_parent__>()(data);
-
-	EnableWindow(acsCheckBox.hWnd, FALSE);
-	EnableWindow(longCheckBox.hWnd, FALSE);
-	EnableWindow(ThickCheckBox.hWnd, FALSE);
-	EnableWindow(select.hWnd, FALSE);
+//	__enable_data__ data = {false, hWnd};
+//	TL::foreach<MainMenu_Enable, __enable__>()(data);
+//
+//	///TL::foreach<file_list, __enable_parent__>()(data);
+//
+//	EnableWindow(acsCheckBox.hWnd, FALSE);
+//	EnableWindow(longCheckBox.hWnd, FALSE);
+//	EnableWindow(ThickCheckBox.hWnd, FALSE);
+//	EnableWindow(select.hWnd, FALSE);
 }
 
 

@@ -5,6 +5,7 @@ namespace Mode
 	struct Data
 	{
 		bool packet;
+		bool firstRun;
 	};
 
 	void ControlTube(Data &);
