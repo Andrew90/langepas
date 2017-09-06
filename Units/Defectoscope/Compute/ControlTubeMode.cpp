@@ -105,7 +105,7 @@ namespace Mode
 		template<class T>static void Do(T &t)
 		{
 			static unsigned counter = 0;
-			if((++counter % 20) == 0)
+			if((++counter % 10) == 0)
 			{
 				unit502.Read();   //вызываться будет через ~100 м.сек.
 			}

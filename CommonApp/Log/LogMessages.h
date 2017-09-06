@@ -272,7 +272,7 @@ namespace LogMess
 	MESS(ModulesNotInOperationLong, void, "Продольный модуль не в положении обслуживания", red  , yellow) 
 	MESS(ModulesNotInOperationThick, void, "Модуль толщины не в положении обслуживания", red  , yellow) 
 	MESS(TransverseModuleClampsDidNotWork, void, "Не сработали зажимы поперечного модуля", red, yellow)
-	MESS(PipeReturnAllowed, void , "МОДУЛИ в ОП. Возврат трубы разрещен", blue , white)
+	MESS(PipeReturnAllowed, void , "МОДУЛИ в ОП. Возврат трубы разрешон", blue , white)
 //
 	MESS(iSQ1prMess, void, "Датчик наличия трубы на входе в продольный модуль", blue , white)
 	MESS(iSQ2prMess, void, "Датчик наличия трубы на выходе из продольного модулья", blue , white)

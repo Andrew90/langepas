@@ -80,7 +80,6 @@ void Unit502::Read()
 
 bool Unit502::Init()
 {
-	start = false;
 	return Unit502N::l502.Init();
 }
 
@@ -112,21 +111,12 @@ int Unit502::Start()
 	Unit502N::lir.index = 0;
 	Unit502N::lir.tmpPerSamples = 0;
 	TL::foreach<Unit502N::range_list, Unit502N::__koef__>()(Singleton<L502RangeTable>::Instance().items);
-	start = true;
 	return Unit502N::l502.Start();
 }
 
 int Unit502::Stop()
 {
-	if(start)
-	{				
-		start = false;
-		return Unit502N::l502.Stop();
-	}
-	else
-	{
-		return -1;
-	}
+	return Unit502N::l502.Stop();
 }
 
 bool Unit502::ReadAsync(unsigned ch, int mode, int range, double &value)

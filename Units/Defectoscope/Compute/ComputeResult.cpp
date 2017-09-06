@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "ComputeResult.h"
 #include "App/App.h"
 #include "App/AppBase.h"
@@ -131,7 +131,7 @@ void ComputeResult()
 
     SubLir &lir = Singleton<SubLir>::Instance();
 
-	//Расчёт мёртвой зоны конец
+	//Р Р°СЃС‡С‘С‚ РјС‘СЂС‚РІРѕР№ Р·РѕРЅС‹ РєРѕРЅРµС†
 	Module<Cross> &moduleCross = lir.moduleItems.get<Module<Cross>>();
 	
 	int len = moduleCross.zonesOffs;
@@ -212,33 +212,33 @@ void ComputeResult()
 	wchar_t *group = NULL;
 	unsigned color = 0;
 
-	CuttingZones(); /// зоны реза
+	CuttingZones(); /// Р·РѕРЅС‹ СЂРµР·Р°
 
 	ComputeSolid::Recalculation(res, group, color);
 	wchar_t txt[1024];
 	txt[0] = 0;
 	wchar_t *s = txt;
-	if(0 != *group)wsprintf(s, L"<ff>\"Группа прочности\"<%x>%s ", color & 0xFFFFFF, group);
+	if(0 != *group)wsprintf(s, L"<ff>Р“СЂСѓРїРїР° РїСЂРѕС‡РЅРѕСЃС‚Рё<%x>%s ", color & 0xFFFFFF, group);
 	if(0 != resultData.resultCommon)
 	{
 		if(0 != resultData.cutZone0)
 		{
 			s += wcslen(s);
-			wsprintf(s, L"<ff>\"Зона реза 1\"<ff0000>%d ", resultData.cutZone0); 
+			wsprintf(s, L"<ff>\"Р—РѕРЅР° СЂРµР·Р° 1\"<ff0000>%d ", resultData.cutZone0); 
 		}
 		if(0 != resultData.cutZone1)
 		{
 			s += wcslen(s);
-			wsprintf(s, L"<ff>\"Зона реза 2\"<ff0000>%d ", resultData.cutZone1); 
+			wsprintf(s, L"<ff>\"Р—РѕРЅР° СЂРµР·Р° 2\"<ff0000>%d ", resultData.cutZone1); 
 		}
 	}
 	s += wcslen(s);
 	switch(resultData.resultCommon)
 	{
-	case 0:	wsprintf(s, L"<ff0000> Брак "); break;
-	case 1: wsprintf(s, L"<ff00> Норма ");break;
-	case 2: wsprintf(s, L"<ffff00> Класс 2 ");break;
-	case 3: wsprintf(s, L"<ff00ff> Класс 3 ");break;
+	case 0:	wsprintf(s, L"<ff0000> Р‘СЂР°Рє "); break;
+	case 1: wsprintf(s, L"<ff00> РќРѕСЂРјР° ");break;
+	case 2: wsprintf(s, L"<ffff00> РљР»Р°СЃСЃ 2 ");break;
+	case 3: wsprintf(s, L"<ff00ff> РљР»Р°СЃСЃ 3 ");break;
 	}
 	app.mainWindow.topLabelViewer.SetMessage(txt);
 }
