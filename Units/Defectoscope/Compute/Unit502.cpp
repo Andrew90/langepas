@@ -23,6 +23,7 @@ namespace Unit502N
 
 	double *arr[length];
 	double kor[length];
+	double data[L502::buffer_length] = {};
 	struct InitArr
 	{
 		void operator()()
@@ -45,12 +46,11 @@ namespace Unit502N
 
 }
 void Unit502::Read()
-{
-	double data[L502::buffer_length];
+{	
 	unsigned startChannel;
-	unsigned count = dimention_of(data);
+	unsigned count = dimention_of(Unit502N::data);
 
-	if(Unit502N::l502.Read(startChannel, data, count))
+	if(Unit502N::l502.Read(startChannel, Unit502N::data, count))
 	{
 		int offs = Unit502N::lir.currentSamples;
 		for(int i = 0; i < (int)count; ++i)
@@ -59,7 +59,7 @@ void Unit502::Read()
 			if(k < App::count_frames)
 			{
 				int sens = (startChannel + i) % Unit502N::length;
-				Unit502N::arr[sens][k] = data[i] * Unit502N::kor[sens];
+				Unit502N::arr[sens][k] = Unit502N::data[i] * Unit502N::kor[sens];
 				++offs;
 			}
 		}

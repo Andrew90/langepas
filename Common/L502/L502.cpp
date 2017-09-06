@@ -96,7 +96,9 @@ bool L502::SetupParams()
         err = L502_StreamsEnable((t_l502_hnd)hnd, L502_STREAM_ADC);
     }
     if (err)
-		zprint("error collections date: %d!\n", err);//L502_GetErrorString(err));
+	{
+		zprint("error L502_StreamsEnable date: %d!\n", err);//L502_GetErrorString(err));
+	}
     return 0 == err;
 }
 #undef SETUP
@@ -105,7 +107,9 @@ int L502::Start()
 {
 	int err = L502_StreamsStart((t_l502_hnd)hnd);
 	if (err)
-		zprint("error collections date: %d!\n", err);//L502_GetErrorString(err));
+	{
+		zprint("error L502_StreamsStart date: %d!\n", err);//L502_GetErrorString(err));
+	}
 	return err;
 }
 
@@ -115,7 +119,7 @@ int L502::Stop()
 	int err = L502_StreamsStop((t_l502_hnd)hnd);
 	if (err)
 	{
-		zprint("error colecton date: %d\n", err);//L502_GetErrorString(err));
+		zprint("error L502_StreamsStop date: %d\n", err);//L502_GetErrorString(err));
 	}
 	return err;
 }
@@ -123,16 +127,27 @@ int L502::Stop()
 bool L502::Read(unsigned &startChannel, double *data, unsigned &count)
 {
 	unsigned rcv_buf[buffer_length];
+	int err = 0;
 	int cnt = L502_Recv((t_l502_hnd)hnd, rcv_buf, buffer_length, READ_TIMEOUT);
 	if(cnt > 0)
 	{
-		L502_GetNextExpectedLchNum((t_l502_hnd)hnd, &startChannel);
-		int err = L502_ProcessData((t_l502_hnd)hnd, rcv_buf, cnt, L502_PROC_FLAGS_VOLT, data, &count, NULL, NULL);
+		err = L502_GetNextExpectedLchNum((t_l502_hnd)hnd, &startChannel);
 		if (err < 0)
 		{
-			zprint("error computing date: %d\n", err);//L502_GetErrorString(err));
+			zprint("error L502_GetNextExpectedLchNum date: %d\n", err);//L502_GetErrorString(err));
+			return false;
+		}	
+		err = L502_ProcessData((t_l502_hnd)hnd, rcv_buf, cnt, L502_PROC_FLAGS_VOLT, data, &count, NULL, NULL);
+		if (err < 0)
+		{
+			zprint("error Read date: %d\n", err);//L502_GetErrorString(err));
 			return false;
 		}		
+	}
+	else if(cnt < 0)
+	{
+		zprint("error L502_Recv date: %d\n", cnt);
+		return false;
 	}
 	return true;
 }
@@ -152,6 +167,11 @@ bool L502::ReadAsync(unsigned ch, int mode, int range, double &value)
 	if (err == L502_ERR_OK) {
 		/* Считываем кадр данных АЦП из одного отсчета */
 		return L502_ERR_OK == L502_AsyncGetAdcFrame((t_l502_hnd)hnd, L502_PROC_FLAGS_VOLT, 1000, &value);
+	}
+	else if(err < 0)
+	{
+		zprint("error ReadAsync date: %d\n", err);
+		return false;
 	}
 	return false;
 }
@@ -209,7 +229,12 @@ if (err != X502_ERR_OK) {
 
 bool L502::BitOut(unsigned ch, bool value)
 {
-	unsigned bits = 1 << (ch - 1);
+	int t = ch - 1;
+	if(t < 0)
+	{
+		zprint("error channel date: %d\n", t);
+	}
+	unsigned bits = 1 << (t);
 	return L502_ERR_OK == L502_AsyncOutDig((t_l502_hnd)hnd, value ? bits: 0, ~bits);
 }
 bool L502::BitIn(unsigned &value)
