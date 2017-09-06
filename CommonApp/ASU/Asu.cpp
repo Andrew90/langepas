@@ -227,9 +227,10 @@ namespace Communication
 
 		unsigned short brakTreshold;
 		unsigned short class2Treshold;
-		
 		unsigned short lengthTube;
 		unsigned short class3Treshold;
+		
+		
 		
 		char reserve[4 - sizeof(unsigned short)];
 		unsigned short zones[65];
@@ -284,15 +285,17 @@ namespace Communication
 					"numFunc		%d\n"\
 					"brakTreshold	%d\n"\
 					"class2Treshold	%d\n"\
-					"class3Treshold	%d\n"\
-					"lengthTube		%d\n"
+					"lengthTube		%d\n"\
+					"class3Treshold	%d\n"
+					
 					, b->size			
 					, b->numAbonent		
 					, b->numFunc		
 					, b->brakTreshold	
 					, b->class2Treshold	
+					, b->lengthTube	
 					, b->class3Treshold	
-					, b->lengthTube		
+						
 					);
 
 
