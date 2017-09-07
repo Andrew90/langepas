@@ -283,8 +283,8 @@ unsigned char ResAsu(unsigned char id)
 	bool cb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value));
 	bool l2 = 0 != (res & (1 << TL::IndexOf<status_list, BorderKlass2<Long> >::value));
 	bool lb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Long> >::value));
-	bool t2 = 0 != (res & (1 << TL::IndexOf<status_list, BorderKlass2<Cross> >::value));
-	bool tb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value));
+	bool t2 = 0 != (res & (1 << TL::IndexOf<status_list, BorderKlass2<Thick> >::value));
+	bool tb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Thick> >::value));
 
 	static const unsigned char ok = 1;
 	static const unsigned char k2 = 2;
@@ -308,7 +308,7 @@ unsigned char ResAsu(unsigned char id)
 	return t;
 }
 
-unsigned StatBits(unsigned char id)
+unsigned StatBits(unsigned id)
 {
 	return StatusMessages::bits[id].bits;
 }
