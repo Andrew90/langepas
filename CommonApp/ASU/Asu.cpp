@@ -4,6 +4,8 @@
 #include "ComPort/ComPort.h"
 #include "App/AppBase.h"
 #include "templates\typelist.hpp"
+#include "DataItem\DataItem.h"
+#include "MessageText\StatusMessages.h"
 
 namespace Communication
 {	
@@ -87,6 +89,12 @@ namespace Communication
 		}
 	};
 
+	struct ZoneVal
+	{
+		unsigned char thick;
+		unsigned char stat;
+	};
+
 	int Asu::SendData(ComPort &comPort
 		, char (&numberTube)[9]
 	, int crossBrak, int crossClass2
@@ -124,6 +132,21 @@ namespace Communication
 		func.resultClutch	= 0	;
 		func.solidGroupClutch = 0   ;
 		func.solidGroupTube	 = solidGroupTube  ;
+
+		ItemData<::Thick> &th = Singleton<ItemData<::Thick>>::Instance();
+		//ItemData<Cross> &cr = Singleton<ItemData<Cross>>::Instance();
+		//ItemData<Long> &lo = Singleton<ItemData<Long>>::Instance();
+		ResultData &rs = Singleton<ResultData>::Instance();
+
+		ZoneVal *zone = (ZoneVal *)func.size;
+		for(int i = 0; i < rs.currentOffsetZones; ++i)
+		{
+			zone[i].thick = (unsigned char)(10.0 * th.buffer[i]);
+
+			zone[i].stat = ResAsu(rs.status[i]);
+			
+			dprint("asu send thick %d stat %d \n", zone[i].thick, zone[i].stat);
+		}
 
 		func.crc = Crc16((unsigned char *)(&func), sizeof(func) - sizeof(short));
 		HandleComPort handleComPort;
