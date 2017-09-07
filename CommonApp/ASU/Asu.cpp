@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Asu.h"
 #include "ComPort/crc.h"
 #include "ComPort/ComPort.h"
@@ -101,23 +101,14 @@ namespace Communication
 		int res = 0;
 		switch(g)
 		{
-		case 'Д': res = 1;break;
-		case 'К': res = 2;break;
-		case 'Е': res = 3;break;
+		case L'Р”': res = 1;break;
+		case L'Рљ': res = 2;break;
+		case L'Р•': res = 3;break;
 		}
 		return res;
 	}
 
-	int Asu::SendData(ComPort &comPort
-		, char (&numberTube)[9]
-	//, int crossBrak, int crossClass2
-	//	, int longBrak, int longClass2
-	//	, int thickBrak, int thickClass2
-	//	, int lengthTube
-	//	, int cutZone1, int cutZone2
-	//	, int resultCommon
-	//	, char solidGroupTube
-		)
+	int Asu::SendData(ComPort &comPort, char (&numberTube)[9])
 	{
 		Func5 func = {};
 		func.size = sizeof(func);
@@ -265,8 +256,8 @@ namespace Communication
 		return ret;
 	}
 
-	/// \brief тестирует ком-порт
-	/// \return возвращает 0 - если нет ошибок
+	/// \brief С‚РµСЃС‚РёСЂСѓРµС‚ РєРѕРј-РїРѕСЂС‚
+	/// \return РІРѕР·РІСЂР°С‰Р°РµС‚ 0 - РµСЃР»Рё РЅРµС‚ РѕС€РёР±РѕРє
 	int Thick::Test(ComPort &comPort)
 	{
 		unsigned char buf[] = {5
@@ -309,13 +300,13 @@ namespace Communication
 		unsigned short crc	   ;
 	};
 #pragma pack(pop)
-	/// \brief возвращает результат контроля
+	/// \brief РІРѕР·РІСЂР°С‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚ РєРѕРЅС‚СЂРѕР»СЏ
 	/// \param ComPort 
-	/// \param возвращает порог брака
-	/// \param возвращает порог 2 класса
-	/// \param возвращает длину трубы
-	/// \param возвращает результат по зонам
-	/// \return возвращает 0 - если нет ошибок
+	/// \param РІРѕР·РІСЂР°С‰Р°РµС‚ РїРѕСЂРѕРі Р±СЂР°РєР°
+	/// \param РІРѕР·РІСЂР°С‰Р°РµС‚ РїРѕСЂРѕРі 2 РєР»Р°СЃСЃР°
+	/// \param РІРѕР·РІСЂР°С‰Р°РµС‚ РґР»РёРЅСѓ С‚СЂСѓР±С‹
+	/// \param РІРѕР·РІСЂР°С‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚ РїРѕ Р·РѕРЅР°Рј
+	/// \return РІРѕР·РІСЂР°С‰Р°РµС‚ 0 - РµСЃР»Рё РЅРµС‚ РѕС€РёР±РѕРє
 	int Thick::RequestControlResult(ComPort &comPort
 		, double &brak
 		, double &class2
@@ -393,12 +384,12 @@ namespace Communication
 		unsigned short crc	   ;
 	};
 #pragma pack(pop)
-	/// \brief передача параметров контроля
-	/// \param типоразмер трубы
-	/// \param порог брака
-	/// \param порог класс 2
-	/// \param порог класс 3
-	/// \return возвращает 0 - если нет ошибок
+	/// \brief РїРµСЂРµРґР°С‡Р° РїР°СЂР°РјРµС‚СЂРѕРІ РєРѕРЅС‚СЂРѕР»СЏ
+	/// \param С‚РёРїРѕСЂР°Р·РјРµСЂ С‚СЂСѓР±С‹
+	/// \param РїРѕСЂРѕРі Р±СЂР°РєР°
+	/// \param РїРѕСЂРѕРі РєР»Р°СЃСЃ 2
+	/// \param РїРѕСЂРѕРі РєР»Р°СЃСЃ 3
+	/// \return РІРѕР·РІСЂР°С‰Р°РµС‚ 0 - РµСЃР»Рё РЅРµС‚ РѕС€РёР±РѕРє
 	int Thick::TransferControlParameters(ComPort &comPort
 		, int typeSize
 		, double brakTresh

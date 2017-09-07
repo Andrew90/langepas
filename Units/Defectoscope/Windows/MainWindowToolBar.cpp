@@ -11,6 +11,7 @@
 #include "Compute\ControlMode.h"
 #include "lir\SubLir.h"
 #include <typeinfo.h>
+#include "ASU\Asu.h"
 using namespace Gdiplus;
 namespace 
 {
@@ -90,7 +91,9 @@ namespace
 		/////////////////////////////////////////////////////test_lir
 		//SubLir &lir = Singleton<SubLir>::Instance();
 		//lir.moduleItems.get<Module<Cross>>().Stop();
-		dprint("%s\n", typeid(__zones_do__<__zones_do__<on<Magn,2>>>::Result).name());
+		//dprint("%s\n", typeid(__zones_do__<__zones_do__<on<Magn,2>>>::Result).name());
+		char d[] = {1,2,3,4,5,6,7,8, 0};
+		 Communication::Asu::SendData(comPort, d);
 		////////////////////////////////////////////////////////////
 	}
 //------------------------------------------------------------------------------

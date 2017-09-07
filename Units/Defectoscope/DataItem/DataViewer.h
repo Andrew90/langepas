@@ -52,13 +52,6 @@ template<class T>struct DataViewer: DefectData
 		int offs0 = d.offsets[zone];
 		int offs1 = d.offsets[1 + zone];
 
-		//if(0 == (channel & 1))
-		//{
-		//	int t = int(45.0 *(offs1 - offs0) / 200);
-        //    offs0 += t;
-		//	offs1 += t;
-		//}
-
 		Set(offs0, offs1, d.ascan[channel], STATUS_ID(BorderKlass2<T>), STATUS_ID(BorderDefect<T>), widthFiltre
 			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequencyOn<T>>().value
 			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequency<T>>().value
