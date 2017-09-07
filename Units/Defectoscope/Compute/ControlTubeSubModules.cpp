@@ -241,7 +241,7 @@ void TransferParametersThicknessModule()
 			}
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить передачу?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 			{
-				Log::Mess<LogMess::emergencyExit>();
+				//Log::Mess<LogMess::emergencyExit>();
 				throw AutomatN::ExceptionAlarm();
 			}
 		}
@@ -287,7 +287,7 @@ void GetDataFromThicknessModule()
 				//	)(3000); 
 				if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 				{
-					Log::Mess<LogMess::emergencyExit>();
+				//	Log::Mess<LogMess::emergencyExit>();
 					throw AutomatN::ExceptionAlarm();
 				}
 			}

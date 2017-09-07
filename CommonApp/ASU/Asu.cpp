@@ -138,14 +138,14 @@ namespace Communication
 		//ItemData<Long> &lo = Singleton<ItemData<Long>>::Instance();
 		ResultData &rs = Singleton<ResultData>::Instance();
 
-		ZoneVal *zone = (ZoneVal *)func.size;
+		ZoneVal *zone = (ZoneVal *)func.zones;
 		for(int i = 0; i < rs.currentOffsetZones; ++i)
 		{
 			zone[i].thick = (unsigned char)(10.0 * th.buffer[i]);
 
 			zone[i].stat = ResAsu(rs.status[i]);
 			
-			dprint("asu send thick %d stat %d \n", zone[i].thick, zone[i].stat);
+			dprint("asu send %d thick %d stat %x\n", i, zone[i].thick, zone[i].stat);
 		}
 
 		func.crc = Crc16((unsigned char *)(&func), sizeof(func) - sizeof(short));
