@@ -141,9 +141,12 @@ namespace Communication
 		ZoneVal *zone = (ZoneVal *)func.zones;
 		for(int i = 0; i < rs.currentOffsetZones; ++i)
 		{
+			unsigned t_stat = AsuResBits<::Thick>()(th.status[i]);
 			zone[i].thick = (unsigned char)(10.0 * th.buffer[i]);
 
 			zone[i].stat = ResAsu(rs.status[i]);
+			zone[i].stat &= ~(3 << 4);
+			zone[i].stat |= t_stat << 4;
 			
 			dprint("asu send %d thick %d stat %x\n", i, zone[i].thick, zone[i].stat);
 		}
