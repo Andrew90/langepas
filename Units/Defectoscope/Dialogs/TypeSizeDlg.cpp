@@ -123,7 +123,7 @@ namespace
 							AppBase::InitTypeSizeTables(base);
 
 							MainWindow &o = Singleton<MainWindow>::Instance();
-							o.select.AddMenuItem(buf);					
+						//	o.select.AddMenuItem(buf);					
 							o.select.Do(TCommand(o.hWnd, 0, 1, o.select.hWnd));
 						}
 					}
