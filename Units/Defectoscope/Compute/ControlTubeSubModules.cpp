@@ -474,16 +474,26 @@ void RequestPipeNumber(char (&numberTube)[9])
 	{
 		Log::Mess<LogMess::RequestPipeNumber>();
 		int res = Communication::Asu::RequestInformationAboutPipe(comPort, numberTube);
-		switch(res)
-		{
-		case Communication::ok: break;
-		case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
-			throw AutomatN::ExceptionAlarm();
-		case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
-			throw AutomatN::ExceptionAlarm();
-		case Communication::error_count  :  Log::Mess<LogMess::error_count>();
-			throw AutomatN::ExceptionAlarm();
-		}
+		//switch(res)
+		//{
+		//case Communication::ok: break;
+		//case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
+		//	throw AutomatN::ExceptionAlarm();
+		//case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
+		//	throw AutomatN::ExceptionAlarm();
+		//case Communication::error_count  :  Log::Mess<LogMess::error_count>();
+		//	throw AutomatN::ExceptionAlarm();
+		//}
+
+		if(res != Communication::ok)
+			{
+				Log::Mess<LogMess::ErrRequestPipeNumber>();
+				if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+				{
+					throw AutomatN::ExceptionAlarm();
+				}
+			}
+
 		numberTube[8] = '\0';
 		if(0 != strncmp(numberTube, "00000000", 8))
 		{
@@ -494,13 +504,18 @@ void RequestPipeNumber(char (&numberTube)[9])
 		}
 		else
 		{
-			//	AppKeyHandler::RunContine();	/// включили кнопку продолжить
-			AND_BITS(
-				Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
-				//	, Ex<ExceptionRun>
-				)(); 
-			dprint("continue\n");
+			//AppKeyHandler::RunContine();	/// включили кнопку продолжить
+			//AND_BITS(
+			//	Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+			//	, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
+			//	//	, Ex<ExceptionRun>
+			//	)(); 
+			//dprint("continue\n");
+			Log::Mess<LogMess::ErrRequestPipeNumber>();
+			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+			{
+				throw AutomatN::ExceptionAlarm();
+			}
 		}
 	}
 	dprint("OK cont\n");

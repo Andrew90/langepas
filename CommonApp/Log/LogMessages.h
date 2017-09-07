@@ -193,6 +193,7 @@ namespace LogMess
 		, SOP_MODE
 		, TUBE_MODE
 		, RequestPipeNumber
+		, ErrRequestPipeNumber
 		, WAITING_LONGITUDINAL_MODULE
 		, WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE
 		, ThicknessModuleNotReady
@@ -327,6 +328,7 @@ namespace LogMess
 	MESS(SOP_MODE, void, "Режим \"СОП\" ожидание трубы", blue , white) 
 	MESS(TUBE_MODE, void, "Режим \"ТРУБА\" ожидание трубы", blue, white)
 	MESS(RequestPipeNumber, void, "Запрос номера трубы", blue, white)
+	MESS(ErrRequestPipeNumber, void, "Повторный запрос номера трубы", blue, white)
 	MESS(WAITING_LONGITUDINAL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ ПРОДОЛЬНОГО МОДУЛЯ", blue, white)
 	MESS(WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ МОДУЛЯ КОНТРОЛЯ ТОЛЩИНЫ", blue, white)
 	MESS(ThicknessModuleNotReady, void, "Модуль толщины не готов", red, yellow)
