@@ -544,11 +544,12 @@ void WorkACS(char (&numberTube)[9])
 			switch(res)
 			{
 			case Communication::ok: return;
-			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
-				throw AutomatN::ExceptionAlarm();
-			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
-				throw AutomatN::ExceptionAlarm();
-			case Communication::error_count  :  Log::Mess<LogMess::error_count>();
+			//case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
+			//	throw AutomatN::ExceptionAlarm();
+			//case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
+			//	throw AutomatN::ExceptionAlarm();
+			//case Communication::error_count  :  Log::Mess<LogMess::error_count>();
+			default:
 				if(++attempt < 2)
 				{
 					Sleep(2000);
