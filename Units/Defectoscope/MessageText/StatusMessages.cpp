@@ -277,8 +277,6 @@ unsigned char ResAsu(unsigned char id)
 	unsigned char t = 0;
     unsigned res = StatusMessages::bits[id].bits;
 
-	//1 << TL::IndexOf<status_list, BorderKlass3<Thick> >::value;
-
 	bool c2 = 0 != (1 << TL::IndexOf<status_list, BorderKlass2<Cross> >::value);
 	bool cb = 0 != (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value);
 
