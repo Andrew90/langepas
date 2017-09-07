@@ -11,9 +11,9 @@ MIN_EQUAL_VALUE(BorderDefect<Long>, 5)
 MIN_EQUAL_VALUE(BorderKlass2<Cross>, 5)
 MIN_EQUAL_VALUE(BorderDefect<Cross>, 5)
 
-MIN_EQUAL_VALUE(BorderKlass2<Thick>, 3)
-MIN_EQUAL_VALUE(BorderKlass3<Thick>, 3)
-MIN_EQUAL_VALUE(BorderDefect<Thick>, 3)
+MIN_EQUAL_VALUE(BorderKlass2<Thick>, 0)
+MIN_EQUAL_VALUE(BorderKlass3<Thick>, 0)
+MIN_EQUAL_VALUE(BorderDefect<Thick>, 2)
 
 
 

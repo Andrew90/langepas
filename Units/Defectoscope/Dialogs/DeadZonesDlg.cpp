@@ -21,17 +21,24 @@ MIN_EQUAL_VALUE(DeadAreaMM1<Long>, 0)
 MAX_EQUAL_VALUE(DeadAreaMM1<Long>, 500)
 PARAM_TITLE(    DeadAreaMM1<Long>, L"Продольный контроль конец трубы")
 
-MIN_EQUAL_VALUE(DeadAreaMM0<Thick>, 0)
-MAX_EQUAL_VALUE(DeadAreaMM0<Thick>, 500)
-PARAM_TITLE(    DeadAreaMM0<Thick>, L"Контроль толщины начало трубы")
-							
-MIN_EQUAL_VALUE(DeadAreaMM1<Thick>, 0)
-MAX_EQUAL_VALUE(DeadAreaMM1<Thick>, 500)
-PARAM_TITLE(    DeadAreaMM1<Thick>, L"Контроль толщины конец трубы")
+//MIN_EQUAL_VALUE(DeadAreaMM0<Thick>, 0)
+//MAX_EQUAL_VALUE(DeadAreaMM0<Thick>, 500)
+//PARAM_TITLE(    DeadAreaMM0<Thick>, L"Контроль толщины начало трубы")
+//							
+//MIN_EQUAL_VALUE(DeadAreaMM1<Thick>, 0)
+//MAX_EQUAL_VALUE(DeadAreaMM1<Thick>, 500)
+//PARAM_TITLE(    DeadAreaMM1<Thick>, L"Контроль толщины конец трубы")
 
 void DeadZonesDlg::Do(HWND h)
 {
-	if(TemplDialog<ParametersBase, DeadAreaTable, DlgItem>(Singleton<DeadAreaTable>::Instance()).Do(h, L"Мёртвые зоны"))
+	if(TemplDialogList<ParametersBase, DeadAreaTable
+		, TL::MkTlst<
+		DeadAreaMM0<Cross>
+		, DeadAreaMM1<Cross>
+		, DeadAreaMM0<Long>
+		, DeadAreaMM1<Long>
+		>::Result
+	>(Singleton<DeadAreaTable>::Instance()).Do(h, L"Мёртвые зоны"))
 	{
 	}
 }
