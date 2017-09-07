@@ -261,9 +261,12 @@ void GetDataFromThicknessModule()
 		AND_BITS(
 			On<iResultT>
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			)(120000); 		
+			)(120000); 	
+		dprint("iResultT\n");
+			Sleep(1000);
 		for(int i = 0; i < 99; ++i)
 		{
+			
 			int res =  Communication::Thick::RequestControlResult(
 				comPort, brak, class2, class3, data.currentOffsetZones, zones 
 				);
