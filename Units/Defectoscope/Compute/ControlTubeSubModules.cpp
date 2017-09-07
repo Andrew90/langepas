@@ -58,16 +58,18 @@ void TestCoilTemperature()
 #undef min
 void CheckDemagnetizeModule()
 {
-	bool b = unit502.SetupParams();
-	if(!b)
-	{
-		Log::Mess<LogMess::unit502SetupParams>(); 
-		throw AutomatN::ExceptionAlarm();
-	}
-	for(;b;)
+	while(true)
 	{
 		Log::Mess<LogMess::demagnetizationTesting>();
 		unit502.BitOut(Singleton<L502OffsetsDigitTable>::Instance().items.get<Out502<start_x>>().value, true);
+
+		bool b = unit502.SetupParams();
+		if(!b)
+		{
+			Log::Mess<LogMess::unit502SetupParams>(); 
+			throw AutomatN::ExceptionAlarm();
+		}
+
 		unit502.Start();
 		Sleep(1000);
 		for(int i = 0; i < 5; ++i)

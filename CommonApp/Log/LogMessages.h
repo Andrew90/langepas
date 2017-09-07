@@ -233,6 +233,7 @@ namespace LogMess
 		, unit502RunErr
 		, emergencyExit
 		, tubeExit
+		, transportExit
 //		    
 		, max_row
 	};
@@ -374,6 +375,8 @@ namespace LogMess
     MESS(emergencyExit, void, "Выход по аварии", red, yellow)
 
 	MESS(tubeExit, void, "Труба вышла из установки", blue, white)
+
+	MESS(transportExit, void, "ТРАНСПОРТ РАЗБЛОКИРОВАН. ВЫПОЛНЯЙТЕ ВЫГОН", blue, white)
 
 	class FactoryMessages
 	{

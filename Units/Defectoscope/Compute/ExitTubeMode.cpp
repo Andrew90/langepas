@@ -31,16 +31,7 @@ namespace Mode
 	{
 		dprint("ExitTube\n");
 		Log::Mess<LogMess::ExitTube>();
-		//{
-		//	unsigned t = device1730_2.Read();
-		//	InputBit2Table::TItems &inputBit2 = Singleton<InputBit2Table>::Instance().items;
-		//	if(0 == (t & inputBit2.get<iZU>().value))
-		//	{
-		//		Log::Mess<LogMess::AlarmExitControlCircuitBitIn>();
-		//		return;
-		//	}
-		//}
-
+		
 		if(!TestControlCircuit())return;
 
 		bool isCross = TEST_IN_BITS(On<iSQ1pr>) || TEST_IN_BITS(On<iSQ2pr>);
@@ -92,6 +83,8 @@ namespace Mode
 			| outputBit.get<oRP>().value
 			;
 		device1730_1.AddBits(outBits);
+
+		Log::Mess<LogMess::transportExit>();
 
 		InputBit2Table::TItems &inputBit2 = Singleton<InputBit2Table>::Instance().items;
 		unsigned statesUnit2 =  inputBit2.get<iZU>().value

@@ -202,7 +202,7 @@ namespace Mode
 		//TODO Проверка температуры обмоток соленоида
 		TestCoilTemperature(); 
 		//TODO Проверка модуля размагничивания
-		if(gData.firstRun)CheckDemagnetizeModule();
+		CheckDemagnetizeModule();
 		//TODO Установка рабочего положения модулей контроля
 		if(gData.firstRun)SettingWorkingPositionControlModules();
 		//TODO Если толщиномер используется передать параметры
