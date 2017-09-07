@@ -6,6 +6,7 @@
 #include "templates\typelist.hpp"
 #include "DataItem\DataItem.h"
 #include "MessageText\StatusMessages.h"
+#include "Compute\ControlMode.h"
 
 namespace Communication
 {	
@@ -95,15 +96,27 @@ namespace Communication
 		unsigned char stat;
 	};
 
+	int WapGroup(wchar_t g)
+	{
+		int res = 0;
+		switch(g)
+		{
+		case 'Ä': res = 1;break;
+		case 'Ê': res = 2;break;
+		case 'Å': res = 3;break;
+		}
+		return res;
+	}
+
 	int Asu::SendData(ComPort &comPort
 		, char (&numberTube)[9]
-	, int crossBrak, int crossClass2
-		, int longBrak, int longClass2
-		, int thickBrak, int thickClass2
-		, int lengthTube
-		, int cutZone1, int cutZone2
-		, int resultCommon
-		, char solidGroupTube
+	//, int crossBrak, int crossClass2
+	//	, int longBrak, int longClass2
+	//	, int thickBrak, int thickClass2
+	//	, int lengthTube
+	//	, int cutZone1, int cutZone2
+	//	, int resultCommon
+	//	, char solidGroupTube
 		)
 	{
 		Func5 func = {};
@@ -114,40 +127,72 @@ namespace Communication
 
 		memmove(func.numberTube, numberTube, sizeof(func.numberTube));
 
-		func.crossBrak	= crossBrak   ;
-		func.crossClass2  = crossClass2;
+		OnTheJobTable::TItems &job = Singleton<OnTheJobTable>::Instance().items;
+		ItemData<::Thick> &th = Singleton<ItemData<::Thick>>::Instance();
+		ItemData<Cross> &cr = Singleton<ItemData<Cross>>::Instance();
+		ItemData<Long> &lo = Singleton<ItemData<Long>>::Instance();
+		ResultData &rs = Singleton<ResultData>::Instance();
 
-		func.longBrak = longBrak	   ;
-		func.longClass2 = longClass2  ;
+		ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
 
-		func.thickBrak	= thickBrak   ;
-		func.thickClass2 = thickClass2 ;
+		func.crossBrak	=   (unsigned short)tresh.get<BorderDefect<Cross>>().value;
+		func.crossClass2  = (unsigned short)tresh.get<BorderKlass2<Cross>>().value;
 
-		func.lengthTube = lengthTube  ;
+		if(job.get<OnTheJob<Long>>().value)
+		{
+			func.longBrak =   (unsigned short)tresh.get<BorderDefect<Long>>().value;	   
+			func.longClass2 = (unsigned short)tresh.get<BorderKlass2<Long>>().value;  
+		}
 
-		func.cutZone1 = cutZone1   ;
-		func.cutZone2 = cutZone2   ;
+		if(job.get<OnTheJob<::Thick>>().value)
+		{
+			func.thickBrak	= (unsigned short)(10.0 * tresh.get<BorderDefect<::Thick>>().value);   
+			func.thickClass2 = (unsigned short)(10.0 * tresh.get<BorderKlass2<::Thick>>().value); 
+		}
 
-		func.resultCommon	= resultCommon   ;
+		func.lengthTube = rs.currentOffsetZones  ;
+
+		func.cutZone1 = rs.cutZone0   ;
+		func.cutZone2 = rs.cutZone1   ;
+
+		func.resultCommon	= rs.resultCommon   ;
 		func.resultClutch	= 0	;
 		func.solidGroupClutch = 0   ;
-		func.solidGroupTube	 = solidGroupTube  ;
+		func.solidGroupTube	 = WapGroup(rs.solidGroup)  ;
 
-		ItemData<::Thick> &th = Singleton<ItemData<::Thick>>::Instance();
-		//ItemData<Cross> &cr = Singleton<ItemData<Cross>>::Instance();
-		//ItemData<Long> &lo = Singleton<ItemData<Long>>::Instance();
-		ResultData &rs = Singleton<ResultData>::Instance();
+		dprint(" Asu::SendData\n"\
+			"func.cutZone1 %d\n"\
+			"func.cutZone2 %d\n"\
+			"func.resultCommon  %d\n"\
+			"func.solidGroupTube %d\n"
+			, func.cutZone1
+			, func.cutZone2
+			, func.resultCommon  
+			, func.solidGroupTube
+			);
+
+		
 
 		ZoneVal *zone = (ZoneVal *)func.zones;
 		for(int i = 0; i < rs.currentOffsetZones; ++i)
 		{
 			unsigned t_stat = AsuResBits<::Thick>()(th.status[i]);
-			zone[i].thick = (unsigned char)(10.0 * th.buffer[i]);
+			unsigned char th_buf = (unsigned char)(10.0 * th.buffer[i]);
+			zone[i].thick = th_buf;
+
+			if(100 == th_buf)
+			{
+				zone[i].thick = 0;
+			}
+			else if(110 == th_buf)
+			{
+				zone[i].thick = 255;
+			}
 
 			zone[i].stat = ResAsu(rs.status[i]);
 			zone[i].stat &= ~(3 << 4);
 			zone[i].stat |= t_stat << 4;
-			
+
 			dprint("asu send %d thick %d stat %x\n", i, zone[i].thick, zone[i].stat);
 		}
 
@@ -253,12 +298,12 @@ namespace Communication
 
 		unsigned short brakTreshold;
 		unsigned short class2Treshold;
-		
+
 		unsigned short class3Treshold;
 		unsigned short lengthTube;
-		
-		
-		
+
+
+
 		char reserve[4];// - sizeof(unsigned short)];
 		unsigned short zones[65];
 		unsigned short crc	   ;
@@ -279,14 +324,14 @@ namespace Communication
 		, unsigned short (&zones)[65]
 	)
 	{
-		
+
 		int numAbonent = Singleton<ComPortTable>::Instance().items.get<SubscriberThickness>().value;
-		 unsigned char buf[] = {5
-			 , numAbonent
-			 , 2, 0, 0};
+		unsigned char buf[] = {5
+			, numAbonent
+			, 2, 0, 0};
 		*(unsigned short *)&buf[3] = Crc16(buf,  sizeof(buf) - sizeof(short));
 
-		
+
 
 		HandleComPort handleComPort;
 		comPort.SetReceiveHandler(&handleComPort, &HandleComPort::Do);
@@ -314,7 +359,7 @@ namespace Communication
 					"class2Treshold	%d\n"\
 					"lengthTube		%d\n"\
 					"class3Treshold	%d\n"
-					
+
 					, b->size			
 					, b->numAbonent		
 					, b->numFunc		
@@ -322,7 +367,7 @@ namespace Communication
 					, b->class2Treshold	
 					, b->lengthTube	
 					, b->class3Treshold	
-						
+
 					);
 
 
@@ -391,7 +436,7 @@ namespace Communication
 		comPort.SetReceiveHandler(&handleComPort, &HandleComPort::Do);
 
 		int ret = 0;
-		for(int i = 0; i < 3; ++i)
+		for(int i = 0; i < 1; ++i)
 		{
 			unsigned char *tbuf = (unsigned char *)&buf;
 			dprint("transmit count %d abon %d func %d\n", tbuf[0], tbuf[1], tbuf[2]);
@@ -401,7 +446,7 @@ namespace Communication
 			{				
 				break;
 			}
-			Sleep(3000);
+			Mode::ExitButtonTime(3000);
 		}
 
 		return ret;

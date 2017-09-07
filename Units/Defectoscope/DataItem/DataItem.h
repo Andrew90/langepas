@@ -47,7 +47,7 @@ struct ResultData
 	int cutZone0, cutZone1;
 	int currentOffsetZones;
 	char status[App::count_zones];
-	char solidGroup;
+	wchar_t solidGroup;
 };
 
 template<class T>struct ItemData;

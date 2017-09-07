@@ -302,8 +302,10 @@ unsigned char ResAsu(unsigned char id)
 	if(tb) t |= br << 4;
 	if(!t2 && !tb) t |= ok << 4;
 
-	if(c2 || l2 || t2) t |= k2 << 6;
+	
 	if(cb || lb || tb) t |= br << 6;
+	else if(c2 || l2 || t2) t |= k2 << 6;
+	else t |= ok << 6;
 
 	return t;
 }

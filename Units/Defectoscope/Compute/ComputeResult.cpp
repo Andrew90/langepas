@@ -215,6 +215,7 @@ void ComputeResult()
 	CuttingZones(); /// зоны реза
 
 	ComputeSolid::Recalculation(res, group, color);
+	resultData.solidGroup = *group;
 	wchar_t txt[1024];
 	txt[0] = 0;
 	wchar_t *s = txt;
