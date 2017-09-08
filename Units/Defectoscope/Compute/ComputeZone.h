@@ -204,6 +204,8 @@ template<class T, class Data>bool ComputeZone<T, Data>::Begin(unsigned sensor, c
 	double *startZone = &item.ascan[sensor][item.offsets[full]] + int(d * ( &item.ascan[sensor][item.offsets[1 + full]] -  &item.ascan[sensor][item.offsets[full]]));
 	double *stopZone = &item.ascan[sensor][item.offsets[1 + full]];
 
+//	item.beginZoneOffs[sensor] = startZone;
+
 	AnalogFiltre()(startZone, stopZone, params.flt.get<CutoffFrequencyOn<T>>().value, params.flt.get<CutoffFrequency<T>>().value);
 
 	MedianFiltre filtre;
@@ -278,6 +280,8 @@ template<class T, class Data>bool ComputeZone<T, Data>::End(unsigned zone, unsig
 
 		double *startZone = &item.ascan[sensor][item.offsets[offs]];
 		double *stopZone = startZone + int(d *(&item.ascan[sensor][item.offsets[offs + 1]] - &item.ascan[sensor][item.offsets[offs]]));
+
+	//	item.endZoneOffs[sensor] = stopZone;
 
 		AnalogFiltre()(startZone, stopZone, params.flt.get<CutoffFrequencyOn<T>>().value, params.flt.get<CutoffFrequency<T>>().value);
 

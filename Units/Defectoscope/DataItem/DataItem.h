@@ -21,6 +21,8 @@ template<int SENS>struct PrimaryData
 	static const int count_sensors = SENS;
 	int currentOffset;	  //счётчик кадров
 	int currentOffsetZones;	 //счётчик собранных зон
+	//double *beginZoneOffs[SENS];
+	//double *endZoneOffs[SENS];
 	double ascan[SENS][App::count_frames];	 //кадры с ацп
 	unsigned offsets[1 + App::count_zones];		  //смещение кадров по зонам
 	double buffer[SENS][App::count_zones];	 //значение в зоне
