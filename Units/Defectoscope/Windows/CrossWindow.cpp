@@ -22,7 +22,8 @@ void CrossWindow::operator()(TSize &l)
 	GetClientRect(l.hwnd, &r);
 	
 	Common::__data__ data = {Common::window_height, r.right,  int(2.0 * (r.bottom - Common::window_height) 
-		/ count_sensors)};
+		/ App::count_cross_sensors)
+	};//count_sensors)};
 	TL::foreach<viewers_list, Common::__draw__>()(&viewers, &data);
 }
 void CrossWindow::operator()(TGetMinMaxInfo &m)

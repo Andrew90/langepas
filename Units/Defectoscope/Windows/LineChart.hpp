@@ -30,6 +30,11 @@ template<>struct SignalWrapper<Thick>
 	void operator()(int zone , int offset){/*SignalWindow::ChangeOffset(zone, offset);*/}
 };
 
+	
+template<class T, int N>struct test_menu{bool operator()(){return true;};};
+template<>struct test_menu<Cross, 10>{bool operator()(){return false;}};
+template<>struct test_menu<Cross, 11>{bool operator()(){return false;}};
+
 template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result>
 {
 	typedef LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result> Parent;
@@ -38,6 +43,7 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 	DataViewer<typename T::sub_type> dataViewer;
 	Line()
 	{
+		if(!test_menu<typename T::sub_type, N>()()) return;
 		((Parent::TChart *)chart)->items.get<BarSeries>().SetColorBarHandler(this, &Line::GetColorBar);
 		cursor->SetMouseMoveHandler(this, &Line::CursorDraw);
 	}	
@@ -59,7 +65,8 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 			return 0;
 		}
 	};
-	
+
+
 	bool CursorDraw(TMouseMove &l, VGraphics &g)	  
 	{	
 		if(owner->drawZones)
@@ -78,10 +85,6 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 
 			if(!no)
 			{
-			//	wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>дат.<ff0000>%d <ff>смещ.%d вел.%s %s <7514f6>коэф.%s"
-			//		, 1 + owner->lastZone, 1 + N, 1 + offsetX, Wchar_from<double, 1>(valY)(), s
-			//		, Wchar_from<double, 1>(Singleton<AdjustingMultipliersTable>::Instance().items.get<Adjust<typename T::sub_type, N>>().value)()
-			//		);
 					wsprintf(label.buffer, L"<ff>Зона <ff0000>%d <ff>дат.<ff0000>%d <ff>вел.%s %s <7514f6>коэф.%s"
 					, 1 + owner->lastZone, 1 + N, Wchar_from<double, 1>(valY)(), s
 					, Wchar_from<double, 1>(Singleton<AdjustingMultipliersTable>::Instance().items.get<Adjust<typename T::sub_type, N>>().value)()
@@ -149,7 +152,7 @@ template<class T, int N>struct __line_sub_menu__
 
 template<class T, int N>void Line<T, N>::operator()(TRButtonDown &l)
 {
-	__line_sub_menu__<T, N>()(l.hwnd);
+	if(test_menu<typename T::sub_type, N>()())__line_sub_menu__<T, N>()(l.hwnd);
 }
 
 namespace
@@ -175,7 +178,7 @@ namespace
 		typedef typename L<T, N> O;
 		bool operator()(O *o, P *p)
 		{
-			if(N == p->channel)
+			if(test_menu<typename T::sub_type, N>()() && N == p->channel)
 			{
 				o->dataViewer.Do(p->zone, p->channel);
 				p->scan = o->dataViewer.scan[p->offs];

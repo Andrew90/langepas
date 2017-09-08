@@ -189,10 +189,12 @@ namespace LogMess
 		, waitingThicknessResult
 //		
 		, iWork_pnevmoWait
+		, ExitMeshuringCycle
 //
 		, SOP_MODE
 		, TUBE_MODE
 		, RequestPipeNumber
+		, ErrRequestPipeNumber
 		, WAITING_LONGITUDINAL_MODULE
 		, WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE
 		, ThicknessModuleNotReady
@@ -224,7 +226,8 @@ namespace LogMess
 		, waitingPipeEntranceRollerTable
 		, interruptView
 		, transferResultControlAutomatedControlSystem
-		, contineRun
+		, ErrTransferResultControlAutomatedControlSystem
+		//, contineRun
 		, storedDataBase
 		, NoLongDriveReady
 		, demagnetizationNotCorrect
@@ -267,7 +270,7 @@ namespace LogMess
 
 	MESS(InfoOnSycleBitIn               , void, "Ожидание сигнала \"Цикл\""					  , blue , white)
 
-	MESS(InfoUserStop					, void, "."			  , red  , yellow)
+	MESS(InfoUserStop					, void, ""			  , red  , yellow)
 
 	MESS(ModulesNotInOperationCross, void, "Поперечный модуль не в положении обслуживания", red  , yellow) 
 	MESS(ModulesNotInOperationLong, void, "Продольный модуль не в положении обслуживания", red  , yellow) 
@@ -313,6 +316,7 @@ namespace LogMess
 	MESS1(TemperatureCoilSolenoidExceeded1, double, "Превышена температура обмотки соленоида 2", red, yellow)
 //
 	MESS(AnalogBoardFailure, void, "Авария платы 502", red, yellow)
+	MESS(ExitMeshuringCycle, void, "Оператор нажал кнопку \"СТОП\"", red, yellow)
 //
 	MESS(SettingOperatingPositionControl, void , "Установка рабочего положения модулей контроля", blue, white)
 	MESS(ModulesInNon_OperatingPosition, void, "Модули в нерабочем положении", red, yellow)
@@ -327,6 +331,7 @@ namespace LogMess
 	MESS(SOP_MODE, void, "Режим \"СОП\" ожидание трубы", blue , white) 
 	MESS(TUBE_MODE, void, "Режим \"ТРУБА\" ожидание трубы", blue, white)
 	MESS(RequestPipeNumber, void, "Запрос номера трубы", blue, white)
+	MESS(ErrRequestPipeNumber, void, "Повторный запрос номера трубы", blue, white)
 	MESS(WAITING_LONGITUDINAL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ ПРОДОЛЬНОГО МОДУЛЯ", blue, white)
 	MESS(WAITING_PERFORMANCE_THICKNESS_CONTROL_MODULE, void, "ОЖИДАНИЕ ГОТОВНОСТИ МОДУЛЯ КОНТРОЛЯ ТОЛЩИНЫ", blue, white)
 	MESS(ThicknessModuleNotReady, void, "Модуль толщины не готов", red, yellow)
@@ -362,8 +367,9 @@ namespace LogMess
 //
 	MESS(interruptView, void, "Прерывание на просмотр", blue, white)
 //
-	MESS(transferResultControlAutomatedControlSystem, void, "передача результата контроля в АСУ", blue, white)
-	MESS(contineRun, void, "\"F4 ЦИКЛ\"далее \"F11 Продол...\"повторить запрос к АСУ \"Esc Стоп\"выход из цикла", red, white)
+	MESS(transferResultControlAutomatedControlSystem, void, "Передача результата контроля в АСУ", blue, white)
+MESS(ErrTransferResultControlAutomatedControlSystem, void, "Повторная передача результата контроля в АСУ", red, white)
+	//MESS(contineRun, void, "\"F4 ЦИКЛ\"далее \"F11 Продол...\"повторить запрос к АСУ \"Esc Стоп\"выход из цикла", red, white)
 	MESS(storedDataBase, void, "Сохранение в базе данных", blue, white)
 
 	MESS(demagnetizationNotCorrect, void, "Авария. Размагничивание неисправно", red, yellow)

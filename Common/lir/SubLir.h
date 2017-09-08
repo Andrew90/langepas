@@ -12,9 +12,11 @@ template<class, int>class off;
 
 class SubLir;
 
+extern int dump;
+
 template<class T>class SQ
 {
-	SubLir &lir;
+	int &lir_;
 public:
 	unsigned time;
 	double perSamples;
@@ -26,7 +28,7 @@ public:
 template<class T>class Module
 {
 public:
-	SubLir &lir;
+	int &lir_;
 public:
 	int framesOffs;
 	int zonesOffs;
@@ -199,7 +201,7 @@ template<template<class, int>class W, class T, int NUM>struct SQ_SubType<W<T, NU
 };
 
 template<class T>SQ<T>::SQ(SubLir &lir)
-	: lir(lir)
+	: lir_(dump)
 	, offs(Singleton<OffsetSensorsTable>::Instance().items.get<typename OffsSQ<typename SQ_SubType<T>::Result, SQ_SubType<T>::value>>().value)
 {}
 
@@ -386,18 +388,20 @@ template<>struct __start__<off<Long, 2>>
 
 template<class T>void SQ<T>::Do()
 {
+	SubLir &lir = Singleton<SubLir>::Instance();
 	__sq__<T>()(lir);	 //сохранение времени срабатывания датчика
 	__start__<T>()(lir);  //смещение начала отчёта данных в модуле
 	TL::foreach<__zones_do__<T>::Result, __sq_do__>()(__sq_do_data__<T>(lir));
 }
 
 template<class T>Module<T>::Module(SubLir &lir)
-	: lir(lir)
+	: lir_(dump)
 	, zones( Singleton<ItemData<T>>::Instance().offsets)
 {}
 /// начало измерений модуля(смещение центра)
 template<class T>void Module<T>::Start()
 {
+	SubLir &lir = Singleton<SubLir>::Instance();
 	ZeroMemory(zones, sizeof(zones));
 	zprint(" <<>>>><>> module start\n");
 	SQ<on<T,1>> &sq1 = lir.sqItems.get<SQ<on<T,1>>>();
@@ -434,12 +438,13 @@ template<class T>struct __module_stop__<Module<T>>
 {
 	void operator()(Module<T> &p)
 	{
-		SQ<off<T,1>> &sq1 = p.lir.sqItems.get<SQ<off<T,1>>>();
-		SQ<off<T,2>> &sq2 = p.lir.sqItems.get<SQ<off<T,2>>>();
+		SubLir &lir = Singleton<SubLir>::Instance();
+		SQ<off<T,1>> &sq1 = lir.sqItems.get<SQ<off<T,1>>>();
+		SQ<off<T,2>> &sq2 = lir.sqItems.get<SQ<off<T,2>>>();
 		unsigned offs = sq1.time + (sq2.time - sq1.time) / 2;
-		unsigned *tick = p.lir.tick;
-		unsigned *samples = p.lir.samples;
-		int index = p.lir.index - 1;
+		unsigned *tick = lir.tick;
+		unsigned *samples = lir.samples;
+		int index = lir.index - 1;
 		for(int i = index; i > 0; --i)
 		{
 			if(tick[i] < offs)

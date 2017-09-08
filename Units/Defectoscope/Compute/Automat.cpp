@@ -104,15 +104,22 @@ namespace AutomatN
 //----------------------------------------------------------------------
 	ExceptionAlarm::ExceptionAlarm()
 	{
-		Log::TData *d;
-		Log::TailMessage(d);
+		Log::TData *d = NULL;
+		bool b = Log::LastMessage(d);
 		LogMess::FactoryMessages &f = LogMess::FactoryMessages::Instance();
 		char c[128];
-		f.Text(d->id, c, d->value);
+		if(b)f.Text(d->id, c, d->value);
 		device1730_1.Write(0);
 		device1730_2.Write(0);
 		DisableDemagnetization();
-		MessageBoxA(app.mainWindow.hWnd, c, "Сообщение!!!", MB_ICONINFORMATION);
+		if(b)
+		{
+			MessageBoxA(app.mainWindow.hWnd, c, "Сообщение!!!", MB_ICONINFORMATION);
+		}
+		else
+		{
+			Log::Mess<LogMess::InfoUserStop>();
+		}
 	}
 	//----------------------------------------------------------------------------
 	static DWORD WINAPI Do(LPVOID)

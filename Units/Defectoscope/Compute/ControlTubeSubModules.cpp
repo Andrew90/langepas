@@ -96,8 +96,8 @@ void CheckDemagnetizeModule()
 			else if(d[i] < min) min = d[i];
 		}
 
-	//	max = max > 0 ? max: -max;
-	//	max = min > 0 ? min: -min;
+		//	max = max > 0 ? max: -max;
+		//	max = min > 0 ? min: -min;
 
 		double z = max - min;
 
@@ -208,18 +208,20 @@ void TransferParametersThicknessModule()
 
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value)
 	{
+		Log::Mess<LogMess::transferControlParametersThicknessGauge>();
+		OUT_BITS(On<oT_Work>);
+		it_does_not_work_without_it_Sleep(3500);
 		for(;;)
-		{
-			Log::Mess<LogMess::transferControlParametersThicknessGauge>();
-			OUT_BITS(On<oT_Work>);
-			it_does_not_work_without_it_Sleep(3500);
+		{			
 			ThresholdsTable::TItems &tresh = Singleton<ThresholdsTable>::Instance().items;
 			double defect = tresh.get<BorderDefect<Thick>>().value;
 			double klass2 = tresh.get<BorderKlass2<Thick>>().value;
 			double klass3 = tresh.get<BorderKlass3<Thick>>().value;
+			ParametersTable::TItems &paramTable = Singleton<::ParametersTable>::Instance().items;
+			int typeSize = paramTable.get<DiametrTube>().value;
 			int res = Communication::Thick::TransferControlParameters(
 				comPort
-				, Singleton<ParametersTable>::Instance().items.get<DiametrTube>().value
+				, typeSize
 				, defect
 				, klass2
 				, klass3
@@ -241,9 +243,10 @@ void TransferParametersThicknessModule()
 			}
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить передачу?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 			{
-				//Log::Mess<LogMess::emergencyExit>();
+				//Log::Mess<LogMess::ExitMeshuringCycle>();
 				throw AutomatN::ExceptionAlarm();
 			}
+			Log::Mess<LogMess::transferControlParametersThicknessGauge>();
 		}
 	}
 }
@@ -265,10 +268,10 @@ void GetDataFromThicknessModule()
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
 			)(120000); 	
 		dprint("iResultT\n");
-			Sleep(1000);
+		Sleep(1000);
 		for(int i = 0; i < 99; ++i)
 		{
-			
+
 			int res =  Communication::Thick::RequestControlResult(
 				comPort, brak, class2, class3, data.currentOffsetZones, zones 
 				);
@@ -287,7 +290,7 @@ void GetDataFromThicknessModule()
 				//	)(3000); 
 				if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 				{
-				//	Log::Mess<LogMess::emergencyExit>();
+					//	Log::Mess<LogMess::emergencyExit>();
 					throw AutomatN::ExceptionAlarm();
 				}
 			}
@@ -349,7 +352,7 @@ LOOP:
 				else if(100 < zones[i])
 				{
 					data.status[i] = STATUS_ID(Undefined);//StatusId<Clr<BorderKlass2<Thick>>>();
-					data.buffer[i] = 10;
+					data.buffer[i] = 11;
 				}
 				else if(class2 < zones[i])
 				{
@@ -368,7 +371,7 @@ LOOP:
 					//data.status[i] =  STATUS_ID(Nominal);//StatusId<Clr<Nominal>>();
 					data.status[i] = STATUS_ID(BorderDefect<Thick>);
 				}
-			//	dprint("thick %d   stat %d val %f\n", i, data.status[i], data.buffer[i]);
+				//	dprint("thick %d   stat %d val %f\n", i, data.status[i], data.buffer[i]);
 			}
 			OUT_BITS(Off<oT_Cycle>);
 		}
@@ -417,7 +420,7 @@ void FrequencyInverterRunWork()
 		;
 
 	unsigned msk =
-		  (speed.get<SpeedBit<oRL>>().value ? outputBit.get<oRL>().value: 0)
+		(speed.get<SpeedBit<oRL>>().value ? outputBit.get<oRL>().value: 0)
 		| (speed.get<SpeedBit<oRM>>().value ? outputBit.get<oRM>().value: 0)
 		| (speed.get<SpeedBit<oRH>>().value ? outputBit.get<oRH>().value: 0)
 		;
@@ -474,16 +477,28 @@ void RequestPipeNumber(char (&numberTube)[9])
 	{
 		Log::Mess<LogMess::RequestPipeNumber>();
 		int res = Communication::Asu::RequestInformationAboutPipe(comPort, numberTube);
-		switch(res)
+		//switch(res)
+		//{
+		//case Communication::ok: break;
+		//case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
+		//	throw AutomatN::ExceptionAlarm();
+		//case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
+		//	throw AutomatN::ExceptionAlarm();
+		//case Communication::error_count  :  Log::Mess<LogMess::error_count>();
+		//	throw AutomatN::ExceptionAlarm();
+		//}
+
+		if(res != Communication::ok)
 		{
-		case Communication::ok: break;
-		case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
-			throw AutomatN::ExceptionAlarm();
-		case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
-			throw AutomatN::ExceptionAlarm();
-		case Communication::error_count  :  Log::Mess<LogMess::error_count>();
-			throw AutomatN::ExceptionAlarm();
+			Log::Mess<LogMess::ErrRequestPipeNumber>();
+			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+			{
+				//throw AutomatN::ExceptionAlarm();
+				throw ExceptionStop();
+			}
+			continue;
 		}
+
 		numberTube[8] = '\0';
 		if(0 != strncmp(numberTube, "00000000", 8))
 		{
@@ -492,16 +507,21 @@ void RequestPipeNumber(char (&numberTube)[9])
 			app.StatusBar(App::status_bar_number_tube, buf);
 			break;
 		}
-		else
-		{
-			//	AppKeyHandler::RunContine();	/// включили кнопку продолжить
-			AND_BITS(
-				Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-				, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
-				//	, Ex<ExceptionRun>
-				)(); 
-			dprint("continue\n");
-		}
+		//else
+		//{
+		//	//AppKeyHandler::RunContine();	/// включили кнопку продолжить
+		//	//AND_BITS(
+		//	//	Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+		//	//	, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
+		//	//	//	, Ex<ExceptionRun>
+		//	//	)(); 
+		//	//dprint("continue\n");
+		//	//Log::Mess<LogMess::ErrRequestPipeNumber>();
+		//	//if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
+		//	//{
+		//	//	throw AutomatN::ExceptionAlarm();
+		//	//}
+		//}
 	}
 	dprint("OK cont\n");
 }
@@ -533,47 +553,65 @@ void WorkACS(char (&numberTube)[9])
 		int attempt = 0;
 		while(true)
 		{
+			/*
+			int Asu::SendData(ComPort &comPort
+			, char (&numberTube)[9]
+			, int crossBrak, int crossClass2
+			, int longBrak, int longClass2
+			, int thickBrak, int thickClass2
+			, int lengthTube
+			, int cutZone1, int cutZone2
+			, int resultCommon
+			, char solidGroupTube
+			)
+			*/
 			int res = Communication::Asu::SendData(comPort,
 				numberTube
-				, 0, 0, 0, 0, 0, 0
-				, resultData.currentOffsetZones
-				, resultData.cutZone0
-				, resultData.cutZone1
-				, resultData.resultCommon
-				, resultData.solidGroup
+				//, 0, 0, 0, 0, 0, 0
+				//, resultData.currentOffsetZones
+				//, resultData.cutZone0
+				//, resultData.cutZone1
+				//, resultData.resultCommon
+				//, resultData.solidGroup
 				);
 
 			switch(res)
 			{
 			case Communication::ok: return;
-			//case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
-			//	throw AutomatN::ExceptionAlarm();
-			//case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
-			//	throw AutomatN::ExceptionAlarm();
-			//case Communication::error_count  :  Log::Mess<LogMess::error_count>();
+				//case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
+				//	throw AutomatN::ExceptionAlarm();
+				//case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
+				//	throw AutomatN::ExceptionAlarm();
+				//case Communication::error_count  :  Log::Mess<LogMess::error_count>();
 			default:
 				if(++attempt < 2)
 				{
-					Sleep(2000);
+					Sleep(1000);
 					dprint("ASU contine\n");
 					continue;
 				}
 				else
 				{
-					dprint("push button\n");
-					Log::Mess<LogMess::contineRun>();
-					AppKeyHandler::RunContine();	/// включили кнопку продолжить
-					dprint("AppKeyHandler::RunContine();\n");
-					int pushButton = AND_BITS(
-						Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-						, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
-						, Ex<ExceptionRun>
-						)(); 
+					//dprint("push button\n");
+					//Log::Mess<LogMess::contineRun>();
+					//AppKeyHandler::RunContine();	/// включили кнопку продолжить
+					//dprint("AppKeyHandler::RunContine();\n");
+					//int pushButton = AND_BITS(
+					//	Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
+					//	, Ex<ExceptionContinue>	 /// \brief Выход по кнопке продолжить
+					//	, Ex<ExceptionRun>
+					//	)(); 
+					//
+					//switch(pushButton)
+					//{
+					//case 1: return;
+					//case 2: continue;
+					//}
+					Log::Mess<LogMess::ErrTransferResultControlAutomatedControlSystem>();
 
-					switch(pushButton)
+					if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 					{
-					case 1: return;
-					case 2: continue;
+						throw AutomatN::ExceptionAlarm();
 					}
 				}
 			}

@@ -23,13 +23,13 @@ public:
 	/// \brief посылает в АСУ результат измерений
 	/// \return возвращает 0 - если нет ошибок
 	static int SendData(ComPort &comPort, char (&numberTube)[9]
-		, int crossBrak, int crossClass2
-		, int longBrak, int longClass2
-		, int thickBrak, int thickClass2
-		, int lengthTube
-		, int cutZone1, int cutZone2
-		, int result
-		, char solidGroup
+		//, int crossBrak, int crossClass2
+		//, int longBrak, int longClass2
+		//, int thickBrak, int thickClass2
+		//, int lengthTube
+		//, int cutZone1, int cutZone2
+		//, int result
+		//, char solidGroup
 		);
 };
 
