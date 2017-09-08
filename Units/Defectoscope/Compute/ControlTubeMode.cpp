@@ -392,7 +392,6 @@ namespace Mode
 		Log::Mess<LogMess::tubeExit>();
 		WAIT_COMPUTE(Off<iSQ2DM>, off, Magn)
 		OUT_BITS(Off<oMagnet>);
-		unit502.Read();
 		unit502.Stop();
 		
 		OUT_BITS(Off<oT_Base>, Off<oSTF>, Off<oPowerSU>, Off<oMagnet>, Off<oRP>);
