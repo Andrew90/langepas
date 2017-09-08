@@ -151,11 +151,16 @@ namespace Communication
 		func.solidGroupClutch = 0   ;
 		func.solidGroupTube	 = WapGroup(rs.solidGroup)  ;
 
-		dprint(" Asu::SendData\n"\
+		dprint("Asu::SendData-----------------------------------------------------\n"\
+			"func.thickBrak	%d\n"\
+			"func.thickClass2 %d\n"\
 			"func.cutZone1 %d\n"\
 			"func.cutZone2 %d\n"\
 			"func.resultCommon  %d\n"\
-			"func.solidGroupTube %d\n"
+			"func.solidGroupTube %d\n"\
+			"----------------------------------------------\n"
+			, func.thickBrak	
+			, func.thickClass2
 			, func.cutZone1
 			, func.cutZone2
 			, func.resultCommon  
