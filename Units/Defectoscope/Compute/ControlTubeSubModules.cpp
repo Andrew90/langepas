@@ -241,7 +241,7 @@ void TransferParametersThicknessModule()
 			}
 			if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить передачу?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 			{
-				Log::Mess<LogMess::emergencyExit>();
+				//Log::Mess<LogMess::emergencyExit>();
 				throw AutomatN::ExceptionAlarm();
 			}
 		}
@@ -263,9 +263,12 @@ void GetDataFromThicknessModule()
 		AND_BITS(
 			On<iResultT>
 			, Ex<ExceptionStop>	 /// \brief Выход по кнопке стоп
-			)(120000); 		
+			)(120000); 	
+		dprint("iResultT\n");
+			Sleep(1000);
 		for(int i = 0; i < 99; ++i)
 		{
+			
 			int res =  Communication::Thick::RequestControlResult(
 				comPort, brak, class2, class3, data.currentOffsetZones, zones 
 				);
@@ -284,7 +287,7 @@ void GetDataFromThicknessModule()
 				//	)(3000); 
 				if(IDNO == MessageBox(app.mainWindow.hWnd, L"Повторить запрос?", L"Ошибка !!!", MB_ICONERROR | MB_YESNO))
 				{
-					Log::Mess<LogMess::emergencyExit>();
+				//	Log::Mess<LogMess::emergencyExit>();
 					throw AutomatN::ExceptionAlarm();
 				}
 			}
@@ -543,11 +546,12 @@ void WorkACS(char (&numberTube)[9])
 			switch(res)
 			{
 			case Communication::ok: return;
-			case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
-				throw AutomatN::ExceptionAlarm();
-			case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
-				throw AutomatN::ExceptionAlarm();
-			case Communication::error_count  :  Log::Mess<LogMess::error_count>();
+			//case Communication::time_overflow:  Log::Mess<LogMess::time_overflow>();
+			//	throw AutomatN::ExceptionAlarm();
+			//case Communication::error_crc    :  Log::Mess<LogMess::error_crc>();
+			//	throw AutomatN::ExceptionAlarm();
+			//case Communication::error_count  :  Log::Mess<LogMess::error_count>();
+			default:
 				if(++attempt < 2)
 				{
 					Sleep(2000);

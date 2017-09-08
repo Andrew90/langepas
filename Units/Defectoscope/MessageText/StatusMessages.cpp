@@ -277,14 +277,14 @@ unsigned char ResAsu(unsigned char id)
 	unsigned char t = 0;
     unsigned res = StatusMessages::bits[id].bits;
 
-	bool c2 = 0 != (1 << TL::IndexOf<status_list, BorderKlass2<Cross> >::value);
-	bool cb = 0 != (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value);
+	//1 << TL::IndexOf<status_list, BorderKlass3<Thick> >::value;
 
-	bool l2 = 0 != (1 << TL::IndexOf<status_list, BorderKlass2<Long> >::value);
-	bool lb = 0 != (1 << TL::IndexOf<status_list, BorderDefect<Long> >::value);
-
-	bool t2 = 0 != (1 << TL::IndexOf<status_list, BorderKlass2<Cross> >::value);
-	bool tb = 0 != (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value);
+	bool c2 = 0 != (res & (1 << TL::IndexOf<status_list, BorderKlass2<Cross> >::value));
+	bool cb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value));
+	bool l2 = 0 != (res & (1 << TL::IndexOf<status_list, BorderKlass2<Long> >::value));
+	bool lb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Long> >::value));
+	bool t2 = 0 != (res & (1 << TL::IndexOf<status_list, BorderKlass2<Cross> >::value));
+	bool tb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value));
 
 	static const unsigned char ok = 1;
 	static const unsigned char k2 = 2;
@@ -302,8 +302,8 @@ unsigned char ResAsu(unsigned char id)
 	if(tb) t |= br << 4;
 	if(!t2 && !tb) t |= ok << 4;
 
-	if(c2 || l2 || t2) t |= k2;
-	if(cb || lb || tb) t |= br;
+	if(c2 || l2 || t2) t |= k2 << 6;
+	if(cb || lb || tb) t |= br << 6;
 
 	return t;
 }
