@@ -217,9 +217,11 @@ void TransferParametersThicknessModule()
 			double defect = tresh.get<BorderDefect<Thick>>().value;
 			double klass2 = tresh.get<BorderKlass2<Thick>>().value;
 			double klass3 = tresh.get<BorderKlass3<Thick>>().value;
+			ParametersTable::TItems &paramTable = Singleton<::ParametersTable>::Instance().items;
+			int typeSize = paramTable.get<DiametrTube>().value;
 			int res = Communication::Thick::TransferControlParameters(
 				comPort
-				, Singleton<ParametersTable>::Instance().items.get<DiametrTube>().value
+				, typeSize
 				, defect
 				, klass2
 				, klass3
