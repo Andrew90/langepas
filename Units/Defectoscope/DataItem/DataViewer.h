@@ -29,6 +29,23 @@ public:
 	 void Set(int start, int stop, double *ascan, const int, const int, int widthFiltre, bool filtreOn, int cutoffFrequencys, double adjustMul);
 };
 
+template<class T>struct TestCountSensors
+{
+	template<class Z>bool operator()(Z *, int){return false;};
+};
+template<>struct TestCountSensors<Cross>
+{
+	template<class Z>bool operator()(Z *z, int channel)
+	{
+		if(channel > Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value - 1)
+		{
+			z->count = 0;
+			return true;
+		}
+		return false;
+	}
+};
+
 template<class T>struct DataViewer: DefectData
 {	
 	DataViewer()
@@ -41,6 +58,7 @@ template<class T>struct DataViewer: DefectData
 	{}
 	void Do(int zone, int channel, double adjustMul)
 	{
+		if(TestCountSensors<T>()(this, channel)) return;
 		ItemData<T> &d = Singleton<ItemData<T> >::Instance();
 
 		int widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T>>().value;
@@ -59,6 +77,44 @@ template<class T>struct DataViewer: DefectData
 			);
 	}
 };
+
+//template<>struct DataViewer<Cross>: DefectData 
+//{	
+//	typedef Cross T;
+//	DataViewer()
+//		: DefectData(
+//		   Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T> >().value
+//		   , Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T> >().value
+//		   , Singleton<ThresholdsTable>::Instance().items.get<BorderDefect<T> >().value
+//		   , Singleton<ThresholdsTable>::Instance().items.get<BorderKlass2<T> >().value
+//		)
+//	{}
+//	void Do(int zone, int channel, double adjustMul)
+//	{
+//		if(channel > Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value - 1)
+//		{
+//			count = 0;
+//			return;
+//		}
+//		
+//		ItemData<T> &d = Singleton<ItemData<T> >::Instance();
+//
+//		int widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T>>().value;
+//		if(0 != widthFiltre)
+//		{
+//			widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreWidth<T>>().value;
+//		}
+//
+//		int offs0 = d.offsets[zone];
+//		int offs1 = d.offsets[1 + zone];
+//
+//		Set(offs0, offs1, d.ascan[channel], STATUS_ID(BorderKlass2<T>), STATUS_ID(BorderDefect<T>), widthFiltre
+//			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequencyOn<T>>().value
+//			, Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequency<T>>().value
+//			, adjustMul
+//			);
+//	}
+//};
 
 struct ThickDataViewer
 {
