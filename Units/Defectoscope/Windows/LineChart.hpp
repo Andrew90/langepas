@@ -32,8 +32,8 @@ template<>struct SignalWrapper<Thick>
 
 	
 template<class T, int N>struct test_menu{bool operator()(){return true;};};
-template<>struct test_menu<Cross, 10>{bool operator()(){return false;}};
-template<>struct test_menu<Cross, 11>{bool operator()(){return false;}};
+template<>struct test_menu<Cross, 10>{bool operator()(){return (10 < Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value);}};
+template<>struct test_menu<Cross, 11>{bool operator()(){return (11 < Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value);}};
 
 template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result>
 {
