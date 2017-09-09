@@ -26,10 +26,11 @@ void BarSeries::Draw()
 	unsigned color;
 	double data;
 	REAL y = 0;
+	double dx = (dX < 2) ? 2: dX;
 	for(int i = 0; (obj->*SetColorBar)(i, data, color); ++i)
 	{
 		y = (REAL)((data - chart.minAxesY) * dY);
-		chart.g->FillRectangle(&SolidBrush(color), (REAL)x, (REAL)(bottom - y), (REAL)dX, (REAL)bottom);
+		chart.g->FillRectangle(&SolidBrush(color), (REAL)x, (REAL)(bottom - y), (REAL)dx, (REAL)bottom);
 		x += dX;
 	}
 	chart.g->SetClip(&Region());
