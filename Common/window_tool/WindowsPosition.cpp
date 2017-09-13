@@ -12,12 +12,12 @@ bool TestWindowRect(RECT &inp)
 	GetWindowRect(GetDesktopWindow(), &r);
 	return inp.left < r.right && inp.top < r.bottom;
 }
-void GetPath(wchar_t (&path)[1024])
-{
-	GetModuleFileName(0, path, dimention_of(path));
-	int len = (int)wcslen(path);
-	wcscpy(&path[len - 3], L"ini");
-}
+//void GetPath(wchar_t (&path)[1024])
+//{
+//	GetModuleFileName(0, path, dimention_of(path));
+//	int len = (int)wcslen(path);
+//	wcscpy(&path[len - 3], L"ini");
+//}
 }
 
 #pragma warning(disable: 4996)
@@ -25,7 +25,7 @@ void GetPath(wchar_t (&path)[1024])
 void WindowPosition::Get_(const char *n, RECT &r)
 {
 	wchar_t path[1024];
-	GetPath(path);
+	ItemIni::GetPath(path);
 
 	wchar_t name[256];
 	mbstowcs(name, &n[6], dimention_of(name));
@@ -37,7 +37,7 @@ void WindowPosition::Get_(const char *n, RECT &r)
 void WindowPosition::Set_(const char *n, RECT &r)
 {
 	wchar_t path[1024];
-	GetPath(path);
+	ItemIni::GetPath(path);
 
 	if(!TestWindowRect(r))
 	{

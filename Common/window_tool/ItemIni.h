@@ -10,4 +10,6 @@ namespace ItemIni
 
 	void Set(wchar_t *section, wchar_t *nameParam, double value, wchar_t *fileName);
 	double  Get(wchar_t *section, wchar_t *nameParam, double value, wchar_t *fileName);
+
+	void GetPath(wchar_t (&path)[1024]);
 }

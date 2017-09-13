@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ItemIni.h"
 #include <Windows.h>
+#include "templates/typelist.hpp"
 #pragma warning(disable: 4996)
 namespace ItemIni
 {
@@ -56,5 +57,12 @@ namespace ItemIni
 			WritePrivateProfileString(section, nameParam, buff, fileName);
 		}
 		return _wtof(buff);
+	}
+
+	void GetPath(wchar_t (&path)[1024])
+	{
+		GetModuleFileName(0, path, dimention_of(path));
+		int len = (int)wcslen(path);
+		wcscpy(&path[len - 3], L"ini");
 	}
 }
