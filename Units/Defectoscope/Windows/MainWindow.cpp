@@ -5,6 +5,8 @@
 #include "window_tool\EmptyWindow.h"
 #include <CommCtrl.h>
 #include "Windows/Common.h"
+#include "Compute\ComputeResult.h"
+#include "window_tool\ItemIni.h"
 
 #include "tools_debug\DebugMess.h"
 
@@ -65,10 +67,11 @@ void MainWindow::operator()(TSize &m)
 	static const int width = toolBar.Width();
 	select.Size(width, 5, 400);
 	//
-	acsCheckBox	 .Size (width + 425, 55, 400, 20);
+	acsCheckBox	 .Size (width + 425, 55, 200, 20);
 	longCheckBox	     .Size (width + 425,  5, 400, 20);
 	ThickCheckBox        .Size (width + 425, 25, 400, 20);
 	viewInterruptCheckBox.Size(width, 55, 400, 20);
+	cuttingModeCheckBox	 .Size (width + 425 + 200, 55, 400, 20);
 	//
 	static const int topLabelHeight = 28;
 	int y = rt.bottom - rt.top - 1;
@@ -109,6 +112,7 @@ LRESULT MainWindow::operator()(TCreate &m)
 	longCheckBox	 .Init(toolBar.hWnd, L"Модуль продольных дефектов");
 	ThickCheckBox.Init(toolBar.hWnd, L"Модуль толщины");
 	viewInterruptCheckBox.Init(toolBar.hWnd, L"Прерывание на просмотр");
+	cuttingModeCheckBox.Init(toolBar.hWnd, L"с отрезкой");
 //
 	topLabelViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<TopLabelViewer>::Proc, L"TopLabelWindow", &topLabelViewer);
 	topLabelViewer.label.fontHeight = 16;
@@ -261,6 +265,20 @@ void MainWindow::DisableTool()
 //	EnableWindow(longCheckBox.hWnd, FALSE);
 //	EnableWindow(ThickCheckBox.hWnd, FALSE);
 //	EnableWindow(select.hWnd, FALSE);
+}
+
+void CuttingMode::Command(TCommand &m, bool b)
+{
+	wchar_t path[1024];
+	ItemIni::GetPath(path);
+	withCutting = b;
+	ItemIni::Set(L"Additional", L"withCutting", (int)b, path);
+}
+bool CuttingMode::Init(HWND h)
+{
+	wchar_t path[1024];
+	ItemIni::GetPath(path);
+	return withCutting =  0 != ItemIni::Get(L"Additional", L"withCutting", 1, path);
 }
 
 

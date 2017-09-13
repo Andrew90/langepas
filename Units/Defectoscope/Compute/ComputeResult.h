@@ -10,4 +10,4 @@ void CuttingZones();
 
 void Recalculation();
 
-void ToZones();
+extern bool withCutting;

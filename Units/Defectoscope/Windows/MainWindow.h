@@ -27,6 +27,12 @@ protected:
 	}
 };
 
+struct CuttingMode
+{
+	void Command(TCommand &m, bool b);
+	bool Init(HWND h);
+};
+
 class MainWindow
 {
 public:
@@ -37,6 +43,7 @@ public:
 	CheckBoxWidget<OnTheJobCheckBox<Long     , MainWindow> > longCheckBox;
 	CheckBoxWidget<OnTheJobCheckBox<Thick, MainWindow> > ThickCheckBox;
 	CheckBoxWidget<OnTheJobCheckBox<ViewInterrupt, MainWindow> > viewInterruptCheckBox;
+	CheckBoxWidget<CuttingMode> cuttingModeCheckBox;
 	TopLabelViewer topLabelViewer;
 	SelectTypeSizeList select;
 	typedef TL::MkTlst<

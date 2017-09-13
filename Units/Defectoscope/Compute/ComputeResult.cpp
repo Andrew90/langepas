@@ -222,15 +222,27 @@ void ComputeResult()
 	if(0 != *group)wsprintf(s, L"<ff>Группа прочности<%x>%s ", color & 0xFFFFFF, group);
 	if(0 != resultData.resultCommon)
 	{
-		if(0 != resultData.cutZone0)
+		if(withCutting)
 		{
-			s += wcslen(s);
-			wsprintf(s, L"<ff>\"Зона реза 1\"<ff0000>%d ", resultData.cutZone0); 
+			if(0 != resultData.cutZone0)
+			{
+				s += wcslen(s);
+				wsprintf(s, L"<ff>\"Зона реза 1\"<ff0000>%d ", resultData.cutZone0); 
+			}
+			if(0 != resultData.cutZone1)
+			{
+				s += wcslen(s);
+				wsprintf(s, L"<ff>\"Зона реза 2\"<ff0000>%d ", resultData.cutZone1); 
+			}
 		}
-		if(0 != resultData.cutZone1)
+		else
 		{
-			s += wcslen(s);
-			wsprintf(s, L"<ff>\"Зона реза 2\"<ff0000>%d ", resultData.cutZone1); 
+			if(0 != resultData.cutZone0 || 0 != resultData.cutZone1)
+			{
+				resultData.resultCommon = 0;
+				resultData.cutZone0 = 0;
+				resultData.cutZone1 = 0;
+			}
 		}
 	}
 	s += wcslen(s);
@@ -266,25 +278,9 @@ void Recalculation()
 	RepaintWindow(app.mainWindow.hWnd);
 }
 
-void ToZones()
-{
-	SubLir &lir = Singleton<SubLir>::Instance();
-
-	SQ<on<Cross,1>> &sqOnCross1 = lir.sqItems.get<SQ<on<Cross,1>>>();
-	SQ<on<Cross,2>> &sqOnCross2 = lir.sqItems.get<SQ<on<Cross,2>>>();
-					   
-	SQ<on<Magn, 1>> &sqOnMagn1 = lir.sqItems.get<SQ<on<Magn,1>>>();
-	SQ<on<Magn, 2>> &sqOnMagn2 = lir.sqItems.get<SQ<on<Magn,2>>>();
-
-	SQ<off<Cross,1>> &sqOffCross1 = lir.sqItems.get<SQ<off<Cross,1>>>();
-	SQ<off<Cross,2>> &sqOffCross2 = lir.sqItems.get<SQ<off<Cross,2>>>();
-			  
-	SQ<off<Magn, 1>> &sqOffMagn1 = lir.sqItems.get<SQ<off<Magn,1>>>();
-	SQ<off<Magn, 2>> &sqOffMagn2 = lir.sqItems.get<SQ<off<Magn,2>>>();
+bool withCutting = true;
 
 
-	
-}
 
 
 
