@@ -258,26 +258,10 @@ int IsKlass(unsigned id)
 	return -1;
 }
 
-/*
-template<>struct Txt<Undefined			  >{wchar_t *operator()(){return L"\"результат не определён\"";}};
-	template<>struct Txt<DeathZone			  >{wchar_t *operator()(){return L"\"мёртвая зона\"";}};
-	template<>struct Txt<Nominal			  >{wchar_t *operator()(){return L"\"норма\"";}};
-	template<>struct Txt<BorderDefect<Thick>  >{wchar_t *operator()(){return L"\"дефект толщины\"";}};
-	template<>struct Txt<BorderDefect<Cross>  >{wchar_t *operator()(){return L"\"поперечный дефект\"";}};
-	template<>struct Txt<BorderDefect<Long>   >{wchar_t *operator()(){return L"\"продольный дефект\"";}};
-	template<>struct Txt<BorderKlass3<Thick>  >{wchar_t *operator()(){return L"\"толщина класс 3\"";}};
-	template<>struct Txt<BorderKlass2<Thick>  >{wchar_t *operator()(){return L"\"толщина класс 2\"";}};
-	template<>struct Txt<BorderKlass2<Cross>  >{wchar_t *operator()(){return L"\"поперечный 2 класс\"";}};
-	template<>struct Txt<BorderKlass2<Long>   >{wchar_t *operator()(){return L"\"продольный 2 класс\"";}};
-
-*/
-
 unsigned char ResAsu(unsigned char id)
 {
 	unsigned char t = 0;
     unsigned res = StatusMessages::bits[id].bits;
-
-	//1 << TL::IndexOf<status_list, BorderKlass3<Thick> >::value;
 
 	bool c2 = 0 != (res & (1 << TL::IndexOf<status_list, BorderKlass2<Cross> >::value));
 	bool cb = 0 != (res & (1 << TL::IndexOf<status_list, BorderDefect<Cross> >::value));
