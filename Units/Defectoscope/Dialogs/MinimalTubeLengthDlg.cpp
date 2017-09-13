@@ -6,7 +6,7 @@
 #include "App/App.h"
 
 PARAM_TITLE(MinimumLengthPipe, L"Длина трубы в зонах")
-MIN_EQUAL_VALUE(MinimumLengthPipe, 30)
+MIN_EQUAL_VALUE(MinimumLengthPipe, 25)
 MAX_EQUAL_VALUE(MinimumLengthPipe, 60)
 
 void MinimalTubeLengthDlg::Do(HWND h)
