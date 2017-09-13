@@ -8,7 +8,9 @@
 #include "Dates\SaveLoadDates.h"
 #include "Dates\ComputeSolid.h"
 #include "Graphics\Color.h"
-//D:\work\tmp\x\NewDefect\Units\Defectoscope\Windows\Solid\FrameWindow\ThresholdsViewer.cpp
+#include "window_tool\Zip.h"
+#include "Compute\SaveData.h"
+#include "Compute/ComputeResult.h"
 using namespace Gdiplus;
 
 namespace
@@ -161,14 +163,32 @@ void ThresholdsViewer::operator()(TDropFiles &l)
 	for(int i = 0; i < count; ++i)
 	{
 		DragQueryFile(l.hDrop,i, path, dimention_of(path));
-		if(0 == wcsncmp(L".dat", &path[wcslen(path) - 4], 4))
+		//if(0 == wcsncmp(L".dat", &path[wcslen(path) - 4], 4))
+		//{
+		//	HWND hParent = GetParent(l.hwnd);
+		//	SetWindowText(hParent, path);
+		//	LoadDateFile::Do(path);
+		//	ComputeSolid::Recalculation();
+		//	((FrameWindow *)GetWindowLongPtr(hParent, GWLP_USERDATA))->IncDecFrame();			
+		//}
+		int offs = (int)wcslen(path) - 4;
+		bool deleteFile = false;
+		if(0 == wcscmp(&path[offs], L".bz2"))
 		{
-			HWND hParent = GetParent(l.hwnd);
-			SetWindowText(hParent, path);
-			LoadDateFile::Do(path);
-			ComputeSolid::Recalculation();
-			((FrameWindow *)GetWindowLongPtr(hParent, GWLP_USERDATA))->IncDecFrame();			
+			Zip::UnZipFile2(path);
+			path[offs] = 0;
+			deleteFile = true;
 		}
+
+		ComputeData::Load(path);
+		if(deleteFile) DeleteFile(path);
+
+		HWND hParent = GetParent(l.hwnd);
+		SetWindowText(hParent, path);
+
+		ComputeSolid::Recalculation();
+		Recalculation();
+		((FrameWindow *)GetWindowLongPtr(hParent, GWLP_USERDATA))->IncDecFrame();
 	}
 	DragFinish(l.hDrop);
 }
