@@ -182,8 +182,8 @@ namespace
 		void operator()(O &o)
 		{
 			o.viewerData.currentOffsetZones = 0;
-			o.viewerData.cutZone0 = 1;
-			o.viewerData.cutZone1 = 1;
+			o.viewerData.cutZone0 = 0;
+			o.viewerData.cutZone1 = 0;
 		}
 	};
 }
