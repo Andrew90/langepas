@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Dialogs/Dialogs.h"
 #include "DlgTemplates\ParamDlg.h"
 #include "DlgTemplates\ParamDlg.hpp"
@@ -6,11 +6,13 @@
 #include "App/App.h"
 
 DO_NOT_CHECK(ChannelSamplingRate)
-PARAM_TITLE(ChannelSamplingRate, L"Частота сбора кадров платы 502")
+PARAM_TITLE(ChannelSamplingRate, L"Р§Р°СЃС‚РѕС‚Р° СЃР±РѕСЂР° РєР°РґСЂРѕРІ РїР»Р°С‚С‹ 502")
+DO_NOT_CHECK(FrequencySignal)
+PARAM_TITLE(FrequencySignal, L"Р§Р°СЃС‚РѕС‚Р° РіРµРЅРµСЂР°С‚РѕСЂР°")
 
 void ChannelSamplingRateDlg::Do(HWND h)
 {
-	if(TemplDialog<ParametersBase, L502ParametersTable, DlgItem>(Singleton<L502ParametersTable>::Instance()).Do(h, L"Параметры платы 502"))
+	if(TemplDialog<ParametersBase, L502ParametersTable, DlgItem>(Singleton<L502ParametersTable>::Instance()).Do(h, L"С•Р°СЂР°РјРµС‚СЂС‹ РїР»Р°С‚С‹ 502"))
 	{
 	}
 }
