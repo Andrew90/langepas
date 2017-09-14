@@ -522,10 +522,12 @@ struct OnTheJobTable
 };
 //-----------------------------------------------------------------
 DEFINE_PARAM(ChannelSamplingRate, int, 2000)
+DEFINE_PARAM(FrequencySignal, double, 3.8)
 struct L502ParametersTable
 {
 	typedef TL::MkTlst<
 		ChannelSamplingRate
+		, FrequencySignal
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
 	TItems items;
