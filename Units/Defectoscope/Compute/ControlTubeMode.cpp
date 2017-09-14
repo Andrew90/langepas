@@ -14,6 +14,7 @@
 #include "window_tool\Emptywindow.h"
 #include "Compute\ComputeResult.h"
 #include "Compute\AppKeyHandler.h"
+#include "SolidGroupAlgoritm\ComputeSolidGroup.h"
 
 namespace Mode
 {
@@ -399,7 +400,7 @@ namespace Mode
 		
 //---------------------------------------------------------------	
 		GetDataFromThicknessModule();
-
+		Singleton<ComputeSolidGroup>::Instance().currentFile = L"";
 		ComputeResult();
 		UpdateScreen();
 #ifdef EMUL
