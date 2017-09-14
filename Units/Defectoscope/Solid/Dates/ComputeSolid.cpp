@@ -8,7 +8,6 @@
 #include "MainWindow\PointsWindow.h"
 #include "App\AppBase.h"
 #include "DspFilters\ChebyshevFiltre.h"
-//#include "Dates\SolidData.h"
 #include "SolidGroupAlgoritm\SolidBase.h"
 #include "MainWindow/ChartLines.h"
 
@@ -27,7 +26,7 @@ namespace ComputeSolid
 			{
 				ChebyshevFiltre dsp;
 				dsp.Setup(
-					Singleton<SolidParametersTable>::Instance().items.get<FrequencySamples>().value / 2
+					Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value
 					, 3
 					, flt.get<CutoffFrequency<Voltage>>().value
 					, 40
@@ -42,9 +41,9 @@ namespace ComputeSolid
 			{
 				ChebyshevFiltre dsp;
 				dsp.Setup(
-					Singleton<SolidParametersTable>::Instance().items.get<FrequencySignal>().value / 2
+					Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value
 					, 3
-					, flt.get<CutoffFrequency<Voltage>>().value
+					, (double)flt.get<CutoffFrequency<Voltage>>().value
 					, 40
 					);	
 				double (&s)[SolidData::MAX_ZONES_COUNT] = solidData.reference;
@@ -60,35 +59,10 @@ namespace ComputeSolid
 			memmove(solidData.signal, solidData.signalNoFiltre, sizeof(solidData.signal));
 			memmove(solidData.reference, solidData.referenceNoFiltre, sizeof(solidData.reference));
 		}
-
-		//if(flt.get<CutoffFrequencyOn<ReferenceSignal>>().value)
-		//{
-		//	ChebyshevFiltre dsp;
-		//	dsp.Setup(
-		//		Singleton<SolidParametersTable>::Instance().items.get<FrequencySignal>().value / 2
-		//		, 3
-		//		, flt.get<CutoffFrequency<ReferenceSignal>>().value
-		//		, 40
-		//		);	
-		//	double (&s)[SolidData::MAX_ZONES_COUNT] = solidData.reference;
-		//	double (&noFiltre)[SolidData::MAX_ZONES_COUNT]	 = solidData.referenceNoFiltre;
-		//	for(int i = 0; i < solidData.currentOffset; ++i)
-		//	{
-		//		s[i] = dsp.OneSample(noFiltre[i]);
-		//	}
-		//}
-		//else
-		//{
-		//	memmove(solidData.reference, solidData.referenceNoFiltre, sizeof(double) * solidData.currentOffset);
-		//}
-
 	}
 
 	void Recalculation()
 	{
-//		solidData.start = int(0.1 * solidData.currentOffset);
-//		solidData.stop = solidData.currentOffset - solidData.start;
-
 		double result = 0;
 		wchar_t *groupName = L"";
 		unsigned color = 0;
@@ -114,23 +88,13 @@ namespace ComputeSolid
 			);
 
 		computeSolidGroup.currentGroupName = groupName;
-		//int count = solidData.stop - solidData.start;
-		//Singleton<L502Signal>::Instance().Set(&solidData.signal[solidData.start], count);
-		//Singleton<L502Reference>::Instance().Set(&solidData.reference[solidData.start], count);
-
-		//todo разобраться
-		//App::PrintTopLabel(buf);
-		//App::UpdateMainWindow();
-
+		
 		ColorPanel::SetText(groupName, color);
 		PointsWindow::IsOpenUpdate();
 	}
 
 	void Recalculation(double &result, wchar_t *&groupName, unsigned &color)
 	{
-		//solidData.start = int(0.1 * solidData.currentOffset);
-		//solidData.stop = solidData.currentOffset - solidData.start;
-
 		result = 0;
 		groupName = L"";
 		color = 0;
