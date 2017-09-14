@@ -3,7 +3,8 @@
 #include "window_tool/DlgFiles.h"
 #include "Compute\SaveData.h"
 #include "window_tool\Zip.h"
-
+#include "SolidGroupAlgoritm\ComputeSolidGroup.h"
+#pragma warning(disable : 4996)
 void LoadDlg::Do(HWND h)
 {
 	OpenData o(h, L"Загрузить");
@@ -17,6 +18,14 @@ void LoadDlg::Do(HWND h)
 			o.sFile[offs] = 0;
 			deleteFile = true;
 		}
+		wchar_t buf[2048];
+		wchar_t *part;
+		GetFullPathName(o.sFile,
+                 2048,
+                 buf,
+                 &part);
+
+		Singleton<ComputeSolidGroup>::Instance().currentFile = wcscat(part, L".trs");
 
 		ComputeData::Load(o.sFile);
 		if(deleteFile) DeleteFile(o.sFile);
