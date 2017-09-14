@@ -20,13 +20,13 @@ DEFINE_PARAM_NUM(Offs, 5, int, 60)
 DEFINE_PARAM_NUM(Offs, 6, int, 70)
 DEFINE_PARAM_NUM(Offs, 7, int, 80)
 
-DEFINE_PARAM(FrequencySignal, int, 6)
-DEFINE_PARAM(FrequencySamples, int, 8000)
+//DEFINE_PARAM(FrequencySignal, double, 3.8)
+//DEFINE_PARAM(FrequencySamples, int, 8000)
 
 struct SolidParametersTable
  {
 	 typedef TL::AppendList<	
-		 TL::MkTlst<NameParam, FrequencySignal, FrequencySamples>::Result
+		 TL::MkTlst<NameParam>::Result
 		, TL::CreateNumList<Offs, 0, ComputeSolidGroup::count_points - 1>::Result
 	>::Result items_list;
 	typedef TL::Factory<items_list> TItems;
