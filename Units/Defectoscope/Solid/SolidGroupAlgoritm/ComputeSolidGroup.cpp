@@ -6,6 +6,7 @@
 #include "tools_debug/DebugMess.h"
 #include "Dates\SaveLoadDates.h"
 #include "Dates\SolidData.h"
+#include "DspFilters\ChebyshevFiltre.h"
 
 namespace
 {
@@ -34,14 +35,14 @@ namespace
 			p.frequencySignal = o.value;
 		}
 	};
-	template<class P>struct __parameters_table__<FrequencySamples, P>
-	{
-		typedef FrequencySamples O;
-		void operator()(O &o, P &p)
-		{
-			p.frequencySamples = o.value;
-		}
-	};
+	//template<class P>struct __parameters_table__<FrequencySamples, P>
+	//{
+	//	typedef FrequencySamples O;
+	//	void operator()(O &o, P &p)
+	//	{
+	//		//p.frequencySamples = o.value;
+	//	}
+	//};
 	//------------------------------------------------------------------------------------------------
 	struct __sql_data__
 	{
@@ -412,13 +413,13 @@ void ComputeSolidGroup::AddThreshold()
 	{
 		//if(Singleton<SolidData>::Instance().currentOffset > 0)
 		//{			
-			currentFile = CreateNameFile(
-				subDir
-				, (wchar_t *)typeSizeName.c_str()
-				, solidGroup
-				, path
-				);
-			solidFile = (wchar_t *)currentFile.c_str();
+		currentFile = CreateNameFile(
+			subDir
+			, (wchar_t *)typeSizeName.c_str()
+			, solidGroup
+			, path
+			);
+		solidFile = (wchar_t *)currentFile.c_str();
 		//}
 		//else
 		//{
@@ -487,7 +488,8 @@ void ComputeSolidGroup::UpdateTresholds()
 {
 	changeTresholds = true;
 	persentsChanged = true;
-	double length = frequencySamples / (2 * 2 * frequencySignal);
+	L502ParametersTable::TItems &l502 = Singleton<L502ParametersTable>::Instance().items;
+	double length = l502.get<ChannelSamplingRate>().value / (2 * l502.get<FrequencySignal>().value);
 
 	int offsets[count_points];
 
@@ -503,6 +505,9 @@ void ComputeSolidGroup::UpdateTresholds()
 	wsprintf(&path[len], L"\\%s\\", L"Config");
 	len = wcslen(path);
 
+	static const int buf_size = 2048;
+	double ref[buf_size];
+	double sig[buf_size];
 
 	for(auto i = solidItems.begin(); i != solidItems.end(); ++i)
 	{
@@ -511,32 +516,65 @@ void ComputeSolidGroup::UpdateTresholds()
 		f = _wfopen(path, L"rb");
 		if(NULL != f)
 		{
-			int offset;
-			fread(&offset, sizeof(int), 1, f);
+			unsigned test;
+			fread(&test, sizeof(test), 1, f);
+			if(0xdeadbeef != test)
+			{
+				fclose(f);
+				return;
+			}
 
-			int i_offset = i->offset - 1;
+			int i_offset = i->offset - int(length / 2);
 			if(i_offset < 0) i_offset = 0;
-			int ofs = i_offset * sizeof(double) + sizeof(int);
+			int ofs = i_offset * sizeof(double) +  sizeof(int);
 			fseek(f, ofs, SEEK_SET);
+			fread(ref, sizeof(ref), 1, f);
 
-			double data[2];
-			fread(data, sizeof(double), 2, f);
-			double dY = data[0]/(data[1] - data[0]);
+			ofs = i_offset * sizeof(double) +  sizeof(int) + App::count_frames * sizeof(double);
+			fseek(f, ofs, SEEK_SET);
+			fread(sig, sizeof(sig), 1, f);
+
+			if(Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequencyOn<Voltage>>().value)
+			{
+				int frequency = Singleton<AnalogFilterTable>::Instance().items.get<CutoffFrequency<Voltage>>().value;
+
+				ChebyshevFiltre dsp;
+				dsp.Setup(
+					Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value / 2
+					, 3
+					, frequency
+					, 40
+					);	
+
+				double tmp[buf_size];
+
+				for(int k = 0; k < buf_size; ++k)
+				{
+					tmp[k] = dsp.OneSample(ref[k]);
+				} 
+				memmove(ref, tmp, sizeof(ref));
+
+				for(int k = 0; k < buf_size; ++k)
+				{
+					tmp[k] = dsp.OneSample(sig[k]);
+				} 
+				memmove(sig, tmp, sizeof(sig));
+			}
+
+			int offs = 0;
+			for(; offs < dimention_of(ref); ++offs)
+			{
+				if(ref[offs] < 0)break;
+			}
+			double dY = ref[offs - 1]/(ref[offs] - ref[offs - 1]);
 			if(dY < 0) dY = -dY;
 
 			for(int j = 0; j < count_points; ++j)
 			{
-				ofs = (i_offset + offsets[j] + offset) * sizeof(double) + sizeof(int);
-				fseek(f, ofs, SEEK_SET);
-				fread(data, sizeof(double), 2, f);
-				double t = data[0] + dY * (data[1] - data[0]);
-
-				ofs = (i_offset + offsets[j]) * sizeof(double) + sizeof(int);
-				fseek(f, ofs, SEEK_SET);
-				fread(data, sizeof(double), 2, f);
-				t -= data[0] + dY * (data[1] - data[0]);
-				i->points[j] = t;
+				int k = offsets[j] + offs;
+				i->points[j] =  sig[k - 1] + dY * (sig[k] - sig[k - 1]);
 			}
+
 			i->changed = true;
 			fclose(f);
 			i->root = 0;
@@ -574,14 +612,14 @@ namespace
 			o.value = p.frequencySignal;
 		}
 	};
-	template<class P>struct __new_group__<FrequencySamples, P>
-	{
-		typedef FrequencySamples O;
-		void operator()(O &o, P &p)
-		{
-			o.value = p.frequencySamples;
-		}
-	};
+	//template<class P>struct __new_group__<FrequencySamples, P>
+	//{
+	//	typedef FrequencySamples O;
+	//	void operator()(O &o, P &p)
+	//	{
+	//		//o.value = p.frequencySamples;
+	//	}
+	//};
 	template<int N, class P>struct __new_group__<Offs<N>, P>
 	{
 		typedef Offs<N> O;
@@ -751,14 +789,14 @@ namespace
 	};
 }
 
-//#define MIN_MAX_TRESHOLDS\
-//int minL = int(0.9 * length);\
-//int maxL = int(1.1 * length);
+#define MIN_MAX_TRESHOLDS()\
+	int minL = int(0.9 * length);\
+	int maxL = int(1.1 * length);
 
-//todo на время отладки 
-#define MIN_MAX_TRESHOLDS \
-int minL = int(0.5 * length);\
-int maxL = int(1.1 * length);
+//#define MIN_MAX_TRESHOLDS()\
+//	int minL = 0;\
+//	int maxL = 1000;
+
 
 bool ComputeSolidGroup::Frames(double* signal, double *reference, int start, int stop, double &result, wchar_t *&groupName, unsigned &color)
 {	
@@ -766,11 +804,12 @@ bool ComputeSolidGroup::Frames(double* signal, double *reference, int start, int
 	correlationItems.clear();
 	pointItems.clear();
 
-	double length = frequencySamples / (2 * 2 * frequencySignal);
+	L502ParametersTable::TItems &l502 = Singleton<L502ParametersTable>::Instance().items;
+	double length = l502.get<ChannelSamplingRate>().value / (2 * l502.get<FrequencySignal>().value);
 
-	MIN_MAX_TRESHOLDS
+	MIN_MAX_TRESHOLDS()
 
-	int offsets[count_points];
+		int offsets[count_points];
 
 	for(int i = 0; i < count_points; ++i)
 	{
@@ -802,10 +841,6 @@ bool ComputeSolidGroup::Frames(double* signal, double *reference, int start, int
 			double y0 = signal[offs - 1];
 			double y1 = signal[offs];
 			points[j] = y0 + dY * (y1 - y0);
-
-			//y0 = reference[offs - 1];
-			//y1 = reference[offs];
-			//points[j] -= y0 + dY * (y1 - y0);
 		}
 
 		double root = 0;
@@ -857,13 +892,13 @@ bool ComputeSolidGroup::ComputeMinGroup(int start, int stop, double &result, wch
 	int group = 0;
 	if(count > 0)
 	{	 
-		 for(int i = 0; i < countSubGroup; ++i)
-		 {
-			 ComputeCommonGroup(i * count, (1 + i) * count, x, groupName, color, idGroup);
-			 if(t > groupNameList[idGroup].weightGroup){ t = groupNameList[idGroup].weightGroup; result = x;group = idGroup;}
-		 }
-		 groupName = (wchar_t *)groupNameList[group].name.c_str();
-		 color =  groupNameList[group].color;
+		for(int i = 0; i < countSubGroup; ++i)
+		{
+			ComputeCommonGroup(i * count, (1 + i) * count, x, groupName, color, idGroup);
+			if(t > groupNameList[idGroup].weightGroup){ t = groupNameList[idGroup].weightGroup; result = x;group = idGroup;}
+		}
+		groupName = (wchar_t *)groupNameList[group].name.c_str();
+		color =  groupNameList[group].color;
 	}
 	return false;
 }
@@ -878,13 +913,13 @@ bool ComputeSolidGroup::ComputeMaxGroup(int start, int stop, double &result, wch
 	int group = 0;
 	if(count > 0)
 	{	 
-		 for(int i = 0; i < countSubGroup; ++i)
-		 {
-			 ComputeCommonGroup(i * count, (1 + i) * count, x, groupName, color, idGroup);
-			 if(t < groupNameList[idGroup].weightGroup) {t = groupNameList[idGroup].weightGroup; result = x;group = idGroup;}
-		 }
-		 groupName = (wchar_t *)groupNameList[group].name.c_str();
-		 color =  groupNameList[group].color;
+		for(int i = 0; i < countSubGroup; ++i)
+		{
+			ComputeCommonGroup(i * count, (1 + i) * count, x, groupName, color, idGroup);
+			if(t < groupNameList[idGroup].weightGroup) {t = groupNameList[idGroup].weightGroup; result = x;group = idGroup;}
+		}
+		groupName = (wchar_t *)groupNameList[group].name.c_str();
+		color =  groupNameList[group].color;
 	}
 	return false;
 }
@@ -904,25 +939,25 @@ bool ComputeSolidGroup::ComputeAllGroup(int start, int stop, double &result, wch
 	std::map<int, ComputeAllGroupData> m;
 	if(count > 0)
 	{	 
-		 for(int i = 0; i < countSubGroup; ++i)
-		 {
-			 ComputeCommonGroup(i * count, (1 + i) * count, x, groupName, color, idGroup);
-			 ++m[idGroup].count; 
-			 if(m[idGroup].corel < x) m[idGroup].corel = x;
-		 }
-		 int t = 0;
-		 int group = 0;
-		 for(auto k = m.begin(); k != m.end(); ++k)
-		 {
-			 if(k->second.count > t)
-			 {
-				 t = k->second.count;
-				 result = k->second.corel;
-				 group = k->first;
-			 }
-		 }
-		 groupName = (wchar_t *)groupNameList[group].name.c_str();
-		 color =  groupNameList[group].color;
+		for(int i = 0; i < countSubGroup; ++i)
+		{
+			ComputeCommonGroup(i * count, (1 + i) * count, x, groupName, color, idGroup);
+			++m[idGroup].count; 
+			if(m[idGroup].corel < x) m[idGroup].corel = x;
+		}
+		int t = 0;
+		int group = 0;
+		for(auto k = m.begin(); k != m.end(); ++k)
+		{
+			if(k->second.count > t)
+			{
+				t = k->second.count;
+				result = k->second.corel;
+				group = k->first;
+			}
+		}
+		groupName = (wchar_t *)groupNameList[group].name.c_str();
+		color =  groupNameList[group].color;
 	}
 	return false;
 }
@@ -984,132 +1019,123 @@ bool ComputeSolidGroup::ComputeCommonGroup(int start, int stop, double &result, 
 
 bool ComputeSolidGroup::FramesOne(double(&points)[count_points], int(&offsets)[count_points],double *signal, double *reference, int &start, int stop, double &result, wchar_t *&groupName, unsigned &color)
 {
-	double length = frequencySamples / (2 * 2 * frequencySignal);
+	L502ParametersTable::TItems &l502 = Singleton<L502ParametersTable>::Instance().items;
+	double length = l502.get<ChannelSamplingRate>().value / (2 * l502.get<FrequencySignal>().value);
 
-	 MIN_MAX_TRESHOLDS
-	//int offsets[count_points];
+	MIN_MAX_TRESHOLDS()
 
-	for(int i = 0; i < count_points; ++i)
-	{
-		offsets[i] = int(length * persents[i] / 100.0);
-	}
-
-	//double points[count_points];
-
-	std::for_each(solidItems.begin(), solidItems.end(), [](SolidItem &i){i.sumCorrelation = 0;i.numberMatches = 0;});
-
-
-	for(int i = start; i < stop; ++i)
-	{
-		while(reference[i] > 0 && i < stop) ++i;
-		int startPeriod = i;
-
-		if(reference[i - 1] < 0) continue;
-
-		double dY = reference[i - 1]/(reference[i] - reference[i - 1]);
-		if(dY < 0) dY = -dY;
-
-		while(reference[i] < 0 && i < stop) ++i;
-		int stopPeriod = i;
-
-		int tLen = stopPeriod - startPeriod;
-		if(tLen < minL || tLen > maxL) continue;
-
-		for(int j = 0; j < count_points; ++j)
+		for(int i = 0; i < count_points; ++i)
 		{
-			int offs = offsets[j] + startPeriod;
-			double y0 = signal[offs - 1];
-			double y1 = signal[offs];
-			points[j] = y0 + dY * (y1 - y0);
-
-			//y0 = reference[offs - 1];
-			//y1 = reference[offs];
-			//points[j] -= y0 + dY * (y1 - y0);
+			offsets[i] = int(length * persents[i] / 100.0);
 		}
 
-		double root = 0;
-		for(int j = 0; j < count_points; ++j)
+		std::for_each(solidItems.begin(), solidItems.end(), [](SolidItem &i){i.sumCorrelation = 0;i.numberMatches = 0;});
+
+
+		for(int i = start; i < stop; ++i)
 		{
-			double a = points[j];
-			root += a * a;
-		}
-		root = sqrt(root);
-		int maxCorelItem = -1;
-		int ind = 0;
-		double maxCor = 0;
-		for(auto j = solidItems.begin(); j != solidItems.end(); ++j,++ind)
-		{
-			double *a = j->points;
-			double res = 0;
-			for(int k = 0; k < count_points; ++k)
+			while(reference[i] > 0 && i < stop) ++i;
+			int startPeriod = i;
+
+			if(reference[i - 1] < 0) continue;
+
+			double dY = reference[i - 1]/(reference[i] - reference[i - 1]);
+			if(dY < 0) dY = -dY;
+
+			while(reference[i] < 0 && i < stop) ++i;
+			int stopPeriod = i;
+
+			int tLen = stopPeriod - startPeriod;
+			if(tLen < minL || tLen > maxL)
 			{
-				res += a[k] * points[k];
+				continue;
 			}
-			res /= root * j->root;
-			j->corelation = res;
+			dprint("minL %d tLen %d maxL %d  OK\n", minL, tLen, maxL);
 
-			if((enabled == j->status || new_item == j->status) && res >= maxCor)
+			for(int j = 0; j < count_points; ++j)
 			{
-				maxCorelItem = ind;
-				maxCor = res;
-			}
-		}
-		if(-1 != maxCorelItem)
-		{
-			++solidItems[maxCorelItem].numberMatches;
-			solidItems[maxCorelItem].sumCorrelation +=  solidItems[maxCorelItem].corelation;
-		}
-		start = startPeriod;
-		if(-1 != maxCorelItem)break;
-	}
-
-	//if(0 == numberPasses) numberPasses = 1;
-	//std::for_each(solidItems.begin(), solidItems.end(), [numberPasses](SolidItem &i){i.corelation = i.sumCorrelation / numberPasses;});
-
-	std::map<int, CountCorel> corel;
-	for(auto j = solidItems.begin(); j != solidItems.end(); ++j)
-	{
-		corel[j->groupName].count += j->numberMatches;
-		corel[j->groupName].sumCorel += j->sumCorrelation;		  //todo 1
-		//++corel[j->groupName].sumCount;
-	}
-	//	int ind = 0;
-	int countItems = 0;
-	double maxCorel = 0;
-	int first = -1;
-	for(auto j = corel.begin(); j != corel.end(); ++j)
-	{
-		if(j->second.count > 0)
-		{
-			if(j->second.count > 1)j->second.sumCorel /= j->second.count;  //todo 2
-
-			if(j->second.count > countItems)
-			{
-				//maxCorel = ind;
-				countItems = j->second.count;
-				maxCorel = j->second.sumCorel;
-				first = j->first;
-			}
-			else if(j->second.count == countItems && j->second.sumCorel > maxCorel)
-			{
-				//maxCorel = ind;
-				maxCorel = j->second.sumCorel;
-				first = j->first;
+				int offs = offsets[j] + startPeriod;
+				double y0 = signal[offs - 1];
+				double y1 = signal[offs];
+				points[j] = y0 + dY * (y1 - y0);
 			}
 
+			double root = 0;
+			for(int j = 0; j < count_points; ++j)
+			{
+				double a = points[j];
+				root += a * a;
+			}
+			root = sqrt(root);
+			int maxCorelItem = -1;
+			int ind = 0;
+			double maxCor = 0;
+			for(auto j = solidItems.begin(); j != solidItems.end(); ++j,++ind)
+			{
+				double *a = j->points;
+				double res = 0;
+				for(int k = 0; k < count_points; ++k)
+				{
+					res += a[k] * points[k];
+				}
+				res /= root * j->root;
+				j->corelation = res;
+
+				if((enabled == j->status || new_item == j->status) && res >= maxCor)
+				{
+					maxCorelItem = ind;
+					maxCor = res;
+				}
+			}
+			if(-1 != maxCorelItem)
+			{
+				++solidItems[maxCorelItem].numberMatches;
+				solidItems[maxCorelItem].sumCorrelation +=  solidItems[maxCorelItem].corelation;
+			}
+			start = startPeriod;
+			if(-1 != maxCorelItem)break;
 		}
-	}
-	if(-1 != first)
-	{
-		result = 0;
+
+		std::map<int, CountCorel> corel;
 		for(auto j = solidItems.begin(); j != solidItems.end(); ++j)
 		{
-			if(j->groupName == first && j->corelation > result) result = j->corelation;
+			corel[j->groupName].count += j->numberMatches;
+			corel[j->groupName].sumCorel += j->sumCorrelation;		  //todo 1
 		}
-		groupName = (wchar_t *)groupNameList[first].name.c_str();
-		color	  =  groupNameList[first].color;
-		return true;
-	}
-	return false;
+		int countItems = 0;
+		double maxCorel = 0;
+		int first = -1;
+		for(auto j = corel.begin(); j != corel.end(); ++j)
+		{
+			if(j->second.count > 0)
+			{
+				if(j->second.count > 1)j->second.sumCorel /= j->second.count;  //todo 2
+
+				if(j->second.count > countItems)
+				{
+					countItems = j->second.count;
+					maxCorel = j->second.sumCorel;
+					first = j->first;
+				}
+				else if(j->second.count == countItems && j->second.sumCorel > maxCorel)
+				{
+					maxCorel = j->second.sumCorel;
+					first = j->first;
+				}
+
+			}
+		}
+		if(-1 != first)
+		{
+			result = 0;
+			for(auto j = solidItems.begin(); j != solidItems.end(); ++j)
+			{
+				if(j->groupName == first && j->corelation > result) result = j->corelation;
+			}
+			groupName = (wchar_t *)groupNameList[first].name.c_str();
+			color	  =  groupNameList[first].color;
+			return true;
+		}
+		return false;
 }
 

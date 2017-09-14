@@ -10,8 +10,6 @@
 #include "SolidGroupAlgoritm\ComputeSolidGroup.h"
 #include "Dates\CounterTubes.h"
 #include "App/Config.h"
-#include "Compute\SaveData.h"
-#include "window_tool\Zip.h"
 
 namespace
 {
@@ -54,58 +52,48 @@ void LoadDateFile::Do(HWND h)
 
 bool LoadDateFile::Do(wchar_t *path)
 {
-//	FILE *f = _wfopen(path, L"rb");
-//	close_file c_f(f);
-//	bool b = false;
-//	if(NULL != f)
-//	{
-//		int len = wcslen(path);
-//		wchar_t *s = path;
-//		for(int i = len; i > 0; --i)
-//		{
-//			if(s[i] == '\\' || s[i] == '/')
-//			{
-//				computeSolidGroup.currentFile = &s[i+1];
-//				break;
-//			}
-//		}
-//#ifndef EMUL
-//		b = fread(solidData.reference, sizeof(solidData.reference), 1, f)
-//			&& fread(&solidData.signal, sizeof(solidData.signal), 1, f)
-//			;
-//		memmove(solidData.referenceNoFiltre, solidData.reference, sizeof(solidData.referenceNoFiltre));
-//		memmove(solidData.signalNoFiltre, solidData.signal, sizeof(solidData.signalNoFiltre));		
-//#else
-//		//int size;
-//		//if(fread(&size, sizeof(size), 1, f))
-//		//{
-//		//	if(size < SolidData::MAX_ZONES_COUNT)
-//		//	{
-//		//		b = fread(&solidData.reference[solidData.start], sizeof(double) * size, 1, f)
-//		//			&& fread(&solidData.signal[solidData.start], sizeof(double) * size, 1, f)
-//		//			;
-//		//		memmove(solidData.referenceNoFiltre, solidData.reference, sizeof(solidData.referenceNoFiltre));
-//		//		memmove(solidData.signalNoFiltre, solidData.signal, sizeof(solidData.signalNoFiltre));
-//		//	}
-//		//}
-//
-//		int offs = (int)wcslen(path) - 4;
-//		bool deleteFile = false;
-//		if(0 == wcscmp(&path[offs], L".bz2"))
-//		{
-//			Zip::UnZipFile2(path);
-//			path[offs] = 0;
-//			deleteFile = true;
-//		}
-//
-//		ComputeData::Load(path);
-//		if(deleteFile) DeleteFile(path);
-//
-//
-//#endif
-//	}
-//	return b;
-	return false;
+	FILE *f = _wfopen(path, L"rb");
+	close_file c_f(f);
+	bool b = false;
+	if(NULL != f)
+	{
+		int len = wcslen(path);
+		wchar_t *s = path;
+		for(int i = len; i > 0; --i)
+		{
+			if(s[i] == '\\' || s[i] == '/')
+			{
+				computeSolidGroup.currentFile = &s[i+1];
+				break;
+			}
+		}
+#ifndef EMUL
+		b = fread(solidData.reference, sizeof(solidData.reference), 1, f)
+			&& fread(&solidData.signal, sizeof(solidData.signal), 1, f)
+			;
+		memmove(solidData.referenceNoFiltre, solidData.reference, sizeof(solidData.referenceNoFiltre));
+		memmove(solidData.signalNoFiltre, solidData.signal, sizeof(solidData.signalNoFiltre));		
+#else
+	//	int size;
+	//	if(fread(&size, sizeof(size), 1, f))
+		{
+		//	if(size < SolidData::MAX_ZONES_COUNT)
+			unsigned test = 0;
+			fread(&test, sizeof(test), 1, f) ;
+			if(0xdeadbeef == test)
+			{
+				b = //fread(&solidData.currentOffset, sizeof(solidData.currentOffset), 1, f)
+					 fread(solidData.reference, sizeof(solidData.reference), 1, f)
+					&& fread(&solidData.signal, sizeof(solidData.signal), 1, f)
+					;
+				memmove(solidData.referenceNoFiltre, solidData.reference, sizeof(solidData.referenceNoFiltre));
+				memmove(solidData.signalNoFiltre, solidData.signal, sizeof(solidData.signalNoFiltre));
+			}
+		}
+
+#endif
+	}
+	return b;
 }
 
 
@@ -114,8 +102,10 @@ void StoreDataFile(wchar_t *path)
 	FILE *f= _wfopen(path, L"wb+");
 	if(NULL != f)
 	{
-			fwrite(solidData.referenceNoFiltre, sizeof(solidData.referenceNoFiltre), 1, f)
-			&& fwrite(&solidData.signalNoFiltre, sizeof(solidData.signalNoFiltre), 1, f)
+		unsigned test = 0xdeadbeef;
+		fwrite(&test, sizeof(test), 1, f);
+			fwrite(solidData.referenceNoFiltre, sizeof(solidData.referenceNoFiltre), 1, f);
+			fwrite(&solidData.signalNoFiltre, sizeof(solidData.signalNoFiltre), 1, f);
 			;
 		fclose(f);
 	}
@@ -141,7 +131,7 @@ wchar_t *CreateNameFile(wchar_t *subDir, wchar_t *typeSize, wchar_t *solidGroup,
 	time_t t = time(0);
 	struct tm *now = localtime( & t );
 	int len = wcslen(path);
-	wsprintf(&path[len], L"%06d_%s_%s_%02d%02d%02d%02d%02d%02d.dat"
+	wsprintf(&path[len], L"%06d_%s_%s_%02d%02d%02d%02d%02d%02d.trs"
 		, CounterTubes::CountTypeAll()
 		, typeSize
 		, solidGroup

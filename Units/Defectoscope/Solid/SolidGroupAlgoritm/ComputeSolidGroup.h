@@ -77,9 +77,6 @@ public:
 	std::wstring typeSizeName;	
 	int persents[count_points];
 
-	int frequencySamples;
-	int frequencySignal;
-
 	bool changeTresholds;
 	std::wstring currentFile;
 
