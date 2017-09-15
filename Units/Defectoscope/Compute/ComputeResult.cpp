@@ -69,12 +69,6 @@ void CuttingZones()
 	if(resultData.currentOffsetZones - 1 <= resultData.cutZone1)  resultData.cutZone1 = 0;
 
 	resultData.resultCommon = ResultNorma;
-	
-	//if(tubeLength < Singleton<MinimumLengthPipeTable>::Instance().items.get<MinimumLengthPipe>().value)
-	//{
-	//	resultData.resultCommon = ResultBrak;
-	//}
-	//else
 	{
 		int start = resultData.cutZone0;
 		int stop = 1 + resultData.cutZone1;
