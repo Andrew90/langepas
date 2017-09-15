@@ -35,6 +35,46 @@ template<class T, int N>struct test_menu{bool operator()(){return true;};};
 template<>struct test_menu<Cross, 10>{bool operator()(){return (10 < Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value);}};
 template<>struct test_menu<Cross, 11>{bool operator()(){return (11 < Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value);}};
 
+template<class T, int N>struct WapProc
+{
+	template<class O, class P>void operator()(O *o, P &p)
+	{
+		(*(typename O::Parent::Parent *)o)(p);
+	}
+};
+
+template<class P>struct WapProcInner{void operator()(P &) {}};
+template<>struct WapProcInner<TSize>{template<class O>void operator()(O *o, TSize &l) {o->Size(l);}};
+
+template<>struct WapProc<Cross, 10>
+{
+	template<class O, class P>void operator()(O *o, P &p)
+	{
+		if(10 < Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value)
+		{
+			(*(typename O::Parent::Parent *)o)(p);
+		}
+		else
+		{
+			WapProcInner<P>()(o, p);
+		}
+	}
+};
+template<>struct WapProc<Cross, 11>
+{
+	template<class O, class P>void operator()(O *o, P &p)
+	{
+		if(11 < Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value)
+		{
+			(*(typename O::Parent::Parent *)o)(p);
+		}
+		else
+		{
+			WapProcInner<P>()(o, p);
+		}
+	}
+};
+
 template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result>
 {
 	typedef LineTresholdsViewer<typename TL::SelectT<ThresholdsTable::items_list, typename T::sub_type>::Result> Parent;
@@ -43,7 +83,7 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 	DataViewer<typename T::sub_type> dataViewer;
 	Line()
 	{
-		if(!test_menu<typename T::sub_type, N>()()) return;
+//		if(!test_menu<typename T::sub_type, N>()()) return;
 		((Parent::TChart *)chart)->items.get<BarSeries>().SetColorBarHandler(this, &Line::GetColorBar);
 		cursor->SetMouseMoveHandler(this, &Line::CursorDraw);
 	}	
@@ -106,19 +146,43 @@ template<class T, int N>struct Line: LineTresholdsViewer<typename TL::SelectT<Th
 		return true;
 	}
 
-	void MenuItemScan()
-	{
-		//if(owner->viewer.viewerData.currentOffsetZones > owner->lastZone) SignalWindow::Open(owner->lastZone, N, offsetX);
-	}
-	/*
-
-	*/
 	void MenuZoneDisable()
 	{
 		owner->adjustItem.get<AdjustingMultipliers<Line<T, N>>>().Show();
 	}
 
-	void operator()(TRButtonDown &l);	
+	void operator()(TRButtonDown &l);
+
+	void Size(TSize &l)
+	{
+		using namespace Gdiplus;
+		if(l.resizing == SIZE_MINIMIZED || 0 == l.Width || 0 == l.Height) return;	
+
+		if(NULL != backScreen)
+		{
+			if(backScreen->GetWidth() < l.Width || backScreen->GetHeight() < l.Height)
+			{
+				delete backScreen;
+				backScreen = new Bitmap(l.Width, l.Height);
+			}
+		}
+		else if(l.Width > 0 && l.Height > 0)
+		{
+			backScreen = new Bitmap(l.Width, l.Height);
+		}
+		else
+		{
+			return;
+		}
+		Graphics g(backScreen);
+		SolidBrush solidBrush(Color((ARGB)BACK_GROUND));
+		g.FillRectangle(&solidBrush, 0, 0, l.Width, l.Height);   
+	}
+
+	void operator()(TSize &l)
+	{
+		WapProc<typename T::sub_type, N>()(this, l);
+	}
 };
 
 template<class T, void(T::*)()>struct MenuNum{};
@@ -152,7 +216,8 @@ template<class T, int N>struct __line_sub_menu__
 
 template<class T, int N>void Line<T, N>::operator()(TRButtonDown &l)
 {
-	if(test_menu<typename T::sub_type, N>()())__line_sub_menu__<T, N>()(l.hwnd);
+	if(test_menu<typename T::sub_type, N>()())
+		__line_sub_menu__<T, N>()(l.hwnd);
 }
 
 namespace

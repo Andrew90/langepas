@@ -29,23 +29,6 @@ public:
 	 void Set(int start, int stop, double *ascan, const int, const int, int widthFiltre, bool filtreOn, int cutoffFrequencys, double adjustMul);
 };
 
-template<class T>struct TestCountSensors
-{
-	template<class Z>bool operator()(Z *, int){return false;};
-};
-template<>struct TestCountSensors<Cross>
-{
-	template<class Z>bool operator()(Z *z, int channel)
-	{
-		if(channel > Singleton<ParametersTable>::Instance().items.get<CrossCountSensors>().value - 1)
-		{
-			z->count = 0;
-			return true;
-		}
-		return false;
-	}
-};
-
 template<class T>struct DataViewer: DefectData
 {	
 	DataViewer()
@@ -58,7 +41,6 @@ template<class T>struct DataViewer: DefectData
 	{}
 	void Do(int zone, int channel, double adjustMul)
 	{
-		if(TestCountSensors<T>()(this, channel)) return;
 		ItemData<T> &d = Singleton<ItemData<T> >::Instance();
 
 		int widthFiltre = Singleton<MedianFiltreTable>::Instance().items.get<MedianFiltreOn<T>>().value;
