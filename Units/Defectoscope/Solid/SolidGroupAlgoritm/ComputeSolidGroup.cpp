@@ -540,20 +540,20 @@ void ComputeSolidGroup::UpdateTresholds()
 
 				ChebyshevFiltre dsp;
 				dsp.Setup(
-					Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value / 2
+					Singleton<L502ParametersTable>::Instance().items.get<ChannelSamplingRate>().value
 					, 3
 					, frequency
 					, 40
 					);	
-
+				
 				double tmp[buf_size];
-
+				
 				for(int k = 0; k < buf_size; ++k)
 				{
 					tmp[k] = dsp.OneSample(ref[k]);
 				} 
 				memmove(ref, tmp, sizeof(ref));
-
+				
 				for(int k = 0; k < buf_size; ++k)
 				{
 					tmp[k] = dsp.OneSample(sig[k]);
