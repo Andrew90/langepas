@@ -73,8 +73,8 @@ namespace
 		PARAM_TITLE(Pos<oRH>, L"(RH)Старший бит кода частототы вращения")
 
 		PARAM_TITLE(Stat<iZU>, L"(ZU)Цепи управления")
-		PARAM_TITLE(Stat<iPCH_B>, L"(PCH_B)Соснояние частотного преобразователя(В)")
-		PARAM_TITLE(Stat<iPCH_RUN>, L"(PCH_RUN)Соснояние частотного преобразователя(Run)")
+		PARAM_TITLE(Stat<iPCH_B>, L"(PCH_B)Состояние частотного преобразователя(В)")
+		PARAM_TITLE(Stat<iPCH_RUN>, L"(PCH_RUN)Состояние частотного преобразователя(Run)")
 
 		template<>struct DlgSubItems<Stat<iZU> , bool>: DlgItemsRadio<Stat<iZU>>{};
 	template<>struct DlgSubItems<Stat<iPCH_B> , bool>: DlgItemsRadio<Stat<iPCH_B>>{};

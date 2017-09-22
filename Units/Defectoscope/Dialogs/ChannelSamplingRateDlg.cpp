@@ -12,7 +12,7 @@ PARAM_TITLE(FrequencySignal, L"Частота генератора")
 
 void ChannelSamplingRateDlg::Do(HWND h)
 {
-	if(TemplDialog<ParametersBase, L502ParametersTable, DlgItem>(Singleton<L502ParametersTable>::Instance()).Do(h, L"ѕараметры платы 502"))
+	if(TemplDialog<ParametersBase, L502ParametersTable, DlgItem>(Singleton<L502ParametersTable>::Instance()).Do(h, L"Параметры платы 502"))
 	{
 	}
 }

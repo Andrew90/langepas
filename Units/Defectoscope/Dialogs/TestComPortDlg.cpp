@@ -70,10 +70,10 @@ namespace
 
 void ThicknessComTest::Do(HWND h)
 {
-	__Do__<Communication::Thick::Test>(h, L"Тестирование с связи с толщиномером");
+	__Do__<Communication::Thick::Test>(h, L"Тестирование связи с толщиномером");
 }
 
 void ASUComTest::Do(HWND h)
 {
-	__Do__<Communication::Asu::Test>(h, L"Тестирование с связи с АСУ");
+	__Do__<Communication::Asu::Test>(h, L"Тестирование связи с АСУ");
 }
