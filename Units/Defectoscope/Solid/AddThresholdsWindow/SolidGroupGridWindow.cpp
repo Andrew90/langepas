@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "SolidGroupGridWindow.h"
 #include "resource.h"
 #include <Windows.h>
@@ -92,22 +92,22 @@ namespace SolidGroup
 		}
 	};
 
-	HEADER_TABLE(Number  , 40, L"№");
+	HEADER_TABLE(Number  , 40, L"в„–");
 	HEADER_TABLE(Color   , 30, L"");
 	HEADER_TABLE(Selected, 20, L"");
-	HEADER_TABLE(SolidG, 80, L"Гр.прочности");
-	HEADER_TABLE(Corel   , 85, L"Кореляция");
-	HEADER_TABLE(Point<0>, 85, L"Точка1");
-	HEADER_TABLE(Point<1>, 85, L"Точка2");
-	HEADER_TABLE(Point<2>, 85, L"Точка3");
-	HEADER_TABLE(Point<3>, 85, L"Точка4");
-	HEADER_TABLE(Point<4>, 85, L"Точка5");
-	HEADER_TABLE(Point<5>, 85, L"Точка6");
-	HEADER_TABLE(Point<6>, 85, L"Точка7");
-	HEADER_TABLE(Point<7>, 85, L"Точка8");
+	HEADER_TABLE(SolidG, 80, L"Р“СЂ.РїСЂРѕС‡РЅРѕСЃС‚Рё");
+	HEADER_TABLE(Corel   , 85, L"РљРѕСЂСЂРµР»СЏС†РёСЏ");
+	HEADER_TABLE(Point<0>, 85, L"РўРѕС‡РєР°1");
+	HEADER_TABLE(Point<1>, 85, L"РўРѕС‡РєР°2");
+	HEADER_TABLE(Point<2>, 85, L"РўРѕС‡РєР°3");
+	HEADER_TABLE(Point<3>, 85, L"РўРѕС‡РєР°4");
+	HEADER_TABLE(Point<4>, 85, L"РўРѕС‡РєР°5");
+	HEADER_TABLE(Point<5>, 85, L"РўРѕС‡РєР°6");
+	HEADER_TABLE(Point<6>, 85, L"РўРѕС‡РєР°7");
+	HEADER_TABLE(Point<7>, 85, L"РўРѕС‡РєР°8");
 
-	HEADER_TABLE(Offset, 80, L"Смещение");
-	HEADER_TABLE(File, 170, L"Файл");
+	HEADER_TABLE(Offset, 80, L"РЎРјРµС‰РµРЅРёРµ");
+	HEADER_TABLE(File, 170, L"Р¤Р°Р№Р»");
 
 	typedef TL::MkTlst<
 		Selected
@@ -231,7 +231,7 @@ namespace SolidGroup
 		static const int width = 120;
 		static const int height = 30;
 		static const int ID = IDOK;
-		wchar_t *Title(){return L"Применить";}
+		wchar_t *Title(){return L"РџСЂРёРјРµРЅРёС‚СЊ";}
 		template<class Owner>void BtnHandler(Owner &owner, HWND h)
 		{
 			if(!TL::find<typename Owner::list, __test__>()(&owner.items, &h))return;
@@ -240,14 +240,14 @@ namespace SolidGroup
 		}
 	};
 
-	PARAM_TITLE(GroupName, L"Группа прочности")
+	PARAM_TITLE(GroupName, L"Р“СЂСѓРїРїР° РїСЂРѕС‡РЅРѕСЃС‚Рё")
 		DO_NOT_CHECK(GroupName)
 
 		void ChangeGroupDlg(HWND h, int i)
 	{
 		GroupTable t;
 		wchar_t buf[64];
-		wsprintf(buf, L"Сменить название группы прочности(строка № %d)", 1 + i);
+		wsprintf(buf, L"РЎРјРµРЅРёС‚СЊ РЅР°Р·РІР°РЅРёРµ РіСЂСѓРїРїС‹ РїСЂРѕС‡РЅРѕСЃС‚Рё(СЃС‚СЂРѕРєР° в„– %d)", 1 + i);
 		t.items.get<GroupName>().value = (wchar_t *)solidGroup.groupNameList[solidGroup.solidItems[i].groupName].name.c_str();		
 		if(TemplDialogList<NullType, GroupTable
 			, TL::MkTlst<GroupName>::Result
@@ -263,9 +263,9 @@ namespace SolidGroup
 	struct DisableItem{};
 	struct DeleteItem{};
 	template<class T>struct TopMenu{typedef NullType list;};
-	MENU_TEXT(L"Включить", TopMenu<EnableItem>)
-		MENU_TEXT(L"Отключить", TopMenu<DisableItem>)
-		MENU_TEXT(L"Удалить", TopMenu<DeleteItem>)
+	MENU_TEXT(L"Р’РєР»СЋС‡РёС‚СЊ", TopMenu<EnableItem>)
+		MENU_TEXT(L"РћС‚РєР»СЋС‡РёС‚СЊ", TopMenu<DisableItem>)
+		MENU_TEXT(L"РЈРґР°Р»РёС‚СЊ", TopMenu<DeleteItem>)
 
 		typedef TL::MkTlst<	
 		TopMenu<EnableItem>	

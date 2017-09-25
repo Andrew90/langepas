@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Dialogs.h"
 #include "DlgTemplates\ParamDlg.h"
 #include "DlgTemplates\ParamDlg.hpp"
@@ -15,7 +15,7 @@ namespace
 		static const int width = 120;
 		static const int height = 30;
 		static const int ID = IDOK;
-		wchar_t *Title(){return L"Применить";}
+		wchar_t *Title(){return L"РџСЂРёРјРµРЅРёС‚СЊ";}
 		template<class Owner>void BtnHandler(Owner &owner, HWND h)
 		{
 			if(TestPassword<Owner::Base, Owner::Table>()(h))
@@ -36,7 +36,7 @@ namespace
 				GetWindowText(owner.items.get<DlgItem<NameParam> >().hWnd, buf, dimention_of(buf));
 				if(0 == buf[0] || 0 == wcscmp(L"NONAME", buf))
 				{
-					MessageBox(h, L"Введите название типоразмера", L"Ошибка!!!", MB_ICONERROR);
+					MessageBox(h, L"Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С‚РёРїРѕСЂР°Р·РјРµСЂР°", L"РћС€РёР±РєР°!!!", MB_ICONERROR);
 					return;
 				}				
 				CBase base(Owner::Base().name());
@@ -46,13 +46,13 @@ namespace
 					int id = Select<Owner::Table>(base).eq<NameParam>(owner.table.items.get<NameParam>().value).Execute();
 					if(0 != id)
 					{
-						MessageBox(h, L"Название типоразмера есть в базе данных", L"Предупреждение!!!", MB_ICONEXCLAMATION);
+						MessageBox(h, L"РќР°Р·РІР°РЅРёРµ С‚РёРїРѕСЂР°Р·РјРµСЂР° РµСЃС‚СЊ РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С…", L"РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ!!!", MB_ICONEXCLAMATION);
 					}
 					else
 					{
 						Insert_Into<Owner::Table>(owner.table, base).Execute<Owner::Table::items_list>();
 						id = Select<Owner::Table>(base).eq<NameParam>(owner.table.items.get<NameParam>().value).Execute();	
-						MessageBox(h, L"Типоразмер создан", L"Сообщение!!!", MB_ICONINFORMATION);
+						MessageBox(h, L"РўРёРїРѕСЂР°Р·РјРµСЂ СЃРѕР·РґР°РЅ", L"РЎРѕРѕР±С‰РµРЅРёРµ!!!", MB_ICONINFORMATION);
 					}
 					CurrentParametersTable &curr = Singleton<CurrentParametersTable>::Instance();
 					curr.items.get<CurrentID>().value = id;
@@ -81,7 +81,7 @@ namespace
 		static const int width = 120;
 		static const int height = 30;
 		static const int ID = IDOK;
-		wchar_t *Title(){return L"Применить";}
+		wchar_t *Title(){return L"РџСЂРёРјРµРЅРёС‚СЊ";}
 		template<class Owner>void BtnHandler(Owner &owner, HWND h)
 		{
 			if(TestPassword<Owner::Base, Owner::Table>()(h))
@@ -90,7 +90,7 @@ namespace
 				GetWindowText(owner.items.get<DlgItem<NameParam> >().hWnd, buf, dimention_of(buf));
 				if(0 == buf[0])
 				{
-					MessageBox(h, L"Введите название типоразмера", L"Ошибка!!!", MB_ICONERROR);
+					MessageBox(h, L"Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С‚РёРїРѕСЂР°Р·РјРµСЂР°", L"РћС€РёР±РєР°!!!", MB_ICONERROR);
 					return;
 				}
 				CBase base(Owner::Base().name());
@@ -100,7 +100,7 @@ namespace
 					Select<Owner::Table>(base).ExecuteLoop<__more_than_one__>(countItems);
 					if(countItems < 2)
 					{
-						MessageBox(h, L"В базе должно быть больше одного типоразмера", L"Предупреждение!!!", MB_ICONEXCLAMATION);
+						MessageBox(h, L"Р’ Р±Р°Р·Рµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РѕРґРЅРѕРіРѕ С‚РёРїРѕСЂР°Р·РјРµСЂР°", L"РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ!!!", MB_ICONEXCLAMATION);
 						return;
 					}					
 					wchar_t buf2[128];
@@ -138,7 +138,7 @@ DO_NOT_CHECK(NameParam)
 	PARAM_TITLE(NameParam, L"")
 	template<int N>struct DlgSubItems<NameParam, Holder<N> >: EditItems<NameParam, 420>{};
 
-PARAM_TITLE(DiametrTube, L"Диаметр трубы");
+PARAM_TITLE(DiametrTube, L"Р”РёР°РјРµС‚СЂ С‚СЂСѓР±С‹");
 template<>struct DlgSubItems<DiametrTube, int>: ComboBoxSubItem<DiametrTube>{};
 
 template<>struct FillComboboxList<DiametrTube>
@@ -162,7 +162,7 @@ void AddTypeSizeDlg::Do(HWND h)
 		, ParametersTable
 		, TL::MkTlst<NameParam, DiametrTube>::Result
 		, TL::MkTlst<AddOkBtn, CancelBtn>::Result
-	>(t).Do(h, L"Добавить типоразмер")
+	>(t).Do(h, L"РЎРѕР·РґР°С‚СЊ С‚РёРїРѕСЂР°Р·РјРµСЂ")
 	)
 	{}
 }
@@ -176,7 +176,7 @@ void DelTypeSizeDlg::Do(HWND h)
 		, ParametersTable
 		, TL::MkTlst<NameParam>::Result
 		, TL::MkTlst<DelOkBtn, CancelBtn>::Result
-	>(t).Do(h, L"Удалить типоразмер")
+	>(t).Do(h, L"РЈРґР°Р»РёС‚СЊ С‚РёРїРѕСЂР°Р·РјРµСЂ")
 	)
 	{}
 }

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "FrameWindow\ThresholdsViewer.h"
 #include "App\AppBase.h"
 #include "SolidGroupAlgoritm\ComputeSolidGroup.h"
@@ -129,7 +129,7 @@ namespace
 	{										   
 		typedef NullType list;				   
 	};										   
-	MENU_TEXT(L"Добавить порог", TopMenu<ThresholdsViewer>)	   
+	MENU_TEXT(L"Р”РѕР±Р°РІРёС‚СЊ РѕР±СЂР°Р·РµС†", TopMenu<ThresholdsViewer>)	   
 											   
 	typedef TL::MkTlst<						   
 		TopMenu<ThresholdsViewer>						   

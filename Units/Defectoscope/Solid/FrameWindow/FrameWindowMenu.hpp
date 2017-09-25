@@ -52,8 +52,10 @@ namespace FrameWindowMenu
 	struct ThresholdsMenuItem{static void Do(HWND){AddThresholdWindow::Show();}};
 	struct OffsetsMenuItem{static void Do(HWND){TreshWindow::Show();}};
 	struct SolidDlg_: SolidDlg{};
+	struct AddTresholdSolidGroup{static void Do(HWND){Singleton<FrameWindow>::Instance().AddTreshold();}};
 
-	MENU_ITEM(L"Пороги", ThresholdsMenuItem)
+	MENU_ITEM(L"Oбразцы", ThresholdsMenuItem)
+	MENU_ITEM(L"Добавить образец", AddTresholdSolidGroup)
 	MENU_ITEM(L"Смещения", OffsetsMenuItem)
 	MENU_ITEM(L"Сохранить координаты окна", WindowPositionDlg<FrameWindow>)
 	MENU_ITEM(L"Цифровой фильтр", SolidDlg_)
@@ -64,6 +66,7 @@ namespace FrameWindowMenu
 			MenuItem<SolidDlg_>
 			, Separator<1>
 			, MenuItem<ThresholdsMenuItem>
+			, MenuItem<AddTresholdSolidGroup>
 			, MenuItem<OffsetsMenuItem>
 			, Separator<0>
 			, MenuItem<WindowPositionDlg<FrameWindow>>

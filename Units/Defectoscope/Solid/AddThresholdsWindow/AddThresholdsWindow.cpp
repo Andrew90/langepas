@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "Resource.h"
 #include "AddThresholdsWindow.h"
 #include "window_tool\Emptywindow.h"
@@ -20,20 +20,20 @@ namespace
 		if(solidGroup.changeTresholds && TypesizePasswordDlg().Do(h)) 
 		{
 			solidGroup.Save();
-			MessageBox(h, L"Данные cохранены!!!", L"Cообщение", MB_ICONINFORMATION | MB_OK);
+			MessageBox(h, L"Р”Р°РЅРЅС‹Рµ cРѕС…СЂР°РЅРµРЅС‹!!!", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONINFORMATION | MB_OK);
 			AddThresholdWindow &o = Singleton<AddThresholdWindow>::Instance();
 			UpdateRow(o.grid.hWnd);
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////////
 	struct MainFile{};										   
-	MENU_TEXT(L"Файл", TopMenu<MainFile>)					   
+	MENU_TEXT(L"Р¤Р°Р№Р»", TopMenu<MainFile>)					   
 
 	struct MainExit{static void Do(HWND h){DestroyWindow(h);}};
 	struct MainSaveOptions{static void Do(HWND h){SaveOptions(h);}};
 
-	MENU_ITEM(L"Выход", MainExit)
-		MENU_ITEM(L"Сохранить настройки", MainSaveOptions)
+	MENU_ITEM(L"Р’С‹С…РѕРґ", MainExit)
+		MENU_ITEM(L"РЎРѕС…СЂР°РЅРёС‚СЊ РЅР°СЃС‚СЂРѕР№РєРё", MainSaveOptions)
 
 		template<>struct TopMenu<MainFile>						   
 	{														   
@@ -46,7 +46,7 @@ namespace
 
 	struct Options{};
 
-	MENU_TEXT(L"Настройки", TopMenu<Options>)				   
+	MENU_TEXT(L"РќР°СЃС‚СЂРѕР№РєРё", TopMenu<Options>)				   
 
 	struct WindowPos    : WindowPositionDlg<AddThresholdWindow>{}; 
 	struct EnableStandard
@@ -54,15 +54,15 @@ namespace
 		static void Do(HWND h)
 		{
 			App::isStandard ^= true;
-			//todo разобраться
+			//todo СЂР°Р·РѕР±СЂР°С‚СЊСЃСЏ
 			//CheckMenu<MenuItem<EnableStandard>>(h, App::isStandard);
 			Singleton<AddThresholdWindow>::Instance().ChangeStandard(App::isStandard);
 			Title();
 		}
 	};
 
-	MENU_ITEM(L"Сохранить координаты окна", WindowPos)	   
-		MENU_ITEM(L"Эталон", EnableStandard)	
+	MENU_ITEM(L"РЎРѕС…СЂР°РЅРёС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕРєРЅР°", WindowPos)	   
+		MENU_ITEM(L"Р­С‚Р°Р»РѕРЅ", EnableStandard)	
 
 		template<>struct TopMenu<Options>						   
 	{														   
@@ -118,7 +118,7 @@ void AddThresholdWindow::operator()(TClose &l)
 	ComputeSolidGroup &solidGroup = Singleton<ComputeSolidGroup>::Instance();
 	if(solidGroup.changeTresholds)
 	{
-		int res = MessageBox(l.hwnd, L"Данные изменены!\nСохранить?", L"Cообщение", MB_ICONQUESTION | MB_YESNOCANCEL);
+		int res = MessageBox(l.hwnd, L"Р”Р°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅС‹!\nРЎРѕС…СЂР°РЅРёС‚СЊ?", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONQUESTION | MB_YESNOCANCEL);
 		if(IDYES == res)
 		{
 			if(TypesizePasswordDlg().Do(l.hwnd))
@@ -170,7 +170,7 @@ void AddThresholdWindow::Show()
 		AddThresholdWindow &o = Singleton<AddThresholdWindow>::Instance();
 		RECT r;
 		WindowPosition::Get<AddThresholdWindow>(r);
-		HWND h = WindowTemplate(&o, L"Добавить порог", r.left, r.top, r.right, r.bottom);
+		HWND h = WindowTemplate(&o, L"РћР±СЂР°Р·С†С‹", r.left, r.top, r.right, r.bottom);
 		ShowWindow(h, SW_SHOWNORMAL);
 	}		
 }
@@ -192,7 +192,7 @@ void AddThresholdWindow::ChangeStandard(bool isStandard)
 	ComputeSolidGroup &solidGroup = Singleton<ComputeSolidGroup>::Instance();
 	if(solidGroup.changeTresholds)
 	{
-		int res = MessageBox(hWnd, L"Данные изменены!\nСохранить?", L"Cообщение", MB_ICONQUESTION | MB_YESNOCANCEL);
+		int res = MessageBox(hWnd, L"Р”Р°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅС‹!\nРЎРѕС…СЂР°РЅРёС‚СЊ?", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONQUESTION | MB_YESNOCANCEL);
 		if(IDYES == res)
 		{
 			if(TypesizePasswordDlg().Do(hWnd))
