@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "resource.h"
 #include "AddThresholdsWindow\ThresholdDataTable.h"
 #include <strsafe.h>
@@ -92,22 +92,22 @@ namespace
 		}
 	};
 
-	HEADER_TABLE(Number  , 25, L"№");
+	HEADER_TABLE(Number  , 25, L"в„–");
 	HEADER_TABLE(Color   , 30, L"");
 	HEADER_TABLE(Selected, 20, L"");
-	HEADER_TABLE(SolidG, 60, L"Гр.пр.");
-	HEADER_TABLE(Corel   , 85, L"Кореляция");
-	HEADER_TABLE(Point<0>, 85, L"Точка1");
-	HEADER_TABLE(Point<1>, 85, L"Точка2");
-	HEADER_TABLE(Point<2>, 85, L"Точка3");
-	HEADER_TABLE(Point<3>, 85, L"Точка4");
-	HEADER_TABLE(Point<4>, 85, L"Точка5");
-	HEADER_TABLE(Point<5>, 85, L"Точка6");
-	HEADER_TABLE(Point<6>, 85, L"Точка7");
-	HEADER_TABLE(Point<7>, 85, L"Точка8");
+	HEADER_TABLE(SolidG, 60, L"Р“СЂ.РїСЂ.");
+	HEADER_TABLE(Corel   , 85, L"РљРѕСЂСЂРµР»СЏС†РёСЏ");
+	HEADER_TABLE(Point<0>, 85, L"РўРѕС‡РєР°1");
+	HEADER_TABLE(Point<1>, 85, L"РўРѕС‡РєР°2");
+	HEADER_TABLE(Point<2>, 85, L"РўРѕС‡РєР°3");
+	HEADER_TABLE(Point<3>, 85, L"РўРѕС‡РєР°4");
+	HEADER_TABLE(Point<4>, 85, L"РўРѕС‡РєР°5");
+	HEADER_TABLE(Point<5>, 85, L"РўРѕС‡РєР°6");
+	HEADER_TABLE(Point<6>, 85, L"РўРѕС‡РєР°7");
+	HEADER_TABLE(Point<7>, 85, L"РўРѕС‡РєР°8");
 
-	HEADER_TABLE(Offset, 80, L"Смещение");
-	HEADER_TABLE(File, 200, L"Файл");
+	HEADER_TABLE(Offset, 80, L"РЎРјРµС‰РµРЅРёРµ");
+	HEADER_TABLE(File, 200, L"Р¤Р°Р№Р»");
 
 	typedef TL::MkTlst<
 		Selected
