@@ -55,8 +55,8 @@ void PointsViewer::FillSignals()
 	chart.minAxesX = 0;
 	chart.maxAxesX = sg.pointItems.size() - 1;
 
-	chart.minAxesY = Singleton<GraphAxesTable>::Instance().items.get<PrimarySignalMin>().value;
-	chart.maxAxesY = Singleton<GraphAxesTable>::Instance().items.get<PrimarySignalMax>().value;
+	chart.minAxesY = Singleton<GraphAxesTable>::Instance().items.get<OffsetPointsMin>().value;
+	chart.maxAxesY = Singleton<GraphAxesTable>::Instance().items.get<OffsetPointsMax>().value;
 
 	TL::foreach<TL::CreateNumList<Signal, 0, 7>::Result, __set_point__>()(chart.items, sg.pointItems);
 	cursor.horizontalLine = true;
