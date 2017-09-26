@@ -61,6 +61,7 @@ struct Log_Inner
 				GetLastError()); 
 			return;
 		}
+		Performance::Init();
 		if(0 == res)
 		{
 			map->head = 0;
