@@ -257,6 +257,7 @@ void GetDataFromThicknessModule()
 
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<Thick>>().value)
 	{
+		Sleep(2000);
 		ItemData<Thick> &data = Singleton<ItemData<Thick>>::Instance();
 		Log::Mess<LogMess::waitingThicknessResult>();
 		unsigned short zones[65];
@@ -548,6 +549,7 @@ void WorkACS(char (&numberTube)[9])
 	using namespace AutomatN;
 	if(Singleton<OnTheJobTable>::Instance().items.get<OnTheJob<ACS>>().value)
 	{
+		Sleep(2000);
 		ResultData &resultData = Singleton<ResultData>::Instance();
 		Log::Mess<LogMess::transferResultControlAutomatedControlSystem>();
 		int attempt = 0;
